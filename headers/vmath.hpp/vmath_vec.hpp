@@ -21,19 +21,15 @@ namespace vmath_hpp::detail
         constexpr vec_base() : data{} {}
         constexpr explicit vec_base(uninit_t) {}
 
-        constexpr explicit vec_base(const T& v)
+        constexpr explicit vec_base(T v)
         : data{v, v} {}
 
         constexpr vec_base(T x, T y)
-        : data{std::move(x), std::move(y)} {}
+        : data{x, y} {}
 
-        constexpr explicit vec_base(vec_base<T, 3>&& xy)
-        : data{std::move(xy.x()), std::move(xy.y())} {}
         constexpr explicit vec_base(const vec_base<T, 3>& xy)
         : data{xy.x(), xy.y()} {}
 
-        constexpr explicit vec_base(vec_base<T, 4>&& xy)
-        : data{std::move(xy.x()), std::move(xy.y())} {}
         constexpr explicit vec_base(const vec_base<T, 4>& xy)
         : data{xy.x(), xy.y()} {}
 
@@ -52,19 +48,15 @@ namespace vmath_hpp::detail
         constexpr vec_base() : data{} {}
         constexpr explicit vec_base(uninit_t) {}
 
-        constexpr explicit vec_base(const T& v)
+        constexpr explicit vec_base(T v)
         : data{v, v, v} {}
 
         constexpr vec_base(T x, T y, T z)
-        : data{std::move(x), std::move(y), std::move(z)} {}
+        : data{x, y, z} {}
 
-        constexpr explicit vec_base(vec_base<T, 2>&& xy, T z)
-        : data{std::move(xy.x()), std::move(xy.y()), std::move(z)} {}
         constexpr explicit vec_base(const vec_base<T, 2>& xy, T z)
-        : data{xy.x(), xy.y(), std::move(z)} {}
+        : data{xy.x(), xy.y(), z} {}
 
-        constexpr explicit vec_base(vec_base<T, 4>&& xyz)
-        : data{std::move(xyz.x()), std::move(xyz.y()), std::move(xyz.z())} {}
         constexpr explicit vec_base(const vec_base<T, 4>& xyz)
         : data{xyz.x(), xyz.y(), xyz.z()} {}
 
@@ -86,21 +78,17 @@ namespace vmath_hpp::detail
         constexpr vec_base() : data{} {}
         constexpr explicit vec_base(uninit_t) {}
 
-        constexpr explicit vec_base(const T& v)
+        constexpr explicit vec_base(T v)
         : data{v, v, v, v} {}
 
         constexpr vec_base(T x, T y, T z, T w)
-        : data{std::move(x), std::move(y), std::move(z), std::move(w)} {}
+        : data{x, y, z, w} {}
 
-        constexpr explicit vec_base(vec_base<T, 2>&& xy, T z, T w)
-        : data{std::move(xy.x()), std::move(xy.y()), std::move(z), std::move(w)} {}
         constexpr explicit vec_base(const vec_base<T, 2>& xy, T z, T w)
-        : data{xy.x(), xy.y(), std::move(z), std::move(w)} {}
+        : data{xy.x(), xy.y(), z, w} {}
 
-        constexpr explicit vec_base(vec_base<T, 3>&& xyz, T w)
-        : data{std::move(xyz.x()), std::move(xyz.y()), std::move(xyz.z()), std::move(w)} {}
         constexpr explicit vec_base(const vec_base<T, 3>& xyz, T w)
-        : data{xyz.x(), xyz.y(), xyz.z(), std::move(w)} {}
+        : data{xyz.x(), xyz.y(), xyz.z(), w} {}
 
         constexpr T& x() noexcept { return data[0]; }
         constexpr const T& x() const noexcept { return data[0]; }
@@ -122,6 +110,7 @@ namespace vmath_hpp
     class vec final : public detail::vec_base<T, Size> {
     public:
         using self_type = vec;
+        using base_type = detail::vec_base<T, Size>;
         using value_type = T;
 
         using pointer = value_type*;
@@ -139,8 +128,8 @@ namespace vmath_hpp
         using size_type = std::size_t;
         using difference_type = std::ptrdiff_t;
     public:
-        using detail::vec_base<T, Size>::data;
-        using detail::vec_base<T, Size>::vec_base;
+        using base_type::data;
+        using base_type::vec_base;
 
         vec(vec&&) = default;
         vec& operator=(vec&&) = default;
