@@ -6,4 +6,5 @@
 
 #pragma once
 
+#include "vmath_mat.hpp"
 #include "vmath_vec.hpp"

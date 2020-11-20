@@ -35,3 +35,21 @@ namespace vmath_hpp
     using vec3f = vec<float, 3>;
     using vec4f = vec<float, 4>;
 }
+
+namespace vmath_hpp
+{
+    template < typename T, std::size_t Size >
+    class mat;
+
+    using mat2i = mat<int, 2>;
+    using mat3i = mat<int, 3>;
+    using mat4i = mat<int, 4>;
+
+    using mat2b = mat<bool, 2>;
+    using mat3b = mat<bool, 3>;
+    using mat4b = mat<bool, 4>;
+
+    using mat2f = mat<float, 2>;
+    using mat3f = mat<float, 3>;
+    using mat4f = mat<float, 4>;
+}
