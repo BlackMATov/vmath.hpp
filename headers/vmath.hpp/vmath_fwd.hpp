@@ -18,12 +18,6 @@
 
 namespace vmath_hpp
 {
-    struct uninit_t {};
-    inline constexpr uninit_t uninit;
-}
-
-namespace vmath_hpp
-{
     template < typename T, std::size_t Size >
     class vec;
 

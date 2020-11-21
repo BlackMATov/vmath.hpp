@@ -24,8 +24,6 @@ namespace vmath_hpp::detail
             {0, 1},
         } {}
 
-        constexpr explicit mat_base(uninit_t) {}
-
         constexpr explicit mat_base(T v)
         : rows{
             {v, 0},
@@ -66,8 +64,6 @@ namespace vmath_hpp::detail
             {0, 1, 0},
             {0, 0, 1},
         } {}
-
-        constexpr explicit mat_base(uninit_t) {}
 
         constexpr explicit mat_base(T v)
         : rows{
@@ -116,8 +112,6 @@ namespace vmath_hpp::detail
             {0, 0, 1, 0},
             {0, 0, 0, 1},
         } {}
-
-        constexpr explicit mat_base(uninit_t) {}
 
         constexpr explicit mat_base(T v)
         : rows{
@@ -189,6 +183,8 @@ namespace vmath_hpp
     public:
         using base_type::rows;
         using base_type::mat_base;
+
+        mat() = default;
 
         mat(mat&&) = default;
         mat& operator=(mat&&) = default;

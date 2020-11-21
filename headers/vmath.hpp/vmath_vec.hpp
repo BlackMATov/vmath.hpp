@@ -16,10 +16,9 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 2> {
     public:
-        T data[2];
+        T data[2]{};
     public:
-        constexpr vec_base() : data{} {}
-        constexpr explicit vec_base(uninit_t) {}
+        vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : data{v, v} {}
@@ -43,10 +42,9 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 3> {
     public:
-        T data[3];
+        T data[3]{};
     public:
-        constexpr vec_base() : data{} {}
-        constexpr explicit vec_base(uninit_t) {}
+        vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : data{v, v, v} {}
@@ -76,10 +74,9 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 4> {
     public:
-        T data[4];
+        T data[4]{};
     public:
-        constexpr vec_base() : data{} {}
-        constexpr explicit vec_base(uninit_t) {}
+        vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : data{v, v, v, v} {}
@@ -146,6 +143,8 @@ namespace vmath_hpp
     public:
         using base_type::data;
         using base_type::vec_base;
+
+        vec() = default;
 
         vec(vec&&) = default;
         vec& operator=(vec&&) = default;

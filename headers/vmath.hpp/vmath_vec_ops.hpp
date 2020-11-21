@@ -13,7 +13,7 @@ namespace vmath_hpp::detail
 {
     template < typename T, std::size_t Size, typename F >
     constexpr auto map(const vec<T, Size>& v, F&& f) {
-        vec<std::invoke_result_t<F,T>, Size> result(uninit);
+        vec<std::invoke_result_t<F, T>, Size> result;
         for ( std::size_t i = 0; i < Size; ++i ) {
             result[i] = f(v[i]);
         }
@@ -22,7 +22,7 @@ namespace vmath_hpp::detail
 
     template < typename T, typename U, std::size_t Size, typename F >
     constexpr auto zip(const vec<T, Size>& l, const vec<U, Size>& r, F&& f) {
-        vec<std::invoke_result_t<F, T, U>, Size> result(uninit);
+        vec<std::invoke_result_t<F, T, U>, Size> result;
         for ( std::size_t i = 0; i < Size; ++i ) {
             result[i] = f(l[i], r[i]);
         }
