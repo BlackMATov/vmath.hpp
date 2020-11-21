@@ -28,10 +28,10 @@ namespace vmath_hpp::detail
         : data{x, y} {}
 
         constexpr explicit vec_base(const vec_base<T, 3>& xy)
-        : data{xy.x(), xy.y()} {}
+        : data{xy.data[0], xy.data[1]} {}
 
         constexpr explicit vec_base(const vec_base<T, 4>& xy)
-        : data{xy.x(), xy.y()} {}
+        : data{xy.data[0], xy.data[1]} {}
 
         constexpr T& x() noexcept { return data[0]; }
         constexpr const T& x() const noexcept { return data[0]; }
@@ -54,11 +54,14 @@ namespace vmath_hpp::detail
         constexpr vec_base(T x, T y, T z)
         : data{x, y, z} {}
 
-        constexpr explicit vec_base(const vec_base<T, 2>& xy, T z)
-        : data{xy.x(), xy.y(), z} {}
+        constexpr vec_base(const vec_base<T, 2>& xy, T z)
+        : data{xy.data[0], xy.data[1], z} {}
+
+        constexpr vec_base(T x, const vec_base<T, 2>& yz)
+        : data{x, yz.data[0], yz.data[1]} {}
 
         constexpr explicit vec_base(const vec_base<T, 4>& xyz)
-        : data{xyz.x(), xyz.y(), xyz.z()} {}
+        : data{xyz.data[0], xyz.data[1], xyz.data[2]} {}
 
         constexpr T& x() noexcept { return data[0]; }
         constexpr const T& x() const noexcept { return data[0]; }
@@ -84,11 +87,23 @@ namespace vmath_hpp::detail
         constexpr vec_base(T x, T y, T z, T w)
         : data{x, y, z, w} {}
 
-        constexpr explicit vec_base(const vec_base<T, 2>& xy, T z, T w)
-        : data{xy.x(), xy.y(), z, w} {}
+        constexpr vec_base(const vec_base<T, 2>& xy, T z, T w)
+        : data{xy.data[0], xy.data[1], z, w} {}
 
-        constexpr explicit vec_base(const vec_base<T, 3>& xyz, T w)
-        : data{xyz.x(), xyz.y(), xyz.z(), w} {}
+        constexpr vec_base(T x, const vec_base<T, 2>& yz, T w)
+        : data{x, yz.data[0], yz.data[1], w} {}
+
+        constexpr vec_base(T x, T y, const vec_base<T, 2>& zw)
+        : data{x, y, zw.data[0], zw.data[1]} {}
+
+        constexpr vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw)
+        : data{xy.data[0], xy.data[1], zw.data[0], zw.data[1]} {}
+
+        constexpr vec_base(const vec_base<T, 3>& xyz, T w)
+        : data{xyz.data[0], xyz.data[1], xyz.data[2], w} {}
+
+        constexpr vec_base(T x, const vec_base<T, 3>& yzw)
+        : data{x, yzw.data[0], yzw.data[1], yzw.data[2]} {}
 
         constexpr T& x() noexcept { return data[0]; }
         constexpr const T& x() const noexcept { return data[0]; }
@@ -173,17 +188,17 @@ namespace vmath_hpp
         }
 
         constexpr reference at(size_type index) {
-            if ( index < Size ) {
-                return data[index];
+            if ( index >= Size ) {
+                throw std::out_of_range("vec::at");
             }
-            throw std::out_of_range("vec::at");
+            return data[index];
         }
 
         constexpr const_reference at(size_type index) const {
-            if ( index < Size ) {
-                return data[index];
+            if ( index >= Size ) {
+                throw std::out_of_range("vec::at");
             }
-            throw std::out_of_range("vec::at");
+            return data[index];
         }
     };
 

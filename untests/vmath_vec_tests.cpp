@@ -44,14 +44,27 @@ TEST_CASE("vmath/vec") {
             STATIC_REQUIRE(v2 == vec2i(1,2));
         }
         {
+            STATIC_REQUIRE(vec2i(1) == vec2i(1,1));
+            STATIC_REQUIRE(vec2i(1,2) == vec2i(1,2));
+            STATIC_REQUIRE(vec2i(vec2i(1,2)) == vec2i(1,2));
             STATIC_REQUIRE(vec2i(vec3i(1,2,3)) == vec2i(1,2));
             STATIC_REQUIRE(vec2i(vec4i(1,2,3,4)) == vec2i(1,2));
 
+            STATIC_REQUIRE(vec3i(1) == vec3i(1,1,1));
+            STATIC_REQUIRE(vec3i(1,2,3) == vec3i(1,2,3));
             STATIC_REQUIRE(vec3i(vec2i(1,2),3) == vec3i(1,2,3));
+            STATIC_REQUIRE(vec3i(1,vec2i(2,3)) == vec3i(1,2,3));
+            STATIC_REQUIRE(vec3i(vec3i(1,2,3)) == vec3i(1,2,3));
             STATIC_REQUIRE(vec3i(vec4i(1,2,3,4)) == vec3i(1,2,3));
 
+            STATIC_REQUIRE(vec4i(1) == vec4i(1,1,1,1));
+            STATIC_REQUIRE(vec4i(1,2,3,4) == vec4i(1,2,3,4));
             STATIC_REQUIRE(vec4i(vec2i(1,2),3,4) == vec4i(1,2,3,4));
+            STATIC_REQUIRE(vec4i(1,vec2i(2,3),4) == vec4i(1,2,3,4));
+            STATIC_REQUIRE(vec4i(1,2,vec2i(3,4)) == vec4i(1,2,3,4));
+            STATIC_REQUIRE(vec4i(vec2i(1,2),vec2i(3,4)) == vec4i(1,2,3,4));
             STATIC_REQUIRE(vec4i(vec3i(1,2,3),4) == vec4i(1,2,3,4));
+            STATIC_REQUIRE(vec4i(1,vec3i(2,3,4)) == vec4i(1,2,3,4));
         }
     }
 

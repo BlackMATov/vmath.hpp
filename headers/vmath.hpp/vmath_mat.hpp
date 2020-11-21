@@ -171,17 +171,17 @@ namespace vmath_hpp
         }
 
         constexpr value_type& at(size_type index) {
-            if ( index < Size ) {
-                return rows[index];
+            if ( index >= Size ) {
+                throw std::out_of_range("mat::at");
             }
-            throw std::out_of_range("mat::at");
+            return rows[index];
         }
 
         constexpr const value_type& at(size_type index) const {
-            if ( index < Size ) {
-                return rows[index];
+            if ( index >= Size ) {
+                throw std::out_of_range("mat::at");
             }
-            throw std::out_of_range("mat::at");
+            return rows[index];
         }
     };
 

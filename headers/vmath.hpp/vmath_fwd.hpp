@@ -34,6 +34,14 @@ namespace vmath_hpp
     using vec2f = vec<float, 2>;
     using vec3f = vec<float, 3>;
     using vec4f = vec<float, 4>;
+
+    using vec2d = vec<double, 2>;
+    using vec3d = vec<double, 3>;
+    using vec4d = vec<double, 4>;
+
+    using vec2u = vec<unsigned, 2>;
+    using vec3u = vec<unsigned, 3>;
+    using vec4u = vec<unsigned, 4>;
 }
 
 namespace vmath_hpp
@@ -52,4 +60,12 @@ namespace vmath_hpp
     using mat2f = mat<float, 2>;
     using mat3f = mat<float, 3>;
     using mat4f = mat<float, 4>;
+
+    using mat2d = mat<double, 2>;
+    using mat3d = mat<double, 3>;
+    using mat4d = mat<double, 4>;
+
+    using mat2u = mat<unsigned, 2>;
+    using mat3u = mat<unsigned, 3>;
+    using mat4u = mat<unsigned, 4>;
 }
