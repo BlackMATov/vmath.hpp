@@ -6,7 +6,11 @@
 
 #pragma once
 
+#include <cassert>
+#include <cmath>
 #include <cstddef>
+
+#include <functional>
 #include <iterator>
 #include <stdexcept>
 #include <type_traits>

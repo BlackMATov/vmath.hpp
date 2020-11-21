@@ -7,4 +7,5 @@
 #pragma once
 
 #include "vmath_mat.hpp"
+#include "vmath_vec_ops.hpp"
 #include "vmath_vec.hpp"
