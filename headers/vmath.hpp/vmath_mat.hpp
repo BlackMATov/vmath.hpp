@@ -26,6 +26,11 @@ namespace vmath_hpp::detail
 
         constexpr explicit mat_base(uninit_t) {}
 
+        constexpr explicit mat_base(T v)
+        : rows{
+            {v, 0},
+            {0, v}} {}
+
         constexpr mat_base(
             T m11, T m12,
             T m21, T m22)
@@ -37,6 +42,18 @@ namespace vmath_hpp::detail
             const vec<T, 2>& row0,
             const vec<T, 2>& row1)
         : rows{row0, row1} {}
+
+        constexpr explicit mat_base(
+            const mat_base<T, 3>& other)
+        : rows{
+            vec<T, 2>{other.rows[0]},
+            vec<T, 2>{other.rows[1]}} {}
+
+        constexpr explicit mat_base(
+            const mat_base<T, 4>& other)
+        : rows{
+            vec<T, 2>{other.rows[0]},
+            vec<T, 2>{other.rows[1]}} {}
     };
 
     template < typename T >
@@ -52,6 +69,12 @@ namespace vmath_hpp::detail
 
         constexpr explicit mat_base(uninit_t) {}
 
+        constexpr explicit mat_base(T v)
+        : rows{
+            {v, 0, 0},
+            {0, v, 0},
+            {0, 0, v}} {}
+
         constexpr mat_base(
             T m11, T m12, T m13,
             T m21, T m22, T m23,
@@ -66,6 +89,20 @@ namespace vmath_hpp::detail
             const vec<T, 3>& row1,
             const vec<T, 3>& row2)
         : rows{row0, row1, row2} {}
+
+        constexpr explicit mat_base(
+            const mat_base<T, 2>& other)
+        : rows{
+            {other.rows[0], 0},
+            {other.rows[1], 0},
+            {0, 0, 1}} {}
+
+        constexpr explicit mat_base(
+            const mat_base<T, 4>& other)
+        : rows{
+            vec<T, 3>{other.rows[0]},
+            vec<T, 3>{other.rows[1]},
+            vec<T, 3>{other.rows[2]}} {}
     };
 
     template < typename T >
@@ -81,6 +118,13 @@ namespace vmath_hpp::detail
         } {}
 
         constexpr explicit mat_base(uninit_t) {}
+
+        constexpr explicit mat_base(T v)
+        : rows{
+            {v, 0, 0, 0},
+            {0, v, 0, 0},
+            {0, 0, v, 0},
+            {0, 0, 0, v}} {}
 
         constexpr mat_base(
             T m11, T m12, T m13, T m14,
@@ -99,6 +143,22 @@ namespace vmath_hpp::detail
             const vec<T, 4>& row2,
             const vec<T, 4>& row3)
         : rows{row0, row1, row2, row3} {}
+
+        constexpr explicit mat_base(
+            const mat_base<T, 2>& other)
+        : rows{
+            {other.rows[0], 0, 0},
+            {other.rows[1], 0, 0},
+            {0, 0, 1, 0},
+            {0, 0, 0, 1}} {}
+
+        constexpr explicit mat_base(
+            const mat_base<T, 3>& other)
+        : rows{
+            {other.rows[0], 0},
+            {other.rows[1], 0},
+            {other.rows[2], 0},
+            {0, 0, 0, 1}} {}
     };
 }
 
@@ -109,6 +169,7 @@ namespace vmath_hpp
     public:
         using self_type = mat;
         using base_type = detail::mat_base<T, Size>;
+    public:
         using value_type = vec<T, Size>;
 
         using pointer = value_type*;
@@ -162,22 +223,22 @@ namespace vmath_hpp
         constexpr size_type max_size() const noexcept { return Size; }
         constexpr bool empty() const noexcept { return !Size; }
 
-        constexpr value_type& operator[](size_type index) noexcept {
+        constexpr reference operator[](size_type index) noexcept {
             return rows[index];
         }
 
-        constexpr const value_type& operator[](size_type index) const noexcept {
+        constexpr const_reference operator[](size_type index) const noexcept {
             return rows[index];
         }
 
-        constexpr value_type& at(size_type index) {
+        constexpr reference at(size_type index) {
             if ( index >= Size ) {
                 throw std::out_of_range("mat::at");
             }
             return rows[index];
         }
 
-        constexpr const value_type& at(size_type index) const {
+        constexpr const_reference at(size_type index) const {
             if ( index >= Size ) {
                 throw std::out_of_range("mat::at");
             }

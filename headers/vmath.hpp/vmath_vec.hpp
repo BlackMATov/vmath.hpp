@@ -126,6 +126,7 @@ namespace vmath_hpp
     public:
         using self_type = vec;
         using base_type = detail::vec_base<T, Size>;
+    public:
         using value_type = T;
 
         using pointer = value_type*;

@@ -43,6 +43,31 @@ TEST_CASE("vmath/mat") {
             constexpr mat2i v2 = std::move(v);
             STATIC_REQUIRE(v2 == mat2i(1,2,3,4));
         }
+        {
+            STATIC_REQUIRE(mat2i() == mat2i(1,0,0,1));
+            STATIC_REQUIRE(mat2i(2) == mat2i(2,0,0,2));
+            STATIC_REQUIRE(mat2i(1,2,3,4) == mat2i(1,2,3,4));
+            STATIC_REQUIRE(mat2i({1,2},{3,4}) == mat2i(1,2,3,4));
+            STATIC_REQUIRE(mat2i(mat2i({1,2},{3,4})) == mat2i(1,2,3,4));
+            STATIC_REQUIRE(mat2i(mat3i({1,2,3},{4,5,6},{7,8,9})) == mat2i(1,2,4,5));
+            STATIC_REQUIRE(mat2i(mat4i({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == mat2i(1,2,5,6));
+
+            STATIC_REQUIRE(mat3i() == mat3i(1,0,0,0,1,0,0,0,1));
+            STATIC_REQUIRE(mat3i(2) == mat3i(2,0,0,0,2,0,0,0,2));
+            STATIC_REQUIRE(mat3i(1,2,3,4,5,6,7,8,9) == mat3i(1,2,3,4,5,6,7,8,9));
+            STATIC_REQUIRE(mat3i({1,2,3},{4,5,6},{7,8,9}) == mat3i(1,2,3,4,5,6,7,8,9));
+            STATIC_REQUIRE(mat3i(mat3i({1,2,3},{4,5,6},{7,8,9})) == mat3i(1,2,3,4,5,6,7,8,9));
+            STATIC_REQUIRE(mat3i(mat2i({1,2},{3,4})) == mat3i(1,2,0,3,4,0,0,0,1));
+            STATIC_REQUIRE(mat3i(mat4i({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == mat3i(1,2,3,5,6,7,9,10,11));
+
+            STATIC_REQUIRE(mat4i() == mat4i(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1));
+            STATIC_REQUIRE(mat4i(2) == mat4i(2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,2));
+            STATIC_REQUIRE(mat4i(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) == mat4i(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            STATIC_REQUIRE(mat4i({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}) == mat4i(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            STATIC_REQUIRE(mat4i(mat4i({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == mat4i(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            STATIC_REQUIRE(mat4i(mat2i({1,2},{3,4})) == mat4i(1,2,0,0,3,4,0,0,0,0,1,0,0,0,0,1));
+            STATIC_REQUIRE(mat4i(mat3i({1,2,3},{4,5,6},{7,8,9})) == mat4i(1,2,3,0,4,5,6,0,7,8,9,0,0,0,0,1));
+        }
     }
 
     SECTION("operator=") {
