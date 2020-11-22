@@ -172,14 +172,7 @@ namespace vmath_hpp
         using reference = value_type&;
         using const_reference = const value_type&;
 
-        using iterator = value_type*;
-        using const_iterator = const value_type*;
-
-        using reverse_iterator = std::reverse_iterator<iterator>;
-        using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-
-        using size_type = std::size_t;
-        using difference_type = std::ptrdiff_t;
+        static constexpr std::size_t size = Size;
     public:
         using base_type::rows;
         using base_type::mat_base;
@@ -199,42 +192,22 @@ namespace vmath_hpp
             }
         }
 
-        constexpr iterator begin() noexcept { return iterator(rows); }
-        constexpr const_iterator begin() const noexcept { return const_iterator(rows); }
-        constexpr const_iterator cbegin() const noexcept { return const_iterator(rows); }
-
-        constexpr iterator end() noexcept { return iterator(rows + Size); }
-        constexpr const_iterator end() const noexcept { return const_iterator(rows + Size); }
-        constexpr const_iterator cend() const noexcept { return const_iterator(rows + Size); }
-
-        constexpr reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
-        constexpr const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
-        constexpr const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator(end()); }
-
-        constexpr reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
-        constexpr const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
-        constexpr const_reverse_iterator crend() const noexcept { return const_reverse_iterator(begin()); }
-
-        constexpr size_type size() const noexcept { return Size; }
-        constexpr size_type max_size() const noexcept { return Size; }
-        constexpr bool empty() const noexcept { return !Size; }
-
-        constexpr reference operator[](size_type index) noexcept {
+        constexpr reference operator[](std::size_t index) noexcept {
             return rows[index];
         }
 
-        constexpr const_reference operator[](size_type index) const noexcept {
+        constexpr const_reference operator[](std::size_t index) const noexcept {
             return rows[index];
         }
 
-        constexpr reference at(size_type index) {
+        constexpr reference at(std::size_t index) {
             if ( index >= Size ) {
                 throw std::out_of_range("mat::at");
             }
             return rows[index];
         }
 
-        constexpr const_reference at(size_type index) const {
+        constexpr const_reference at(std::size_t index) const {
             if ( index >= Size ) {
                 throw std::out_of_range("mat::at");
             }

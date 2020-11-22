@@ -8,6 +8,18 @@
 
 #include "vmath_fwd.hpp"
 
+#if defined(__GNUC__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wpedantic"
+#elif defined(__clang__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
+#  pragma clang diagnostic ignored "-Wnested-anon-types"
+#elif defined(_MSC_VER)
+#  pragma warning(push)
+#  pragma warning(disable: 4201)
+#endif
+
 namespace vmath_hpp::detail
 {
     template < typename T, std::size_t Size >
@@ -16,105 +28,152 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 2> {
     public:
-        T data[2]{};
+        union {
+            struct { T x, y; };
+            T data[2];
+        };
     public:
-        vec_base() = default;
+        constexpr vec_base()
+        : x{0}, y{0} {}
 
         constexpr explicit vec_base(T v)
-        : data{v, v} {}
+        : x{v}, y{v} {}
 
         constexpr vec_base(T x, T y)
-        : data{x, y} {}
+        : x{x}, y{y} {}
 
         constexpr explicit vec_base(const vec_base<T, 3>& xy)
-        : data{xy.data[0], xy.data[1]} {}
+        : x{xy.x}, y{xy.y} {}
 
         constexpr explicit vec_base(const vec_base<T, 4>& xy)
-        : data{xy.data[0], xy.data[1]} {}
+        : x{xy.x}, y{xy.y} {}
 
-        constexpr T& x() noexcept { return data[0]; }
-        constexpr const T& x() const noexcept { return data[0]; }
+        constexpr T& operator[](std::size_t index) noexcept {
+            switch ( index ) {
+            default:
+            case 0: return x;
+            case 1: return y;
+            }
+        }
 
-        constexpr T& y() noexcept { return data[1]; }
-        constexpr const T& y() const noexcept { return data[1]; }
+        constexpr const T& operator[](std::size_t index) const noexcept {
+            switch ( index ) {
+            default:
+            case 0: return x;
+            case 1: return y;
+            }
+        }
     };
 
     template < typename T >
     class vec_base<T, 3> {
     public:
-        T data[3]{};
+        union {
+            struct { T x, y, z; };
+            T data[3];
+        };
     public:
-        vec_base() = default;
+        constexpr vec_base()
+        : x{0}, y{0}, z{0} {}
 
         constexpr explicit vec_base(T v)
-        : data{v, v, v} {}
+        : x{v}, y{v}, z{v} {}
 
         constexpr vec_base(T x, T y, T z)
-        : data{x, y, z} {}
+        : x{x}, y{y}, z{z} {}
 
         constexpr vec_base(const vec_base<T, 2>& xy, T z)
-        : data{xy.data[0], xy.data[1], z} {}
+        : x{xy.x}, y{xy.y}, z{z} {}
 
         constexpr vec_base(T x, const vec_base<T, 2>& yz)
-        : data{x, yz.data[0], yz.data[1]} {}
+        : x{x}, y{yz.x}, z{yz.y} {}
 
         constexpr explicit vec_base(const vec_base<T, 4>& xyz)
-        : data{xyz.data[0], xyz.data[1], xyz.data[2]} {}
+        : x{xyz.x}, y{xyz.y}, z{xyz.z} {}
 
-        constexpr T& x() noexcept { return data[0]; }
-        constexpr const T& x() const noexcept { return data[0]; }
+        constexpr T& operator[](std::size_t index) noexcept {
+            switch ( index ) {
+            default:
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            }
+        }
 
-        constexpr T& y() noexcept { return data[1]; }
-        constexpr const T& y() const noexcept { return data[1]; }
-
-        constexpr T& z() noexcept { return data[2]; }
-        constexpr const T& z() const noexcept { return data[2]; }
+        constexpr const T& operator[](std::size_t index) const noexcept {
+            switch ( index ) {
+            default:
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            }
+        }
     };
 
     template < typename T >
     class vec_base<T, 4> {
     public:
-        T data[4]{};
+        union {
+            struct { T x, y, z, w; };
+            T data[4];
+        };
     public:
-        vec_base() = default;
+        constexpr vec_base()
+        : x{0}, y{0}, z{0}, w{0} {}
 
         constexpr explicit vec_base(T v)
-        : data{v, v, v, v} {}
+        : x{v}, y{v}, z{v}, w{v} {}
 
         constexpr vec_base(T x, T y, T z, T w)
-        : data{x, y, z, w} {}
+        : x{x}, y{y}, z{z}, w{w} {}
 
         constexpr vec_base(const vec_base<T, 2>& xy, T z, T w)
-        : data{xy.data[0], xy.data[1], z, w} {}
+        : x{xy.x}, y{xy.y}, z{z}, w{w} {}
 
         constexpr vec_base(T x, const vec_base<T, 2>& yz, T w)
-        : data{x, yz.data[0], yz.data[1], w} {}
+        : x{x}, y{yz.x}, z{yz.y}, w{w} {}
 
         constexpr vec_base(T x, T y, const vec_base<T, 2>& zw)
-        : data{x, y, zw.data[0], zw.data[1]} {}
+        : x{x}, y{y}, z{zw.x}, w{zw.y} {}
 
         constexpr vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw)
-        : data{xy.data[0], xy.data[1], zw.data[0], zw.data[1]} {}
+        : x{xy.x}, y{xy.y}, z{zw.x}, w{zw.y} {}
 
         constexpr vec_base(const vec_base<T, 3>& xyz, T w)
-        : data{xyz.data[0], xyz.data[1], xyz.data[2], w} {}
+        : x{xyz.x}, y{xyz.y}, z{xyz.z}, w{w} {}
 
         constexpr vec_base(T x, const vec_base<T, 3>& yzw)
-        : data{x, yzw.data[0], yzw.data[1], yzw.data[2]} {}
+        : x{x}, y{yzw.x}, z{yzw.y}, w{yzw.z} {}
 
-        constexpr T& x() noexcept { return data[0]; }
-        constexpr const T& x() const noexcept { return data[0]; }
+        constexpr T& operator[](std::size_t index) noexcept {
+            switch ( index ) {
+            default:
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            case 3: return w;
+            }
+        }
 
-        constexpr T& y() noexcept { return data[1]; }
-        constexpr const T& y() const noexcept { return data[1]; }
-
-        constexpr T& z() noexcept { return data[2]; }
-        constexpr const T& z() const noexcept { return data[2]; }
-
-        constexpr T& w() noexcept { return data[3]; }
-        constexpr const T& w() const noexcept { return data[3]; }
+        constexpr const T& operator[](std::size_t index) const noexcept {
+            switch ( index ) {
+            default:
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            case 3: return w;
+            }
+        }
     };
 }
+
+#if defined(__GNUC__)
+#  pragma GCC diagnostic pop
+#elif defined(__clang__)
+#  pragma clang diagnostic pop
+#elif defined(_MSC_VER)
+#  pragma warning(pop)
+#endif
 
 namespace vmath_hpp
 {
@@ -132,17 +191,10 @@ namespace vmath_hpp
         using reference = value_type&;
         using const_reference = const value_type&;
 
-        using iterator = value_type*;
-        using const_iterator = const value_type*;
-
-        using reverse_iterator = std::reverse_iterator<iterator>;
-        using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-
-        using size_type = std::size_t;
-        using difference_type = std::ptrdiff_t;
+        static constexpr std::size_t size = Size;
     public:
-        using base_type::data;
         using base_type::vec_base;
+        using base_type::operator[];
 
         vec() = default;
 
@@ -155,50 +207,22 @@ namespace vmath_hpp
         void swap(vec& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < Size; ++i ) {
                 using std::swap;
-                swap(data[i], other.data[i]);
+                swap((*this)[i], other[i]);
             }
         }
 
-        constexpr iterator begin() noexcept { return iterator(data); }
-        constexpr const_iterator begin() const noexcept { return const_iterator(data); }
-        constexpr const_iterator cbegin() const noexcept { return const_iterator(data); }
-
-        constexpr iterator end() noexcept { return iterator(data + Size); }
-        constexpr const_iterator end() const noexcept { return const_iterator(data + Size); }
-        constexpr const_iterator cend() const noexcept { return const_iterator(data + Size); }
-
-        constexpr reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
-        constexpr const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
-        constexpr const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator(end()); }
-
-        constexpr reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
-        constexpr const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
-        constexpr const_reverse_iterator crend() const noexcept { return const_reverse_iterator(begin()); }
-
-        constexpr size_type size() const noexcept { return Size; }
-        constexpr size_type max_size() const noexcept { return Size; }
-        constexpr bool empty() const noexcept { return !Size; }
-
-        constexpr reference operator[](size_type index) noexcept {
-            return data[index];
-        }
-
-        constexpr const_reference operator[](size_type index) const noexcept {
-            return data[index];
-        }
-
-        constexpr reference at(size_type index) {
+        constexpr reference at(std::size_t index) {
             if ( index >= Size ) {
                 throw std::out_of_range("vec::at");
             }
-            return data[index];
+            return (*this)[index];
         }
 
-        constexpr const_reference at(size_type index) const {
+        constexpr const_reference at(std::size_t index) const {
             if ( index >= Size ) {
                 throw std::out_of_range("vec::at");
             }
-            return data[index];
+            return (*this)[index];
         }
     };
 

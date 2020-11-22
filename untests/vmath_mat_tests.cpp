@@ -16,7 +16,11 @@ namespace
 TEST_CASE("vmath/mat") {
     using namespace vmath_hpp;
 
-    SECTION("sizeof") {
+    SECTION("size/sizeof") {
+        STATIC_REQUIRE(mat2i{}.size == 2);
+        STATIC_REQUIRE(mat3i{}.size == 3);
+        STATIC_REQUIRE(mat4i{}.size == 4);
+
         STATIC_REQUIRE(sizeof(mat2i{}) == sizeof(int) * 2 * 2);
         STATIC_REQUIRE(sizeof(mat3i{}) == sizeof(int) * 3 * 3);
         STATIC_REQUIRE(sizeof(mat4i{}) == sizeof(int) * 4 * 4);
@@ -100,68 +104,6 @@ TEST_CASE("vmath/mat") {
             REQUIRE(v1 == mat2i(4,5,6,7));
             REQUIRE(v2 == mat2i(1,2,3,4));
         }
-    }
-
-    SECTION("iter") {
-        {
-            mat2i v{1,2,3,4};
-            mat2i::iterator i = v.begin();
-            REQUIRE(*i++ == vec2i{1,2});
-            REQUIRE(*i++ == vec2i{3,4});
-            REQUIRE(v.end() == i);
-        }
-        {
-            const mat2i v{1,2,3,4};
-            mat2i::const_iterator i = v.begin();
-            REQUIRE(*i++ == vec2i{1,2});
-            REQUIRE(*i++ == vec2i{3,4});
-            REQUIRE(v.end() == i);
-        }
-        {
-            mat2i v{1,2,3,4};
-            for ( auto i = v.begin(); i < v.end(); ++i ) {
-                *i = vec2i(i->x() * 2, i->y() * 2);
-            }
-            REQUIRE(v == mat2i(2,4,6,8));
-        }
-    }
-
-    SECTION("riter") {
-        {
-            mat2i v{1,2,3,4};
-            mat2i::reverse_iterator i = v.rbegin();
-            REQUIRE(*i++ == vec2i{3,4});
-            REQUIRE(*i++ == vec2i{1,2});
-            REQUIRE(v.rend() == i);
-            for ( auto j = v.rbegin(); j < v.rend(); ++j ) {
-                *j = vec2i(j->x() * 2, j->y() * 2);
-            }
-            REQUIRE(v == mat2i(2,4,6,8));
-        }
-        {
-            const mat2i v{1,2,3,4};
-            mat2i::const_reverse_iterator i = v.rbegin();
-            REQUIRE(*i++ == vec2i{3,4});
-            REQUIRE(*i++ == vec2i{1,2});
-            REQUIRE(v.rend() == i);
-        }
-        {
-            mat2i v{1,2,3,4};
-            for ( auto i = v.rbegin(); i < v.rend(); ++i ) {
-                *i = vec2i(i->x() * 2, i->y() * 2);
-            }
-            REQUIRE(v == mat2i(2,4,6,8));
-        }
-    }
-
-    SECTION("size/max_size/empty") {
-        STATIC_REQUIRE(mat<int, 2>().size() == 2);
-        STATIC_REQUIRE(mat<int, 2>().max_size() == 2);
-        STATIC_REQUIRE_FALSE(mat<int, 2>().empty());
-
-        STATIC_REQUIRE(mat<int, 3>().size() == 3);
-        STATIC_REQUIRE(mat<int, 3>().max_size() == 3);
-        STATIC_REQUIRE_FALSE(mat<int, 3>().empty());
     }
 
     SECTION("operator[]") {
