@@ -145,6 +145,33 @@ namespace vmath_hpp
     constexpr vec<T, Size> operator/(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return zip(std::divides<>(), xs, ys);
     }
+
+    // operator==
+
+    template < typename T, std::size_t Size >
+    constexpr bool operator==(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return all(zip(std::equal_to<>(), xs, ys));
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr bool operator!=(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return any(zip(std::not_equal_to<>(), xs, ys));
+    }
+
+    // operator<
+
+    template < typename T, std::size_t Size >
+    constexpr bool operator<(const vec<T, Size>& l, const vec<T, Size>& r) {
+        for ( std::size_t i = 0; i < Size; ++i ) {
+            if ( l[i] < r[i] ) {
+                return true;
+            }
+            if ( r[i] < l[i] ) {
+                return false;
+            }
+        }
+        return false;
+    }
 }
 
 //
@@ -424,7 +451,7 @@ namespace vmath_hpp
     {
         template < typename T, std::size_t Size, std::size_t... Is >
         vec<T, Size> frexp_impl(const vec<T, Size>& xs, vec<int, Size>* exps, std::index_sequence<Is...>) {
-            return { frexp(xs.data[Is], &exps->data[Is])... };
+            return { frexp(xs[Is], &(*exps)[Is])... };
         }
     }
 
@@ -499,46 +526,46 @@ namespace vmath_hpp
 {
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> less(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return detail::zip(std::less<>(), x, y);
+        return zip(std::less<>(), x, y);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> less_equal(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return detail::zip(std::less_equal<>(), x, y);
+        return zip(std::less_equal<>(), x, y);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> greater(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return detail::zip(std::greater<>(), x, y);
+        return zip(std::greater<>(), x, y);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> greater_equal(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return detail::zip(std::greater_equal<>(), x, y);
+        return zip(std::greater_equal<>(), x, y);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> equal_to(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return detail::zip(std::equal_to<>(), x, y);
+        return zip(std::equal_to<>(), x, y);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return detail::zip(std::not_equal_to<>(), x, y);
+        return zip(std::not_equal_to<>(), x, y);
     }
 
     template < std::size_t Size >
     constexpr bool any(const vec<bool, Size>& x) {
-        return detail::fold(std::logical_or<>(), false, x);
+        return fold(std::logical_or<>(), false, x);
     }
 
     template < std::size_t Size >
     constexpr bool all(const vec<bool, Size>& x) {
-        return detail::fold(std::logical_and<>(), true, x);
+        return fold(std::logical_and<>(), true, x);
     }
 
     template < std::size_t Size >
     constexpr vec<bool, Size> not_(const vec<bool, Size>& x) {
-        return detail::map(std::logical_not<>(), x);
+        return map(std::logical_not<>(), x);
     }
 }

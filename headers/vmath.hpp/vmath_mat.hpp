@@ -7,7 +7,9 @@
 #pragma once
 
 #include "vmath_fwd.hpp"
+
 #include "vmath_vec.hpp"
+#include "vmath_vec_fun.hpp"
 
 namespace vmath_hpp::detail
 {
@@ -218,36 +220,5 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     void swap(mat<T, Size>& l, mat<T, Size>& r) noexcept(noexcept(l.swap(r))) {
         l.swap(r);
-    }
-}
-
-namespace vmath_hpp
-{
-    template < typename T, std::size_t Size >
-    constexpr bool operator==(const mat<T, Size>& l, const mat<T, Size>& r) {
-        for ( std::size_t i = 0; i < Size; ++i ) {
-            if ( !(l[i] == r[i]) ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    template < typename T, std::size_t Size >
-    constexpr bool operator!=(const mat<T, Size>& l, const mat<T, Size>& r) {
-        return !(l == r);
-    }
-
-    template < typename T, std::size_t Size >
-    constexpr bool operator<(const mat<T, Size>& l, const mat<T, Size>& r) {
-        for ( std::size_t i = 0; i < Size; ++i ) {
-            if ( l[i] < r[i] ) {
-                return true;
-            }
-            if ( r[i] < l[i] ) {
-                return false;
-            }
-        }
-        return false;
     }
 }

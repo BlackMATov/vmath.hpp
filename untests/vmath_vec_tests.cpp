@@ -5,6 +5,7 @@
  ******************************************************************************/
 
 #include <vmath.hpp/vmath_vec.hpp>
+#include <vmath.hpp/vmath_vec_fun.hpp>
 
 #define CATCH_CONFIG_FAST_COMPILE
 #include <catch2/catch.hpp>

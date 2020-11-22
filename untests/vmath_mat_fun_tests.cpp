@@ -4,10 +4,15 @@
  * Copyright (C) 2020, by Matvey Cherevko (blackmatov@gmail.com)
  ******************************************************************************/
 
-#pragma once
+#include <vmath.hpp/vmath_mat_fun.hpp>
 
-#include "vmath_fun.hpp"
-#include "vmath_mat.hpp"
-#include "vmath_mat_fun.hpp"
-#include "vmath_vec.hpp"
-#include "vmath_vec_fun.hpp"
+#define CATCH_CONFIG_FAST_COMPILE
+#include <catch2/catch.hpp>
+
+namespace
+{
+}
+
+TEST_CASE("vmath/mat_fun") {
+    using namespace vmath_hpp;
+}

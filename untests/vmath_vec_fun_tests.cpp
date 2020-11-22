@@ -74,43 +74,43 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(radians(degrees(vec2f(12.13f))) == approx2(12.13f));
         STATIC_REQUIRE(degrees(radians(vec2f(12.13f))) == approx2(12.13f));
 
-        sin(vec2f(1.f));
-        cos(vec2f(1.f));
-        tan(vec2f(1.f));
+        (void)sin(vec2f(1.f));
+        (void)cos(vec2f(1.f));
+        (void)tan(vec2f(1.f));
 
-        asin(vec2f(1.f));
-        acos(vec2f(1.f));
-        atan(vec2f(1.f));
-        atan2(vec2f(1.f), vec2f(1.f));
+        (void)asin(vec2f(1.f));
+        (void)acos(vec2f(1.f));
+        (void)atan(vec2f(1.f));
+        (void)atan2(vec2f(1.f), vec2f(1.f));
 
-        sinh(vec2f(1.f));
-        cosh(vec2f(1.f));
-        tanh(vec2f(1.f));
+        (void)sinh(vec2f(1.f));
+        (void)cosh(vec2f(1.f));
+        (void)tanh(vec2f(1.f));
 
-        asinh(vec2f(1.f));
-        acosh(vec2f(1.f));
-        atanh(vec2f(1.f));
+        (void)asinh(vec2f(1.f));
+        (void)acosh(vec2f(1.f));
+        (void)atanh(vec2f(1.f));
     }
 
     SECTION("Exponential Functions") {
-        pow(vec2f(1.f), vec2f(2.f));
-        exp(vec2f(1.f));
-        log(vec2f(1.f));
-        exp2(vec2f(1.f));
-        log2(vec2f(1.f));
-        sqrt(vec2f(1.f));
-        invsqrt(vec2f(1.f));
+        (void)pow(vec2f(1.f), vec2f(2.f));
+        (void)exp(vec2f(1.f));
+        (void)log(vec2f(1.f));
+        (void)exp2(vec2f(1.f));
+        (void)log2(vec2f(1.f));
+        (void)sqrt(vec2f(1.f));
+        (void)invsqrt(vec2f(1.f));
     }
 
     SECTION("Common Functions") {
         REQUIRE(abs(vec2f(1.f, -1.f)) == approx2(1.f,1.f));
         REQUIRE(sign(vec3f(1.f, -1.f, 0.f)) == approx3(1.f,-1.f,0.f));
 
-        floor(vec2f(1.f, -1.f));
-        trunc(vec2f(1.f, -1.f));
-        round(vec2f(1.f, -1.f));
-        ceil(vec2f(1.f, -1.f));
-        fract(vec2f(1.f, -1.f));
+        (void)floor(vec2f(1.f, -1.f));
+        (void)trunc(vec2f(1.f, -1.f));
+        (void)round(vec2f(1.f, -1.f));
+        (void)ceil(vec2f(1.f, -1.f));
+        (void)fract(vec2f(1.f, -1.f));
 
         REQUIRE(fmod(vec2f(1.7f), 1.2f) == approx2(0.5f));
         REQUIRE(fmod(vec2f(1.7f), vec2f(1.2f)) == approx2(0.5f));

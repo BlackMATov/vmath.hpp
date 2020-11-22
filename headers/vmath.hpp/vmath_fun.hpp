@@ -71,7 +71,7 @@ namespace vmath_hpp
 
     template < typename T >
     T sign(T x) noexcept {
-        return (T(0) < x) - (x < T(0));
+        return static_cast<T>((T(0) < x) - (x < T(0)));
     }
 
     using ::std::floor;

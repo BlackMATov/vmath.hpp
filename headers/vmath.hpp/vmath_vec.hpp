@@ -8,18 +8,6 @@
 
 #include "vmath_fwd.hpp"
 
-#if defined(__GNUC__)
-#  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Wpedantic"
-#elif defined(__clang__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wgnu-anonymous-struct"
-#  pragma clang diagnostic ignored "-Wnested-anon-types"
-#elif defined(_MSC_VER)
-#  pragma warning(push)
-#  pragma warning(disable: 4201)
-#endif
-
 namespace vmath_hpp::detail
 {
     template < typename T, std::size_t Size >
@@ -28,13 +16,9 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 2> {
     public:
-        union {
-            struct { T x, y; };
-            T data[2];
-        };
+        T x{}, y{};
     public:
-        constexpr vec_base()
-        : x{0}, y{0} {}
+        vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v} {}
@@ -43,10 +27,10 @@ namespace vmath_hpp::detail
         : x{x}, y{y} {}
 
         constexpr explicit vec_base(const vec_base<T, 3>& xy)
-        : x{xy.x}, y{xy.y} {}
+        : x{xy[0]}, y{xy[1]} {}
 
         constexpr explicit vec_base(const vec_base<T, 4>& xy)
-        : x{xy.x}, y{xy.y} {}
+        : x{xy[0]}, y{xy[1]} {}
 
         constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -68,13 +52,9 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 3> {
     public:
-        union {
-            struct { T x, y, z; };
-            T data[3];
-        };
+        T x{}, y{}, z{};
     public:
-        constexpr vec_base()
-        : x{0}, y{0}, z{0} {}
+        vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v}, z{v} {}
@@ -83,13 +63,13 @@ namespace vmath_hpp::detail
         : x{x}, y{y}, z{z} {}
 
         constexpr vec_base(const vec_base<T, 2>& xy, T z)
-        : x{xy.x}, y{xy.y}, z{z} {}
+        : x{xy[0]}, y{xy[1]}, z{z} {}
 
         constexpr vec_base(T x, const vec_base<T, 2>& yz)
-        : x{x}, y{yz.x}, z{yz.y} {}
+        : x{x}, y{yz[0]}, z{yz[1]} {}
 
         constexpr explicit vec_base(const vec_base<T, 4>& xyz)
-        : x{xyz.x}, y{xyz.y}, z{xyz.z} {}
+        : x{xyz[0]}, y{xyz[1]}, z{xyz[2]} {}
 
         constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -113,13 +93,9 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 4> {
     public:
-        union {
-            struct { T x, y, z, w; };
-            T data[4];
-        };
+        T x{}, y{}, z{}, w{};
     public:
-        constexpr vec_base()
-        : x{0}, y{0}, z{0}, w{0} {}
+        vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v}, z{v}, w{v} {}
@@ -128,22 +104,22 @@ namespace vmath_hpp::detail
         : x{x}, y{y}, z{z}, w{w} {}
 
         constexpr vec_base(const vec_base<T, 2>& xy, T z, T w)
-        : x{xy.x}, y{xy.y}, z{z}, w{w} {}
+        : x{xy[0]}, y{xy[1]}, z{z}, w{w} {}
 
         constexpr vec_base(T x, const vec_base<T, 2>& yz, T w)
-        : x{x}, y{yz.x}, z{yz.y}, w{w} {}
+        : x{x}, y{yz[0]}, z{yz[1]}, w{w} {}
 
         constexpr vec_base(T x, T y, const vec_base<T, 2>& zw)
-        : x{x}, y{y}, z{zw.x}, w{zw.y} {}
+        : x{x}, y{y}, z{zw[0]}, w{zw[1]} {}
 
         constexpr vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw)
-        : x{xy.x}, y{xy.y}, z{zw.x}, w{zw.y} {}
+        : x{xy[0]}, y{xy[1]}, z{zw[0]}, w{zw[1]} {}
 
         constexpr vec_base(const vec_base<T, 3>& xyz, T w)
-        : x{xyz.x}, y{xyz.y}, z{xyz.z}, w{w} {}
+        : x{xyz[0]}, y{xyz[1]}, z{xyz[2]}, w{w} {}
 
         constexpr vec_base(T x, const vec_base<T, 3>& yzw)
-        : x{x}, y{yzw.x}, z{yzw.y}, w{yzw.z} {}
+        : x{x}, y{yzw[0]}, z{yzw[1]}, w{yzw[2]} {}
 
         constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -166,14 +142,6 @@ namespace vmath_hpp::detail
         }
     };
 }
-
-#if defined(__GNUC__)
-#  pragma GCC diagnostic pop
-#elif defined(__clang__)
-#  pragma clang diagnostic pop
-#elif defined(_MSC_VER)
-#  pragma warning(pop)
-#endif
 
 namespace vmath_hpp
 {
@@ -229,36 +197,5 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     void swap(vec<T, Size>& l, vec<T, Size>& r) noexcept(noexcept(l.swap(r))) {
         l.swap(r);
-    }
-}
-
-namespace vmath_hpp
-{
-    template < typename T, std::size_t Size >
-    constexpr bool operator==(const vec<T, Size>& l, const vec<T, Size>& r) {
-        for ( std::size_t i = 0; i < Size; ++i ) {
-            if ( !(l[i] == r[i]) ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    template < typename T, std::size_t Size >
-    constexpr bool operator!=(const vec<T, Size>& l, const vec<T, Size>& r) {
-        return !(l == r);
-    }
-
-    template < typename T, std::size_t Size >
-    constexpr bool operator<(const vec<T, Size>& l, const vec<T, Size>& r) {
-        for ( std::size_t i = 0; i < Size; ++i ) {
-            if ( l[i] < r[i] ) {
-                return true;
-            }
-            if ( r[i] < l[i] ) {
-                return false;
-            }
-        }
-        return false;
     }
 }

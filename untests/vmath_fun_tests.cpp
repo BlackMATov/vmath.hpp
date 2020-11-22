@@ -33,32 +33,32 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(radians(degrees(12.13f)) == approx(12.13f));
         STATIC_REQUIRE(degrees(radians(12.13f)) == approx(12.13f));
 
-        sin(0.f);
-        cos(0.f);
-        tan(0.f);
+        (void)sin(0.f);
+        (void)cos(0.f);
+        (void)tan(0.f);
 
-        asin(0.f);
-        acos(0.f);
-        atan(0.f);
-        atan2(0.f, 0.f);
+        (void)asin(0.f);
+        (void)acos(0.f);
+        (void)atan(0.f);
+        (void)atan2(0.f, 0.f);
 
-        sinh(0.f);
-        cosh(0.f);
-        tanh(0.f);
+        (void)sinh(0.f);
+        (void)cosh(0.f);
+        (void)tanh(0.f);
 
-        asinh(0.f);
-        acosh(0.f);
-        atanh(0.f);
+        (void)asinh(0.f);
+        (void)acosh(0.f);
+        (void)atanh(0.f);
     }
 
     SECTION("Exponential Functions") {
-        pow(2.f, 3.f);
-        exp(2.f);
-        log(2.f);
-        exp2(2.f);
-        log2(2.f);
-        sqrt(2.f);
-        invsqrt(2.f);
+        (void)pow(2.f, 3.f);
+        (void)exp(2.f);
+        (void)log(2.f);
+        (void)exp2(2.f);
+        (void)log2(2.f);
+        (void)sqrt(2.f);
+        (void)invsqrt(2.f);
     }
 
     SECTION("Common Functions") {
