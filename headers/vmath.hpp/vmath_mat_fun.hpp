@@ -11,34 +11,247 @@
 #include "vmath_fun.hpp"
 #include "vmath_mat.hpp"
 
+namespace vmath_hpp::detail
+{
+    namespace impl
+    {
+        template < typename A, std::size_t Size, typename F, std::size_t... Is >
+        constexpr auto map_impl(F&& f, const mat<A, Size>& a, std::index_sequence<Is...>)
+            -> mat<typename std::invoke_result_t<F, vec<A, Size>>::value_type, Size>
+        {
+            return { f(a[Is])... };
+        }
+
+        template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
+        constexpr auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, std::index_sequence<Is...>)
+            -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::value_type, Size>
+        {
+            return { f(a[Is], b[Is])... };
+        }
+
+        template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
+        constexpr auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
+            -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::value_type, Size>
+        {
+            return { f(a[Is], b[Is], c[Is])... };
+        }
+
+        template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
+        constexpr auto fold_impl(F&& f, A init, const mat<B, Size>& b, std::index_sequence<Is...>)
+            -> A
+        {
+            return ((init = f(std::move(init), b[Is])), ...);
+        }
+
+        template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
+        constexpr auto fold_impl(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
+            -> A
+        {
+            return ((init = f(std::move(init), b[Is], c[Is])), ...);
+        }
+    }
+
+    template < typename A, std::size_t Size, typename F >
+    constexpr auto map(F&& f, const mat<A, Size>& a) {
+        return impl::map_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F >
+    constexpr auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b) {
+        return impl::zip_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, typename C, std::size_t Size, typename F >
+    constexpr auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c) {
+        return impl::zip_impl(std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F >
+    constexpr auto fold(F&& f, A init, const mat<B, Size>& b) {
+        return impl::fold_impl(std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, typename C, std::size_t Size, typename F >
+    constexpr auto fold(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c) {
+        return impl::fold_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
+    }
+}
+
 //
 // Operators
 //
 
 namespace vmath_hpp
 {
+    // -operator
+
     template < typename T, std::size_t Size >
-    constexpr bool operator==(const mat<T, Size>& l, const mat<T, Size>& r) {
-        for ( std::size_t i = 0; i < Size; ++i ) {
-            if ( !(l[i] == r[i]) ) {
-                return false;
-            }
-        }
-        return true;
+    constexpr mat<T, Size> operator-(const mat<T, Size>& xs) {
+        return map(std::negate<>(), xs);
+    }
+
+    // operator+
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator+(const mat<T, Size>& xs, T y) {
+        return map([y](const vec<T, Size>& x){ return x + y; }, xs);
     }
 
     template < typename T, std::size_t Size >
-    constexpr bool operator!=(const mat<T, Size>& l, const mat<T, Size>& r) {
-        return !(l == r);
+    constexpr mat<T, Size> operator+(T x, const mat<T, Size>& ys) {
+        return map([x](const vec<T, Size>& y){ return x + y; }, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr bool operator<(const mat<T, Size>& l, const mat<T, Size>& r) {
+    constexpr mat<T, Size> operator+(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return zip(std::plus<>(), xs, ys);
+    }
+
+    // operator-
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator-(const mat<T, Size>& xs, T y) {
+        return map([y](const vec<T, Size>& x){ return x - y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator-(T x, const mat<T, Size>& ys) {
+        return map([x](const vec<T, Size>& y){ return x - y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return zip(std::minus<>(), xs, ys);
+    }
+
+    // operator*
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator*(const mat<T, Size>& xs, T y) {
+        return map([y](const vec<T, Size>& x){ return x * y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator*(T x, const mat<T, Size>& ys) {
+        return map([x](const vec<T, Size>& y){ return x * y; }, ys);
+    }
+
+    template < typename T >
+    constexpr vec<T, 2> operator*(const vec<T, 2>& xs, const mat<T, 2>& ys) {
+        return {
+            xs.x * ys[0][0] + xs.y * ys[1][0],
+            xs.x * ys[0][1] + xs.y * ys[1][1]};
+    }
+
+    template < typename T >
+    constexpr mat<T, 2> operator*(const mat<T, 2>& xs, const mat<T, 2>& ys) {
+        return {
+            xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0],
+            xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1],
+
+            xs[1][0] * ys[0][0] + xs[1][1] * ys[1][0],
+            xs[1][0] * ys[0][1] + xs[1][1] * ys[1][1]};
+    }
+
+    template < typename T >
+    constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const mat<T, 3>& ys) {
+        return {
+            xs.x * ys[0][0] + xs.y * ys[1][0] + xs.z * ys[2][0],
+            xs.x * ys[0][1] + xs.y * ys[1][1] + xs.z * ys[2][1],
+            xs.x * ys[0][2] + xs.y * ys[1][2] + xs.z * ys[2][2]};
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> operator*(const mat<T, 3>& xs, const mat<T, 3>& ys) {
+        return {
+            xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0] + xs[0][2] * ys[2][0],
+            xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1] + xs[0][2] * ys[2][1],
+            xs[0][0] * ys[0][2] + xs[0][1] * ys[1][2] + xs[0][2] * ys[2][2],
+
+            xs[1][0] * ys[0][0] + xs[1][1] * ys[1][0] + xs[1][2] * ys[2][0],
+            xs[1][0] * ys[0][1] + xs[1][1] * ys[1][1] + xs[1][2] * ys[2][1],
+            xs[1][0] * ys[0][2] + xs[1][1] * ys[1][2] + xs[1][2] * ys[2][2],
+
+            xs[2][0] * ys[0][0] + xs[2][1] * ys[1][0] + xs[2][2] * ys[2][0],
+            xs[2][0] * ys[0][1] + xs[2][1] * ys[1][1] + xs[2][2] * ys[2][1],
+            xs[2][0] * ys[0][2] + xs[2][1] * ys[1][2] + xs[2][2] * ys[2][2]};
+    }
+
+    template < typename T >
+    constexpr vec<T, 4> operator*(const vec<T, 4>& xs, const mat<T, 4>& ys) {
+        return {
+            xs.x * ys[0][0] + xs.y * ys[1][0] + xs.z * ys[2][0] + xs.w * ys[3][0],
+            xs.x * ys[0][1] + xs.y * ys[1][1] + xs.z * ys[2][1] + xs.w * ys[3][1],
+            xs.x * ys[0][2] + xs.y * ys[1][2] + xs.z * ys[2][2] + xs.w * ys[3][2],
+            xs.x * ys[0][3] + xs.y * ys[1][3] + xs.z * ys[2][3] + xs.w * ys[3][3]};
+    }
+
+    template < typename T >
+    constexpr mat<T, 4> operator*(const mat<T, 4>& xs, const mat<T, 4>& ys) {
+        return {
+            xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0] + xs[0][2] * ys[2][0] + xs[0][3] * ys[3][0],
+            xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1] + xs[0][2] * ys[2][1] + xs[0][3] * ys[3][1],
+            xs[0][0] * ys[0][2] + xs[0][1] * ys[1][2] + xs[0][2] * ys[2][2] + xs[0][3] * ys[3][2],
+            xs[0][0] * ys[0][3] + xs[0][1] * ys[1][3] + xs[0][2] * ys[2][3] + xs[0][3] * ys[3][3],
+
+            xs[1][0] * ys[0][0] + xs[1][1] * ys[1][0] + xs[1][2] * ys[2][0] + xs[1][3] * ys[3][0],
+            xs[1][0] * ys[0][1] + xs[1][1] * ys[1][1] + xs[1][2] * ys[2][1] + xs[1][3] * ys[3][1],
+            xs[1][0] * ys[0][2] + xs[1][1] * ys[1][2] + xs[1][2] * ys[2][2] + xs[1][3] * ys[3][2],
+            xs[1][0] * ys[0][3] + xs[1][1] * ys[1][3] + xs[1][2] * ys[2][3] + xs[1][3] * ys[3][3],
+
+            xs[2][0] * ys[0][0] + xs[2][1] * ys[1][0] + xs[2][2] * ys[2][0] + xs[2][3] * ys[3][0],
+            xs[2][0] * ys[0][1] + xs[2][1] * ys[1][1] + xs[2][2] * ys[2][1] + xs[2][3] * ys[3][1],
+            xs[2][0] * ys[0][2] + xs[2][1] * ys[1][2] + xs[2][2] * ys[2][2] + xs[2][3] * ys[3][2],
+            xs[2][0] * ys[0][3] + xs[2][1] * ys[1][3] + xs[2][2] * ys[2][3] + xs[2][3] * ys[3][3],
+
+            xs[3][0] * ys[0][0] + xs[3][1] * ys[1][0] + xs[3][2] * ys[2][0] + xs[3][3] * ys[3][0],
+            xs[3][0] * ys[0][1] + xs[3][1] * ys[1][1] + xs[3][2] * ys[2][1] + xs[3][3] * ys[3][1],
+            xs[3][0] * ys[0][2] + xs[3][1] * ys[1][2] + xs[3][2] * ys[2][2] + xs[3][3] * ys[3][2],
+            xs[3][0] * ys[0][3] + xs[3][1] * ys[1][3] + xs[3][2] * ys[2][3] + xs[3][3] * ys[3][3]};
+    }
+
+    // operator/
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator/(const mat<T, Size>& xs, T y) {
+        return map([y](const vec<T, Size>& x){ return x / y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator/(T x, const mat<T, Size>& ys) {
+        return map([x](const vec<T, Size>& y){ return x / y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return zip(std::divides<>(), xs, ys);
+    }
+
+    // operator==
+
+    template < typename T, std::size_t Size >
+    constexpr bool operator==(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return fold([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
+            return acc && (x == y);
+        }, true, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr bool operator!=(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return fold([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
+            return acc || (x != y);
+        }, false, xs, ys);
+    }
+
+    // operator<
+
+    template < typename T, std::size_t Size >
+    constexpr bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         for ( std::size_t i = 0; i < Size; ++i ) {
-            if ( l[i] < r[i] ) {
+            if ( xs[i] < ys[i] ) {
                 return true;
             }
-            if ( r[i] < l[i] ) {
+            if ( ys[i] < xs[i] ) {
                 return false;
             }
         }

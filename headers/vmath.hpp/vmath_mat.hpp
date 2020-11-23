@@ -19,108 +19,111 @@ namespace vmath_hpp::detail
     template < typename T >
     class mat_base<T, 2> {
     public:
-        vec<T, 2> rows[2];
+        using row_type = vec<T, 2>;
+        row_type rows[2];
     public:
         constexpr mat_base() : rows{
-            {1, 0},
-            {0, 1},
+            row_type{1, 0},
+            row_type{0, 1},
         } {}
 
         constexpr explicit mat_base(T v)
         : rows{
-            {v, 0},
-            {0, v}} {}
+            row_type{v, 0},
+            row_type{0, v}} {}
 
         constexpr mat_base(
             T m11, T m12,
             T m21, T m22)
         : rows{
-            {m11, m12},
-            {m21, m22}} {}
+            row_type{m11, m12},
+            row_type{m21, m22}} {}
 
         constexpr mat_base(
-            const vec<T, 2>& row0,
-            const vec<T, 2>& row1)
+            const row_type& row0,
+            const row_type& row1)
         : rows{row0, row1} {}
 
         constexpr explicit mat_base(
             const mat_base<T, 3>& other)
         : rows{
-            vec<T, 2>{other.rows[0]},
-            vec<T, 2>{other.rows[1]}} {}
+            row_type{other.rows[0]},
+            row_type{other.rows[1]}} {}
 
         constexpr explicit mat_base(
             const mat_base<T, 4>& other)
         : rows{
-            vec<T, 2>{other.rows[0]},
-            vec<T, 2>{other.rows[1]}} {}
+            row_type{other.rows[0]},
+            row_type{other.rows[1]}} {}
     };
 
     template < typename T >
     class mat_base<T, 3> {
     public:
-        vec<T, 3> rows[3];
+        using row_type = vec<T, 3>;
+        row_type rows[3];
     public:
         constexpr mat_base() : rows{
-            {1, 0, 0},
-            {0, 1, 0},
-            {0, 0, 1},
+            row_type{1, 0, 0},
+            row_type{0, 1, 0},
+            row_type{0, 0, 1},
         } {}
 
         constexpr explicit mat_base(T v)
         : rows{
-            {v, 0, 0},
-            {0, v, 0},
-            {0, 0, v}} {}
+            row_type{v, 0, 0},
+            row_type{0, v, 0},
+            row_type{0, 0, v}} {}
 
         constexpr mat_base(
             T m11, T m12, T m13,
             T m21, T m22, T m23,
             T m31, T m32, T m33)
         : rows{
-            {m11, m12, m13},
-            {m21, m22, m23},
-            {m31, m32, m33}} {}
+            row_type{m11, m12, m13},
+            row_type{m21, m22, m23},
+            row_type{m31, m32, m33}} {}
 
         constexpr mat_base(
-            const vec<T, 3>& row0,
-            const vec<T, 3>& row1,
-            const vec<T, 3>& row2)
+            const row_type& row0,
+            const row_type& row1,
+            const row_type& row2)
         : rows{row0, row1, row2} {}
 
         constexpr explicit mat_base(
             const mat_base<T, 2>& other)
         : rows{
-            {other.rows[0], 0},
-            {other.rows[1], 0},
-            {0, 0, 1}} {}
+            row_type{other.rows[0], 0},
+            row_type{other.rows[1], 0},
+            row_type{0, 0, 1}} {}
 
         constexpr explicit mat_base(
             const mat_base<T, 4>& other)
         : rows{
-            vec<T, 3>{other.rows[0]},
-            vec<T, 3>{other.rows[1]},
-            vec<T, 3>{other.rows[2]}} {}
+            row_type{other.rows[0]},
+            row_type{other.rows[1]},
+            row_type{other.rows[2]}} {}
     };
 
     template < typename T >
     class mat_base<T, 4> {
     public:
-        vec<T, 4> rows[4];
+        using row_type = vec<T, 4>;
+        row_type rows[4];
     public:
         constexpr mat_base() : rows{
-            {1, 0, 0, 0},
-            {0, 1, 0, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 1},
+            row_type{1, 0, 0, 0},
+            row_type{0, 1, 0, 0},
+            row_type{0, 0, 1, 0},
+            row_type{0, 0, 0, 1},
         } {}
 
         constexpr explicit mat_base(T v)
         : rows{
-            {v, 0, 0, 0},
-            {0, v, 0, 0},
-            {0, 0, v, 0},
-            {0, 0, 0, v}} {}
+            row_type{v, 0, 0, 0},
+            row_type{0, v, 0, 0},
+            row_type{0, 0, v, 0},
+            row_type{0, 0, 0, v}} {}
 
         constexpr mat_base(
             T m11, T m12, T m13, T m14,
@@ -128,33 +131,33 @@ namespace vmath_hpp::detail
             T m31, T m32, T m33, T m34,
             T m41, T m42, T m43, T m44)
         : rows{
-            {m11, m12, m13, m14},
-            {m21, m22, m23, m24},
-            {m31, m32, m33, m34},
-            {m41, m42, m43, m44}} {}
+            row_type{m11, m12, m13, m14},
+            row_type{m21, m22, m23, m24},
+            row_type{m31, m32, m33, m34},
+            row_type{m41, m42, m43, m44}} {}
 
         constexpr mat_base(
-            const vec<T, 4>& row0,
-            const vec<T, 4>& row1,
-            const vec<T, 4>& row2,
-            const vec<T, 4>& row3)
+            const row_type& row0,
+            const row_type& row1,
+            const row_type& row2,
+            const row_type& row3)
         : rows{row0, row1, row2, row3} {}
 
         constexpr explicit mat_base(
             const mat_base<T, 2>& other)
         : rows{
-            {other.rows[0], 0, 0},
-            {other.rows[1], 0, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 1}} {}
+            row_type{other.rows[0], 0, 0},
+            row_type{other.rows[1], 0, 0},
+            row_type{0, 0, 1, 0},
+            row_type{0, 0, 0, 1}} {}
 
         constexpr explicit mat_base(
             const mat_base<T, 3>& other)
         : rows{
-            {other.rows[0], 0},
-            {other.rows[1], 0},
-            {other.rows[2], 0},
-            {0, 0, 0, 1}} {}
+            row_type{other.rows[0], 0},
+            row_type{other.rows[1], 0},
+            row_type{other.rows[2], 0},
+            row_type{0, 0, 0, 1}} {}
     };
 }
 
@@ -166,18 +169,18 @@ namespace vmath_hpp
         using self_type = mat;
         using base_type = detail::mat_base<T, Size>;
     public:
-        using value_type = vec<T, Size>;
+        using row_type = vec<T, Size>;
 
-        using pointer = value_type*;
-        using const_pointer = const value_type*;
+        using pointer = row_type*;
+        using const_pointer = const row_type*;
 
-        using reference = value_type&;
-        using const_reference = const value_type&;
+        using reference = row_type&;
+        using const_reference = const row_type&;
 
         static constexpr std::size_t size = Size;
     public:
-        using base_type::rows;
         using base_type::mat_base;
+        using base_type::rows;
 
         mat() = default;
 
@@ -190,7 +193,7 @@ namespace vmath_hpp
         void swap(mat& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < Size; ++i ) {
                 using std::swap;
-                swap(rows[i], other.rows[i]);
+                swap((*this)[i], other[i]);
             }
         }
 
