@@ -136,8 +136,8 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    T distance(T p0, T p1) noexcept {
-        return length(p0 - p1);
+    T distance(T x, T y) noexcept {
+        return length(x - y);
     }
 
     template < typename T >

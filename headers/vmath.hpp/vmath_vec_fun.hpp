@@ -16,10 +16,10 @@ namespace vmath_hpp::detail
     namespace impl
     {
         template < typename A, std::size_t Size, typename F, std::size_t... Is >
-        constexpr auto map_impl(F&& f, const vec<A, Size>& v, std::index_sequence<Is...>)
+        constexpr auto map_impl(F&& f, const vec<A, Size>& a, std::index_sequence<Is...>)
             -> vec<std::invoke_result_t<F, A>, Size>
         {
-            return { f(v[Is])... };
+            return { f(a[Is])... };
         }
 
         template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
@@ -37,16 +37,23 @@ namespace vmath_hpp::detail
         }
 
         template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
-        constexpr auto fold_impl(F&& f, A init, const vec<B, Size>& v, std::index_sequence<Is...>)
+        constexpr auto fold_impl(F&& f, A init, const vec<B, Size>& b, std::index_sequence<Is...>)
             -> A
         {
-            return ((init = f(std::move(init), v[Is])), ...);
+            return ((init = f(std::move(init), b[Is])), ...);
+        }
+
+        template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
+        constexpr auto fold_impl(F&& f, A init, const vec<B, Size>& b, const vec<C, Size>& c, std::index_sequence<Is...>)
+            -> A
+        {
+            return ((init = f(std::move(init), b[Is], c[Is])), ...);
         }
     }
 
-    template < typename T, std::size_t Size, typename F >
-    constexpr auto map(F&& f, const vec<T, Size>& v) {
-        return impl::map_impl(std::forward<F>(f), v, std::make_index_sequence<Size>{});
+    template < typename A, std::size_t Size, typename F >
+    constexpr auto map(F&& f, const vec<A, Size>& a) {
+        return impl::map_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
@@ -60,8 +67,13 @@ namespace vmath_hpp::detail
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
-    constexpr auto fold(F&& f, A init, const vec<B, Size>& v) {
-        return impl::fold_impl(std::forward<F>(f), std::move(init), v, std::make_index_sequence<Size>{});
+    constexpr auto fold(F&& f, A init, const vec<B, Size>& b) {
+        return impl::fold_impl(std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, typename C, std::size_t Size, typename F >
+    constexpr auto fold(F&& f, A init, const vec<B, Size>& b, const vec<C, Size>& c) {
+        return impl::fold_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
     }
 }
 
@@ -150,23 +162,27 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     constexpr bool operator==(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return all(zip(std::equal_to<>(), xs, ys));
+        return fold([](bool acc, T x, T y){
+            return acc && (x == y);
+        }, true, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     constexpr bool operator!=(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return any(zip(std::not_equal_to<>(), xs, ys));
+        return fold([](bool acc, T x, T y){
+            return acc || (x != y);
+        }, false, xs, ys);
     }
 
     // operator<
 
     template < typename T, std::size_t Size >
-    constexpr bool operator<(const vec<T, Size>& l, const vec<T, Size>& r) {
+    constexpr bool operator<(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         for ( std::size_t i = 0; i < Size; ++i ) {
-            if ( l[i] < r[i] ) {
+            if ( xs[i] < ys[i] ) {
                 return true;
             }
-            if ( r[i] < l[i] ) {
+            if ( ys[i] < xs[i] ) {
                 return false;
             }
         }
@@ -473,45 +489,45 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T, std::size_t Size >
-    T length(const vec<T, Size>& x) noexcept {
-        return sqrt(dot(x, x));
+    T length(const vec<T, Size>& xs) {
+        return sqrt(dot(xs, xs));
     }
 
     template < typename T, std::size_t Size >
-    T distance(const vec<T, Size>& p0, const vec<T, Size>& p1) noexcept {
-        return length(p0 - p1);
+    T distance(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return length(xs - ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr T dot(const vec<T, Size>& x, const vec<T, Size>& y) noexcept {
-        return fold(std::plus<>(), T(0), zip(std::multiplies<>(), x, y));
+    constexpr T dot(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return fold(std::plus<>(), T(0), zip(std::multiplies<>(), xs, ys));
     }
 
     template < typename T >
-    constexpr vec<T, 3> cross(const vec<T, 3>& x, const vec<T, 3>& y) noexcept {
+    constexpr vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys) {
         return {
-            x.y * y.z - x.z * y.y,
-            x.z * y.x - x.x * y.z,
-            x.x * y.y - x.y * y.x};
+            xs.y * ys.z - xs.z * ys.y,
+            xs.z * ys.x - xs.x * ys.z,
+            xs.x * ys.y - xs.y * ys.x};
     }
 
     template < typename T, std::size_t Size >
-    vec<T, Size> normalize(const vec<T, Size>& x) noexcept {
-        return x * invsqrt(dot(x, x));
+    vec<T, Size> normalize(const vec<T, Size>& xs) {
+        return xs * invsqrt(dot(xs, xs));
     }
 
     template < typename T, std::size_t Size >
-    vec<T, Size> faceforward(const vec<T, Size>& n, const vec<T, Size>& i, const vec<T, Size>& nref) noexcept {
+    vec<T, Size> faceforward(const vec<T, Size>& n, const vec<T, Size>& i, const vec<T, Size>& nref) {
         return dot(nref, i) < T(0) ? n : -n;
     }
 
     template < typename T, std::size_t Size >
-    vec<T, Size> reflect(const vec<T, Size>& i, const vec<T, Size>& n) noexcept {
+    vec<T, Size> reflect(const vec<T, Size>& i, const vec<T, Size>& n) {
         return i - n * dot(n, i) * T(2);
     }
 
     template < typename T, std::size_t Size >
-    vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta) noexcept {
+    vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta) {
         const T d = dot(n, i);
         const T k = T(1) - eta * eta * (T(1) - d * d);
         return T(k >= T(0)) * (eta * i - (eta * d + sqrt(k)) * n);
@@ -525,47 +541,47 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T, std::size_t Size >
-    constexpr vec<bool, Size> less(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return zip(std::less<>(), x, y);
+    constexpr vec<bool, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return zip(std::less<>(), xs, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<bool, Size> less_equal(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return zip(std::less_equal<>(), x, y);
+    constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return zip(std::less_equal<>(), xs, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<bool, Size> greater(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return zip(std::greater<>(), x, y);
+    constexpr vec<bool, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return zip(std::greater<>(), xs, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<bool, Size> greater_equal(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return zip(std::greater_equal<>(), x, y);
+    constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return zip(std::greater_equal<>(), xs, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<bool, Size> equal_to(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return zip(std::equal_to<>(), x, y);
+    constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return zip(std::equal_to<>(), xs, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return zip(std::not_equal_to<>(), x, y);
+    constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return zip(std::not_equal_to<>(), xs, ys);
     }
 
     template < std::size_t Size >
-    constexpr bool any(const vec<bool, Size>& x) {
-        return fold(std::logical_or<>(), false, x);
+    constexpr bool any(const vec<bool, Size>& xs) {
+        return fold(std::logical_or<>(), false, xs);
     }
 
     template < std::size_t Size >
-    constexpr bool all(const vec<bool, Size>& x) {
-        return fold(std::logical_and<>(), true, x);
+    constexpr bool all(const vec<bool, Size>& xs) {
+        return fold(std::logical_and<>(), true, xs);
     }
 
     template < std::size_t Size >
-    constexpr vec<bool, Size> not_(const vec<bool, Size>& x) {
-        return map(std::logical_not<>(), x);
+    constexpr vec<bool, Size> not_(const vec<bool, Size>& xs) {
+        return map(std::logical_not<>(), xs);
     }
 }
