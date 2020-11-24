@@ -107,6 +107,18 @@ namespace vmath_hpp
         return zip(std::plus<>(), xs, ys);
     }
 
+    // operator+=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator+=(mat<T, Size>& xs, T y) {
+        return (xs = xs + y);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator+=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = xs + ys);
+    }
+
     // operator-
 
     template < typename T, std::size_t Size >
@@ -122,6 +134,18 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return zip(std::minus<>(), xs, ys);
+    }
+
+    // operator-=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator-=(mat<T, Size>& xs, T y) {
+        return (xs = xs - y);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator-=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = xs - ys);
     }
 
     // operator*
@@ -210,6 +234,23 @@ namespace vmath_hpp
             xs[3][0] * ys[0][3] + xs[3][1] * ys[1][3] + xs[3][2] * ys[2][3] + xs[3][3] * ys[3][3]};
     }
 
+    // operator*=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator*=(mat<T, Size>& xs, T y) {
+        return (xs = xs * y);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator*=(vec<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = xs * ys);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator*=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = xs * ys);
+    }
+
     // operator/
 
     template < typename T, std::size_t Size >
@@ -225,6 +266,18 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return zip(std::divides<>(), xs, ys);
+    }
+
+    // operator/=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, T y) {
+        return (xs = xs / y);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = xs / ys);
     }
 
     // operator==

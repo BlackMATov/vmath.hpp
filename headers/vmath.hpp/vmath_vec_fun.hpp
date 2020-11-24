@@ -107,6 +107,18 @@ namespace vmath_hpp
         return zip(std::plus<>(), xs, ys);
     }
 
+    // operator+=
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator+=(vec<T, Size>& xs, T y) {
+        return (xs = xs + y);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator+=(vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return (xs = xs + ys);
+    }
+
     // operator-
 
     template < typename T, std::size_t Size >
@@ -122,6 +134,18 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     constexpr vec<T, Size> operator-(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return zip(std::minus<>(), xs, ys);
+    }
+
+    // operator-=
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator-=(vec<T, Size>& xs, T y) {
+        return (xs = xs - y);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator-=(vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return (xs = xs - ys);
     }
 
     // operator*
@@ -141,6 +165,18 @@ namespace vmath_hpp
         return zip(std::multiplies<>(), xs, ys);
     }
 
+    // operator*=
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator*=(vec<T, Size>& xs, T y) {
+        return (xs = xs * y);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator*=(vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return (xs = xs * ys);
+    }
+
     // operator/
 
     template < typename T, std::size_t Size >
@@ -156,6 +192,18 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     constexpr vec<T, Size> operator/(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return zip(std::divides<>(), xs, ys);
+    }
+
+    // operator/=
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator/=(vec<T, Size>& xs, T y) {
+        return (xs = xs / y);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator/=(vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return (xs = xs / ys);
     }
 
     // operator==

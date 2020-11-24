@@ -158,6 +158,54 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_REQUIRE(vec2i(1,2) * mat2i() == vec2i(1,2));
         STATIC_REQUIRE(vec3i(1,2,3) * mat3i() == vec3i(1,2,3));
         STATIC_REQUIRE(vec4i(1,2,3,4) * mat4i() == vec4i(1,2,3,4));
+
+        {
+            mat2i v{1,2,3,4};
+            REQUIRE(&v == &(v += 3));
+            REQUIRE(v == mat2i{4,5,6,7});
+            REQUIRE(&v == &(v += mat2i{1,2,3,4}));
+            REQUIRE(v == mat2i{5,7,9,11});
+        }
+        {
+            mat2i v{4,5,6,7};
+            REQUIRE(&v == &(v -= 3));
+            REQUIRE(v == mat2i{1,2,3,4});
+            REQUIRE(&v == &(v -= mat2i{2,4,6,8}));
+            REQUIRE(v == mat2i{-1,-2,-3,-4});
+        }
+        {
+            mat2i v{1,2,3,4};
+            REQUIRE(&v == &(v *= 3));
+            REQUIRE(v == mat2i{3,6,9,12});
+        }
+        {
+            mat2i v{6,18,36,60};
+            REQUIRE(&v == &(v /= 2));
+            REQUIRE(v == mat2i{3,9,18,30});
+            REQUIRE(&v == &(v /= mat2i{3,4,3,10}));
+            REQUIRE(v == mat2i{1,2,6,3});
+        }
+
+        {
+            vec4f v{0.f, 0.f, 0.f, 1.f};
+            REQUIRE(&v == &(v *= translate(1.f,2.f,3.f)));
+            REQUIRE(v == approx4(1.f,2.f,3.f,1.f));
+        }
+        {
+            vec3f v{1.f, 2.f, 3.f};
+            REQUIRE(&v == &(v *= mat3f(scale(2.f,3.f,4.f))));
+            REQUIRE(v == approx3(2.f,6.f,12.f));
+        }
+        {
+            mat4f v = translate(1.f, 2.f, 3.f);
+            REQUIRE(&v == &(v *= translate(1.f,2.f,3.f)));
+            REQUIRE(v == approx4x4(translate(2.f,4.f,6.f)));
+        }
+        {
+            mat3f v = mat3f(scale(1.f, 2.f, 3.f));
+            REQUIRE(&v == &(v *= mat3f(scale(2.f,3.f,4.f))));
+            REQUIRE(v == approx3x3(mat3f(scale(2.f,6.f,12.f))));
+        }
     }
 
     SECTION("Matrix Functions") {

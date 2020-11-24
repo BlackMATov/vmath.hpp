@@ -68,6 +68,35 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(vec2i(1,2) - vec2i(3,4) == vec2i(-2,-2));
         STATIC_REQUIRE(vec2i(1,2) * vec2i(3,4) == vec2i(3,8));
         STATIC_REQUIRE(vec2i(3,4) / vec2i(1,2) == vec2i(3,2));
+
+        {
+            vec2i v{1,2};
+            REQUIRE(&v == &(v += 3));
+            REQUIRE(v == vec2i{4,5});
+            REQUIRE(&v == &(v += vec2i{1,2}));
+            REQUIRE(v == vec2i{5,7});
+        }
+        {
+            vec2i v{4,5};
+            REQUIRE(&v == &(v -= 3));
+            REQUIRE(v == vec2i{1,2});
+            REQUIRE(&v == &(v -= vec2i{2,4}));
+            REQUIRE(v == vec2i{-1,-2});
+        }
+        {
+            vec2i v{1,2};
+            REQUIRE(&v == &(v *= 3));
+            REQUIRE(v == vec2i{3,6});
+            REQUIRE(&v == &(v *= vec2i{2,3}));
+            REQUIRE(v == vec2i{6,18});
+        }
+        {
+            vec2i v{6,18};
+            REQUIRE(&v == &(v /= 2));
+            REQUIRE(v == vec2i{3,9});
+            REQUIRE(&v == &(v /= vec2i{3,4}));
+            REQUIRE(v == vec2i{1,2});
+        }
     }
 
     SECTION("Angle and Trigonometry Functions") {
