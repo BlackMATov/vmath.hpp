@@ -391,4 +391,106 @@ namespace vmath_hpp
             m[2][0], m[2][1], m[2][2], m[2][3],
             m[3][0], m[3][1], m[3][2], m[3][3]);
     }
+
+    namespace impl
+    {
+        template < typename T >
+        constexpr mat<T, 2> inverse_2x2_impl(
+            T a, T b,
+            T c, T d)
+        {
+            const T inv_det = T(1) / determinant_2x2_impl(
+                a, b,
+                c, d);
+
+            const mat<T, 2> inv_m(
+                d, -b,
+                -c, a);
+
+            return inv_m * inv_det;
+        }
+
+        template < typename T >
+        constexpr mat<T, 3> inverse_3x3_impl(
+            T a, T b, T c,
+            T d, T e, T f,
+            T g, T h, T i)
+        {
+            const T inv_det = T(1) / determinant_3x3_impl(
+                a, b, c,
+                d, e, f,
+                g, h, i);
+
+            const mat<T, 3> inv_m(
+                e * i - f * h,
+                c * h - b * i,
+                b * f - c * e,
+                f * g - d * i,
+                a * i - c * g,
+                c * d - a * f,
+                d * h - e * g,
+                b * g - a * h,
+                a * e - b * d);
+
+            return inv_m * inv_det;
+        }
+
+        template < typename T >
+        constexpr mat<T, 4> inverse_4x4_impl(
+            T a, T b, T c, T d,
+            T e, T f, T g, T h,
+            T i, T j, T k, T l,
+            T m, T n, T o, T p)
+        {
+            const T inv_det = T(1) / determinant_4x4_impl(
+                a, b, c, d,
+                e, f, g, h,
+                i, j, k, l,
+                m, n, o, p);
+
+            const mat<T, 4> inv_m(
+                (f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n)),
+                (j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n)),
+                (n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f)),
+                (b * (h * k - g * l) + c * (f * l - h * j) + d * (g * j - f * k)),
+                (g * (i * p - l * m) + h * (k * m - i * o) + e * (l * o - k * p)),
+                (k * (a * p - d * m) + l * (c * m - a * o) + i * (d * o - c * p)),
+                (o * (a * h - d * e) + p * (c * e - a * g) + m * (d * g - c * h)),
+                (c * (h * i - e * l) + d * (e * k - g * i) + a * (g * l - h * k)),
+                (h * (i * n - j * m) + e * (j * p - l * n) + f * (l * m - i * p)),
+                (l * (a * n - b * m) + i * (b * p - d * n) + j * (d * m - a * p)),
+                (p * (a * f - b * e) + m * (b * h - d * f) + n * (d * e - a * h)),
+                (d * (f * i - e * j) + a * (h * j - f * l) + b * (e * l - h * i)),
+                (e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n)),
+                (i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n)),
+                (m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f)),
+                (a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i)));
+
+            return inv_m * inv_det;
+        }
+    }
+
+    template < typename T >
+    constexpr mat<T, 2> inverse(const mat<T, 2>& m) {
+        return impl::inverse_2x2_impl(
+            m[0][0], m[0][1],
+            m[1][0], m[1][1]);
+    }
+
+    template < typename T >
+    constexpr mat<T, 3>inverse(const mat<T, 3>& m) {
+        return impl::inverse_3x3_impl(
+            m[0][0], m[0][1], m[0][2],
+            m[1][0], m[1][1], m[1][2],
+            m[2][0], m[2][1], m[2][2]);
+    }
+
+    template < typename T >
+    constexpr mat<T, 4>inverse(const mat<T, 4>& m) {
+        return impl::inverse_4x4_impl(
+            m[0][0], m[0][1], m[0][2], m[0][3],
+            m[1][0], m[1][1], m[1][2], m[1][3],
+            m[2][0], m[2][1], m[2][2], m[2][3],
+            m[3][0], m[3][1], m[3][2], m[3][3]);
+    }
 }
