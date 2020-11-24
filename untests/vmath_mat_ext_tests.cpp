@@ -86,11 +86,14 @@ TEST_CASE("vmath/mat_ext") {
     }
 
     SECTION("rotate") {
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * rotate(float(M_PI),0.f,0.f,1.f) == approx4(-2.f,-3.f,4.f,1.f));
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * rotate(float(M_PI),vec3f{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
+        constexpr float pi = radians(180.f);
+        constexpr float pi_2 = radians(90.f);
 
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * rotate(rotate(float(M_PI_2),0.f,0.f,1.f),float(M_PI_2),0.f,0.f,1.f) == approx4(-2.f,-3.f,4.f,1.f));
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * rotate(rotate(float(M_PI_2),0.f,0.f,1.f),float(M_PI_2),vec3f{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * rotate(pi,0.f,0.f,1.f) == approx4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * rotate(pi,vec3f{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
+
+        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,0.f,0.f,1.f),pi_2,0.f,0.f,1.f) == approx4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,0.f,0.f,1.f),pi_2,vec3f{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
     }
 
     SECTION("scale") {
