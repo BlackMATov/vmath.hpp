@@ -258,3 +258,137 @@ namespace vmath_hpp
         return false;
     }
 }
+
+//
+// Matrix Functions
+//
+
+namespace vmath_hpp
+{
+    namespace impl
+    {
+        template < typename T >
+        constexpr mat<T, 2> transpose_2x2_impl(
+            T a, T c,
+            T b, T d)
+        {
+            return {
+                a, b,
+                c, d};
+        }
+
+        template < typename T >
+        constexpr mat<T, 3> transpose_3x3_impl(
+            T a, T d, T g,
+            T b, T e, T h,
+            T c, T f, T i)
+        {
+            return {
+                a, b, c,
+                d, e, f,
+                g, h, i};
+        }
+
+        template < typename T >
+        constexpr mat<T, 4> transpose_4x4_impl(
+            T a, T e, T i, T m,
+            T b, T f, T j, T n,
+            T c, T g, T k, T o,
+            T d, T h, T l, T p)
+        {
+            return {
+                a, b, c, d,
+                e, f, g, h,
+                i, j, k, l,
+                m, n, o, p};
+        }
+    }
+
+    template < typename T >
+    constexpr mat<T, 2> transpose(const mat<T, 2>& m) {
+        return impl::transpose_2x2_impl(
+            m[0][0], m[0][1],
+            m[1][0], m[1][1]);
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> transpose(const mat<T, 3>& m) {
+        return impl::transpose_3x3_impl(
+            m[0][0], m[0][1], m[0][2],
+            m[1][0], m[1][1], m[1][2],
+            m[2][0], m[2][1], m[2][2]);
+    }
+
+    template < typename T >
+    constexpr mat<T, 4> transpose(const mat<T, 4>& m) {
+        return impl::transpose_4x4_impl(
+            m[0][0], m[0][1], m[0][2], m[0][3],
+            m[1][0], m[1][1], m[1][2], m[1][3],
+            m[2][0], m[2][1], m[2][2], m[2][3],
+            m[3][0], m[3][1], m[3][2], m[3][3]);
+    }
+
+    namespace impl
+    {
+        template < typename T >
+        constexpr T determinant_2x2_impl(
+            T a, T b,
+            T c, T d)
+        {
+            return
+                + a * d
+                - b * c;
+        }
+
+        template < typename T >
+        constexpr T determinant_3x3_impl(
+            T a, T b, T c,
+            T d, T e, T f,
+            T g, T h, T i)
+        {
+            return
+                + a * determinant_2x2_impl(e, f, h, i)
+                - b * determinant_2x2_impl(d, f, g, i)
+                + c * determinant_2x2_impl(d, e, g, h);
+
+        }
+
+        template < typename T >
+        constexpr T determinant_4x4_impl(
+            T a, T b, T c, T d,
+            T e, T f, T g, T h,
+            T i, T j, T k, T l,
+            T m, T n, T o, T p)
+        {
+            return
+                + a * determinant_3x3_impl(f, g, h, j, k, l, n, o, p)
+                - b * determinant_3x3_impl(e, g, h, i, k, l, m, o, p)
+                + c * determinant_3x3_impl(e, f, h, i, j, l, m, n, p)
+                - d * determinant_3x3_impl(e, f, g, i, j, k, m, n, o);
+        }
+    }
+
+    template < typename T >
+    constexpr T determinant(const mat<T, 2>& m) {
+        return impl::determinant_2x2_impl(
+            m[0][0], m[0][1],
+            m[1][0], m[1][1]);
+    }
+
+    template < typename T >
+    constexpr T determinant(const mat<T, 3>& m) {
+        return impl::determinant_3x3_impl(
+            m[0][0], m[0][1], m[0][2],
+            m[1][0], m[1][1], m[1][2],
+            m[2][0], m[2][1], m[2][2]);
+    }
+
+    template < typename T >
+    constexpr T determinant(const mat<T, 4>& m) {
+        return impl::determinant_4x4_impl(
+            m[0][0], m[0][1], m[0][2], m[0][3],
+            m[1][0], m[1][1], m[1][2], m[1][3],
+            m[2][0], m[2][1], m[2][2], m[2][3],
+            m[3][0], m[3][1], m[3][2], m[3][3]);
+    }
+}
