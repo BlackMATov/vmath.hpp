@@ -17,7 +17,7 @@ namespace vmath_hpp
     // identity
 
     template < typename T >
-    mat<T, 4> identity() {
+    constexpr mat<T, 4> identity() {
         return {
             {1, 0, 0, 0},
             {0, 1, 0, 0},
@@ -28,7 +28,7 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
-    mat<T, 4> translate(T x, T y, T z) {
+    constexpr mat<T, 4> translate(T x, T y, T z) {
         return {
             {1, 0, 0, 0},
             {0, 1, 0, 0},
@@ -37,17 +37,17 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> translate(const vec<T, 3>& xyz) {
+    constexpr mat<T, 4> translate(const vec<T, 3>& xyz) {
         return translate(xyz.x, xyz.y, xyz.z);
     }
 
     template < typename T >
-    mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z) {
+    constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z) {
         return m * translate(x, y, z);
     }
 
     template < typename T >
-    mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& xyz) {
+    constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& xyz) {
         return m * translate(xyz);
     }
 
@@ -95,7 +95,7 @@ namespace vmath_hpp
     // scale
 
     template < typename T >
-    mat<T, 4> scale(T x, T y, T z) {
+    constexpr mat<T, 4> scale(T x, T y, T z) {
         return {
             {x, 0, 0, 0},
             {0, y, 0, 0},
@@ -104,17 +104,17 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> scale(const vec<T, 3>& xyz) {
+    constexpr mat<T, 4> scale(const vec<T, 3>& xyz) {
         return scale(xyz.x, xyz.y, xyz.z);
     }
 
     template < typename T >
-    mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z) {
+    constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z) {
         return m * scale(x, y, z);
     }
 
     template < typename T >
-    mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& xyz) {
+    constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& xyz) {
         return m * scale(xyz);
     }
 }

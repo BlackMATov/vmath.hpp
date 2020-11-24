@@ -73,16 +73,16 @@ namespace
 
 TEST_CASE("vmath/mat_ext") {
     SECTION("identity") {
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * identity<float>() == approx4(2.f,3.f,4.f,1.f));
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * identity<float>() == approx4(2.f,3.f,4.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * identity<float>() == approx4(2.f,3.f,4.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * identity<float>() == approx4(2.f,3.f,4.f,1.f));
     }
 
     SECTION("translate") {
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(1.f,2.f,3.f) == approx4(3.f,5.f,7.f,1.f));
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(vec3f{1.f,2.f,3.f}) == approx4(3.f,5.f,7.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(1.f,2.f,3.f) == approx4(3.f,5.f,7.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(vec3f{1.f,2.f,3.f}) == approx4(3.f,5.f,7.f,1.f));
 
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(translate(1.f,2.f,3.f), 1.f,2.f,3.f) == approx4(4.f,7.f,10.f,1.f));
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(translate(1.f,2.f,3.f), vec3f{1.f,2.f,3.f}) == approx4(4.f,7.f,10.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(translate(1.f,2.f,3.f), 1.f,2.f,3.f) == approx4(4.f,7.f,10.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(translate(1.f,2.f,3.f), vec3f{1.f,2.f,3.f}) == approx4(4.f,7.f,10.f,1.f));
     }
 
     SECTION("rotate") {
@@ -94,10 +94,10 @@ TEST_CASE("vmath/mat_ext") {
     }
 
     SECTION("scale") {
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * scale(2.f,3.f,4.f) == approx4(4.f,9.f,16.f,1.f));
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * scale(vec3f{2.f,3.f,4.f}) == approx4(4.f,9.f,16.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * scale(2.f,3.f,4.f) == approx4(4.f,9.f,16.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * scale(vec3f{2.f,3.f,4.f}) == approx4(4.f,9.f,16.f,1.f));
 
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * scale(scale(2.f,2.f,2.f), 2.f,3.f,4.f) == approx4(8.f,18.f,32.f,1.f));
-        REQUIRE(vec4f(2.f,3.f,4.f,1.f) * scale(scale(2.f,2.f,2.f), vec3f{2.f,3.f,4.f}) == approx4(8.f,18.f,32.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * scale(scale(2.f,2.f,2.f), 2.f,3.f,4.f) == approx4(8.f,18.f,32.f,1.f));
+        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * scale(scale(2.f,2.f,2.f), vec3f{2.f,3.f,4.f}) == approx4(8.f,18.f,32.f,1.f));
     }
 }

@@ -213,11 +213,11 @@ TEST_CASE("vmath/mat_fun") {
             STATIC_REQUIRE(inverse(mat3i()) == mat3i());
             STATIC_REQUIRE(inverse(mat4i()) == mat4i());
 
-            REQUIRE(inverse(mat2f(0.5)) == mat2f(2.f));
-            REQUIRE(inverse(mat3f(0.5)) == mat3f(2.f));
-            REQUIRE(inverse(mat4f(0.5)) == mat4f(2.f));
+            STATIC_REQUIRE(inverse(mat2f(0.5)) == mat2f(2.f));
+            STATIC_REQUIRE(inverse(mat3f(0.5)) == mat3f(2.f));
+            STATIC_REQUIRE(inverse(mat4f(0.5)) == mat4f(2.f));
 
-            REQUIRE(inverse(translate(1.f,2.f,3.f)) == approx4x4(translate(-1.f,-2.f,-3.f)));
+            STATIC_REQUIRE(inverse(translate(1.f,2.f,3.f)) == approx4x4(translate(-1.f,-2.f,-3.f)));
 
             REQUIRE(inverse(rotate(0.5f,normalize(vec3f{1.f,2.f,3.f}))) == approx4x4(rotate(-0.5f,normalize(vec3f{1.f,2.f,3.f}))));
             REQUIRE(inverse(mat3f(rotate(0.5f,normalize(vec3f{1.f,2.f,3.f})))) == approx3x3(mat3f(rotate(-0.5f,normalize(vec3f{1.f,2.f,3.f})))));
