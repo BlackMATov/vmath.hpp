@@ -126,6 +126,8 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(clamp(vec2i(1,2), 0, 1) == vec2i(1,1));
         STATIC_REQUIRE(clamp(vec2i(1,2), vec2i(0), vec2i(1)) == vec2i(1,1));
 
+        STATIC_REQUIRE(saturate(vec3f(-1.f,0.5,1.5f)) == approx3(0.f,0.5f,1.f));
+
         STATIC_REQUIRE(mix(vec2f(0.f), vec2f(10.f), 0.5f) == approx2(5.f));
         STATIC_REQUIRE(mix(vec2f(0.f), vec2f(10.f), vec2f(0.5f)) == approx2(5.f));
 

@@ -86,6 +86,10 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(clamp(2.5f, 2.f, 3.f) == approx(2.5f));
         STATIC_REQUIRE(clamp(3.5f, 2.f, 3.f) == approx(3.0f));
 
+        STATIC_REQUIRE(saturate(-0.5f) == approx(0.f));
+        STATIC_REQUIRE(saturate(0.5f) == approx(0.5f));
+        STATIC_REQUIRE(saturate(1.5f) == approx(1.f));
+
         STATIC_REQUIRE(mix(0.f, 10.f, 0.5f) == approx(5.f));
         STATIC_REQUIRE(mix(0.f, 10.f, false) == approx(0.f));
         STATIC_REQUIRE(mix(0.f, 10.f, true) == approx(10.f));

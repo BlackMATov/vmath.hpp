@@ -457,6 +457,11 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
+    constexpr vec<T, Size> saturate(const vec<T, Size>& xs) {
+        return map([](T x) { return saturate(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
     constexpr vec<T, Size> mix(const vec<T, Size>& xs, const vec<T, Size>& ys, T a) {
         return zip([a](T x, T y) { return mix(x, y, a); }, xs, ys);
     }

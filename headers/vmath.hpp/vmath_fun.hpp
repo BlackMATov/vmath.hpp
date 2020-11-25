@@ -96,6 +96,11 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    constexpr T saturate(T x) noexcept {
+        return clamp(x, T(0), T(1));
+    }
+
+    template < typename T >
     constexpr T mix(T x, T y, T a) noexcept {
         return x * (T(1) - a) + y * a;
     }
