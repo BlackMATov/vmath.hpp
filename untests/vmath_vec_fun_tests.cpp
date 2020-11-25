@@ -4,7 +4,7 @@
  * Copyright (C) 2020, by Matvey Cherevko (blackmatov@gmail.com)
  ******************************************************************************/
 
-#include <vmath.hpp/vmath_vec_fun.hpp>
+#include <vmath.hpp/vmath_ext.hpp>
 
 #define CATCH_CONFIG_FAST_COMPILE
 #include <catch2/catch.hpp>
