@@ -88,23 +88,23 @@ TEST_CASE("vmath/mat_fun") {
 
         {
             float4 v{0.f, 0.f, 0.f, 1.f};
-            REQUIRE(&v == &(v *= translate(1.f,2.f,3.f)));
+            REQUIRE(&v == &(v *= translate(float3{1.f,2.f,3.f})));
             REQUIRE(v == approx4(1.f,2.f,3.f,1.f));
         }
         {
             float3 v{1.f, 2.f, 3.f};
-            REQUIRE(&v == &(v *= float3x3(scale(2.f,3.f,4.f))));
+            REQUIRE(&v == &(v *= float3x3(scale(float3{2.f,3.f,4.f}))));
             REQUIRE(v == approx3(2.f,6.f,12.f));
         }
         {
-            float4x4 v = translate(1.f, 2.f, 3.f);
-            REQUIRE(&v == &(v *= translate(1.f,2.f,3.f)));
-            REQUIRE(v == approx4x4(translate(2.f,4.f,6.f)));
+            float4x4 v = translate(float3{1.f, 2.f, 3.f});
+            REQUIRE(&v == &(v *= translate(float3{1.f,2.f,3.f})));
+            REQUIRE(v == approx4x4(translate(float3{2.f,4.f,6.f})));
         }
         {
-            float3x3 v = float3x3(scale(1.f, 2.f, 3.f));
-            REQUIRE(&v == &(v *= float3x3(scale(2.f,3.f,4.f))));
-            REQUIRE(v == approx3x3(float3x3(scale(2.f,6.f,12.f))));
+            float3x3 v = float3x3(scale(float3{1.f, 2.f, 3.f}));
+            REQUIRE(&v == &(v *= float3x3(scale(float3{2.f,3.f,4.f}))));
+            REQUIRE(v == approx3x3(float3x3(scale(float3{2.f,6.f,12.f}))));
         }
     }
 
@@ -165,7 +165,7 @@ TEST_CASE("vmath/mat_fun") {
             STATIC_REQUIRE(inverse(float3x3(0.5)) == float3x3(2.f));
             STATIC_REQUIRE(inverse(float4x4(0.5)) == float4x4(2.f));
 
-            STATIC_REQUIRE(inverse(translate(1.f,2.f,3.f)) == approx4x4(translate(-1.f,-2.f,-3.f)));
+            STATIC_REQUIRE(inverse(translate(float3{1.f,2.f,3.f})) == approx4x4(translate(float3{-1.f,-2.f,-3.f})));
 
             REQUIRE(inverse(rotate(0.5f,normalize(float3{1.f,2.f,3.f}))) == approx4x4(rotate(-0.5f,normalize(float3{1.f,2.f,3.f}))));
             REQUIRE(inverse(float3x3(rotate(0.5f,normalize(float3{1.f,2.f,3.f})))) == approx3x3(float3x3(rotate(-0.5f,normalize(float3{1.f,2.f,3.f})))));

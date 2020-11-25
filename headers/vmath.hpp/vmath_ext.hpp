@@ -181,36 +181,26 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
-    constexpr mat<T, 4> translate(T x, T y, T z) {
+    constexpr mat<T, 4> translate(const vec<T, 3>& v) {
         return {
-            {1, 0, 0, 0},
-            {0, 1, 0, 0},
-            {0, 0, 1, 0},
-            {x, y, z, 1}};
+            { 1,   0,   0,  0},
+            { 0,   1,   0,  0},
+            { 0,   0,   1,  0},
+            {v.x, v.y, v.z, 1}};
     }
 
     template < typename T >
-    constexpr mat<T, 4> translate(const vec<T, 3>& xyz) {
-        return translate(xyz.x, xyz.y, xyz.z);
-    }
-
-    template < typename T >
-    constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z) {
-        return m * translate(x, y, z);
-    }
-
-    template < typename T >
-    constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& xyz) {
-        return m * translate(xyz);
+    constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v) {
+        return m * translate(v);
     }
 
     // rotate
 
     template < typename T >
-    mat<T, 4> rotate(T angle, T axis_x, T axis_y, T axis_z) {
-        const T x = axis_x;
-        const T y = axis_y;
-        const T z = axis_z;
+    mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
+        const T x = axis.x;
+        const T y = axis.y;
+        const T z = axis.z;
         const T px = x * x;
         const T py = y * y;
         const T pz = z * z;
@@ -231,16 +221,6 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
-        return rotate(angle, axis.x, axis.y, axis.z);
-    }
-
-    template < typename T >
-    mat<T, 4> rotate(const mat<T, 4>& m, T angle, T axis_x, T axis_y, T axis_z) {
-        return m * rotate(angle, axis_x, axis_y, axis_z);
-    }
-
-    template < typename T >
     mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
         return m * rotate(angle, axis);
     }
@@ -248,27 +228,49 @@ namespace vmath_hpp
     // scale
 
     template < typename T >
-    constexpr mat<T, 4> scale(T x, T y, T z) {
+    constexpr mat<T, 4> scale(const vec<T, 3>& v) {
         return {
-            {x, 0, 0, 0},
-            {0, y, 0, 0},
-            {0, 0, z, 0},
-            {0, 0, 0, 1}};
+            {v.x,   0,    0,  0},
+            { 0,   v.y,   0,  0},
+            { 0,    0,   v.z, 0},
+            { 0,    0,    0,  1}};
     }
 
     template < typename T >
-    constexpr mat<T, 4> scale(const vec<T, 3>& xyz) {
-        return scale(xyz.x, xyz.y, xyz.z);
+    constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v) {
+        return m * scale(v);
+    }
+
+    // look_at
+
+    template < typename T >
+    constexpr mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+        const vec<T, 3> az = normalize(at - eye);
+        const vec<T, 3> ax = normalize(cross(up, az));
+        const vec<T, 3> ay = cross(az, ax);
+        const T dx = dot(ax, eye);
+        const T dy = dot(ay, eye);
+        const T dz = dot(az, eye);
+        return {
+            ax.x, ay.x, az.x, 0,
+            ax.y, ay.y, az.y, 0,
+            ax.z, ay.z, az.z, 0,
+            -dx,  -dy,  -dz,  1};
     }
 
     template < typename T >
-    constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z) {
-        return m * scale(x, y, z);
-    }
-
-    template < typename T >
-    constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& xyz) {
-        return m * scale(xyz);
+    constexpr mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+        const vec<T, 3> az = normalize(eye - at);
+        const vec<T, 3> ax = normalize(cross(up, az));
+        const vec<T, 3> ay = cross(az, ax);
+        const T dx = dot(ax, eye);
+        const T dy = dot(ay, eye);
+        const T dz = dot(az, eye);
+        return {
+            ax.x, ay.x, az.x, 0,
+            ax.y, ay.y, az.y, 0,
+            ax.z, ay.z, az.z, 0,
+            -dx,  -dy,  -dz,  1};
     }
 }
 
