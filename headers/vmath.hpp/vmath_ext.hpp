@@ -244,7 +244,7 @@ namespace vmath_hpp
     // look_at
 
     template < typename T >
-    constexpr mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+    mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
         const vec<T, 3> az = normalize(at - eye);
         const vec<T, 3> ax = normalize(cross(up, az));
         const vec<T, 3> ay = cross(az, ax);
@@ -259,7 +259,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+    mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
         const vec<T, 3> az = normalize(eye - at);
         const vec<T, 3> ax = normalize(cross(up, az));
         const vec<T, 3> ay = cross(az, ax);
@@ -271,6 +271,137 @@ namespace vmath_hpp
             ax.y, ay.y, az.y, 0,
             ax.z, ay.z, az.z, 0,
             -dx,  -dy,  -dz,  1};
+    }
+}
+
+//
+// Matrix Projections
+//
+
+namespace vmath_hpp
+{
+    // orthographic
+
+    template < typename T >
+    mat<T, 4> orthographic_lh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
+        const T sx = T(2) / (right - left);
+        const T sy = T(2) / (top - bottom);
+        const T sz = T(1) / (zfar - znear);
+
+        const T tx = - (right + left) / (right - left);
+        const T ty = - (top + bottom) / (top - bottom);
+        const T tz = - znear / (zfar - znear);
+
+        return {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, 0,
+            tx, ty, tz, 1};
+    }
+
+    template < typename T >
+    mat<T, 4> orthographic_lh_no(T left, T right, T bottom, T top, T znear, T zfar) {
+        const T sx = T(2) / (right - left);
+        const T sy = T(2) / (top - bottom);
+        const T sz = T(2) / (zfar - znear);
+
+        const T tx = - (right + left) / (right - left);
+        const T ty = - (top + bottom) / (top - bottom);
+        const T tz = - (zfar + znear) / (zfar - znear);
+
+        return {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, 0,
+            tx, ty, tz, 1};
+    }
+
+    template < typename T >
+    mat<T, 4> orthographic_rh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
+        const T sx = T(2) / (right - left);
+        const T sy = T(2) / (top - bottom);
+        const T sz = -T(1) / (zfar - znear);
+
+        const T tx = - (right + left) / (right - left);
+        const T ty = - (top + bottom) / (top - bottom);
+        const T tz = - znear / (zfar - znear);
+
+        return {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, 0,
+            tx, ty, tz, 1};
+    }
+
+    template < typename T >
+    mat<T, 4> orthographic_rh_no(T left, T right, T bottom, T top, T znear, T zfar) {
+        const T sx = T(2) / (right - left);
+        const T sy = T(2) / (top - bottom);
+        const T sz = -T(2) / (zfar - znear);
+
+        const T tx = - (right + left) / (right - left);
+        const T ty = - (top + bottom) / (top - bottom);
+        const T tz = - (zfar + znear) / (zfar - znear);
+
+        return {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, 0,
+            tx, ty, tz, 1};
+    }
+
+    // perspective
+
+    template < typename T >
+    mat<T, 4> perspective_lh_zo(T fov, T aspect, T znear, T zfar) {
+        const T sy = T(1) / tan(fov * T(0.5));
+        const T sx = sy / aspect;
+        const T sz = zfar / (zfar - znear);
+        const T tz = (znear * zfar) / (znear - zfar);
+        return {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, 1,
+            0,  0,  tz, 0};
+    }
+
+    template < typename T >
+    mat<T, 4> perspective_lh_no(T fov, T aspect, T znear, T zfar) {
+        const T sy = T(1) / tan(fov * T(0.5));
+        const T sx = sy / aspect;
+        const T sz = (zfar + znear) / (zfar - znear);
+        const T tz = (T(2) * znear * zfar) / (znear - zfar);
+        return {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, 1,
+            0,  0,  tz, 0};
+    }
+
+    template < typename T >
+    mat<T, 4> perspective_rh_zo(T fov, T aspect, T znear, T zfar) {
+        const T sy = T(1) / tan(fov * T(0.5));
+        const T sx = sy / aspect;
+        const T sz = zfar / (znear - zfar);
+        const T tz = (znear * zfar) / (znear - zfar);
+        return  {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, -1,
+            0,  0,  tz, 0};
+    }
+
+    template < typename T >
+    mat<T, 4> perspective_rh_no(T fov, T aspect, T znear, T zfar) {
+        const T sy = T(1) / tan(fov * T(0.5));
+        const T sx = sy / aspect;
+        const T sz = (zfar + znear) / (znear - zfar);
+        const T tz = (T(2) * znear * zfar) / (znear - zfar);
+        return  {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, -1,
+            0,  0,  tz, 0};
     }
 }
 

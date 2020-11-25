@@ -134,6 +134,16 @@ TEST_CASE("vmath/ext") {
     SECTION("matrix look_at") {
         look_at_lh(float3(-10.f), float3(0.f), float3(0,-1,0));
         look_at_rh(float3(-10.f), float3(0.f), float3(0,-1,0));
+
+        orthographic_lh_zo(0.f, 800.f, 0.f, 640.f, 0.f, 10.f);
+        orthographic_lh_no(0.f, 800.f, 0.f, 640.f, 0.f, 10.f);
+        orthographic_rh_zo(0.f, 800.f, 0.f, 640.f, 0.f, 10.f);
+        orthographic_rh_no(0.f, 800.f, 0.f, 640.f, 0.f, 10.f);
+
+        perspective_lh_zo(1.f, 1.3f, 0.f, 10.f);
+        perspective_lh_no(1.f, 1.3f, 0.f, 10.f);
+        perspective_rh_zo(1.f, 1.3f, 0.f, 10.f);
+        perspective_rh_no(1.f, 1.3f, 0.f, 10.f);
     }
 
     SECTION("vector angle") {
