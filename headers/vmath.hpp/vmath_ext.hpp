@@ -6,10 +6,14 @@
 
 #pragma once
 
+#include "vmath_fwd.hpp"
+
 #include "vmath_fun.hpp"
-#include "vmath_mat.hpp"
-#include "vmath_mat_fun.hpp"
-#include "vmath_mat_ext.hpp"
-#include "vmath_vec.hpp"
-#include "vmath_vec_fun.hpp"
-#include "vmath_vec_ext.hpp"
+
+namespace vmath_hpp
+{
+    template < typename To, typename From >
+    constexpr To cast_to(From x) noexcept {
+        return static_cast<To>(x);
+    }
+}

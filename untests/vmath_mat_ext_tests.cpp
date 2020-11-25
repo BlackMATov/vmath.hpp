@@ -18,6 +18,12 @@ namespace
 }
 
 TEST_CASE("vmath/mat_ext") {
+    SECTION("cast_to") {
+        constexpr auto m = cast_to<int>(mat2f{1.5f});
+        STATIC_REQUIRE(m == mat2i(1));
+        STATIC_REQUIRE(std::is_same_v<decltype(m)::row_type, vec2i>);
+    }
+
     SECTION("identity") {
         STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * identity<float>() == approx4(2.f,3.f,4.f,1.f));
         STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * identity<float>() == approx4(2.f,3.f,4.f,1.f));
