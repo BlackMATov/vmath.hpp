@@ -41,6 +41,10 @@ namespace vmath_hpp
     using vec2u = vec<unsigned, 2>;
     using vec3u = vec<unsigned, 3>;
     using vec4u = vec<unsigned, 4>;
+
+    using vec2z = vec<std::size_t, 2>;
+    using vec3z = vec<std::size_t, 3>;
+    using vec4z = vec<std::size_t, 4>;
 }
 
 namespace vmath_hpp
@@ -67,4 +71,8 @@ namespace vmath_hpp
     using mat2u = mat<unsigned, 2>;
     using mat3u = mat<unsigned, 3>;
     using mat4u = mat<unsigned, 4>;
+
+    using mat2z = mat<std::size_t, 2>;
+    using mat3z = mat<std::size_t, 3>;
+    using mat4z = mat<std::size_t, 4>;
 }
