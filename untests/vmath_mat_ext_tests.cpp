@@ -18,6 +18,11 @@ namespace
 }
 
 TEST_CASE("vmath/mat_ext") {
+    SECTION("hash") {
+        REQUIRE(std::hash<mat2i>{}({1,2,3,4}) == std::hash<mat2i>{}({1,2,3,4}));
+        REQUIRE_FALSE(std::hash<mat2i>{}({1,2,3,4}) == std::hash<mat2i>{}({1,2,4,3}));
+    }
+
     SECTION("cast_to") {
         constexpr auto m = cast_to<int>(mat2f{1.5f});
         STATIC_REQUIRE(m == mat2i(1));

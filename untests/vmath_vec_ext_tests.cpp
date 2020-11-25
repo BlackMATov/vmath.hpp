@@ -18,6 +18,17 @@ namespace
 }
 
 TEST_CASE("vmath/vec_ext") {
+    SECTION("hash") {
+        REQUIRE(std::hash<vec2i>{}({1,2}) == std::hash<vec2i>{}({1,2}));
+        REQUIRE_FALSE(std::hash<vec2i>{}({1,2}) == std::hash<vec2i>{}({2,1}));
+
+        REQUIRE(std::hash<vec3i>{}({1,2,3}) == std::hash<vec3i>{}({1,2,3}));
+        REQUIRE_FALSE(std::hash<vec3i>{}({1,2,3}) == std::hash<vec3i>{}({3,2,1}));
+
+        REQUIRE(std::hash<vec4i>{}({1,2,3,4}) == std::hash<vec4i>{}({1,2,3,4}));
+        REQUIRE_FALSE(std::hash<vec4i>{}({1,2,3,4}) == std::hash<vec4i>{}({3,2,1,4}));
+    }
+
     SECTION("cast_to") {
         constexpr auto v = cast_to<int>(vec2f{1.5f});
         STATIC_REQUIRE(v == vec2i(1));

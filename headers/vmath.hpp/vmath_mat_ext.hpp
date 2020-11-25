@@ -18,6 +18,16 @@
 #include "vmath_mat.hpp"
 #include "vmath_mat_fun.hpp"
 
+namespace std
+{
+    template < typename T, size_t Size >
+    struct hash<vmath_hpp::mat<T, Size>> {
+        size_t operator()(const vmath_hpp::mat<T, Size>& m) const noexcept {
+            return vmath_hpp::detail::fold(vmath_hpp::detail::hash_combiner{}, size_t{}, m);
+        }
+    };
+}
+
 namespace vmath_hpp
 {
     // cast_to

@@ -14,6 +14,16 @@
 #include "vmath_vec.hpp"
 #include "vmath_vec_fun.hpp"
 
+namespace std
+{
+    template < typename T, size_t Size >
+    struct hash<vmath_hpp::vec<T, Size>> {
+        size_t operator()(const vmath_hpp::vec<T, Size>& v) const noexcept {
+            return vmath_hpp::detail::fold(vmath_hpp::detail::hash_combiner{}, size_t{}, v);
+        }
+    };
+}
+
 namespace vmath_hpp
 {
     // cast_to
