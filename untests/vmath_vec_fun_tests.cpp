@@ -128,14 +128,8 @@ TEST_CASE("vmath/vec_fun") {
 
         STATIC_REQUIRE(saturate(vec3f(-1.f,0.5,1.5f)) == approx3(0.f,0.5f,1.f));
 
-        STATIC_REQUIRE(mix(vec2f(0.f), vec2f(10.f), 0.5f) == approx2(5.f));
-        STATIC_REQUIRE(mix(vec2f(0.f), vec2f(10.f), vec2f(0.5f)) == approx2(5.f));
-
-        STATIC_REQUIRE(mix(vec2f(0.f), vec2f(10.f), true) == approx2(10.f));
-        STATIC_REQUIRE(mix(vec2f(0.f), vec2f(10.f), false) == approx2(0.f));
-
-        STATIC_REQUIRE(mix(vec2f(0.f,5.f), vec2f(10.f,20.f), vec2f(true,false)) == approx2(10.f, 5.f));
-        STATIC_REQUIRE(mix(vec2f(0.f,5.f), vec2f(10.f,20.f), vec2f(true,false)) == approx2(10.f, 5.f));
+        STATIC_REQUIRE(lerp(vec2f(0.f), vec2f(10.f), 0.5f) == approx2(5.f));
+        STATIC_REQUIRE(lerp(vec2f(0.f), vec2f(10.f), vec2f(0.5f)) == approx2(5.f));
 
         STATIC_REQUIRE(step(0.5f, vec2f(0.4f)) == approx2(0.f));
         STATIC_REQUIRE(step(0.5f, vec2f(0.6f)) == approx2(1.f));

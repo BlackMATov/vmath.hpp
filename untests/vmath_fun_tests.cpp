@@ -90,9 +90,7 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(saturate(0.5f) == approx(0.5f));
         STATIC_REQUIRE(saturate(1.5f) == approx(1.f));
 
-        STATIC_REQUIRE(mix(0.f, 10.f, 0.5f) == approx(5.f));
-        STATIC_REQUIRE(mix(0.f, 10.f, false) == approx(0.f));
-        STATIC_REQUIRE(mix(0.f, 10.f, true) == approx(10.f));
+        STATIC_REQUIRE(lerp(0.f, 10.f, 0.5f) == approx(5.f));
         STATIC_REQUIRE(step(0.5f, 0.4f) == approx(0.f));
         STATIC_REQUIRE(step(0.5f, 0.6f) == approx(1.f));
         STATIC_REQUIRE(smoothstep(0.f, 1.f, 0.1f) == approx(0.028f));

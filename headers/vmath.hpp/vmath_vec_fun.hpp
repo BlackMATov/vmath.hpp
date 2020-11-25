@@ -462,23 +462,13 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<T, Size> mix(const vec<T, Size>& xs, const vec<T, Size>& ys, T a) {
-        return zip([a](T x, T y) { return mix(x, y, a); }, xs, ys);
+    constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, T a) {
+        return zip([a](T x, T y) { return lerp(x, y, a); }, xs, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<T, Size> mix(const vec<T, Size>& xs, const vec<T, Size>& ys, bool a) {
-        return zip([a](T x, T y) { return mix(x, y, a); }, xs, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    constexpr vec<T, Size> mix(const vec<T, Size>& xs, const vec<T, Size>& ys, const vec<T, Size>& as) {
-        return zip([](T x, T y, T a) { return mix(x, y, a); }, xs, ys, as);
-    }
-
-    template < typename T, std::size_t Size >
-    constexpr vec<T, Size> mix(const vec<T, Size>& xs, const vec<T, Size>& ys, const vec<bool, Size>& as) {
-        return zip([](T x, T y, bool a) { return mix(x, y, a); }, xs, ys, as);
+    constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, const vec<T, Size>& as) {
+        return zip([](T x, T y, T a) { return lerp(x, y, a); }, xs, ys, as);
     }
 
     template < typename T, std::size_t Size >

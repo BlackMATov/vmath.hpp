@@ -101,13 +101,8 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr T mix(T x, T y, T a) noexcept {
+    constexpr T lerp(T x, T y, T a) noexcept {
         return x * (T(1) - a) + y * a;
-    }
-
-    template < typename T >
-    constexpr T mix(T x, T y, bool a) noexcept {
-        return a ? y : x;
     }
 
     template < typename T >
