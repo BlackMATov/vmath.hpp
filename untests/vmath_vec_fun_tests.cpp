@@ -19,189 +19,189 @@ namespace
 
 TEST_CASE("vmath/vec_fun") {
     SECTION("Operators") {
-        STATIC_REQUIRE(-vec2i(1,-2) == vec2i(-1,2));
+        STATIC_REQUIRE(-int2(1,-2) == int2(-1,2));
 
-        STATIC_REQUIRE(vec2i(1,2) + 3 == vec2i(4,5));
-        STATIC_REQUIRE(vec2i(1,2) - 3 == vec2i(-2,-1));
-        STATIC_REQUIRE(vec2i(1,2) * 3 == vec2i(3,6));
-        STATIC_REQUIRE(vec2i(2,4) / 2 == vec2i(1,2));
+        STATIC_REQUIRE(int2(1,2) + 3 == int2(4,5));
+        STATIC_REQUIRE(int2(1,2) - 3 == int2(-2,-1));
+        STATIC_REQUIRE(int2(1,2) * 3 == int2(3,6));
+        STATIC_REQUIRE(int2(2,4) / 2 == int2(1,2));
 
-        STATIC_REQUIRE(3 + vec2i(1,2) == vec2i(4,5));
-        STATIC_REQUIRE(3 - vec2i(1,2) == vec2i(2,1));
-        STATIC_REQUIRE(3 * vec2i(1,2) == vec2i(3,6));
-        STATIC_REQUIRE(4 / vec2i(2,4) == vec2i(2,1));
+        STATIC_REQUIRE(3 + int2(1,2) == int2(4,5));
+        STATIC_REQUIRE(3 - int2(1,2) == int2(2,1));
+        STATIC_REQUIRE(3 * int2(1,2) == int2(3,6));
+        STATIC_REQUIRE(4 / int2(2,4) == int2(2,1));
 
-        STATIC_REQUIRE(vec2i(1,2) + vec2i(3,4) == vec2i(4,6));
-        STATIC_REQUIRE(vec2i(1,2) - vec2i(3,4) == vec2i(-2,-2));
-        STATIC_REQUIRE(vec2i(1,2) * vec2i(3,4) == vec2i(3,8));
-        STATIC_REQUIRE(vec2i(3,4) / vec2i(1,2) == vec2i(3,2));
+        STATIC_REQUIRE(int2(1,2) + int2(3,4) == int2(4,6));
+        STATIC_REQUIRE(int2(1,2) - int2(3,4) == int2(-2,-2));
+        STATIC_REQUIRE(int2(1,2) * int2(3,4) == int2(3,8));
+        STATIC_REQUIRE(int2(3,4) / int2(1,2) == int2(3,2));
 
         {
-            vec2i v{1,2};
+            int2 v{1,2};
             REQUIRE(&v == &(v += 3));
-            REQUIRE(v == vec2i{4,5});
-            REQUIRE(&v == &(v += vec2i{1,2}));
-            REQUIRE(v == vec2i{5,7});
+            REQUIRE(v == int2{4,5});
+            REQUIRE(&v == &(v += int2{1,2}));
+            REQUIRE(v == int2{5,7});
         }
         {
-            vec2i v{4,5};
+            int2 v{4,5};
             REQUIRE(&v == &(v -= 3));
-            REQUIRE(v == vec2i{1,2});
-            REQUIRE(&v == &(v -= vec2i{2,4}));
-            REQUIRE(v == vec2i{-1,-2});
+            REQUIRE(v == int2{1,2});
+            REQUIRE(&v == &(v -= int2{2,4}));
+            REQUIRE(v == int2{-1,-2});
         }
         {
-            vec2i v{1,2};
+            int2 v{1,2};
             REQUIRE(&v == &(v *= 3));
-            REQUIRE(v == vec2i{3,6});
-            REQUIRE(&v == &(v *= vec2i{2,3}));
-            REQUIRE(v == vec2i{6,18});
+            REQUIRE(v == int2{3,6});
+            REQUIRE(&v == &(v *= int2{2,3}));
+            REQUIRE(v == int2{6,18});
         }
         {
-            vec2i v{6,18};
+            int2 v{6,18};
             REQUIRE(&v == &(v /= 2));
-            REQUIRE(v == vec2i{3,9});
-            REQUIRE(&v == &(v /= vec2i{3,4}));
-            REQUIRE(v == vec2i{1,2});
+            REQUIRE(v == int2{3,9});
+            REQUIRE(&v == &(v /= int2{3,4}));
+            REQUIRE(v == int2{1,2});
         }
     }
 
     SECTION("Angle and Trigonometry Functions") {
-        STATIC_REQUIRE(radians(degrees(vec2f(12.13f))) == approx2(12.13f));
-        STATIC_REQUIRE(degrees(radians(vec2f(12.13f))) == approx2(12.13f));
+        STATIC_REQUIRE(radians(degrees(float2(12.13f))) == approx2(12.13f));
+        STATIC_REQUIRE(degrees(radians(float2(12.13f))) == approx2(12.13f));
 
-        (void)sin(vec2f(1.f));
-        (void)cos(vec2f(1.f));
-        (void)tan(vec2f(1.f));
+        (void)sin(float2(1.f));
+        (void)cos(float2(1.f));
+        (void)tan(float2(1.f));
 
-        (void)asin(vec2f(1.f));
-        (void)acos(vec2f(1.f));
-        (void)atan(vec2f(1.f));
-        (void)atan2(vec2f(1.f), vec2f(1.f));
+        (void)asin(float2(1.f));
+        (void)acos(float2(1.f));
+        (void)atan(float2(1.f));
+        (void)atan2(float2(1.f), float2(1.f));
 
-        (void)sinh(vec2f(1.f));
-        (void)cosh(vec2f(1.f));
-        (void)tanh(vec2f(1.f));
+        (void)sinh(float2(1.f));
+        (void)cosh(float2(1.f));
+        (void)tanh(float2(1.f));
 
-        (void)asinh(vec2f(1.f));
-        (void)acosh(vec2f(1.f));
-        (void)atanh(vec2f(1.f));
+        (void)asinh(float2(1.f));
+        (void)acosh(float2(1.f));
+        (void)atanh(float2(1.f));
     }
 
     SECTION("Exponential Functions") {
-        (void)pow(vec2f(1.f), vec2f(2.f));
-        (void)exp(vec2f(1.f));
-        (void)log(vec2f(1.f));
-        (void)exp2(vec2f(1.f));
-        (void)log2(vec2f(1.f));
-        (void)sqrt(vec2f(1.f));
-        (void)invsqrt(vec2f(1.f));
+        (void)pow(float2(1.f), float2(2.f));
+        (void)exp(float2(1.f));
+        (void)log(float2(1.f));
+        (void)exp2(float2(1.f));
+        (void)log2(float2(1.f));
+        (void)sqrt(float2(1.f));
+        (void)invsqrt(float2(1.f));
     }
 
     SECTION("Common Functions") {
-        REQUIRE(abs(vec2f(1.f, -1.f)) == approx2(1.f,1.f));
-        REQUIRE(sign(vec3f(1.f, -1.f, 0.f)) == approx3(1.f,-1.f,0.f));
+        REQUIRE(abs(float2(1.f, -1.f)) == approx2(1.f,1.f));
+        REQUIRE(sign(float3(1.f, -1.f, 0.f)) == approx3(1.f,-1.f,0.f));
 
-        (void)floor(vec2f(1.f, -1.f));
-        (void)trunc(vec2f(1.f, -1.f));
-        (void)round(vec2f(1.f, -1.f));
-        (void)ceil(vec2f(1.f, -1.f));
-        (void)fract(vec2f(1.f, -1.f));
+        (void)floor(float2(1.f, -1.f));
+        (void)trunc(float2(1.f, -1.f));
+        (void)round(float2(1.f, -1.f));
+        (void)ceil(float2(1.f, -1.f));
+        (void)fract(float2(1.f, -1.f));
 
-        REQUIRE(fmod(vec2f(1.7f), 1.2f) == approx2(0.5f));
-        REQUIRE(fmod(vec2f(1.7f), vec2f(1.2f)) == approx2(0.5f));
+        REQUIRE(fmod(float2(1.7f), 1.2f) == approx2(0.5f));
+        REQUIRE(fmod(float2(1.7f), float2(1.2f)) == approx2(0.5f));
 
         {
-            vec2f out_i{};
-            REQUIRE(modf(vec2f(1.7f), &out_i) == approx2(0.7f));
+            float2 out_i{};
+            REQUIRE(modf(float2(1.7f), &out_i) == approx2(0.7f));
             REQUIRE(out_i.x == Approx(1.f));
         }
 
-        STATIC_REQUIRE(min(vec2i(1,2)) == 1);
-        STATIC_REQUIRE(min(vec2i(1,2), 1) == vec2i(1,1));
-        STATIC_REQUIRE(min(vec2i(1,1), vec2i(0,2)) == vec2i(0,1));
+        STATIC_REQUIRE(min(int2(1,2)) == 1);
+        STATIC_REQUIRE(min(int2(1,2), 1) == int2(1,1));
+        STATIC_REQUIRE(min(int2(1,1), int2(0,2)) == int2(0,1));
 
-        STATIC_REQUIRE(max(vec2i(1,2)) == 2);
-        STATIC_REQUIRE(max(vec2i(1,2), 1) == vec2i(1,2));
-        STATIC_REQUIRE(max(vec2i(1,1), vec2i(0,2)) == vec2i(1,2));
+        STATIC_REQUIRE(max(int2(1,2)) == 2);
+        STATIC_REQUIRE(max(int2(1,2), 1) == int2(1,2));
+        STATIC_REQUIRE(max(int2(1,1), int2(0,2)) == int2(1,2));
 
-        STATIC_REQUIRE(clamp(vec2i(1,2), 0, 1) == vec2i(1,1));
-        STATIC_REQUIRE(clamp(vec2i(1,2), vec2i(0), vec2i(1)) == vec2i(1,1));
+        STATIC_REQUIRE(clamp(int2(1,2), 0, 1) == int2(1,1));
+        STATIC_REQUIRE(clamp(int2(1,2), int2(0), int2(1)) == int2(1,1));
 
-        STATIC_REQUIRE(saturate(vec3f(-1.f,0.5,1.5f)) == approx3(0.f,0.5f,1.f));
+        STATIC_REQUIRE(saturate(float3(-1.f,0.5,1.5f)) == approx3(0.f,0.5f,1.f));
 
-        STATIC_REQUIRE(lerp(vec2f(0.f), vec2f(10.f), 0.5f) == approx2(5.f));
-        STATIC_REQUIRE(lerp(vec2f(0.f), vec2f(10.f), vec2f(0.5f)) == approx2(5.f));
+        STATIC_REQUIRE(lerp(float2(0.f), float2(10.f), 0.5f) == approx2(5.f));
+        STATIC_REQUIRE(lerp(float2(0.f), float2(10.f), float2(0.5f)) == approx2(5.f));
 
-        STATIC_REQUIRE(step(0.5f, vec2f(0.4f)) == approx2(0.f));
-        STATIC_REQUIRE(step(0.5f, vec2f(0.6f)) == approx2(1.f));
-        STATIC_REQUIRE(step(vec2f(0.5f), vec2f(0.4f)) == approx2(0.f));
-        STATIC_REQUIRE(step(vec2f(0.5f), vec2f(0.6f)) == approx2(1.f));
+        STATIC_REQUIRE(step(0.5f, float2(0.4f)) == approx2(0.f));
+        STATIC_REQUIRE(step(0.5f, float2(0.6f)) == approx2(1.f));
+        STATIC_REQUIRE(step(float2(0.5f), float2(0.4f)) == approx2(0.f));
+        STATIC_REQUIRE(step(float2(0.5f), float2(0.6f)) == approx2(1.f));
 
-        STATIC_REQUIRE(smoothstep(0.f, 1.f, vec2f(0.1f)) == approx2(0.028f));
-        STATIC_REQUIRE(smoothstep(vec2f(0.f), vec2f(1.f), vec2f(0.1f)) == approx2(0.028f));
+        STATIC_REQUIRE(smoothstep(0.f, 1.f, float2(0.1f)) == approx2(0.028f));
+        STATIC_REQUIRE(smoothstep(float2(0.f), float2(1.f), float2(0.1f)) == approx2(0.028f));
 
-        REQUIRE_FALSE(isnan(vec2f(1.f)).x);
-        REQUIRE_FALSE(isinf(vec2f(1.f)).x);
-        REQUIRE(isfinite(vec2f(1.f)).x);
+        REQUIRE_FALSE(isnan(float2(1.f)).x);
+        REQUIRE_FALSE(isinf(float2(1.f)).x);
+        REQUIRE(isfinite(float2(1.f)).x);
 
-        REQUIRE_FALSE(fma(vec2f(2.f), vec2f(3.f), vec2f(4.f)).x == Approx(12.f));
+        REQUIRE_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == Approx(12.f));
 
         {
-            vec2i out_exp{};
-            REQUIRE(frexp(vec2f(1.7f), &out_exp).x == Approx(0.85f));
-            REQUIRE(out_exp == vec2i(1));
+            int2 out_exp{};
+            REQUIRE(frexp(float2(1.7f), &out_exp).x == Approx(0.85f));
+            REQUIRE(out_exp == int2(1));
         }
 
-        REQUIRE(ldexp(vec2f(0.85f), vec2i(1)).x == Approx(1.7f));
+        REQUIRE(ldexp(float2(0.85f), int2(1)).x == Approx(1.7f));
     }
 
     SECTION("Geometric Functions") {
-        REQUIRE(length(vec2f(10.f,0.f)) == Approx(10.f));
-        REQUIRE(length(vec2f(-10.f,0.f)) == Approx(10.f));
+        REQUIRE(length(float2(10.f,0.f)) == Approx(10.f));
+        REQUIRE(length(float2(-10.f,0.f)) == Approx(10.f));
 
-        STATIC_REQUIRE(length2(vec2f(10.f,0.f)) == approx(100.f));
-        STATIC_REQUIRE(length2(vec2f(-10.f,0.f)) == approx(100.f));
+        STATIC_REQUIRE(length2(float2(10.f,0.f)) == approx(100.f));
+        STATIC_REQUIRE(length2(float2(-10.f,0.f)) == approx(100.f));
 
-        REQUIRE(distance(vec2f(5.f,0.f), vec2f(10.f,0.f)) == Approx(5.f));
-        REQUIRE(distance(vec2f(-5.f,0.f), vec2f(-10.f,0.f)) == Approx(5.f));
+        REQUIRE(distance(float2(5.f,0.f), float2(10.f,0.f)) == Approx(5.f));
+        REQUIRE(distance(float2(-5.f,0.f), float2(-10.f,0.f)) == Approx(5.f));
 
-        STATIC_REQUIRE(distance2(vec2f(5.f,0.f), vec2f(10.f,0.f)) == approx(25.f));
-        STATIC_REQUIRE(distance2(vec2f(-5.f,0.f), vec2f(-10.f,0.f)) == approx(25.f));
+        STATIC_REQUIRE(distance2(float2(5.f,0.f), float2(10.f,0.f)) == approx(25.f));
+        STATIC_REQUIRE(distance2(float2(-5.f,0.f), float2(-10.f,0.f)) == approx(25.f));
 
-        STATIC_REQUIRE(dot(vec2i(1,2),vec2i(3,4)) == 11);
-        STATIC_REQUIRE(cross(vec2i(1,0),vec2i(0,1)) == 1);
-        STATIC_REQUIRE(cross(vec3i(1,0,0),vec3i(0,1,0)) == vec3i(0,0,1));
-        REQUIRE(normalize(vec2f(0.5f,0.f)).x == Approx(1.f));
+        STATIC_REQUIRE(dot(int2(1,2),int2(3,4)) == 11);
+        STATIC_REQUIRE(cross(int2(1,0),int2(0,1)) == 1);
+        STATIC_REQUIRE(cross(int3(1,0,0),int3(0,1,0)) == int3(0,0,1));
+        REQUIRE(normalize(float2(0.5f,0.f)).x == Approx(1.f));
 
-        STATIC_REQUIRE(faceforward(vec2f(1.f), vec2f(2.f), vec2f(3.f)).x == approx(-1.f));
-        STATIC_REQUIRE(reflect(vec2f(1.f), vec2f(2.f)).x == approx(-15.f));
-        REQUIRE(refract(vec2f(1.f), vec2f(2.f), 1.f).x == Approx(-15.f));
+        STATIC_REQUIRE(faceforward(float2(1.f), float2(2.f), float2(3.f)).x == approx(-1.f));
+        STATIC_REQUIRE(reflect(float2(1.f), float2(2.f)).x == approx(-15.f));
+        REQUIRE(refract(float2(1.f), float2(2.f), 1.f).x == Approx(-15.f));
     }
 
     SECTION("Vector Relational Functions") {
-        STATIC_REQUIRE(less(vec3i(1,1,1), vec3i(0,1,2)) == vec3b(false, false, true));
-        STATIC_REQUIRE(less_equal(vec3i(1,1,1), vec3i(0,1,2)) == vec3b(false, true, true));
+        STATIC_REQUIRE(less(int3(1,1,1), int3(0,1,2)) == bool3(false, false, true));
+        STATIC_REQUIRE(less_equal(int3(1,1,1), int3(0,1,2)) == bool3(false, true, true));
 
-        STATIC_REQUIRE(greater(vec3i(1,1,1), vec3i(0,1,2)) == vec3b(true, false, false));
-        STATIC_REQUIRE(greater_equal(vec3i(1,1,1), vec3i(0,1,2)) == vec3b(true, true, false));
+        STATIC_REQUIRE(greater(int3(1,1,1), int3(0,1,2)) == bool3(true, false, false));
+        STATIC_REQUIRE(greater_equal(int3(1,1,1), int3(0,1,2)) == bool3(true, true, false));
 
-        STATIC_REQUIRE(equal_to(vec3i(1,1,1), vec3i(0,1,2)) == vec3b(false, true, false));
-        STATIC_REQUIRE(not_equal_to(vec3i(1,1,1), vec3i(0,1,2)) == vec3b(true, false, true));
+        STATIC_REQUIRE(equal_to(int3(1,1,1), int3(0,1,2)) == bool3(false, true, false));
+        STATIC_REQUIRE(not_equal_to(int3(1,1,1), int3(0,1,2)) == bool3(true, false, true));
 
-        STATIC_REQUIRE_FALSE(any(vec2b(false, false)));
-        STATIC_REQUIRE(any(vec2b(true, false)));
-        STATIC_REQUIRE(any(vec2b(false, true)));
-        STATIC_REQUIRE(any(vec2b(true, true)));
+        STATIC_REQUIRE_FALSE(any(bool2(false, false)));
+        STATIC_REQUIRE(any(bool2(true, false)));
+        STATIC_REQUIRE(any(bool2(false, true)));
+        STATIC_REQUIRE(any(bool2(true, true)));
 
-        STATIC_REQUIRE_FALSE(all(vec2b(false, false)));
-        STATIC_REQUIRE_FALSE(all(vec2b(true, false)));
-        STATIC_REQUIRE_FALSE(all(vec2b(false, true)));
-        STATIC_REQUIRE(all(vec2b(true, true)));
+        STATIC_REQUIRE_FALSE(all(bool2(false, false)));
+        STATIC_REQUIRE_FALSE(all(bool2(true, false)));
+        STATIC_REQUIRE_FALSE(all(bool2(false, true)));
+        STATIC_REQUIRE(all(bool2(true, true)));
 
-        STATIC_REQUIRE(not_(vec2b(false, false)) == vec2b(true, true));
-        STATIC_REQUIRE(not_(vec2b(true, false)) == vec2b(false, true));
-        STATIC_REQUIRE(not_(vec2b(false, true)) == vec2b(true, false));
-        STATIC_REQUIRE(not_(vec2b(true, true)) == vec2b(false, false));
+        STATIC_REQUIRE(not_(bool2(false, false)) == bool2(true, true));
+        STATIC_REQUIRE(not_(bool2(true, false)) == bool2(false, true));
+        STATIC_REQUIRE(not_(bool2(false, true)) == bool2(true, false));
+        STATIC_REQUIRE(not_(bool2(true, true)) == bool2(false, false));
     }
 }

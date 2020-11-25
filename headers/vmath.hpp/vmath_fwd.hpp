@@ -22,29 +22,29 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     class vec;
 
-    using vec2i = vec<int, 2>;
-    using vec3i = vec<int, 3>;
-    using vec4i = vec<int, 4>;
+    using bool2 = vec<bool, 2>;
+    using bool3 = vec<bool, 3>;
+    using bool4 = vec<bool, 4>;
 
-    using vec2b = vec<bool, 2>;
-    using vec3b = vec<bool, 3>;
-    using vec4b = vec<bool, 4>;
+    using int2 = vec<int, 2>;
+    using int3 = vec<int, 3>;
+    using int4 = vec<int, 4>;
 
-    using vec2f = vec<float, 2>;
-    using vec3f = vec<float, 3>;
-    using vec4f = vec<float, 4>;
+    using uint2 = vec<unsigned, 2>;
+    using uint3 = vec<unsigned, 3>;
+    using uint4 = vec<unsigned, 4>;
 
-    using vec2d = vec<double, 2>;
-    using vec3d = vec<double, 3>;
-    using vec4d = vec<double, 4>;
+    using float2 = vec<float, 2>;
+    using float3 = vec<float, 3>;
+    using float4 = vec<float, 4>;
 
-    using vec2u = vec<unsigned, 2>;
-    using vec3u = vec<unsigned, 3>;
-    using vec4u = vec<unsigned, 4>;
+    using double2 = vec<double, 2>;
+    using double3 = vec<double, 3>;
+    using double4 = vec<double, 4>;
 
-    using vec2z = vec<std::size_t, 2>;
-    using vec3z = vec<std::size_t, 3>;
-    using vec4z = vec<std::size_t, 4>;
+    using size2 = vec<std::size_t, 2>;
+    using size3 = vec<std::size_t, 3>;
+    using size4 = vec<std::size_t, 4>;
 }
 
 namespace vmath_hpp
@@ -52,27 +52,27 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     class mat;
 
-    using mat2i = mat<int, 2>;
-    using mat3i = mat<int, 3>;
-    using mat4i = mat<int, 4>;
+    using bool2x2 = mat<bool, 2>;
+    using bool3x3 = mat<bool, 3>;
+    using bool4x4 = mat<bool, 4>;
 
-    using mat2b = mat<bool, 2>;
-    using mat3b = mat<bool, 3>;
-    using mat4b = mat<bool, 4>;
+    using int2x2 = mat<int, 2>;
+    using int3x3 = mat<int, 3>;
+    using int4x4 = mat<int, 4>;
 
-    using mat2f = mat<float, 2>;
-    using mat3f = mat<float, 3>;
-    using mat4f = mat<float, 4>;
+    using uint2x2 = mat<unsigned, 2>;
+    using uint3x3 = mat<unsigned, 3>;
+    using uint4x4 = mat<unsigned, 4>;
 
-    using mat2d = mat<double, 2>;
-    using mat3d = mat<double, 3>;
-    using mat4d = mat<double, 4>;
+    using float2x2 = mat<float, 2>;
+    using float3x3 = mat<float, 3>;
+    using float4x4 = mat<float, 4>;
 
-    using mat2u = mat<unsigned, 2>;
-    using mat3u = mat<unsigned, 3>;
-    using mat4u = mat<unsigned, 4>;
+    using double2x2 = mat<double, 2>;
+    using double3x3 = mat<double, 3>;
+    using double4x4 = mat<double, 4>;
 
-    using mat2z = mat<std::size_t, 2>;
-    using mat3z = mat<std::size_t, 3>;
-    using mat4z = mat<std::size_t, 4>;
+    using size2x2 = mat<std::size_t, 2>;
+    using size3x3 = mat<std::size_t, 3>;
+    using size4x4 = mat<std::size_t, 4>;
 }
