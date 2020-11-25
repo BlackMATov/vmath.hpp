@@ -145,7 +145,7 @@ TEST_CASE("vmath/vec_fun") {
         REQUIRE_FALSE(isinf(float2(1.f)).x);
         REQUIRE(isfinite(float2(1.f)).x);
         REQUIRE(isnormal(float2(1.f)).x);
-        REQUIRE(issubnormal(float2(1.f)).x);
+        REQUIRE_FALSE(issubnormal(float2(1.f)).x);
 
         REQUIRE_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == Approx(12.f));
 

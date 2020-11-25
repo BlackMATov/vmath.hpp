@@ -22,8 +22,7 @@ namespace vmath_tests
         explicit constexpr approx(T v) : value(v) {}
 
         friend constexpr bool operator==(const T& l, const approx& r) {
-            return (r.value < l + epsilon<T>)
-                && (l < r.value + epsilon<T>);
+            return equal_to(l, r.value, epsilon<T>);
         }
     };
 
@@ -35,8 +34,7 @@ namespace vmath_tests
         constexpr explicit approx2(const vec<T, 2>& v) : value(v) {}
 
         friend constexpr bool operator==(const vec<T, 2>& l, const approx2& r) {
-            return l[0] == approx(r.value[0])
-                && l[1] == approx(r.value[1]);
+            return all(equal_to(l, r.value, epsilon<T>));
         }
     };
 
@@ -48,9 +46,7 @@ namespace vmath_tests
         constexpr explicit approx3(const vec<T, 3>& v) : value(v) {}
 
         friend constexpr bool operator==(const vec<T, 3>& l, const approx3& r) {
-            return l[0] == approx(r.value[0])
-                && l[1] == approx(r.value[1])
-                && l[2] == approx(r.value[2]);
+            return all(equal_to(l, r.value, epsilon<T>));
         }
     };
 
@@ -62,10 +58,7 @@ namespace vmath_tests
         constexpr explicit approx4(const vec<T, 4>& v) : value(v) {}
 
         friend constexpr bool operator==(const vec<T, 4>& l, const approx4& r) {
-            return l[0] == approx(r.value[0])
-                && l[1] == approx(r.value[1])
-                && l[2] == approx(r.value[2])
-                && l[3] == approx(r.value[3]);
+            return all(equal_to(l, r.value, epsilon<T>));
         }
     };
 
