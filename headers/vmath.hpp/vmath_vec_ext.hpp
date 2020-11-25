@@ -16,8 +16,23 @@
 
 namespace vmath_hpp
 {
+    // cast_to
+
     template < typename To, typename From, std::size_t Size >
-    constexpr vec<To, Size> cast_to(const vec<From, Size>& xs) {
-        return detail::map([](From x){ return cast_to<To>(x); }, xs);
+    constexpr vec<To, Size> cast_to(const vec<From, Size>& v) {
+        return detail::map([](From x){ return cast_to<To>(x); }, v);
+    }
+
+    // component
+
+    template < typename T, std::size_t Size >
+    constexpr T component(const vec<T, Size>& v, std::size_t index) {
+        return v[index];
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size> component(vec<T, Size> v, std::size_t index, T x) {
+        v[index] = x;
+        return v;
     }
 }

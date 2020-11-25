@@ -20,9 +20,49 @@
 
 namespace vmath_hpp
 {
+    // cast_to
+
     template < typename To, typename From, std::size_t Size >
-    constexpr mat<To, Size> cast_to(const mat<From, Size>& xs) {
-        return detail::map([](const vec<From, Size>& x){ return cast_to<To>(x); }, xs);
+    constexpr mat<To, Size> cast_to(const mat<From, Size>& m) {
+        return detail::map([](const vec<From, Size>& v){ return cast_to<To>(v); }, m);
+    }
+
+    // row
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size> row(const mat<T, Size>& m, std::size_t index) {
+        return m.rows[index];
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> row(mat<T, Size> m, std::size_t index, const vec<T, Size>& v) {
+        m.rows[index] = v;
+        return m;
+    }
+
+    // column
+
+    namespace impl
+    {
+        template < typename T, std::size_t Size, std::size_t... Is >
+        constexpr vec<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, std::index_sequence<Is...>) {
+            return { m[Is][index]... };
+        }
+
+        template < typename T, std::size_t Size, std::size_t... Is >
+        constexpr mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v, std::index_sequence<Is...>) {
+            return { component(m[Is], index, v[Is])... };
+        }
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size> column(const mat<T, Size>& m, std::size_t index) {
+        return impl::column_impl(m, index, std::make_index_sequence<Size>{});
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size> column(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v) {
+        return impl::column_impl(m, index, v, std::make_index_sequence<Size>{});
     }
 }
 

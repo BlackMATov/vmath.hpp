@@ -23,4 +23,12 @@ TEST_CASE("vmath/vec_ext") {
         STATIC_REQUIRE(v == vec2i(1));
         STATIC_REQUIRE(std::is_same_v<decltype(v)::value_type, int>);
     }
+
+    SECTION("component") {
+        STATIC_REQUIRE(component(vec2i{1,2}, 0) == 1);
+        STATIC_REQUIRE(component(vec2i{1,2}, 1) == 2);
+
+        STATIC_REQUIRE(component(vec2i{0,0}, 0, 1) == vec2i{1,0});
+        STATIC_REQUIRE(component(vec2i{0,0}, 1, 2) == vec2i{0,2});
+    }
 }
