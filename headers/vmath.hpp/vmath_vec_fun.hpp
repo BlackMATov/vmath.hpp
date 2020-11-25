@@ -530,6 +530,16 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
+    vec<bool, Size> isnormal(const vec<T, Size>& xs) {
+        return map([](T x) { return isnormal(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    vec<bool, Size> issubnormal(const vec<T, Size>& xs) {
+        return map([](T x) { return issubnormal(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
     vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs) {
         return zip([](T a, T b, T c) { return fma(a, b, c); }, as, bs, cs);
     }

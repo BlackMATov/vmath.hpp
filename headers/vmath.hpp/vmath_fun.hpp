@@ -119,6 +119,12 @@ namespace vmath_hpp
     using ::std::isnan;
     using ::std::isinf;
     using ::std::isfinite;
+    using ::std::isnormal;
+
+    template < typename T >
+    bool issubnormal(T x) noexcept {
+        return std::fpclassify(x) == FP_SUBNORMAL;
+    }
 
     using ::std::fma;
     using ::std::frexp;

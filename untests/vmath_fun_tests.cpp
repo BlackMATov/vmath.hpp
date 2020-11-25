@@ -98,6 +98,8 @@ TEST_CASE("vmath/fun") {
         REQUIRE_FALSE(isnan(1.f));
         REQUIRE_FALSE(isinf(1.f));
         REQUIRE(isfinite(1.f));
+        REQUIRE(isnormal(1.f));
+        REQUIRE_FALSE(issubnormal(1.f));
 
         REQUIRE(fma(2.f, 3.f, 4.f) == approx(10.f));
 
