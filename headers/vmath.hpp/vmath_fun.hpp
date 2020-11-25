@@ -178,3 +178,52 @@ namespace vmath_hpp
         return T(k >= T(0)) * (eta * i - (eta * d + sqrt(k)) * n);
     }
 }
+
+//
+// Scalar Relational Functions
+//
+
+namespace vmath_hpp
+{
+    template < typename T >
+    constexpr bool less(const T& x, const T& y) {
+        return x < y;
+    }
+
+    template < typename T >
+    constexpr bool less_equal(const T& x, const T& y) {
+        return x <= y;
+    }
+
+    template < typename T >
+    constexpr bool greater(const T& x, const T& y) {
+        return x > y;
+    }
+
+    template < typename T >
+    constexpr bool greater_equal(const T& x, const T& y) {
+        return x >= y;
+    }
+
+    template < typename T >
+    constexpr bool equal_to(const T& x, const T& y) {
+        return x == y;
+    }
+
+    template < typename T >
+    constexpr bool not_equal_to(const T& x, const T& y) {
+        return x != y;
+    }
+
+    constexpr bool any(bool x) noexcept {
+        return x;
+    }
+
+    constexpr bool all(bool x) noexcept {
+        return x;
+    }
+
+    constexpr bool not_(bool x) noexcept {
+        return !x;
+    }
+}

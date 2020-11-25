@@ -130,4 +130,31 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(reflect(1.f, 2.f) == approx(-7.f));
         REQUIRE(refract(1.f, 2.f, 1.f) == approx(-7.f));
     }
+
+    SECTION("Scalar Relational Functions") {
+        STATIC_REQUIRE(less(0, 1));
+        STATIC_REQUIRE(less_equal(0, 1));
+        STATIC_REQUIRE_FALSE(less(1, 1));
+        STATIC_REQUIRE(less_equal(1, 1));
+
+        STATIC_REQUIRE(greater(1, 0));
+        STATIC_REQUIRE(greater_equal(1, 0));
+        STATIC_REQUIRE_FALSE(greater(1, 1));
+        STATIC_REQUIRE(greater_equal(1, 1));
+
+        STATIC_REQUIRE_FALSE(equal_to(0, 1));
+        STATIC_REQUIRE(equal_to(1, 1));
+
+        STATIC_REQUIRE(not_equal_to(0, 1));
+        STATIC_REQUIRE_FALSE(not_equal_to(1, 1));
+
+        STATIC_REQUIRE_FALSE(any(false));
+        STATIC_REQUIRE(any(true));
+
+        STATIC_REQUIRE_FALSE(all(false));
+        STATIC_REQUIRE(all(true));
+
+        STATIC_REQUIRE_FALSE(not_(true));
+        STATIC_REQUIRE(not_(false));
+    }
 }
