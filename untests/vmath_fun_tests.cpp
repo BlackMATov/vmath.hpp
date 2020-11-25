@@ -114,14 +114,20 @@ TEST_CASE("vmath/fun") {
         REQUIRE(length(10.f) == approx(10.f));
         REQUIRE(length(-10.f) == approx(10.f));
 
+        STATIC_REQUIRE(length2(10.f) == approx(100.f));
+        STATIC_REQUIRE(length2(-10.f) == approx(100.f));
+
         REQUIRE(distance(5.f, 10.f) == approx(5.f));
         REQUIRE(distance(-5.f, -10.f) == approx(5.f));
+
+        STATIC_REQUIRE(distance2(5.f, 10.f) == approx(25.f));
+        STATIC_REQUIRE(distance2(-5.f, -10.f) == approx(25.f));
 
         REQUIRE(dot(2.f, 5.f) == approx(10.f));
         REQUIRE(normalize(0.5f) == approx(1.f));
 
-        REQUIRE(faceforward(1.f, 2.f, 3.f) == approx(-1.f));
-        REQUIRE(reflect(1.f, 2.f) == approx(-7.f));
+        STATIC_REQUIRE(faceforward(1.f, 2.f, 3.f) == approx(-1.f));
+        STATIC_REQUIRE(reflect(1.f, 2.f) == approx(-7.f));
         REQUIRE(refract(1.f, 2.f, 1.f) == approx(-7.f));
     }
 }

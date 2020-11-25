@@ -132,18 +132,28 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T >
+    constexpr T dot(T x, T y) noexcept {
+        return x * y;
+    }
+
+    template < typename T >
     T length(T x) noexcept {
         return abs(x);
     }
 
     template < typename T >
-    T distance(T x, T y) noexcept {
-        return length(x - y);
+    constexpr T length2(T x) noexcept {
+        return dot(x, x);
     }
 
     template < typename T >
-    T dot(T x, T y) noexcept {
-        return x * y;
+    T distance(T x, T y) noexcept {
+        return length(y - x);
+    }
+
+    template < typename T >
+    constexpr T distance2(T x, T y) noexcept {
+        return length2(y - x);
     }
 
     template < typename T >
@@ -152,12 +162,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    T faceforward(T n, T i, T nref) noexcept {
+    constexpr T faceforward(T n, T i, T nref) noexcept {
         return dot(nref, i) < T(0) ? n : -n;
     }
 
     template < typename T >
-    T reflect(T i, T n) noexcept {
+    constexpr T reflect(T i, T n) noexcept {
         return i - n * dot(n, i) * T(2);
     }
 

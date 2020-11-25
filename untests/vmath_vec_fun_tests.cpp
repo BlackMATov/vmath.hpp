@@ -158,15 +158,21 @@ TEST_CASE("vmath/vec_fun") {
         REQUIRE(length(vec2f(10.f,0.f)) == Approx(10.f));
         REQUIRE(length(vec2f(-10.f,0.f)) == Approx(10.f));
 
+        STATIC_REQUIRE(length2(vec2f(10.f,0.f)) == approx(100.f));
+        STATIC_REQUIRE(length2(vec2f(-10.f,0.f)) == approx(100.f));
+
         REQUIRE(distance(vec2f(5.f,0.f), vec2f(10.f,0.f)) == Approx(5.f));
         REQUIRE(distance(vec2f(-5.f,0.f), vec2f(-10.f,0.f)) == Approx(5.f));
+
+        STATIC_REQUIRE(distance2(vec2f(5.f,0.f), vec2f(10.f,0.f)) == approx(25.f));
+        STATIC_REQUIRE(distance2(vec2f(-5.f,0.f), vec2f(-10.f,0.f)) == approx(25.f));
 
         STATIC_REQUIRE(dot(vec2i(1,2),vec2i(3,4)) == 11);
         STATIC_REQUIRE(cross(vec3i(1,0,0),vec3i(0,1,0)) == vec3i(0,0,1));
         REQUIRE(normalize(vec2f(0.5f,0.f)).x == Approx(1.f));
 
-        REQUIRE(faceforward(vec2f(1.f), vec2f(2.f), vec2f(3.f)).x == Approx(-1.f));
-        REQUIRE(reflect(vec2f(1.f), vec2f(2.f)).x == Approx(-15.f));
+        STATIC_REQUIRE(faceforward(vec2f(1.f), vec2f(2.f), vec2f(3.f)).x == approx(-1.f));
+        STATIC_REQUIRE(reflect(vec2f(1.f), vec2f(2.f)).x == approx(-15.f));
         REQUIRE(refract(vec2f(1.f), vec2f(2.f), 1.f).x == Approx(-15.f));
     }
 

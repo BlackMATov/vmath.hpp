@@ -537,18 +537,30 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T, std::size_t Size >
+    constexpr T dot(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return fold([](T acc, T x, T y){
+            return acc + (x * y);
+        }, T(0), xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
     T length(const vec<T, Size>& xs) {
         return sqrt(dot(xs, xs));
     }
 
     template < typename T, std::size_t Size >
-    T distance(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return length(xs - ys);
+    constexpr T length2(const vec<T, Size>& xs) {
+        return dot(xs, xs);
     }
 
     template < typename T, std::size_t Size >
-    constexpr T dot(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return fold(std::plus<>(), T(0), zip(std::multiplies<>(), xs, ys));
+    T distance(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return length(ys - xs);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr T distance2(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return length2(ys - xs);
     }
 
     template < typename T >
@@ -565,12 +577,12 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    vec<T, Size> faceforward(const vec<T, Size>& n, const vec<T, Size>& i, const vec<T, Size>& nref) {
+    constexpr vec<T, Size> faceforward(const vec<T, Size>& n, const vec<T, Size>& i, const vec<T, Size>& nref) {
         return dot(nref, i) < T(0) ? n : -n;
     }
 
     template < typename T, std::size_t Size >
-    vec<T, Size> reflect(const vec<T, Size>& i, const vec<T, Size>& n) {
+    constexpr vec<T, Size> reflect(const vec<T, Size>& i, const vec<T, Size>& n) {
         return i - n * dot(n, i) * T(2);
     }
 
