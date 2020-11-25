@@ -93,17 +93,6 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    // identity
-
-    template < typename T >
-    constexpr mat<T, 4> identity() {
-        return {
-            {1, 0, 0, 0},
-            {0, 1, 0, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 1}};
-    }
-
     // translate
 
     template < typename T >

@@ -59,11 +59,6 @@ TEST_CASE("vmath/mat_ext") {
         STATIC_REQUIRE(column(mat2i(), 1, {3,4}) == mat2i(1,3,0,4));
     }
 
-    SECTION("identity") {
-        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * identity<float>() == approx4(2.f,3.f,4.f,1.f));
-        STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * identity<float>() == approx4(2.f,3.f,4.f,1.f));
-    }
-
     SECTION("translate") {
         STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(1.f,2.f,3.f) == approx4(3.f,5.f,7.f,1.f));
         STATIC_REQUIRE(vec4f(2.f,3.f,4.f,1.f) * translate(vec3f{1.f,2.f,3.f}) == approx4(3.f,5.f,7.f,1.f));
