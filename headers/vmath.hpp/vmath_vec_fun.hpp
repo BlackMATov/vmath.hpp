@@ -512,6 +512,11 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
+    vec<bool, Size> isfinite(const vec<T, Size>& xs) {
+        return map([](T x) { return isfinite(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
     vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs) {
         return zip([](T a, T b, T c) { return fma(a, b, c); }, as, bs, cs);
     }

@@ -123,8 +123,9 @@ namespace vmath_hpp
 
     using ::std::isnan;
     using ::std::isinf;
-    using ::std::fma;
+    using ::std::isfinite;
 
+    using ::std::fma;
     using ::std::frexp;
     using ::std::ldexp;
 }

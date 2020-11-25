@@ -147,6 +147,7 @@ TEST_CASE("vmath/vec_fun") {
 
         REQUIRE_FALSE(isnan(vec2f(1.f)).x);
         REQUIRE_FALSE(isinf(vec2f(1.f)).x);
+        REQUIRE(isfinite(vec2f(1.f)).x);
 
         REQUIRE_FALSE(fma(vec2f(2.f), vec2f(3.f), vec2f(4.f)).x == Approx(12.f));
 
