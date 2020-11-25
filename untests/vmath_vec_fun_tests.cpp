@@ -117,9 +117,11 @@ TEST_CASE("vmath/vec_fun") {
             REQUIRE(out_i.x == Approx(1.f));
         }
 
+        STATIC_REQUIRE(min(vec2i(1,2)) == 1);
         STATIC_REQUIRE(min(vec2i(1,2), 1) == vec2i(1,1));
         STATIC_REQUIRE(min(vec2i(1,1), vec2i(0,2)) == vec2i(0,1));
 
+        STATIC_REQUIRE(max(vec2i(1,2)) == 2);
         STATIC_REQUIRE(max(vec2i(1,2), 1) == vec2i(1,2));
         STATIC_REQUIRE(max(vec2i(1,1), vec2i(0,2)) == vec2i(1,2));
 

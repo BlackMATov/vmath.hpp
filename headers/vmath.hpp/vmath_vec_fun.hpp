@@ -49,6 +49,14 @@ namespace vmath_hpp::detail
         {
             return ((init = f(std::move(init), b[Is], c[Is])), ...);
         }
+
+        template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
+        constexpr auto fold1_impl(F&& f, const vec<A, Size>& a, std::index_sequence<I, Is...>)
+            -> A
+        {
+            A init = a[I];
+            return ((init = f(std::move(init), a[Is])), ...);
+        }
     }
 
     template < typename A, std::size_t Size, typename F >
@@ -74,6 +82,11 @@ namespace vmath_hpp::detail
     template < typename A, typename B, typename C, std::size_t Size, typename F >
     constexpr auto fold(F&& f, A init, const vec<B, Size>& b, const vec<C, Size>& c) {
         return impl::fold_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, std::size_t Size, typename F >
+    constexpr auto fold1(F&& f, const vec<A, Size>& a) {
+        return impl::fold1_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 }
 
@@ -427,6 +440,11 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
+    constexpr T min(const vec<T, Size>& xs) {
+        return fold1([](T acc, T x){ return min(acc, x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
     constexpr vec<T, Size> min(const vec<T, Size>& xs, T y) {
         return map([y](T x) { return min(x, y); }, xs);
     }
@@ -434,6 +452,11 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     constexpr vec<T, Size> min(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return zip([](T x, T y) { return min(x, y); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr T max(const vec<T, Size>& xs) {
+        return fold1([](T acc, T x){ return max(acc, x); }, xs);
     }
 
     template < typename T, std::size_t Size >
