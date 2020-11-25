@@ -18,6 +18,21 @@
 #include "vmath_mat.hpp"
 #include "vmath_mat_fun.hpp"
 
+namespace vmath_hpp
+{
+    template < typename T > constexpr mat<T, 2> zero2x2() { return {0, 0, 0, 0}; }
+    template < typename T > constexpr mat<T, 3> zero3x3() { return {0, 0, 0, 0, 0, 0, 0, 0, 0}; }
+    template < typename T > constexpr mat<T, 4> zero4x4() { return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; }
+
+    template < typename T > constexpr mat<T, 2> unit2x2() { return {1, 1, 1, 1}; }
+    template < typename T > constexpr mat<T, 3> unit3x3() { return {1, 1, 1, 1, 1, 1, 1, 1, 1}; }
+    template < typename T > constexpr mat<T, 4> unit4x4() { return {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; }
+
+    template < typename T > constexpr mat<T, 2> identity2x2() { return {1, 0, 0, 1}; }
+    template < typename T > constexpr mat<T, 3> identity3x3() { return {1, 0, 0, 0, 1, 0, 0, 0, 1}; }
+    template < typename T > constexpr mat<T, 4> identity4x4() { return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}; }
+}
+
 namespace std
 {
     template < typename T, size_t Size >

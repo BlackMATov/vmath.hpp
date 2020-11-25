@@ -18,6 +18,27 @@ namespace
 }
 
 TEST_CASE("vmath/vec_ext") {
+    SECTION("units") {
+        STATIC_REQUIRE(zero2<int>() == vec2i(0,0));
+        STATIC_REQUIRE(zero3<int>() == vec3i(0,0,0));
+        STATIC_REQUIRE(zero4<int>() == vec4i(0,0,0,0));
+
+        STATIC_REQUIRE(unit2<int>() == vec2i(1,1));
+        STATIC_REQUIRE(unit2_x<int>() == vec2i(1,0));
+        STATIC_REQUIRE(unit2_y<int>() == vec2i(0,1));
+
+        STATIC_REQUIRE(unit3<int>() == vec3i(1,1,1));
+        STATIC_REQUIRE(unit3_x<int>() == vec3i(1,0,0));
+        STATIC_REQUIRE(unit3_y<int>() == vec3i(0,1,0));
+        STATIC_REQUIRE(unit3_z<int>() == vec3i(0,0,1));
+
+        STATIC_REQUIRE(unit4<int>() == vec4i(1,1,1,1));
+        STATIC_REQUIRE(unit4_x<int>() == vec4i(1,0,0,0));
+        STATIC_REQUIRE(unit4_y<int>() == vec4i(0,1,0,0));
+        STATIC_REQUIRE(unit4_z<int>() == vec4i(0,0,1,0));
+        STATIC_REQUIRE(unit4_w<int>() == vec4i(0,0,0,1));
+    }
+
     SECTION("hash") {
         REQUIRE(std::hash<vec2i>{}({1,2}) == std::hash<vec2i>{}({1,2}));
         REQUIRE_FALSE(std::hash<vec2i>{}({1,2}) == std::hash<vec2i>{}({2,1}));

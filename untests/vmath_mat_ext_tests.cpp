@@ -18,6 +18,20 @@ namespace
 }
 
 TEST_CASE("vmath/mat_ext") {
+    SECTION("units") {
+        STATIC_REQUIRE(zero2x2<int>() == mat2i(0,0,0,0));
+        STATIC_REQUIRE(zero3x3<int>() == mat3i(0,0,0,0,0,0,0,0,0));
+        STATIC_REQUIRE(zero4x4<int>() == mat4i(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+
+        STATIC_REQUIRE(unit2x2<int>() == mat2i(1,1,1,1));
+        STATIC_REQUIRE(unit3x3<int>() == mat3i(1,1,1,1,1,1,1,1,1));
+        STATIC_REQUIRE(unit4x4<int>() == mat4i(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));
+
+        STATIC_REQUIRE(identity2x2<int>() == mat2i());
+        STATIC_REQUIRE(identity3x3<int>() == mat3i());
+        STATIC_REQUIRE(identity4x4<int>() == mat4i());
+    }
+
     SECTION("hash") {
         REQUIRE(std::hash<mat2i>{}({1,2,3,4}) == std::hash<mat2i>{}({1,2,3,4}));
         REQUIRE_FALSE(std::hash<mat2i>{}({1,2,3,4}) == std::hash<mat2i>{}({1,2,4,3}));

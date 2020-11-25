@@ -14,6 +14,29 @@
 #include "vmath_vec.hpp"
 #include "vmath_vec_fun.hpp"
 
+namespace vmath_hpp
+{
+    template < typename T > constexpr vec<T, 2> zero2() { return {0, 0}; }
+    template < typename T > constexpr vec<T, 3> zero3() { return {0, 0, 0}; }
+    template < typename T > constexpr vec<T, 4> zero4() { return {0, 0, 0, 0}; }
+
+    template < typename T > constexpr vec<T, 2> unit2() { return {1, 1}; }
+    template < typename T > constexpr vec<T, 3> unit3() { return {1, 1, 1}; }
+    template < typename T > constexpr vec<T, 4> unit4() { return {1, 1, 1, 1}; }
+
+    template < typename T > constexpr vec<T, 2> unit2_x() { return {1, 0}; }
+    template < typename T > constexpr vec<T, 2> unit2_y() { return {0, 1}; }
+
+    template < typename T > constexpr vec<T, 3> unit3_x() { return {1, 0, 0}; }
+    template < typename T > constexpr vec<T, 3> unit3_y() { return {0, 1, 0}; }
+    template < typename T > constexpr vec<T, 3> unit3_z() { return {0, 0, 1}; }
+
+    template < typename T > constexpr vec<T, 4> unit4_x() { return {1, 0, 0, 0}; }
+    template < typename T > constexpr vec<T, 4> unit4_y() { return {0, 1, 0, 0}; }
+    template < typename T > constexpr vec<T, 4> unit4_z() { return {0, 0, 1, 0}; }
+    template < typename T > constexpr vec<T, 4> unit4_w() { return {0, 0, 0, 1}; }
+}
+
 namespace std
 {
     template < typename T, size_t Size >
