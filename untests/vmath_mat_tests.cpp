@@ -10,13 +10,15 @@
 #define CATCH_CONFIG_FAST_COMPILE
 #include <catch2/catch.hpp>
 
+#include "vmath_tests.hpp"
+
 namespace
 {
+    using namespace vmath_hpp;
+    using namespace vmath_tests;
 }
 
 TEST_CASE("vmath/mat") {
-    using namespace vmath_hpp;
-
     SECTION("size/sizeof") {
         STATIC_REQUIRE(mat2i{}.size == 2);
         STATIC_REQUIRE(mat3i{}.size == 3);

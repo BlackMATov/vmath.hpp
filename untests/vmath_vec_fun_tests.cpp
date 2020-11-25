@@ -9,45 +9,12 @@
 #define CATCH_CONFIG_FAST_COMPILE
 #include <catch2/catch.hpp>
 
+#include "vmath_tests.hpp"
+
 namespace
 {
     using namespace vmath_hpp;
-
-    template < typename T >
-    class approx2 {
-    public:
-        constexpr explicit approx2(T v) : value_(v) {}
-        constexpr explicit approx2(T x, T y) : value_(x, y) {}
-
-        friend constexpr bool operator==(const vec<T, 2>& l, const approx2& r) {
-            return (r.value_.x < l.x + epsilon)
-                && (l.x < r.value_.x + epsilon)
-                && (r.value_.y < l.y + epsilon)
-                && (l.y < r.value_.y + epsilon);
-        }
-    private:
-        vec<T, 2> value_;
-        static constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
-    };
-
-    template < typename T >
-    class approx3 {
-    public:
-        constexpr explicit approx3(T v) : value_(v) {}
-        constexpr explicit approx3(T x, T y, T z) : value_(x, y, z) {}
-
-        friend constexpr bool operator==(const vec<T, 3>& l, const approx3& r) {
-            return (r.value_.x < l.x + epsilon)
-                && (l.x < r.value_.x + epsilon)
-                && (r.value_.y < l.y + epsilon)
-                && (l.y < r.value_.y + epsilon)
-                && (r.value_.z < l.z + epsilon)
-                && (l.z < r.value_.z + epsilon);
-        }
-    private:
-        vec<T, 3> value_;
-        static constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
-    };
+    using namespace vmath_tests;
 }
 
 TEST_CASE("vmath/vec_fun") {

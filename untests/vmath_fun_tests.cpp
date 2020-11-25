@@ -9,26 +9,15 @@
 #define CATCH_CONFIG_FAST_COMPILE
 #include <catch2/catch.hpp>
 
+#include "vmath_tests.hpp"
+
 namespace
 {
-    template < typename T >
-    class approx {
-    public:
-        explicit constexpr approx(T v) : value_(v) {}
-
-        friend constexpr bool operator==(const T& l, const approx& r) {
-            return (r.value_ < l + epsilon)
-                && (l < r.value_ + epsilon);
-        }
-    private:
-        T value_;
-        static constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
-    };
+    using namespace vmath_hpp;
+    using namespace vmath_tests;
 }
 
 TEST_CASE("vmath/fun") {
-    using namespace vmath_hpp;
-
     SECTION("Angle and Trigonometry Functions") {
         STATIC_REQUIRE(radians(degrees(12.13f)) == approx(12.13f));
         STATIC_REQUIRE(degrees(radians(12.13f)) == approx(12.13f));

@@ -10,9 +10,12 @@
 #define CATCH_CONFIG_FAST_COMPILE
 #include <catch2/catch.hpp>
 
+#include "vmath_tests.hpp"
+
 namespace
 {
     using namespace vmath_hpp;
+    using namespace vmath_tests;
 
     template < typename T, int Size >
     constexpr mat<T, Size> generate_frank_matrix() {
@@ -30,108 +33,6 @@ namespace
         }
         return m;
     }
-
-    template < typename T >
-    class approx2 {
-    public:
-        constexpr explicit approx2(T v) : value_(v) {}
-        constexpr explicit approx2(const vec<T, 2>& v) : value_(v) {}
-        constexpr explicit approx2(T x, T y) : value_(x, y) {}
-
-        friend constexpr bool operator==(const vec<T, 2>& l, const approx2& r) {
-            return (r.value_.x < l.x + epsilon)
-                && (l.x < r.value_.x + epsilon)
-                && (r.value_.y < l.y + epsilon)
-                && (l.y < r.value_.y + epsilon);
-        }
-    private:
-        vec<T, 2> value_;
-        static constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
-    };
-
-    template < typename T >
-    class approx3 {
-    public:
-        constexpr explicit approx3(T v) : value_(v) {}
-        constexpr explicit approx3(const vec<T, 3>& v) : value_(v) {}
-        constexpr explicit approx3(T x, T y, T z) : value_(x, y, z) {}
-
-        friend constexpr bool operator==(const vec<T, 3>& l, const approx3& r) {
-            return (r.value_.x < l.x + epsilon)
-                && (l.x < r.value_.x + epsilon)
-                && (r.value_.y < l.y + epsilon)
-                && (l.y < r.value_.y + epsilon)
-                && (r.value_.z < l.z + epsilon)
-                && (l.z < r.value_.z + epsilon);
-        }
-    private:
-        vec<T, 3> value_;
-        static constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
-    };
-
-    template < typename T >
-    class approx4 {
-    public:
-        constexpr explicit approx4(T v) : value_(v) {}
-        constexpr explicit approx4(const vec<T, 4>& v) : value_(v) {}
-        constexpr explicit approx4(T x, T y, T z, T w) : value_(x, y, z, w) {}
-
-        friend constexpr bool operator==(const vec<T, 4>& l, const approx4& r) {
-            return (r.value_.x < l.x + epsilon)
-                && (l.x < r.value_.x + epsilon)
-                && (r.value_.y < l.y + epsilon)
-                && (l.y < r.value_.y + epsilon)
-                && (r.value_.z < l.z + epsilon)
-                && (l.z < r.value_.z + epsilon)
-                && (r.value_.w < l.w + epsilon)
-                && (l.w < r.value_.w + epsilon);
-        }
-    private:
-        vec<T, 4> value_;
-        static constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
-    };
-
-    template < typename T >
-    class approx2x2 {
-    public:
-        constexpr explicit approx2x2(const mat<T, 2>& v) : value_(v) {}
-
-        friend constexpr bool operator==(const mat<T, 2>& l, const approx2x2& r) {
-            return l[0] == approx2(r.value_[0])
-                && l[1] == approx2(r.value_[1]);
-        }
-    private:
-        mat<T, 2> value_;
-    };
-
-    template < typename T >
-    class approx3x3 {
-    public:
-        constexpr explicit approx3x3(const mat<T, 3>& v) : value_(v) {}
-
-        friend constexpr bool operator==(const mat<T, 3>& l, const approx3x3& r) {
-            return l[0] == approx3(r.value_[0])
-                && l[1] == approx3(r.value_[1])
-                && l[2] == approx3(r.value_[2]);
-        }
-    private:
-        mat<T, 3> value_;
-    };
-
-    template < typename T >
-    class approx4x4 {
-    public:
-        constexpr explicit approx4x4(const mat<T, 4>& v) : value_(v) {}
-
-        friend constexpr bool operator==(const mat<T, 4>& l, const approx4x4& r) {
-            return l[0] == approx4(r.value_[0])
-                && l[1] == approx4(r.value_[1])
-                && l[2] == approx4(r.value_[2])
-                && l[3] == approx4(r.value_[3]);
-        }
-    private:
-        mat<T, 4> value_;
-    };
 }
 
 TEST_CASE("vmath/mat_fun") {
