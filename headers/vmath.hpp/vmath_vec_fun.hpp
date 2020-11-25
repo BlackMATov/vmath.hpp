@@ -564,6 +564,11 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    constexpr T cross(const vec<T, 2>& xs, const vec<T, 2>& ys) {
+        return xs.x * ys.y - xs.y * ys.x;
+    }
+
+    template < typename T >
     constexpr vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys) {
         return {
             xs.y * ys.z - xs.z * ys.y,

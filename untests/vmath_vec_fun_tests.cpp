@@ -168,6 +168,7 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(distance2(vec2f(-5.f,0.f), vec2f(-10.f,0.f)) == approx(25.f));
 
         STATIC_REQUIRE(dot(vec2i(1,2),vec2i(3,4)) == 11);
+        STATIC_REQUIRE(cross(vec2i(1,0),vec2i(0,1)) == 1);
         STATIC_REQUIRE(cross(vec3i(1,0,0),vec3i(0,1,0)) == vec3i(0,0,1));
         REQUIRE(normalize(vec2f(0.5f,0.f)).x == Approx(1.f));
 
