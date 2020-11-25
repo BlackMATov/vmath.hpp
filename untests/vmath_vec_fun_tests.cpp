@@ -189,7 +189,14 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(greater_equal(int3(1,1,1), int3(0,1,2)) == bool3(true, true, false));
 
         STATIC_REQUIRE(equal_to(int3(1,1,1), int3(0,1,2)) == bool3(false, true, false));
+        STATIC_REQUIRE(equal_to(int4(1,1,1,1), int4(0,1,2,3), 0) == bool4(false, true, false, false));
+        STATIC_REQUIRE(equal_to(int4(1,1,1,1), int4(0,1,2,3), 1) == bool4(true, true, true, false));
+        STATIC_REQUIRE(equal_to(int4(1,1,1,1), int4(0,1,2,3), 2) == bool4(true, true, true, true));
+
         STATIC_REQUIRE(not_equal_to(int3(1,1,1), int3(0,1,2)) == bool3(true, false, true));
+        STATIC_REQUIRE(not_equal_to(int4(1,1,1,1), int4(0,1,2,3), 0) == bool4(true, false, true, true));
+        STATIC_REQUIRE(not_equal_to(int4(1,1,1,1), int4(0,1,2,3), 1) == bool4(false, false, false, true));
+        STATIC_REQUIRE(not_equal_to(int4(1,1,1,1), int4(0,1,2,3), 2) == bool4(false, false, false, false));
 
         STATIC_REQUIRE_FALSE(any(bool2(false, false)));
         STATIC_REQUIRE(any(bool2(true, false)));

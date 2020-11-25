@@ -640,46 +640,56 @@ namespace vmath_hpp
 {
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::less<>(), xs, ys);
+        return zip([](T x, T y){ return less(x, y); }, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::less_equal<>(), xs, ys);
+        return zip([](T x, T y){ return less_equal(x, y); }, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::greater<>(), xs, ys);
+        return zip([](T x, T y){ return greater(x, y); }, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::greater_equal<>(), xs, ys);
+        return zip([](T x, T y){ return greater_equal(x, y); }, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::equal_to<>(), xs, ys);
+        return zip([](T x, T y){ return equal_to(x, y); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys, const T& epsilon) {
+        return zip([epsilon](T x, T y){ return equal_to(x, y, epsilon); }, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::not_equal_to<>(), xs, ys);
+        return zip([](T x, T y){ return not_equal_to(x, y); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys, const T& epsilon) {
+        return zip([epsilon](T x, T y){ return not_equal_to(x, y, epsilon); }, xs, ys);
     }
 
     template < std::size_t Size >
     constexpr bool any(const vec<bool, Size>& xs) {
-        return fold(std::logical_or<>(), false, xs);
+        return fold([](bool x, bool y){ return x || y; }, false, xs);
     }
 
     template < std::size_t Size >
     constexpr bool all(const vec<bool, Size>& xs) {
-        return fold(std::logical_and<>(), true, xs);
+        return fold([](bool x, bool y){ return x && y; }, true, xs);
     }
 
     template < std::size_t Size >
     constexpr vec<bool, Size> not_(const vec<bool, Size>& xs) {
-        return map(std::logical_not<>(), xs);
+        return map([](bool x){ return not_(x); }, xs);
     }
 }

@@ -144,11 +144,17 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE_FALSE(greater(1, 1));
         STATIC_REQUIRE(greater_equal(1, 1));
 
-        STATIC_REQUIRE_FALSE(equal_to(0, 1));
         STATIC_REQUIRE(equal_to(1, 1));
+        STATIC_REQUIRE_FALSE(equal_to(0, 1));
+        STATIC_REQUIRE_FALSE(equal_to(0, 1, 0));
+        STATIC_REQUIRE(equal_to(0, 1, 1));
 
         STATIC_REQUIRE(not_equal_to(0, 1));
+        STATIC_REQUIRE(not_equal_to(0, 1, 0));
+        STATIC_REQUIRE_FALSE(not_equal_to(0, 1, 1));
         STATIC_REQUIRE_FALSE(not_equal_to(1, 1));
+        STATIC_REQUIRE_FALSE(not_equal_to(1, 1, 0));
+        STATIC_REQUIRE_FALSE(not_equal_to(1, 1, 1));
 
         STATIC_REQUIRE_FALSE(any(false));
         STATIC_REQUIRE(any(true));

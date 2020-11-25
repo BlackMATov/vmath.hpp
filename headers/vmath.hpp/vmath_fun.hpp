@@ -67,10 +67,20 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    using ::std::abs;
+    template < typename T >
+    std::enable_if_t<std::is_unsigned_v<T>, T>
+    constexpr abs(T x) noexcept {
+        return x;
+    }
 
     template < typename T >
-    T sign(T x) noexcept {
+    std::enable_if_t<std::is_signed_v<T>, T>
+    constexpr abs(T x) noexcept {
+        return x >= T(0) ? x : -x;
+    }
+
+    template < typename T >
+    constexpr T sign(T x) noexcept {
         return static_cast<T>((T(0) < x) - (x < T(0)));
     }
 
@@ -217,8 +227,18 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    constexpr bool equal_to(const T& x, const T& y, const T& epsilon) {
+        return abs(x - y) <= epsilon;
+    }
+
+    template < typename T >
     constexpr bool not_equal_to(const T& x, const T& y) {
         return x != y;
+    }
+
+    template < typename T >
+    constexpr bool not_equal_to(const T& x, const T& y, const T& epsilon) {
+        return abs(x - y) > epsilon;
     }
 
     constexpr bool any(bool x) noexcept {
