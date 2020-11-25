@@ -19,17 +19,17 @@ namespace
 
 TEST_CASE("vmath/mat_ext") {
     SECTION("units") {
-        STATIC_REQUIRE(zero2x2<int>() == int2x2(0,0,0,0));
-        STATIC_REQUIRE(zero3x3<int>() == int3x3(0,0,0,0,0,0,0,0,0));
-        STATIC_REQUIRE(zero4x4<int>() == int4x4(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+        STATIC_REQUIRE(zero2x2<int> == int2x2(0,0,0,0));
+        STATIC_REQUIRE(zero3x3<int> == int3x3(0,0,0,0,0,0,0,0,0));
+        STATIC_REQUIRE(zero4x4<int> == int4x4(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
 
-        STATIC_REQUIRE(unit2x2<int>() == int2x2(1,1,1,1));
-        STATIC_REQUIRE(unit3x3<int>() == int3x3(1,1,1,1,1,1,1,1,1));
-        STATIC_REQUIRE(unit4x4<int>() == int4x4(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));
+        STATIC_REQUIRE(unit2x2<int> == int2x2(1,1,1,1));
+        STATIC_REQUIRE(unit3x3<int> == int3x3(1,1,1,1,1,1,1,1,1));
+        STATIC_REQUIRE(unit4x4<int> == int4x4(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));
 
-        STATIC_REQUIRE(identity2x2<int>() == int2x2());
-        STATIC_REQUIRE(identity3x3<int>() == int3x3());
-        STATIC_REQUIRE(identity4x4<int>() == int4x4());
+        STATIC_REQUIRE(identity2x2<int> == int2x2());
+        STATIC_REQUIRE(identity3x3<int> == int3x3());
+        STATIC_REQUIRE(identity4x4<int> == int4x4());
     }
 
     SECTION("hash") {

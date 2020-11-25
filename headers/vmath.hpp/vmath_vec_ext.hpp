@@ -16,25 +16,25 @@
 
 namespace vmath_hpp
 {
-    template < typename T > constexpr vec<T, 2> zero2() { return {0, 0}; }
-    template < typename T > constexpr vec<T, 3> zero3() { return {0, 0, 0}; }
-    template < typename T > constexpr vec<T, 4> zero4() { return {0, 0, 0, 0}; }
+    template < typename T > inline constexpr vec<T, 2> zero2{0, 0};
+    template < typename T > inline constexpr vec<T, 3> zero3{0, 0, 0};
+    template < typename T > inline constexpr vec<T, 4> zero4{0, 0, 0, 0};
 
-    template < typename T > constexpr vec<T, 2> unit2() { return {1, 1}; }
-    template < typename T > constexpr vec<T, 3> unit3() { return {1, 1, 1}; }
-    template < typename T > constexpr vec<T, 4> unit4() { return {1, 1, 1, 1}; }
+    template < typename T > inline constexpr vec<T, 2> unit2{1, 1};
+    template < typename T > inline constexpr vec<T, 3> unit3{1, 1, 1};
+    template < typename T > inline constexpr vec<T, 4> unit4{1, 1, 1, 1};
 
-    template < typename T > constexpr vec<T, 2> unit2_x() { return {1, 0}; }
-    template < typename T > constexpr vec<T, 2> unit2_y() { return {0, 1}; }
+    template < typename T > inline constexpr vec<T, 2> unit2_x{1, 0};
+    template < typename T > inline constexpr vec<T, 2> unit2_y{0, 1};
 
-    template < typename T > constexpr vec<T, 3> unit3_x() { return {1, 0, 0}; }
-    template < typename T > constexpr vec<T, 3> unit3_y() { return {0, 1, 0}; }
-    template < typename T > constexpr vec<T, 3> unit3_z() { return {0, 0, 1}; }
+    template < typename T > inline constexpr vec<T, 3> unit3_x{1, 0, 0};
+    template < typename T > inline constexpr vec<T, 3> unit3_y{0, 1, 0};
+    template < typename T > inline constexpr vec<T, 3> unit3_z{0, 0, 1};
 
-    template < typename T > constexpr vec<T, 4> unit4_x() { return {1, 0, 0, 0}; }
-    template < typename T > constexpr vec<T, 4> unit4_y() { return {0, 1, 0, 0}; }
-    template < typename T > constexpr vec<T, 4> unit4_z() { return {0, 0, 1, 0}; }
-    template < typename T > constexpr vec<T, 4> unit4_w() { return {0, 0, 0, 1}; }
+    template < typename T > inline constexpr vec<T, 4> unit4_x{1, 0, 0, 0};
+    template < typename T > inline constexpr vec<T, 4> unit4_y{0, 1, 0, 0};
+    template < typename T > inline constexpr vec<T, 4> unit4_z{0, 0, 1, 0};
+    template < typename T > inline constexpr vec<T, 4> unit4_w{0, 0, 0, 1};
 }
 
 namespace std
@@ -67,5 +67,13 @@ namespace vmath_hpp
     constexpr vec<T, Size> component(vec<T, Size> v, std::size_t index, T x) {
         v[index] = x;
         return v;
+    }
+}
+
+namespace vmath_hpp
+{
+    template < typename T, std::size_t Size >
+    T angle(const vec<T, Size>& x, const vec<T, Size>& y) {
+        return acos(dot(x, y) * invsqrt(length2(x) * length2(y)));
     }
 }
