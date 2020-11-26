@@ -95,7 +95,7 @@ TEST_CASE("vmath/vec_fun") {
         (void)exp2(float2(1.f));
         (void)log2(float2(1.f));
         (void)sqrt(float2(1.f));
-        (void)invsqrt(float2(1.f));
+        (void)rsqrt(float2(1.f));
     }
 
     SECTION("Common Functions") {
@@ -144,8 +144,6 @@ TEST_CASE("vmath/vec_fun") {
         REQUIRE_FALSE(isnan(float2(1.f)).x);
         REQUIRE_FALSE(isinf(float2(1.f)).x);
         REQUIRE(isfinite(float2(1.f)).x);
-        REQUIRE(isnormal(float2(1.f)).x);
-        REQUIRE_FALSE(issubnormal(float2(1.f)).x);
 
         REQUIRE_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == Approx(12.f));
 

@@ -510,7 +510,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     T angle(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return acos(dot(x, y) * invsqrt(length2(x) * length2(y)));
+        return acos(dot(x, y) * rsqrt(length2(x) * length2(y)));
     }
 
     // rotate

@@ -6,13 +6,11 @@
 
 #pragma once
 
-#include <cassert>
 #include <cmath>
 #include <cstddef>
 
 #include <algorithm>
 #include <functional>
-#include <iterator>
 #include <stdexcept>
 #include <type_traits>
 #include <utility>
@@ -45,6 +43,10 @@ namespace vmath_hpp
     using size2 = vec<std::size_t, 2>;
     using size3 = vec<std::size_t, 3>;
     using size4 = vec<std::size_t, 4>;
+
+    using ptrdiff2 = vec<std::ptrdiff_t, 2>;
+    using ptrdiff3 = vec<std::ptrdiff_t, 3>;
+    using ptrdiff4 = vec<std::ptrdiff_t, 4>;
 }
 
 namespace vmath_hpp
@@ -75,4 +77,8 @@ namespace vmath_hpp
     using size2x2 = mat<std::size_t, 2>;
     using size3x3 = mat<std::size_t, 3>;
     using size4x4 = mat<std::size_t, 4>;
+
+    using ptrdiff2x2 = mat<std::ptrdiff_t, 2>;
+    using ptrdiff3x3 = mat<std::ptrdiff_t, 3>;
+    using ptrdiff4x4 = mat<std::ptrdiff_t, 4>;
 }
