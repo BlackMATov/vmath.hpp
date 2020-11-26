@@ -59,18 +59,18 @@ namespace vmath_hpp::detail
 {
     struct hash_combiner {
         template < typename T >
-        std::size_t operator()(std::size_t seed, const T& x) noexcept {
+        [[nodiscard]] std::size_t operator()(std::size_t seed, const T& x) noexcept {
             return (seed ^= std::hash<T>{}(x) + 0x9e3779b9 + (seed << 6) + ( seed >> 2));
         }
     };
 
     template < typename T, size_t Size >
-    std::size_t hash(const vec<T, Size>& v) noexcept {
+    [[nodiscard]] std::size_t hash(const vec<T, Size>& v) noexcept {
         return fold(hash_combiner{}, std::size_t{}, v);
     }
 
     template < typename T, size_t Size >
-    std::size_t hash(const mat<T, Size>& m) noexcept {
+    [[nodiscard]] std::size_t hash(const mat<T, Size>& m) noexcept {
         return fold(hash_combiner{}, std::size_t{}, m);
     }
 }
@@ -99,17 +99,17 @@ namespace std
 namespace vmath_hpp
 {
     template < typename To, typename From >
-    constexpr To cast_to(From x) noexcept {
+    [[nodiscard]] constexpr To cast_to(From x) noexcept {
         return static_cast<To>(x);
     }
 
     template < typename To, typename From, std::size_t Size >
-    constexpr vec<To, Size> cast_to(const vec<From, Size>& v) {
+    [[nodiscard]] constexpr vec<To, Size> cast_to(const vec<From, Size>& v) {
         return detail::map([](From x){ return cast_to<To>(x); }, v);
     }
 
     template < typename To, typename From, std::size_t Size >
-    constexpr mat<To, Size> cast_to(const mat<From, Size>& m) {
+    [[nodiscard]] constexpr mat<To, Size> cast_to(const mat<From, Size>& m) {
         return detail::map([](const vec<From, Size>& v){ return cast_to<To>(v); }, m);
     }
 }
@@ -123,12 +123,12 @@ namespace vmath_hpp
     // component
 
     template < typename T, std::size_t Size >
-    constexpr T component(const vec<T, Size>& v, std::size_t index) {
+    [[nodiscard]] constexpr T component(const vec<T, Size>& v, std::size_t index) {
         return v[index];
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<T, Size> component(vec<T, Size> v, std::size_t index, T x) {
+    [[nodiscard]] constexpr vec<T, Size> component(vec<T, Size> v, std::size_t index, T x) {
         v[index] = x;
         return v;
     }
@@ -136,12 +136,12 @@ namespace vmath_hpp
     // row
 
     template < typename T, std::size_t Size >
-    constexpr vec<T, Size> row(const mat<T, Size>& m, std::size_t index) {
+    [[nodiscard]] constexpr vec<T, Size> row(const mat<T, Size>& m, std::size_t index) {
         return m.rows[index];
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> row(mat<T, Size> m, std::size_t index, const vec<T, Size>& v) {
+    [[nodiscard]] constexpr mat<T, Size> row(mat<T, Size> m, std::size_t index, const vec<T, Size>& v) {
         m.rows[index] = v;
         return m;
     }
@@ -151,23 +151,23 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T, std::size_t Size, std::size_t... Is >
-        constexpr vec<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, std::index_sequence<Is...>) {
+        [[nodiscard]] constexpr vec<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, std::index_sequence<Is...>) {
             return { m[Is][index]... };
         }
 
         template < typename T, std::size_t Size, std::size_t... Is >
-        constexpr mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v, std::index_sequence<Is...>) {
+        [[nodiscard]] constexpr mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v, std::index_sequence<Is...>) {
             return { component(m[Is], index, v[Is])... };
         }
     }
 
     template < typename T, std::size_t Size >
-    constexpr vec<T, Size> column(const mat<T, Size>& m, std::size_t index) {
+    [[nodiscard]] constexpr vec<T, Size> column(const mat<T, Size>& m, std::size_t index) {
         return impl::column_impl(m, index, std::make_index_sequence<Size>{});
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> column(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v) {
+    [[nodiscard]] constexpr mat<T, Size> column(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v) {
         return impl::column_impl(m, index, v, std::make_index_sequence<Size>{});
     }
 }
@@ -181,7 +181,7 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
-    constexpr mat<T, 4> translate(const vec<T, 3>& v) {
+    [[nodiscard]] constexpr mat<T, 4> translate(const vec<T, 3>& v) {
         return {
             { 1,   0,   0,  0},
             { 0,   1,   0,  0},
@@ -190,14 +190,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v) {
+    [[nodiscard]] constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v) {
         return m * translate(v);
     }
 
     // rotate
 
     template < typename T >
-    mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
         const T x = axis.x;
         const T y = axis.y;
         const T z = axis.z;
@@ -221,14 +221,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
         return m * rotate(angle, axis);
     }
 
     // scale
 
     template < typename T >
-    constexpr mat<T, 4> scale(const vec<T, 3>& v) {
+    [[nodiscard]] constexpr mat<T, 4> scale(const vec<T, 3>& v) {
         return {
             {v.x,  0,   0,  0},
             { 0,  v.y,  0,  0},
@@ -237,14 +237,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v) {
+    [[nodiscard]] constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v) {
         return m * scale(v);
     }
 
     // look_at
 
     template < typename T >
-    mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+    [[nodiscard]] mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
         const vec<T, 3> az = normalize(at - eye);
         const vec<T, 3> ax = normalize(cross(up, az));
         const vec<T, 3> ay = cross(az, ax);
@@ -259,7 +259,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+    [[nodiscard]] mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
         const vec<T, 3> az = normalize(eye - at);
         const vec<T, 3> ax = normalize(cross(up, az));
         const vec<T, 3> ay = cross(az, ax);
@@ -283,7 +283,7 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
-    constexpr mat<T, 3> translate(const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> translate(const vec<T, 2>& v) {
         return {
             { 1,   0,  0},
             { 0,   1,  0},
@@ -291,14 +291,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v) {
         return m * translate(v);
     }
 
     // rotate
 
     template < typename T >
-    mat<T, 3> rotate(T angle) {
+    [[nodiscard]] mat<T, 3> rotate(T angle) {
         const T cs = cos(angle);
         const T sn = sin(angle);
         return {
@@ -308,14 +308,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 3> rotate(const mat<T, 3>& m, T angle) {
+    [[nodiscard]] mat<T, 3> rotate(const mat<T, 3>& m, T angle) {
         return m * rotate(angle);
     }
 
     // scale
 
     template < typename T >
-    constexpr mat<T, 3> scale(const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 2>& v) {
         return {
             {v.x,  0,  0},
             { 0,  v.y, 0},
@@ -323,14 +323,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v) {
         return m * scale(v);
     }
 
     // shear
 
     template < typename T >
-    constexpr mat<T, 3> shear(const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> shear(const vec<T, 2>& v) {
         return {
             { 1,  v.y, 0},
             {v.x,  1,  0},
@@ -338,7 +338,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 3> shear_x(T y) {
+    [[nodiscard]] constexpr mat<T, 3> shear_x(T y) {
         return {
             {1, 0, 0},
             {y, 1, 0},
@@ -346,7 +346,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 3> shear_y(T x) {
+    [[nodiscard]] constexpr mat<T, 3> shear_y(T x) {
         return {
             {1, x, 0},
             {0, 1, 0},
@@ -354,17 +354,17 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v) {
         return m * shear(v);
     }
 
     template < typename T >
-    constexpr mat<T, 3> shear_x(const mat<T, 3>& m, T y) {
+    [[nodiscard]] constexpr mat<T, 3> shear_x(const mat<T, 3>& m, T y) {
         return m * shear_x(y);
     }
 
     template < typename T >
-    constexpr mat<T, 3> shear_y(const mat<T, 3>& m, T x) {
+    [[nodiscard]] constexpr mat<T, 3> shear_y(const mat<T, 3>& m, T x) {
         return m * shear_y(x);
     }
 }
@@ -378,7 +378,7 @@ namespace vmath_hpp
     // orthographic
 
     template < typename T >
-    mat<T, 4> orthographic_lh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> orthographic_lh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
         const T sx = T(2) / (right - left);
         const T sy = T(2) / (top - bottom);
         const T sz = T(1) / (zfar - znear);
@@ -395,7 +395,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> orthographic_lh_no(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> orthographic_lh_no(T left, T right, T bottom, T top, T znear, T zfar) {
         const T sx = T(2) / (right - left);
         const T sy = T(2) / (top - bottom);
         const T sz = T(2) / (zfar - znear);
@@ -412,7 +412,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> orthographic_rh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> orthographic_rh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
         const T sx = T(2) / (right - left);
         const T sy = T(2) / (top - bottom);
         const T sz = -T(1) / (zfar - znear);
@@ -429,7 +429,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> orthographic_rh_no(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> orthographic_rh_no(T left, T right, T bottom, T top, T znear, T zfar) {
         const T sx = T(2) / (right - left);
         const T sy = T(2) / (top - bottom);
         const T sz = -T(2) / (zfar - znear);
@@ -448,7 +448,7 @@ namespace vmath_hpp
     // perspective
 
     template < typename T >
-    mat<T, 4> perspective_lh_zo(T fov, T aspect, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> perspective_lh_zo(T fov, T aspect, T znear, T zfar) {
         const T sy = T(1) / tan(fov * T(0.5));
         const T sx = sy / aspect;
         const T sz = zfar / (zfar - znear);
@@ -461,7 +461,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> perspective_lh_no(T fov, T aspect, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> perspective_lh_no(T fov, T aspect, T znear, T zfar) {
         const T sy = T(1) / tan(fov * T(0.5));
         const T sx = sy / aspect;
         const T sz = (zfar + znear) / (zfar - znear);
@@ -474,7 +474,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> perspective_rh_zo(T fov, T aspect, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> perspective_rh_zo(T fov, T aspect, T znear, T zfar) {
         const T sy = T(1) / tan(fov * T(0.5));
         const T sx = sy / aspect;
         const T sz = zfar / (znear - zfar);
@@ -487,7 +487,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 4> perspective_rh_no(T fov, T aspect, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> perspective_rh_no(T fov, T aspect, T znear, T zfar) {
         const T sy = T(1) / tan(fov * T(0.5));
         const T sx = sy / aspect;
         const T sz = (zfar + znear) / (znear - zfar);
@@ -509,14 +509,14 @@ namespace vmath_hpp
     // angle
 
     template < typename T, std::size_t Size >
-    T angle(const vec<T, Size>& x, const vec<T, Size>& y) {
+    [[nodiscard]] T angle(const vec<T, Size>& x, const vec<T, Size>& y) {
         return acos(dot(x, y) * rsqrt(length2(x) * length2(y)));
     }
 
     // rotate
 
     template < typename T >
-    vec<T, 2> rotate(const vec<T, 2>& v, T angle) {
+    [[nodiscard]] vec<T, 2> rotate(const vec<T, 2>& v, T angle) {
         const T cs = cos(angle);
         const T sn = sin(angle);
         return {
@@ -525,12 +525,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& normal) {
+    [[nodiscard]] vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& normal) {
         return v * mat<T, 3>(rotate(angle, normal));
     }
 
     template < typename T >
-    vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& normal) {
+    [[nodiscard]] vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& normal) {
         return v * rotate(angle, normal);
     }
 }
