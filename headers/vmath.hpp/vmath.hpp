@@ -6,6 +6,13 @@
 
 #pragma once
 
-namespace vmath_hpp
-{
-}
+#include "vmath_fwd.hpp"
+
+#include "vmath_fun.hpp"
+#include "vmath_ext.hpp"
+
+#include "vmath_mat.hpp"
+#include "vmath_mat_fun.hpp"
+
+#include "vmath_vec.hpp"
+#include "vmath_vec_fun.hpp"
