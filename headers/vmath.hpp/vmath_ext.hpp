@@ -181,6 +181,14 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
+    constexpr mat<T, 3> translate(const vec<T, 2>& v) {
+        return {
+            { 1,   0,  0},
+            { 0,   1,  0},
+            {v.x, v.y, 1}};
+    }
+
+    template < typename T >
     constexpr mat<T, 4> translate(const vec<T, 3>& v) {
         return {
             { 1,   0,   0,  0},
@@ -190,11 +198,26 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    constexpr mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v) {
+        return m * translate(v);
+    }
+
+    template < typename T >
     constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v) {
         return m * translate(v);
     }
 
     // rotate
+
+    template < typename T >
+    mat<T, 3> rotate(T angle) {
+        const T cs = cos(angle);
+        const T sn = sin(angle);
+        return {
+            cs,  sn, 0,
+            -sn, cs, 0,
+            0,   0,  1};
+    }
 
     template < typename T >
     mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
@@ -221,6 +244,11 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    mat<T, 3> rotate(const mat<T, 3>& m, T angle) {
+        return m * rotate(angle);
+    }
+
+    template < typename T >
     mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
         return m * rotate(angle, axis);
     }
@@ -228,12 +256,25 @@ namespace vmath_hpp
     // scale
 
     template < typename T >
+    constexpr mat<T, 3> scale(const vec<T, 2>& v) {
+        return {
+            {v.x,  0,  0},
+            { 0,  v.y, 0},
+            { 0,   0,  1}};
+    }
+
+    template < typename T >
     constexpr mat<T, 4> scale(const vec<T, 3>& v) {
         return {
-            {v.x,   0,    0,  0},
-            { 0,   v.y,   0,  0},
-            { 0,    0,   v.z, 0},
-            { 0,    0,    0,  1}};
+            {v.x,  0,   0,  0},
+            { 0,  v.y,  0,  0},
+            { 0,   0,  v.z, 0},
+            { 0,   0,   0,  1}};
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v) {
+        return m * scale(v);
     }
 
     template < typename T >

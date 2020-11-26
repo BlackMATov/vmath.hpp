@@ -108,6 +108,9 @@ TEST_CASE("vmath/ext") {
     }
 
     SECTION("matrix translate") {
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(float2{1.f,2.f}) == approx3(3.f,5.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(translate(float2{1.f,2.f}), float2{1.f,2.f}) == approx3(4.f,7.f,1.f));
+
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(float3{1.f,2.f,3.f}) == approx4(3.f,5.f,7.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(translate(float3{1.f,2.f,3.f}), float3{1.f,2.f,3.f}) == approx4(4.f,7.f,10.f,1.f));
     }
@@ -116,17 +119,21 @@ TEST_CASE("vmath/ext") {
         constexpr float pi = radians(180.f);
         constexpr float pi_2 = radians(90.f);
 
+        REQUIRE(float3(2.f,3.f,1.f) * rotate(pi) == approx3(-2.f,-3.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,float3{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
 
+        REQUIRE(float3(2.f,3.f,1.f) * rotate(rotate(pi_2),pi_2) == approx3(-2.f,-3.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,float3{0.f,0.f,1.f}),pi_2,float3{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
     }
 
     SECTION("matrix scale") {
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(float2{2.f,3.f}) == approx3(4.f,9.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == approx4(4.f,9.f,16.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == approx4(4.f,9.f,16.f,1.f));
 
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(scale(float2{2.f,2.f}), {2.f,3.f}) == approx3(8.f,18.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), {2.f,3.f,4.f}) == approx4(8.f,18.f,32.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), float3{2.f,3.f,4.f}) == approx4(8.f,18.f,32.f,1.f));
     }
