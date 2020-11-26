@@ -269,9 +269,25 @@ namespace vmath_hpp
         return t * t * (T(3) - T(2) * t);
     }
 
-    using ::std::isnan;
-    using ::std::isinf;
-    using ::std::isfinite;
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    isnan(T x) noexcept {
+        return std::isnan(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    isinf(T x) noexcept {
+        return std::isinf(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    isfinite(T x) noexcept {
+        return std::isfinite(x);
+    }
+
+    //
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>

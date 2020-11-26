@@ -98,9 +98,9 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(step(0.5f, 0.6f) == approx(1.f));
         STATIC_REQUIRE(smoothstep(0.f, 1.f, 0.1f) == approx(0.028f));
 
-        REQUIRE_FALSE(isnan(1.f));
-        REQUIRE_FALSE(isinf(1.f));
-        REQUIRE(isfinite(1.f));
+        REQUIRE_FALSE(vmath_hpp::isnan(1.f));
+        REQUIRE_FALSE(vmath_hpp::isinf(1.f));
+        REQUIRE(vmath_hpp::isfinite(1.f));
 
         REQUIRE(fma(2.f, 3.f, 4.f) == approx(10.f));
 

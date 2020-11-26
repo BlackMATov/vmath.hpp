@@ -99,7 +99,10 @@ namespace std
 namespace vmath_hpp
 {
     template < typename To, typename From >
-    [[nodiscard]] constexpr To cast_to(From x) noexcept {
+    [[nodiscard]] std::enable_if_t<
+        std::is_arithmetic_v<To> && std::is_arithmetic_v<From>
+    , To>
+    constexpr cast_to(From x) noexcept {
         return static_cast<To>(x);
     }
 
