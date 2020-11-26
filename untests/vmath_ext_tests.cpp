@@ -138,6 +138,22 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), float3{2.f,3.f,4.f}) == approx4(8.f,18.f,32.f,1.f));
     }
 
+    SECTION("matrix shear") {
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(0.f) == approx3(2.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(1.f) == approx3(5.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(shear_x(1.f),1.f) == approx3(8.f,3.f,1.f));
+
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(0.f) == approx3(2.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(1.f) == approx3(2.f,5.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(shear_y(1.f),1.f) == approx3(2.f,7.f,1.f));
+
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,0.f)) == approx3(2.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(1.f,0.f)) == approx3(5.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,1.f)) == approx3(2.f,5.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(1.f,0.f)),float2(1.f,0.f)) == approx3(8.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(0.f,1.f)),float2(0.f,1.f)) == approx3(2.f,7.f,1.f));
+    }
+
     SECTION("matrix look_at") {
         look_at_lh(float3(-10.f), float3(0.f), float3(0,-1,0));
         look_at_rh(float3(-10.f), float3(0.f), float3(0,-1,0));

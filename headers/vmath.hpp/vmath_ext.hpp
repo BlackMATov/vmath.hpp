@@ -173,20 +173,12 @@ namespace vmath_hpp
 }
 
 //
-// Matrix Transform
+// Matrix Transform 3D
 //
 
 namespace vmath_hpp
 {
     // translate
-
-    template < typename T >
-    constexpr mat<T, 3> translate(const vec<T, 2>& v) {
-        return {
-            { 1,   0,  0},
-            { 0,   1,  0},
-            {v.x, v.y, 1}};
-    }
 
     template < typename T >
     constexpr mat<T, 4> translate(const vec<T, 3>& v) {
@@ -198,26 +190,11 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v) {
-        return m * translate(v);
-    }
-
-    template < typename T >
     constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v) {
         return m * translate(v);
     }
 
     // rotate
-
-    template < typename T >
-    mat<T, 3> rotate(T angle) {
-        const T cs = cos(angle);
-        const T sn = sin(angle);
-        return {
-            cs,  sn, 0,
-            -sn, cs, 0,
-            0,   0,  1};
-    }
 
     template < typename T >
     mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
@@ -244,24 +221,11 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    mat<T, 3> rotate(const mat<T, 3>& m, T angle) {
-        return m * rotate(angle);
-    }
-
-    template < typename T >
     mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
         return m * rotate(angle, axis);
     }
 
     // scale
-
-    template < typename T >
-    constexpr mat<T, 3> scale(const vec<T, 2>& v) {
-        return {
-            {v.x,  0,  0},
-            { 0,  v.y, 0},
-            { 0,   0,  1}};
-    }
 
     template < typename T >
     constexpr mat<T, 4> scale(const vec<T, 3>& v) {
@@ -270,11 +234,6 @@ namespace vmath_hpp
             { 0,  v.y,  0,  0},
             { 0,   0,  v.z, 0},
             { 0,   0,   0,  1}};
-    }
-
-    template < typename T >
-    constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v) {
-        return m * scale(v);
     }
 
     template < typename T >
@@ -312,6 +271,101 @@ namespace vmath_hpp
             ax.y, ay.y, az.y, 0,
             ax.z, ay.z, az.z, 0,
             -dx,  -dy,  -dz,  1};
+    }
+}
+
+//
+// Matrix Transform 2D
+//
+
+namespace vmath_hpp
+{
+    // translate
+
+    template < typename T >
+    constexpr mat<T, 3> translate(const vec<T, 2>& v) {
+        return {
+            { 1,   0,  0},
+            { 0,   1,  0},
+            {v.x, v.y, 1}};
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v) {
+        return m * translate(v);
+    }
+
+    // rotate
+
+    template < typename T >
+    mat<T, 3> rotate(T angle) {
+        const T cs = cos(angle);
+        const T sn = sin(angle);
+        return {
+            cs,  sn, 0,
+            -sn, cs, 0,
+            0,   0,  1};
+    }
+
+    template < typename T >
+    mat<T, 3> rotate(const mat<T, 3>& m, T angle) {
+        return m * rotate(angle);
+    }
+
+    // scale
+
+    template < typename T >
+    constexpr mat<T, 3> scale(const vec<T, 2>& v) {
+        return {
+            {v.x,  0,  0},
+            { 0,  v.y, 0},
+            { 0,   0,  1}};
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v) {
+        return m * scale(v);
+    }
+
+    // shear
+
+    template < typename T >
+    constexpr mat<T, 3> shear(const vec<T, 2>& v) {
+        return {
+            { 1,  v.y, 0},
+            {v.x,  1,  0},
+            { 0,   0,  1}};
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> shear_x(T y) {
+        return {
+            {1, 0, 0},
+            {y, 1, 0},
+            {0, 0, 1}};
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> shear_y(T x) {
+        return {
+            {1, x, 0},
+            {0, 1, 0},
+            {0, 0, 1}};
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v) {
+        return m * shear(v);
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> shear_x(const mat<T, 3>& m, T y) {
+        return m * shear_x(y);
+    }
+
+    template < typename T >
+    constexpr mat<T, 3> shear_y(const mat<T, 3>& m, T x) {
+        return m * shear_y(x);
     }
 }
 
