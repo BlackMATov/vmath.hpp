@@ -197,22 +197,22 @@ namespace vmath_hpp
             }
         }
 
-        constexpr reference operator[](std::size_t index) noexcept {
+        [[nodiscard]] constexpr reference operator[](std::size_t index) noexcept {
             return rows[index];
         }
 
-        constexpr const_reference operator[](std::size_t index) const noexcept {
+        [[nodiscard]] constexpr const_reference operator[](std::size_t index) const noexcept {
             return rows[index];
         }
 
-        constexpr reference at(std::size_t index) {
+        [[nodiscard]] constexpr reference at(std::size_t index) {
             if ( index >= Size ) {
                 throw std::out_of_range("mat::at");
             }
             return rows[index];
         }
 
-        constexpr const_reference at(std::size_t index) const {
+        [[nodiscard]] constexpr const_reference at(std::size_t index) const {
             if ( index >= Size ) {
                 throw std::out_of_range("mat::at");
             }

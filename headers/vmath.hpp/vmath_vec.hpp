@@ -32,7 +32,7 @@ namespace vmath_hpp::detail
         constexpr explicit vec_base(const vec_base<T, 4>& xy)
         : x{xy[0]}, y{xy[1]} {}
 
-        constexpr T& operator[](std::size_t index) noexcept {
+        [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
             default:
             case 0: return x;
@@ -40,7 +40,7 @@ namespace vmath_hpp::detail
             }
         }
 
-        constexpr const T& operator[](std::size_t index) const noexcept {
+        [[nodiscard]] constexpr const T& operator[](std::size_t index) const noexcept {
             switch ( index ) {
             default:
             case 0: return x;
@@ -71,7 +71,7 @@ namespace vmath_hpp::detail
         constexpr explicit vec_base(const vec_base<T, 4>& xyz)
         : x{xyz[0]}, y{xyz[1]}, z{xyz[2]} {}
 
-        constexpr T& operator[](std::size_t index) noexcept {
+        [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
             default:
             case 0: return x;
@@ -80,7 +80,7 @@ namespace vmath_hpp::detail
             }
         }
 
-        constexpr const T& operator[](std::size_t index) const noexcept {
+        [[nodiscard]] constexpr const T& operator[](std::size_t index) const noexcept {
             switch ( index ) {
             default:
             case 0: return x;
@@ -121,7 +121,7 @@ namespace vmath_hpp::detail
         constexpr vec_base(T x, const vec_base<T, 3>& yzw)
         : x{x}, y{yzw[0]}, z{yzw[1]}, w{yzw[2]} {}
 
-        constexpr T& operator[](std::size_t index) noexcept {
+        [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
             default:
             case 0: return x;
@@ -131,7 +131,7 @@ namespace vmath_hpp::detail
             }
         }
 
-        constexpr const T& operator[](std::size_t index) const noexcept {
+        [[nodiscard]] constexpr const T& operator[](std::size_t index) const noexcept {
             switch ( index ) {
             default:
             case 0: return x;
@@ -179,14 +179,14 @@ namespace vmath_hpp
             }
         }
 
-        constexpr reference at(std::size_t index) {
+        [[nodiscard]] constexpr reference at(std::size_t index) {
             if ( index >= Size ) {
                 throw std::out_of_range("vec::at");
             }
             return (*this)[index];
         }
 
-        constexpr const_reference at(std::size_t index) const {
+        [[nodiscard]] constexpr const_reference at(std::size_t index) const {
             if ( index >= Size ) {
                 throw std::out_of_range("vec::at");
             }

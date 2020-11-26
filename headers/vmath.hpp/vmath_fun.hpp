@@ -15,14 +15,14 @@
 namespace vmath_hpp
 {
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_floating_point_v<T>, T>
-    radians(T degrees) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr radians(T degrees) noexcept {
         return degrees * T(0.01745329251994329576923690768489);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_floating_point_v<T>, T>
-    degrees(T radians) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr degrees(T radians) noexcept {
         return radians * T(57.295779513082320876798154814105);
     }
 
@@ -180,6 +180,12 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr reciprocal(T x) noexcept {
+        return T(1) / x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     floor(T x) noexcept {
         return std::floor(x);
     }
@@ -293,32 +299,32 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, T>
-    dot(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr dot(T x, T y) noexcept {
         return x * y;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, T>
-    length(T x) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr length(T x) noexcept {
         return abs(x);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, T>
-    length2(T x) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr length2(T x) noexcept {
         return dot(x, x);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, T>
-    distance(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr distance(T x, T y) noexcept {
         return length(y - x);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, T>
-    distance2(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr distance2(T x, T y) noexcept {
         return length2(y - x);
     }
 
@@ -329,14 +335,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_floating_point_v<T>, T>
-    faceforward(T n, T i, T nref) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr faceforward(T n, T i, T nref) noexcept {
         return dot(nref, i) < T(0) ? n : -n;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_floating_point_v<T>, T>
-    reflect(T i, T n) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr reflect(T i, T n) noexcept {
         return i - n * dot(n, i) * T(2);
     }
 
@@ -356,62 +362,62 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    less(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr less(T x, T y) noexcept {
         return x < y;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    less_equal(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr less_equal(T x, T y) noexcept {
         return x <= y;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    greater(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr greater(T x, T y) noexcept {
         return x > y;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    greater_equal(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr greater_equal(T x, T y) noexcept {
         return x >= y;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    equal_to(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr equal_to(T x, T y) noexcept {
         return x == y;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    equal_to(T x, T y, T epsilon) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr equal_to(T x, T y, T epsilon) noexcept {
         return abs(x - y) <= epsilon;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    not_equal_to(T x, T y) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr not_equal_to(T x, T y) noexcept {
         return x != y;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    not_equal_to(T x, T y, T epsilon) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr not_equal_to(T x, T y, T epsilon) noexcept {
         return abs(x - y) > epsilon;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    any(T x) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr any(T x) noexcept {
         return !!x;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    all(T x) noexcept {
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr all(T x) noexcept {
         return !!x;
     }
 }

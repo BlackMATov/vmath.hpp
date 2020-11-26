@@ -18,6 +18,32 @@ namespace
 }
 
 TEST_CASE("vmath/vec_fun") {
+    SECTION("Detail") {
+        STATIC_REQUIRE(map([](const int& x){
+            return x * 2;
+        }, int2{1}) == int2{2});
+
+        STATIC_REQUIRE(zip([](const int& x, const int& y){
+            return x + y;
+        }, int2{1}, int2{1}) == int2{2});
+
+        STATIC_REQUIRE(zip([](const int& x, const int& y, const int& z){
+            return x + y + z;
+        }, int2{1}, int2{1}, int2{1}) == int2(3));
+
+        STATIC_REQUIRE(fold([](int acc, const int& x){
+            return acc + x;
+        }, 0, int2{1}) == 2);
+
+        STATIC_REQUIRE(fold([](int acc, const int& x, const int& y){
+            return acc + x + y;
+        }, 0, int2{1}, int2{1}) == 4);
+
+        STATIC_REQUIRE(fold1([](const int& acc, const int& x){
+            return acc + x;
+        }, int2{1}) == 2);
+    }
+
     SECTION("Operators") {
         STATIC_REQUIRE(-int2(1,-2) == int2(-1,2));
 
@@ -99,8 +125,8 @@ TEST_CASE("vmath/vec_fun") {
     }
 
     SECTION("Common Functions") {
-        REQUIRE(abs(float2(1.f, -1.f)) == approx2(1.f,1.f));
-        REQUIRE(sign(float3(1.f, -1.f, 0.f)) == approx3(1.f,-1.f,0.f));
+        STATIC_REQUIRE(abs(float2(1.f, -1.f)) == approx2(1.f,1.f));
+        STATIC_REQUIRE(sign(float3(1.f, -1.f, 0.f)) == approx3(1.f,-1.f,0.f));
 
         (void)floor(float2(1.f, -1.f));
         (void)trunc(float2(1.f, -1.f));
@@ -201,19 +227,19 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(any(bool2(false, true)));
         STATIC_REQUIRE(any(bool2(true, true)));
 
-        STATIC_REQUIRE_FALSE(any(bool2(0, 0)));
-        STATIC_REQUIRE(any(bool2(1, 0)));
-        STATIC_REQUIRE(any(bool2(0, 1)));
-        STATIC_REQUIRE(any(bool2(1, 1)));
+        STATIC_REQUIRE_FALSE(any(int2(0, 0)));
+        STATIC_REQUIRE(any(int2(1, 0)));
+        STATIC_REQUIRE(any(int2(0, 1)));
+        STATIC_REQUIRE(any(int2(1, 1)));
 
         STATIC_REQUIRE_FALSE(all(bool2(false, false)));
         STATIC_REQUIRE_FALSE(all(bool2(true, false)));
         STATIC_REQUIRE_FALSE(all(bool2(false, true)));
         STATIC_REQUIRE(all(bool2(true, true)));
 
-        STATIC_REQUIRE_FALSE(all(bool2(0, 0)));
-        STATIC_REQUIRE_FALSE(all(bool2(1, 0)));
-        STATIC_REQUIRE_FALSE(all(bool2(0, 1)));
-        STATIC_REQUIRE(all(bool2(1, 1)));
+        STATIC_REQUIRE_FALSE(all(int2(0, 0)));
+        STATIC_REQUIRE_FALSE(all(int2(1, 0)));
+        STATIC_REQUIRE_FALSE(all(int2(0, 1)));
+        STATIC_REQUIRE(all(int2(1, 1)));
     }
 }

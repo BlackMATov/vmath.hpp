@@ -35,6 +35,32 @@ namespace
 }
 
 TEST_CASE("vmath/mat_fun") {
+    SECTION("Detail") {
+        STATIC_REQUIRE(map([](const int2& x){
+            return x * 2;
+        }, int2x2{}) == int2x2(2,0,0,2));
+
+        STATIC_REQUIRE(zip([](const int2& x, const int2& y){
+            return x + y;
+        }, int2x2{}, int2x2{}) == int2x2(2,0,0,2));
+
+        STATIC_REQUIRE(zip([](const int2& x, const int2& y, const int2& z){
+            return x + y + z;
+        }, int2x2{}, int2x2{}, int2x2{}) == int2x2(3,0,0,3));
+
+        STATIC_REQUIRE(fold([](int acc, const int2& x){
+            return acc + x.x;
+        }, 0, int2x2{}) == 1);
+
+        STATIC_REQUIRE(fold([](int acc, const int2& x, const int2& y){
+            return acc + x.x + y.x;
+        }, 0, int2x2{}, int2x2{}) == 2);
+
+        STATIC_REQUIRE(fold1([](const int2& acc, const int2& x){
+            return acc + x;
+        }, int2x2{}) == int2(1,1));
+    }
+
     SECTION("Operators") {
         STATIC_REQUIRE(-int2x2(1,2,3,4) == int2x2(-1,-2,-3,-4));
 
@@ -157,9 +183,9 @@ TEST_CASE("vmath/mat_fun") {
             STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 4>())) == 1);
         }
         {
-            STATIC_REQUIRE(inverse(int2x2()) == int2x2());
-            STATIC_REQUIRE(inverse(int3x3()) == int3x3());
-            STATIC_REQUIRE(inverse(int4x4()) == int4x4());
+            STATIC_REQUIRE(inverse(float2x2()) == float2x2());
+            STATIC_REQUIRE(inverse(float3x3()) == float3x3());
+            STATIC_REQUIRE(inverse(float4x4()) == float4x4());
 
             STATIC_REQUIRE(inverse(float2x2(0.5)) == float2x2(2.f));
             STATIC_REQUIRE(inverse(float3x3(0.5)) == float3x3(2.f));

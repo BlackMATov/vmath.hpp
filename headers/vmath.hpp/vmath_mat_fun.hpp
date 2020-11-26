@@ -11,69 +11,85 @@
 #include "vmath_fun.hpp"
 #include "vmath_mat.hpp"
 
+#include "vmath_vec.hpp"
+#include "vmath_vec_fun.hpp"
+
 namespace vmath_hpp::detail
 {
     namespace impl
     {
         template < typename A, std::size_t Size, typename F, std::size_t... Is >
-        constexpr auto map_impl(F&& f, const mat<A, Size>& a, std::index_sequence<Is...>)
+        [[nodiscard]] constexpr auto map_impl(F&& f, const mat<A, Size>& a, std::index_sequence<Is...>)
             -> mat<typename std::invoke_result_t<F, vec<A, Size>>::value_type, Size>
         {
             return { f(a[Is])... };
         }
 
         template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
-        constexpr auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, std::index_sequence<Is...>)
+        [[nodiscard]] constexpr auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, std::index_sequence<Is...>)
             -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::value_type, Size>
         {
             return { f(a[Is], b[Is])... };
         }
 
         template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
-        constexpr auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
+        [[nodiscard]] constexpr auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
             -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::value_type, Size>
         {
             return { f(a[Is], b[Is], c[Is])... };
         }
 
         template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
-        constexpr auto fold_impl(F&& f, A init, const mat<B, Size>& b, std::index_sequence<Is...>)
-            -> A
-        {
+        [[nodiscard]] constexpr A fold_impl(F&& f, A init, const mat<B, Size>& b, std::index_sequence<Is...>) {
             return ((init = f(std::move(init), b[Is])), ...);
         }
 
         template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
-        constexpr auto fold_impl(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
-            -> A
-        {
+        [[nodiscard]] constexpr A fold_impl(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>) {
             return ((init = f(std::move(init), b[Is], c[Is])), ...);
+        }
+
+        template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
+        [[nodiscard]] constexpr vec<A, Size> fold1_impl(F&& f, const mat<A, Size>& a, std::index_sequence<I, Is...>) {
+            vec<A, Size> init = a[I];
+            return ((init = f(std::move(init), a[Is])), ...);
         }
     }
 
     template < typename A, std::size_t Size, typename F >
-    constexpr auto map(F&& f, const mat<A, Size>& a) {
+    [[nodiscard]] constexpr auto map(F&& f, const mat<A, Size>& a)
+        -> mat<typename std::invoke_result_t<F, vec<A, Size>>::value_type, Size>
+    {
         return impl::map_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
-    constexpr auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b) {
+    [[nodiscard]] constexpr auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b)
+        -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::value_type, Size>
+    {
         return impl::zip_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
-    constexpr auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c) {
+    [[nodiscard]] constexpr auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c)
+        -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::value_type, Size>
+    {
         return impl::zip_impl(std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
-    constexpr auto fold(F&& f, A init, const mat<B, Size>& b) {
+    [[nodiscard]] constexpr A fold(F&& f, A init, const mat<B, Size>& b) {
         return impl::fold_impl(std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
-    constexpr auto fold(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c) {
+    [[nodiscard]] constexpr A fold(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c) {
         return impl::fold_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, std::size_t Size, typename F >
+    [[nodiscard]] constexpr vec<A, Size> fold1(F&& f, const mat<A, Size>& a) {
+        return impl::fold1_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 }
 
@@ -86,24 +102,24 @@ namespace vmath_hpp
     // -operator
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator-(const mat<T, Size>& xs) {
+    [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs) {
         return map(std::negate<>(), xs);
     }
 
     // operator+
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator+(const mat<T, Size>& xs, T y) {
+    [[nodiscard]] constexpr mat<T, Size> operator+(const mat<T, Size>& xs, T y) {
         return map([y](const vec<T, Size>& x){ return x + y; }, xs);
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator+(T x, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr mat<T, Size> operator+(T x, const mat<T, Size>& ys) {
         return map([x](const vec<T, Size>& y){ return x + y; }, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator+(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr mat<T, Size> operator+(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return zip(std::plus<>(), xs, ys);
     }
 
@@ -122,17 +138,17 @@ namespace vmath_hpp
     // operator-
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator-(const mat<T, Size>& xs, T y) {
+    [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs, T y) {
         return map([y](const vec<T, Size>& x){ return x - y; }, xs);
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator-(T x, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr mat<T, Size> operator-(T x, const mat<T, Size>& ys) {
         return map([x](const vec<T, Size>& y){ return x - y; }, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return zip(std::minus<>(), xs, ys);
     }
 
@@ -151,24 +167,24 @@ namespace vmath_hpp
     // operator*
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator*(const mat<T, Size>& xs, T y) {
+    [[nodiscard]] constexpr mat<T, Size> operator*(const mat<T, Size>& xs, T y) {
         return map([y](const vec<T, Size>& x){ return x * y; }, xs);
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator*(T x, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr mat<T, Size> operator*(T x, const mat<T, Size>& ys) {
         return map([x](const vec<T, Size>& y){ return x * y; }, ys);
     }
 
     template < typename T >
-    constexpr vec<T, 2> operator*(const vec<T, 2>& xs, const mat<T, 2>& ys) {
+    [[nodiscard]] constexpr vec<T, 2> operator*(const vec<T, 2>& xs, const mat<T, 2>& ys) {
         return {
             xs.x * ys[0][0] + xs.y * ys[1][0],
             xs.x * ys[0][1] + xs.y * ys[1][1]};
     }
 
     template < typename T >
-    constexpr mat<T, 2> operator*(const mat<T, 2>& xs, const mat<T, 2>& ys) {
+    [[nodiscard]] constexpr mat<T, 2> operator*(const mat<T, 2>& xs, const mat<T, 2>& ys) {
         return {
             xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0],
             xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1],
@@ -178,7 +194,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const mat<T, 3>& ys) {
+    [[nodiscard]] constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const mat<T, 3>& ys) {
         return {
             xs.x * ys[0][0] + xs.y * ys[1][0] + xs.z * ys[2][0],
             xs.x * ys[0][1] + xs.y * ys[1][1] + xs.z * ys[2][1],
@@ -186,7 +202,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 3> operator*(const mat<T, 3>& xs, const mat<T, 3>& ys) {
+    [[nodiscard]] constexpr mat<T, 3> operator*(const mat<T, 3>& xs, const mat<T, 3>& ys) {
         return {
             xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0] + xs[0][2] * ys[2][0],
             xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1] + xs[0][2] * ys[2][1],
@@ -202,7 +218,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr vec<T, 4> operator*(const vec<T, 4>& xs, const mat<T, 4>& ys) {
+    [[nodiscard]] constexpr vec<T, 4> operator*(const vec<T, 4>& xs, const mat<T, 4>& ys) {
         return {
             xs.x * ys[0][0] + xs.y * ys[1][0] + xs.z * ys[2][0] + xs.w * ys[3][0],
             xs.x * ys[0][1] + xs.y * ys[1][1] + xs.z * ys[2][1] + xs.w * ys[3][1],
@@ -211,7 +227,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 4> operator*(const mat<T, 4>& xs, const mat<T, 4>& ys) {
+    [[nodiscard]] constexpr mat<T, 4> operator*(const mat<T, 4>& xs, const mat<T, 4>& ys) {
         return {
             xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0] + xs[0][2] * ys[2][0] + xs[0][3] * ys[3][0],
             xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1] + xs[0][2] * ys[2][1] + xs[0][3] * ys[3][1],
@@ -254,17 +270,17 @@ namespace vmath_hpp
     // operator/
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator/(const mat<T, Size>& xs, T y) {
+    [[nodiscard]] constexpr mat<T, Size> operator/(const mat<T, Size>& xs, T y) {
         return map([y](const vec<T, Size>& x){ return x / y; }, xs);
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator/(T x, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr mat<T, Size> operator/(T x, const mat<T, Size>& ys) {
         return map([x](const vec<T, Size>& y){ return x / y; }, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return zip(std::divides<>(), xs, ys);
     }
 
@@ -283,14 +299,14 @@ namespace vmath_hpp
     // operator==
 
     template < typename T, std::size_t Size >
-    constexpr bool operator==(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr bool operator==(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return fold([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
             return acc && (x == y);
         }, true, xs, ys);
     }
 
     template < typename T, std::size_t Size >
-    constexpr bool operator!=(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr bool operator!=(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return fold([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
             return acc || (x != y);
         }, false, xs, ys);
@@ -299,7 +315,7 @@ namespace vmath_hpp
     // operator<
 
     template < typename T, std::size_t Size >
-    constexpr bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    [[nodiscard]] constexpr bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         for ( std::size_t i = 0; i < Size; ++i ) {
             if ( xs[i] < ys[i] ) {
                 return true;
@@ -321,7 +337,7 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T >
-        constexpr mat<T, 2> transpose_2x2_impl(
+        [[nodiscard]] constexpr mat<T, 2> transpose_2x2_impl(
             T a, T c,
             T b, T d)
         {
@@ -331,7 +347,7 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        constexpr mat<T, 3> transpose_3x3_impl(
+        [[nodiscard]] constexpr mat<T, 3> transpose_3x3_impl(
             T a, T d, T g,
             T b, T e, T h,
             T c, T f, T i)
@@ -343,7 +359,7 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        constexpr mat<T, 4> transpose_4x4_impl(
+        [[nodiscard]] constexpr mat<T, 4> transpose_4x4_impl(
             T a, T e, T i, T m,
             T b, T f, T j, T n,
             T c, T g, T k, T o,
@@ -358,14 +374,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 2> transpose(const mat<T, 2>& m) {
+    [[nodiscard]] constexpr mat<T, 2> transpose(const mat<T, 2>& m) {
         return impl::transpose_2x2_impl(
             m[0][0], m[0][1],
             m[1][0], m[1][1]);
     }
 
     template < typename T >
-    constexpr mat<T, 3> transpose(const mat<T, 3>& m) {
+    [[nodiscard]] constexpr mat<T, 3> transpose(const mat<T, 3>& m) {
         return impl::transpose_3x3_impl(
             m[0][0], m[0][1], m[0][2],
             m[1][0], m[1][1], m[1][2],
@@ -373,7 +389,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 4> transpose(const mat<T, 4>& m) {
+    [[nodiscard]] constexpr mat<T, 4> transpose(const mat<T, 4>& m) {
         return impl::transpose_4x4_impl(
             m[0][0], m[0][1], m[0][2], m[0][3],
             m[1][0], m[1][1], m[1][2], m[1][3],
@@ -384,7 +400,7 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T >
-        constexpr T determinant_2x2_impl(
+        [[nodiscard]] constexpr T determinant_2x2_impl(
             T a, T b,
             T c, T d)
         {
@@ -394,7 +410,7 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        constexpr T determinant_3x3_impl(
+        [[nodiscard]] constexpr T determinant_3x3_impl(
             T a, T b, T c,
             T d, T e, T f,
             T g, T h, T i)
@@ -407,7 +423,7 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        constexpr T determinant_4x4_impl(
+        [[nodiscard]] constexpr T determinant_4x4_impl(
             T a, T b, T c, T d,
             T e, T f, T g, T h,
             T i, T j, T k, T l,
@@ -422,14 +438,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr T determinant(const mat<T, 2>& m) {
+    [[nodiscard]] constexpr T determinant(const mat<T, 2>& m) {
         return impl::determinant_2x2_impl(
             m[0][0], m[0][1],
             m[1][0], m[1][1]);
     }
 
     template < typename T >
-    constexpr T determinant(const mat<T, 3>& m) {
+    [[nodiscard]] constexpr T determinant(const mat<T, 3>& m) {
         return impl::determinant_3x3_impl(
             m[0][0], m[0][1], m[0][2],
             m[1][0], m[1][1], m[1][2],
@@ -437,7 +453,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr T determinant(const mat<T, 4>& m) {
+    [[nodiscard]] constexpr T determinant(const mat<T, 4>& m) {
         return impl::determinant_4x4_impl(
             m[0][0], m[0][1], m[0][2], m[0][3],
             m[1][0], m[1][1], m[1][2], m[1][3],
@@ -448,13 +464,13 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T >
-        constexpr mat<T, 2> inverse_2x2_impl(
+        [[nodiscard]] constexpr mat<T, 2> inverse_2x2_impl(
             T a, T b,
             T c, T d)
         {
-            const T inv_det = T(1) / determinant_2x2_impl(
+            const T inv_det = reciprocal(determinant_2x2_impl(
                 a, b,
-                c, d);
+                c, d));
 
             const mat<T, 2> inv_m(
                 d, -b,
@@ -464,15 +480,15 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        constexpr mat<T, 3> inverse_3x3_impl(
+        [[nodiscard]] constexpr mat<T, 3> inverse_3x3_impl(
             T a, T b, T c,
             T d, T e, T f,
             T g, T h, T i)
         {
-            const T inv_det = T(1) / determinant_3x3_impl(
+            const T inv_det = reciprocal(determinant_3x3_impl(
                 a, b, c,
                 d, e, f,
-                g, h, i);
+                g, h, i));
 
             const mat<T, 3> inv_m(
                 e * i - f * h,
@@ -489,17 +505,17 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        constexpr mat<T, 4> inverse_4x4_impl(
+        [[nodiscard]] constexpr mat<T, 4> inverse_4x4_impl(
             T a, T b, T c, T d,
             T e, T f, T g, T h,
             T i, T j, T k, T l,
             T m, T n, T o, T p)
         {
-            const T inv_det = T(1) / determinant_4x4_impl(
+            const T inv_det = reciprocal(determinant_4x4_impl(
                 a, b, c, d,
                 e, f, g, h,
                 i, j, k, l,
-                m, n, o, p);
+                m, n, o, p));
 
             const mat<T, 4> inv_m(
                 (f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n)),
@@ -524,14 +540,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 2> inverse(const mat<T, 2>& m) {
+    [[nodiscard]] constexpr mat<T, 2> inverse(const mat<T, 2>& m) {
         return impl::inverse_2x2_impl(
             m[0][0], m[0][1],
             m[1][0], m[1][1]);
     }
 
     template < typename T >
-    constexpr mat<T, 3>inverse(const mat<T, 3>& m) {
+    [[nodiscard]] constexpr mat<T, 3> inverse(const mat<T, 3>& m) {
         return impl::inverse_3x3_impl(
             m[0][0], m[0][1], m[0][2],
             m[1][0], m[1][1], m[1][2],
@@ -539,7 +555,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    constexpr mat<T, 4>inverse(const mat<T, 4>& m) {
+    [[nodiscard]] constexpr mat<T, 4> inverse(const mat<T, 4>& m) {
         return impl::inverse_4x4_impl(
             m[0][0], m[0][1], m[0][2], m[0][3],
             m[1][0], m[1][1], m[1][2], m[1][3],
