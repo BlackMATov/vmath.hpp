@@ -111,19 +111,19 @@ TEST_CASE("vmath/fun") {
     }
 
     SECTION("Geometric Functions") {
-        REQUIRE(length(10.f) == approx(10.f));
-        REQUIRE(length(-10.f) == approx(10.f));
+        STATIC_REQUIRE(length(10.f) == approx(10.f));
+        STATIC_REQUIRE(length(-10.f) == approx(10.f));
 
         STATIC_REQUIRE(length2(10.f) == approx(100.f));
         STATIC_REQUIRE(length2(-10.f) == approx(100.f));
 
-        REQUIRE(distance(5.f, 10.f) == approx(5.f));
-        REQUIRE(distance(-5.f, -10.f) == approx(5.f));
+        STATIC_REQUIRE(distance(5.f, 10.f) == approx(5.f));
+        STATIC_REQUIRE(distance(-5.f, -10.f) == approx(5.f));
 
         STATIC_REQUIRE(distance2(5.f, 10.f) == approx(25.f));
         STATIC_REQUIRE(distance2(-5.f, -10.f) == approx(25.f));
 
-        REQUIRE(dot(2.f, 5.f) == approx(10.f));
+        STATIC_REQUIRE(dot(2.f, 5.f) == approx(10.f));
         REQUIRE(normalize(0.5f) == approx(1.f));
 
         STATIC_REQUIRE(faceforward(1.f, 2.f, 3.f) == approx(-1.f));
@@ -155,12 +155,13 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE_FALSE(not_equal_to(1, 1, 1));
 
         STATIC_REQUIRE_FALSE(any(false));
+        STATIC_REQUIRE_FALSE(any(0));
         STATIC_REQUIRE(any(true));
+        STATIC_REQUIRE(any(1));
 
         STATIC_REQUIRE_FALSE(all(false));
+        STATIC_REQUIRE_FALSE(all(0));
         STATIC_REQUIRE(all(true));
-
-        STATIC_REQUIRE_FALSE(not_(true));
-        STATIC_REQUIRE(not_(false));
+        STATIC_REQUIRE(all(1));
     }
 }

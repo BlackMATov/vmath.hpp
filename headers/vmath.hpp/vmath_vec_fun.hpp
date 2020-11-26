@@ -677,9 +677,4 @@ namespace vmath_hpp
     constexpr bool all(const vec<bool, Size>& xs) {
         return fold([](bool x, bool y){ return x && y; }, true, xs);
     }
-
-    template < std::size_t Size >
-    constexpr vec<bool, Size> not_(const vec<bool, Size>& xs) {
-        return map([](bool x){ return not_(x); }, xs);
-    }
 }

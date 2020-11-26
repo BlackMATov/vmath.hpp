@@ -201,14 +201,19 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(any(bool2(false, true)));
         STATIC_REQUIRE(any(bool2(true, true)));
 
+        STATIC_REQUIRE_FALSE(any(bool2(0, 0)));
+        STATIC_REQUIRE(any(bool2(1, 0)));
+        STATIC_REQUIRE(any(bool2(0, 1)));
+        STATIC_REQUIRE(any(bool2(1, 1)));
+
         STATIC_REQUIRE_FALSE(all(bool2(false, false)));
         STATIC_REQUIRE_FALSE(all(bool2(true, false)));
         STATIC_REQUIRE_FALSE(all(bool2(false, true)));
         STATIC_REQUIRE(all(bool2(true, true)));
 
-        STATIC_REQUIRE(not_(bool2(false, false)) == bool2(true, true));
-        STATIC_REQUIRE(not_(bool2(true, false)) == bool2(false, true));
-        STATIC_REQUIRE(not_(bool2(false, true)) == bool2(true, false));
-        STATIC_REQUIRE(not_(bool2(true, true)) == bool2(false, false));
+        STATIC_REQUIRE_FALSE(all(bool2(0, 0)));
+        STATIC_REQUIRE_FALSE(all(bool2(1, 0)));
+        STATIC_REQUIRE_FALSE(all(bool2(0, 1)));
+        STATIC_REQUIRE(all(bool2(1, 1)));
     }
 }
