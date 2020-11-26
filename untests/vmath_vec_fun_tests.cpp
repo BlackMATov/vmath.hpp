@@ -127,6 +127,7 @@ TEST_CASE("vmath/vec_fun") {
     SECTION("Common Functions") {
         STATIC_REQUIRE(abs(float2(1.f, -1.f)) == approx2(1.f,1.f));
         STATIC_REQUIRE(sign(float3(1.f, -1.f, 0.f)) == approx3(1.f,-1.f,0.f));
+        STATIC_REQUIRE(reciprocal(float2(2.f, 4.f)) == approx2(0.5f,0.25f));
 
         (void)floor(float2(1.f, -1.f));
         (void)trunc(float2(1.f, -1.f));

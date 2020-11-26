@@ -51,17 +51,20 @@ TEST_CASE("vmath/fun") {
     }
 
     SECTION("Common Functions") {
-        REQUIRE(abs(1) == 1);
-        REQUIRE(abs(-1) == 1);
-        REQUIRE(abs(1.f) == approx(1.f));
-        REQUIRE(abs(-1.f) == approx(1.f));
+        STATIC_REQUIRE(vmath_hpp::abs(1) == 1);
+        STATIC_REQUIRE(vmath_hpp::abs(-1) == 1);
+        STATIC_REQUIRE(vmath_hpp::abs(1.f) == approx(1.f));
+        STATIC_REQUIRE(vmath_hpp::abs(-1.f) == approx(1.f));
 
-        REQUIRE(sign(2) == 1);
-        REQUIRE(sign(-2) == -1);
-        REQUIRE(sign(0) == 0);
-        REQUIRE(sign(2.f) == approx(1.f));
-        REQUIRE(sign(-2.f) == approx(-1.f));
-        REQUIRE(sign(0.f) == approx(0.f));
+        STATIC_REQUIRE(sign(2) == 1);
+        STATIC_REQUIRE(sign(-2) == -1);
+        STATIC_REQUIRE(sign(0) == 0);
+        STATIC_REQUIRE(sign(2.f) == approx(1.f));
+        STATIC_REQUIRE(sign(-2.f) == approx(-1.f));
+        STATIC_REQUIRE(sign(0.f) == approx(0.f));
+
+        STATIC_REQUIRE(reciprocal(2.f) == approx(0.5f));
+        STATIC_REQUIRE(reciprocal(4.f) == approx(0.25f));
 
         REQUIRE(floor(1.7f) == approx(1.f));
         REQUIRE(trunc(1.7f) == approx(1.f));

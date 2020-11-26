@@ -392,6 +392,11 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> reciprocal(const vec<T, Size>& xs) {
+        return map([](T x) { return reciprocal(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
     [[nodiscard]] vec<T, Size> floor(const vec<T, Size>& xs) {
         return map([](T x) { return floor(x); }, xs);
     }

@@ -20,12 +20,11 @@ namespace vmath_hpp::detail
     class mat_base<T, 2> {
     public:
         using row_type = vec<T, 2>;
-        row_type rows[2];
+        row_type rows[2] = {
+            {1, 0},
+            {0, 1}};
     public:
-        constexpr mat_base() : rows{
-            row_type{1, 0},
-            row_type{0, 1},
-        } {}
+        mat_base() = default;
 
         constexpr explicit mat_base(T v)
         : rows{
@@ -61,13 +60,12 @@ namespace vmath_hpp::detail
     class mat_base<T, 3> {
     public:
         using row_type = vec<T, 3>;
-        row_type rows[3];
+        row_type rows[3] = {
+            {1, 0, 0},
+            {0, 1, 0},
+            {0, 0, 1}};
     public:
-        constexpr mat_base() : rows{
-            row_type{1, 0, 0},
-            row_type{0, 1, 0},
-            row_type{0, 0, 1},
-        } {}
+        mat_base() = default;
 
         constexpr explicit mat_base(T v)
         : rows{
@@ -109,14 +107,13 @@ namespace vmath_hpp::detail
     class mat_base<T, 4> {
     public:
         using row_type = vec<T, 4>;
-        row_type rows[4];
+        row_type rows[4] = {
+            {1, 0, 0, 0},
+            {0, 1, 0, 0},
+            {0, 0, 1, 0},
+            {0, 0, 0, 1}};
     public:
-        constexpr mat_base() : rows{
-            row_type{1, 0, 0, 0},
-            row_type{0, 1, 0, 0},
-            row_type{0, 0, 1, 0},
-            row_type{0, 0, 0, 1},
-        } {}
+        mat_base() = default;
 
         constexpr explicit mat_base(T v)
         : rows{
