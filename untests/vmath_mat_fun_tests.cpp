@@ -113,24 +113,24 @@ TEST_CASE("vmath/mat_fun") {
         }
 
         {
-            float4 v{0.f, 0.f, 0.f, 1.f};
-            REQUIRE(&v == &(v *= translate(float3{1.f,2.f,3.f})));
-            REQUIRE(v == approx4(1.f,2.f,3.f,1.f));
+            int4 v{0, 0, 0, 1};
+            REQUIRE(&v == &(v *= translate(int3{1,2,3})));
+            REQUIRE(v == approx4(1,2,3,1));
         }
         {
-            float3 v{1.f, 2.f, 3.f};
-            REQUIRE(&v == &(v *= float3x3(scale(float3{2.f,3.f,4.f}))));
-            REQUIRE(v == approx3(2.f,6.f,12.f));
+            int3 v{1, 2, 3};
+            REQUIRE(&v == &(v *= int3x3(scale(int3{2,3,4}))));
+            REQUIRE(v == int3(2,6,12));
         }
         {
-            float4x4 v = translate(float3{1.f, 2.f, 3.f});
-            REQUIRE(&v == &(v *= translate(float3{1.f,2.f,3.f})));
-            REQUIRE(v == approx4x4(translate(float3{2.f,4.f,6.f})));
+            int4x4 v = translate(int3{1, 2, 3});
+            REQUIRE(&v == &(v *= translate(int3{1,2,3})));
+            REQUIRE(v == translate(int3{2,4,6}));
         }
         {
-            float3x3 v = float3x3(scale(float3{1.f, 2.f, 3.f}));
-            REQUIRE(&v == &(v *= float3x3(scale(float3{2.f,3.f,4.f}))));
-            REQUIRE(v == approx3x3(float3x3(scale(float3{2.f,6.f,12.f}))));
+            int3x3 v = int3x3(scale(int3{1, 2, 3}));
+            REQUIRE(&v == &(v *= int3x3(scale(int3{2,3,4}))));
+            REQUIRE(v == int3x3(scale(int3{2,6,12})));
         }
     }
 
