@@ -46,6 +46,12 @@ add_subdirectory(external/vmath.hpp)
 target_link_libraries(your_project_target vmath.hpp)
 ```
 
+## Disclaimer
+
+The [vmath.hpp][vmath] is a tiny vector math library mainly for games, game engines, and other graphics software. It will never be mathematically strict (e.g. the vector class has operator plus for adding scalars to a vector, which is convenient for developing CG applications but makes no sense in "real" math). For the same reason, the library does not provide flexible vector and matrix sizes. The library functions follow the same principles.
+
+Most functions and types are based on the HLSL ([High-Level Shading Language for DirectX](https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl)) specification. Matrices are row-major, which implies that vector, matrix multiplication is: v * M, not M * v.
+
 ## API
 
 - [Vector Types](#Vector-Types)
