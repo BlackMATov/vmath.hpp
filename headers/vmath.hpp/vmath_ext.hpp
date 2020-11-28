@@ -154,12 +154,14 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T, std::size_t Size, std::size_t... Is >
-        [[nodiscard]] constexpr vec<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, std::index_sequence<Is...>) {
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        vec<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, std::index_sequence<Is...>) {
             return { m[Is][index]... };
         }
 
         template < typename T, std::size_t Size, std::size_t... Is >
-        [[nodiscard]] constexpr mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v, std::index_sequence<Is...>) {
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v, std::index_sequence<Is...>) {
             return { component(m[Is], index, v[Is])... };
         }
     }
