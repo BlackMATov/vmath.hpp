@@ -77,7 +77,7 @@ class vec_base<T, 2> {
 public:
     T x{}, y{};
 
-    vec_base() = default;
+    constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
     constexpr vec_base(T x, T y);
     constexpr explicit vec_base(const vec_base<T, 3>& xy);
@@ -89,7 +89,7 @@ class vec_base<T, 3> {
 public:
     T x{}, y{}, z{};
 
-    vec_base() = default;
+    constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
     constexpr vec_base(T x, T y, T z);
     constexpr vec_base(const vec_base<T, 2>& xy, T z);
@@ -102,7 +102,7 @@ class vec_base<T, 4> {
 public:
     T x{}, y{}, z{}, w{};
 
-    vec_base() = default;
+    constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
     constexpr vec_base(T x, T y, T z, T w);
     constexpr vec_base(const vec_base<T, 2>& xy, T z, T w);
@@ -179,7 +179,7 @@ public:
         {1, 0},
         {0, 1}};
 
-    mat_base() = default;
+    constexpr mat_base() = default;
     constexpr explicit mat_base(T v);
 
     constexpr mat_base(
@@ -204,7 +204,7 @@ public:
         {0, 1, 0},
         {0, 0, 1}};
 
-    mat_base() = default;
+    constexpr mat_base() = default;
     constexpr explicit mat_base(T v);
 
     constexpr mat_base(
@@ -232,7 +232,7 @@ public:
         {0, 0, 1, 0},
         {0, 0, 0, 1}};
 
-    mat_base() = default;
+    constexpr mat_base() = default;
     constexpr explicit mat_base(T v);
 
     constexpr mat_base(
