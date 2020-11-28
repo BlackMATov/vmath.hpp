@@ -103,7 +103,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs) {
-        return map(std::negate<>(), xs);
+        return map([](const vec<T, Size>& x){ return -x; }, xs);
     }
 
     // operator+
@@ -120,7 +120,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator+(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip(std::plus<>(), xs, ys);
+        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x + y; }, xs, ys);
     }
 
     // operator+=
@@ -149,7 +149,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip(std::minus<>(), xs, ys);
+        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x - y; }, xs, ys);
     }
 
     // operator-=
@@ -281,7 +281,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip(std::divides<>(), xs, ys);
+        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x / y; }, xs, ys);
     }
 
     // operator/=

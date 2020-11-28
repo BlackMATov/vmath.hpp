@@ -100,7 +100,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> operator-(const vec<T, Size>& xs) {
-        return map(std::negate<>(), xs);
+        return map([](T x){ return -x; }, xs);
     }
 
     // operator+
@@ -117,7 +117,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> operator+(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::plus<>(), xs, ys);
+        return zip([](T x, T y){ return x + y; }, xs, ys);
     }
 
     // operator+=
@@ -146,7 +146,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> operator-(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::minus<>(), xs, ys);
+        return zip([](T x, T y){ return x - y; }, xs, ys);
     }
 
     // operator-=
@@ -175,7 +175,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> operator*(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::multiplies<>(), xs, ys);
+        return zip([](T x, T y){ return x * y; }, xs, ys);
     }
 
     // operator*=
@@ -204,7 +204,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> operator/(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return zip(std::divides<>(), xs, ys);
+        return zip([](T x, T y){ return x / y; }, xs, ys);
     }
 
     // operator/=

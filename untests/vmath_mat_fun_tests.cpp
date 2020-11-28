@@ -191,14 +191,14 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_REQUIRE(inverse(float4x4(0.5)) == float4x4(2.f));
 
         {
-            constexpr float4x4 m1 = translate(float3{1.f,2.f,3.f});
+            constexpr float4x4 m1 = translate(float3(1.f, 2.f, 3.f));
             constexpr float4x4 inv_m1 = inverse(m1);
-            constexpr float4x4 ref_m1 = translate(float3{-1.f,-2.f,-3.f});
+            constexpr float4x4 ref_m1 = translate(float3(-1.f, -2.f, -3.f));
             STATIC_REQUIRE(inv_m1 == approx4x4(ref_m1));
         }
 
         {
-            const float3 axis = normalize(float3{1.f,2.f,3.f});
+            const float3 axis = normalize(float3(1.f, 2.f, 3.f));
             const float4x4 m1 = rotate(0.5f,axis);
             const float4x4 inv_m1 = inverse(m1);
             const float4x4 ref_m1 = rotate(-0.5f,axis);
@@ -206,7 +206,7 @@ TEST_CASE("vmath/mat_fun") {
         }
 
         {
-            const float3 axis = normalize(float3{1.f,2.f,3.f});
+            const float3 axis = normalize(float3(1.f, 2.f, 3.f));
             const float3x3 m1 = float3x3(rotate(0.5f,axis));
             const float3x3 inv_m1 = inverse(m1);
             const float3x3 ref_m1 = float3x3(rotate(-0.5f,axis));
@@ -214,7 +214,7 @@ TEST_CASE("vmath/mat_fun") {
         }
 
         {
-            const float3 axis = normalize(float3{0.f,0.f,3.f});
+            const float3 axis = normalize(float3(0.f, 0.f, 3.f));
             const float2x2 m1 = float2x2(rotate(0.5f,axis));
             const float2x2 inv_m1 = inverse(m1);
             const float2x2 ref_m1 = float2x2(rotate(-0.5f,axis));

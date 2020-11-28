@@ -10,7 +10,7 @@
 #include <vmath.hpp/vmath_mat.hpp>
 #include <vmath.hpp/vmath_mat_fun.hpp>
 
-#include <limits>
+#include <cfloat>
 
 #define STATIC_REQUIRE(...)\
     static_assert(__VA_ARGS__, #__VA_ARGS__);\
@@ -25,7 +25,29 @@ namespace vmath_tests
     using namespace vmath_hpp;
 
     template < typename T >
-    inline constexpr T epsilon = std::numeric_limits<T>::epsilon() * 100;
+    struct approx_epsilon;
+
+    template <>
+    struct approx_epsilon<int> {
+        static constexpr int value = 0;
+    };
+
+    template <>
+    struct approx_epsilon<float> {
+        static constexpr float value = FLT_EPSILON * 100;
+    };
+
+    template <>
+    struct approx_epsilon<double> {
+        static constexpr float value = DBL_EPSILON * 100;
+    };
+
+    template < typename T >
+    inline constexpr T approx_epsilon_v = approx_epsilon<T>::value;
+
+    //
+    //
+    //
 
     template < typename T >
     struct approx {
@@ -103,22 +125,22 @@ namespace vmath_tests
 
     template < typename T >
     constexpr bool operator==(const T& l, const approx<T>& r) {
-        return equal_to(l, r.value, epsilon<T>);
+        return equal_to(l, r.value, approx_epsilon_v<T>);
     }
 
     template < typename T >
     constexpr bool operator==(const vec<T, 2>& l, const approx2<T>& r) {
-        return all(equal_to(l, r.value, epsilon<T>));
+        return all(equal_to(l, r.value, approx_epsilon_v<T>));
     }
 
     template < typename T >
     constexpr bool operator==(const vec<T, 3>& l, const approx3<T>& r) {
-        return all(equal_to(l, r.value, epsilon<T>));
+        return all(equal_to(l, r.value, approx_epsilon_v<T>));
     }
 
     template < typename T >
     constexpr bool operator==(const vec<T, 4>& l, const approx4<T>& r) {
-        return all(equal_to(l, r.value, epsilon<T>));
+        return all(equal_to(l, r.value, approx_epsilon_v<T>));
     }
 
     template < typename T >
