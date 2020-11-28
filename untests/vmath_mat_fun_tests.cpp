@@ -6,9 +6,7 @@
 
 #include <vmath.hpp/vmath_ext.hpp>
 
-#define CATCH_CONFIG_FAST_COMPILE
-#include <catch2/catch.hpp>
-
+#include "doctest/doctest.h"
 #include "vmath_tests.hpp"
 
 namespace
@@ -35,7 +33,7 @@ namespace
 }
 
 TEST_CASE("vmath/mat_fun") {
-    SECTION("detail") {
+    SUBCASE("detail") {
         STATIC_REQUIRE(map([](const int2& x){
             return x * 2;
         }, int2x2{}) == int2x2(2,0,0,2));
@@ -61,7 +59,7 @@ TEST_CASE("vmath/mat_fun") {
         }, int2x2{}) == int2(1,1));
     }
 
-    SECTION("operators") {
+    SUBCASE("operators") {
         STATIC_REQUIRE(-int2x2(1,2,3,4) == int2x2(-1,-2,-3,-4));
 
         STATIC_REQUIRE(int2x2(1,2,3,4) + 2 == int2x2(3,4,5,6));
@@ -134,7 +132,7 @@ TEST_CASE("vmath/mat_fun") {
         }
     }
 
-    SECTION("transpose") {
+    SUBCASE("transpose") {
         STATIC_REQUIRE(transpose(int2x2(
             1, 2,
             3, 4
@@ -166,7 +164,7 @@ TEST_CASE("vmath/mat_fun") {
         ));
     }
 
-    SECTION("determinant") {
+    SUBCASE("determinant") {
         constexpr int2x2 m2{1,2,3,4};
         constexpr int3x3 m3{1,2,3,4,5,6,7,8,9};
         constexpr int4x4 m4{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
@@ -183,7 +181,7 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 4>())) == 1);
     }
 
-    SECTION("inverse") {
+    SUBCASE("inverse") {
         STATIC_REQUIRE(inverse(float2x2()) == float2x2());
         STATIC_REQUIRE(inverse(float3x3()) == float3x3());
         STATIC_REQUIRE(inverse(float4x4()) == float4x4());

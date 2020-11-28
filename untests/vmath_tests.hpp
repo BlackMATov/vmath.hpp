@@ -7,7 +7,18 @@
 #include <vmath.hpp/vmath_vec.hpp>
 #include <vmath.hpp/vmath_vec_fun.hpp>
 
+#include <vmath.hpp/vmath_mat.hpp>
+#include <vmath.hpp/vmath_mat_fun.hpp>
+
 #include <limits>
+
+#define STATIC_REQUIRE(...)\
+    static_assert(__VA_ARGS__, #__VA_ARGS__);\
+    REQUIRE(__VA_ARGS__);
+
+#define STATIC_REQUIRE_FALSE(...)\
+    static_assert(!(__VA_ARGS__), "!(" #__VA_ARGS__ ")");\
+    REQUIRE(!(__VA_ARGS__));
 
 namespace vmath_tests
 {

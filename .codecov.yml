@@ -1,3 +1,2 @@
 ignore:
   - "*_tests.cpp"
-  - "*_examples.cpp"

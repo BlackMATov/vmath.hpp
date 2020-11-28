@@ -6,9 +6,7 @@
 
 #include <vmath.hpp/vmath_ext.hpp>
 
-#define CATCH_CONFIG_FAST_COMPILE
-#include <catch2/catch.hpp>
-
+#include "doctest/doctest.h"
 #include "vmath_tests.hpp"
 
 #include <set>
@@ -23,7 +21,7 @@ namespace
 }
 
 TEST_CASE("vmath/ext") {
-    SECTION("units") {
+    SUBCASE("units") {
         STATIC_REQUIRE(zero2<int> == int2(0,0));
         STATIC_REQUIRE(zero3<int> == int3(0,0,0));
         STATIC_REQUIRE(zero4<int> == int4(0,0,0,0));
@@ -56,7 +54,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(identity4x4<int> == int4x4());
     }
 
-    SECTION("hash") {
+    SUBCASE("hash") {
         REQUIRE(std::hash<int2>{}({1,2}) == std::hash<int2>{}({1,2}));
         REQUIRE_FALSE(std::hash<int2>{}({1,2}) == std::hash<int2>{}({2,1}));
 
@@ -96,7 +94,7 @@ TEST_CASE("vmath/ext") {
         }
     }
 
-    SECTION("cast_to") {
+    SUBCASE("cast_to") {
         {
             constexpr auto i = cast_to<int>(1.5f);
             STATIC_REQUIRE(i == 1);
@@ -114,7 +112,7 @@ TEST_CASE("vmath/ext") {
         }
     }
 
-    SECTION("component") {
+    SUBCASE("component") {
         STATIC_REQUIRE(component(int2{1,2}, 0) == 1);
         STATIC_REQUIRE(component(int2{1,2}, 1) == 2);
 
@@ -122,7 +120,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(component(int2{0,0}, 1, 2) == int2{0,2});
     }
 
-    SECTION("row") {
+    SUBCASE("row") {
         STATIC_REQUIRE(row(int2x2(1,2,3,4), 0) == int2(1,2));
         STATIC_REQUIRE(row(int2x2(1,2,3,4), 1) == int2(3,4));
 
@@ -130,7 +128,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(row(int2x2(), 1, {3,4}) == int2x2(1,0,3,4));
     }
 
-    SECTION("column") {
+    SUBCASE("column") {
         STATIC_REQUIRE(column(int2x2(1,2,3,4), 0) == int2(1,3));
         STATIC_REQUIRE(column(int2x2(1,2,3,4), 1) == int2(2,4));
 
@@ -138,7 +136,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(column(int2x2(), 1, {3,4}) == int2x2(1,3,0,4));
     }
 
-    SECTION("matrix translate") {
+    SUBCASE("matrix translate") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(float2{1.f,2.f}) == approx3(3.f,5.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(translate(float2{1.f,2.f}), float2{1.f,2.f}) == approx3(4.f,7.f,1.f));
 
@@ -146,7 +144,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(translate(float3{1.f,2.f,3.f}), float3{1.f,2.f,3.f}) == approx4(4.f,7.f,10.f,1.f));
     }
 
-    SECTION("matrix rotate") {
+    SUBCASE("matrix rotate") {
         constexpr float pi = radians(180.f);
         constexpr float pi_2 = radians(90.f);
 
@@ -159,7 +157,7 @@ TEST_CASE("vmath/ext") {
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,float3{0.f,0.f,1.f}),pi_2,float3{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
     }
 
-    SECTION("matrix scale") {
+    SUBCASE("matrix scale") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(float2{2.f,3.f}) == approx3(4.f,9.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == approx4(4.f,9.f,16.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == approx4(4.f,9.f,16.f,1.f));
@@ -169,7 +167,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), float3{2.f,3.f,4.f}) == approx4(8.f,18.f,32.f,1.f));
     }
 
-    SECTION("matrix shear") {
+    SUBCASE("matrix shear") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(0.f) == approx3(2.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(1.f) == approx3(5.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(shear_x(1.f),1.f) == approx3(8.f,3.f,1.f));
@@ -185,7 +183,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(0.f,1.f)),float2(0.f,1.f)) == approx3(2.f,7.f,1.f));
     }
 
-    SECTION("matrix look_at") {
+    SUBCASE("matrix look_at") {
         (void)look_at_lh(float3(-10.f), float3(0.f), float3(0,-1,0));
         (void)look_at_rh(float3(-10.f), float3(0.f), float3(0,-1,0));
 
@@ -200,16 +198,16 @@ TEST_CASE("vmath/ext") {
         (void)perspective_rh_no(1.f, 1.3f, 0.f, 10.f);
     }
 
-    SECTION("vector angle") {
-        REQUIRE(angle(float2(2.f,0.f), float2(0.f,1.f)) == Approx(radians(90.f)));
-        REQUIRE(angle(float2(0.f,3.f), float2(1.f,0.f)) == Approx(radians(90.f)));
-        REQUIRE(angle(float2(0.5f,0.f), float2(-1.f,0.f)) == Approx(radians(180.f)));
-        REQUIRE(angle(float2(-0.2f,0.f), float2(1.f,0.f)) == Approx(radians(180.f)));
-        REQUIRE(angle(float3(0.f,2.f,0.f), float3(0.f,0.f,1.f)) == Approx(radians(90.f)));
-        REQUIRE(angle(float3(0.f,0.f,3.f), float3(0.f,1.f,0.f)) == Approx(radians(90.f)));
+    SUBCASE("vector angle") {
+        REQUIRE(angle(float2(2.f,0.f), float2(0.f,1.f)) == approx(radians(90.f)));
+        REQUIRE(angle(float2(0.f,3.f), float2(1.f,0.f)) == approx(radians(90.f)));
+        REQUIRE(angle(float2(0.5f,0.f), float2(-1.f,0.f)) == approx(radians(180.f)));
+        REQUIRE(angle(float2(-0.2f,0.f), float2(1.f,0.f)) == approx(radians(180.f)));
+        REQUIRE(angle(float3(0.f,2.f,0.f), float3(0.f,0.f,1.f)) == approx(radians(90.f)));
+        REQUIRE(angle(float3(0.f,0.f,3.f), float3(0.f,1.f,0.f)) == approx(radians(90.f)));
     }
 
-    SECTION("vector rotate") {
+    SUBCASE("vector rotate") {
         REQUIRE(rotate(float2(2.f,0.f), radians(90.f)) == approx2(0.f,2.f));
         REQUIRE(rotate(float2(1.5f,0.f), radians(-90.f)) == approx2(0.f,-1.5f));
 
