@@ -192,33 +192,41 @@ TEST_CASE("vmath/mat_fun") {
 
         {
             constexpr float4x4 m1 = translate(float3(1.f, 2.f, 3.f));
-            constexpr float4x4 inv_m1 = inverse(m1);
-            constexpr float4x4 ref_m1 = translate(float3(-1.f, -2.f, -3.f));
-            STATIC_REQUIRE(inv_m1 == approx4x4(ref_m1));
+            constexpr float4x4 rm1 = inverse(m1);
+            STATIC_REQUIRE(all(equal_to(
+                unit4_z<float> * m1 * rm1,
+                unit4_z<float>,
+                approx_epsilon_v<float>)));
         }
 
         {
-            const float3 axis = normalize(float3(1.f, 2.f, 3.f));
-            const float4x4 m1 = rotate(0.5f,axis);
-            const float4x4 inv_m1 = inverse(m1);
-            const float4x4 ref_m1 = rotate(-0.5f,axis);
-            REQUIRE(inv_m1 == approx4x4(ref_m1));
+            const float3 axis2 = normalize(float3(1.f, 2.f, 3.f));
+            const float4x4 m2 = rotate(0.5f,axis2);
+            const float4x4 rm2 = inverse(m2);
+            REQUIRE(all(equal_to(
+                unit4_z<float> * m2 * rm2,
+                unit4_z<float>,
+                approx_epsilon_v<float>)));
         }
 
         {
-            const float3 axis = normalize(float3(1.f, 2.f, 3.f));
-            const float3x3 m1 = float3x3(rotate(0.5f,axis));
-            const float3x3 inv_m1 = inverse(m1);
-            const float3x3 ref_m1 = float3x3(rotate(-0.5f,axis));
-            REQUIRE(inv_m1 == approx3x3(ref_m1));
+            const float3 axis3 = normalize(float3(1.f, 2.f, 3.f));
+            const float3x3 m3 = float3x3(rotate(0.5f,axis3));
+            const float3x3 rm3 = inverse(m3);
+            REQUIRE(all(equal_to(
+                unit3_z<float> * m3 * rm3,
+                unit3_z<float>,
+                approx_epsilon_v<float>)));
         }
 
         {
-            const float3 axis = normalize(float3(0.f, 0.f, 3.f));
-            const float2x2 m1 = float2x2(rotate(0.5f,axis));
-            const float2x2 inv_m1 = inverse(m1);
-            const float2x2 ref_m1 = float2x2(rotate(-0.5f,axis));
-            REQUIRE(inv_m1 == approx2x2(ref_m1));
+            const float3 axis4 = normalize(float3(0.f, 0.f, 3.f));
+            const float2x2 m4 = float2x2(rotate(0.5f,axis4));
+            const float2x2 rm4 = inverse(m4);
+            REQUIRE(all(equal_to(
+                unit2_y<float> * m4 * rm4,
+                unit2_y<float>,
+                approx_epsilon_v<float>)));
         }
     }
 }

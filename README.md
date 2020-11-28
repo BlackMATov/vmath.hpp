@@ -1067,7 +1067,13 @@ constexpr mat<T, Size> column(const mat<T, Size>& m, size_t index, const vec<T, 
 
 ```cpp
 template < typename T >
+constexpr mat<T, 4> translate(T x, T y, T z);
+
+template < typename T >
 constexpr mat<T, 4> translate(const vec<T, 3>& v);
+
+template < typename T >
+constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z);
 
 template < typename T >
 constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v);
@@ -1079,10 +1085,18 @@ template < typename T >
 mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis);
 
 template < typename T >
+constexpr mat<T, 4> scale(T x, T y, T z);
+
+template < typename T >
 constexpr mat<T, 4> scale(const vec<T, 3>& v);
 
 template < typename T >
+constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z);
+
+template < typename T >
 constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v);
+
+// look_at
 
 template < typename T >
 mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up);
@@ -1095,7 +1109,13 @@ mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>&
 
 ```cpp
 template < typename T >
+constexpr mat<T, 3> translate(T x, T y);
+
+template < typename T >
 constexpr mat<T, 3> translate(const vec<T, 2>& v);
+
+template < typename T >
+constexpr mat<T, 3> translate(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
 constexpr mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v);
@@ -1107,13 +1127,25 @@ template < typename T >
 mat<T, 3> rotate(const mat<T, 3>& m, T angle);
 
 template < typename T >
+constexpr mat<T, 3> scale(T x, T y);
+
+template < typename T >
 constexpr mat<T, 3> scale(const vec<T, 2>& v);
+
+template < typename T >
+constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
 constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v);
 
 template < typename T >
+constexpr mat<T, 3> shear(T x, T y);
+
+template < typename T >
 constexpr mat<T, 3> shear(const vec<T, 2>& v);
+
+template < typename T >
+constexpr mat<T, 3> shear(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
 constexpr mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v);
