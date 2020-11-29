@@ -229,13 +229,13 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr min(T x, T y) noexcept {
-        return std::min(x, y);
+        return x < y ? x : y;
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr max(T x, T y) noexcept {
-        return std::max(x, y);
+        return x < y ? y : x;
     }
 
     template < typename T >
@@ -286,8 +286,6 @@ namespace vmath_hpp
     isfinite(T x) noexcept {
         return std::isfinite(x);
     }
-
-    //
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>

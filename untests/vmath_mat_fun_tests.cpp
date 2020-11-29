@@ -6,9 +6,7 @@
 
 #include <vmath.hpp/vmath_ext.hpp>
 
-#define CATCH_CONFIG_FAST_COMPILE
-#include <catch2/catch.hpp>
-
+#include "doctest/doctest.h"
 #include "vmath_tests.hpp"
 
 namespace
@@ -35,7 +33,7 @@ namespace
 }
 
 TEST_CASE("vmath/mat_fun") {
-    SECTION("Detail") {
+    SUBCASE("detail") {
         STATIC_REQUIRE(map([](const int2& x){
             return x * 2;
         }, int2x2{}) == int2x2(2,0,0,2));
@@ -61,7 +59,7 @@ TEST_CASE("vmath/mat_fun") {
         }, int2x2{}) == int2(1,1));
     }
 
-    SECTION("Operators") {
+    SUBCASE("operators") {
         STATIC_REQUIRE(-int2x2(1,2,3,4) == int2x2(-1,-2,-3,-4));
 
         STATIC_REQUIRE(int2x2(1,2,3,4) + 2 == int2x2(3,4,5,6));
@@ -134,68 +132,101 @@ TEST_CASE("vmath/mat_fun") {
         }
     }
 
-    SECTION("Matrix Functions") {
+    SUBCASE("transpose") {
+        STATIC_REQUIRE(transpose(int2x2(
+            1, 2,
+            3, 4
+        )) == int2x2(
+            1, 3,
+            2, 4
+        ));
+
+        STATIC_REQUIRE(transpose(int3x3(
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9
+        )) == int3x3(
+            1, 4, 7,
+            2, 5, 8,
+            3, 6, 9
+        ));
+
+        STATIC_REQUIRE(transpose(int4x4(
+            1,  2,  3,  4,
+            5,  6,  7,  8,
+            9,  10, 11, 12,
+            13, 14, 15, 16
+        )) == int4x4(
+            1, 5, 9,  13,
+            2, 6, 10, 14,
+            3, 7, 11, 15,
+            4, 8, 12, 16
+        ));
+    }
+
+    SUBCASE("determinant") {
+        constexpr int2x2 m2{1,2,3,4};
+        constexpr int3x3 m3{1,2,3,4,5,6,7,8,9};
+        constexpr int4x4 m4{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+        STATIC_REQUIRE(determinant(m2) == determinant(transpose(m2)));
+        STATIC_REQUIRE(determinant(m3) == determinant(transpose(m3)));
+        STATIC_REQUIRE(determinant(m4) == determinant(transpose(m4)));
+
+        STATIC_REQUIRE(determinant(generate_frank_matrix<int, 2>()) == 1);
+        STATIC_REQUIRE(determinant(generate_frank_matrix<int, 3>()) == 1);
+        STATIC_REQUIRE(determinant(generate_frank_matrix<int, 4>()) == 1);
+
+        STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 2>())) == 1);
+        STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 3>())) == 1);
+        STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 4>())) == 1);
+    }
+
+    SUBCASE("inverse") {
+        STATIC_REQUIRE(inverse(float2x2()) == float2x2());
+        STATIC_REQUIRE(inverse(float3x3()) == float3x3());
+        STATIC_REQUIRE(inverse(float4x4()) == float4x4());
+
+        STATIC_REQUIRE(inverse(float2x2(0.5)) == float2x2(2.f));
+        STATIC_REQUIRE(inverse(float3x3(0.5)) == float3x3(2.f));
+        STATIC_REQUIRE(inverse(float4x4(0.5)) == float4x4(2.f));
+
         {
-            STATIC_REQUIRE(transpose(int2x2(
-                1, 2,
-                3, 4
-            )) == int2x2(
-                1, 3,
-                2, 4
-            ));
-
-            STATIC_REQUIRE(transpose(int3x3(
-                1, 2, 3,
-                4, 5, 6,
-                7, 8, 9
-            )) == int3x3(
-                1, 4, 7,
-                2, 5, 8,
-                3, 6, 9
-            ));
-
-            STATIC_REQUIRE(transpose(int4x4(
-                1,  2,  3,  4,
-                5,  6,  7,  8,
-                9,  10, 11, 12,
-                13, 14, 15, 16
-            )) == int4x4(
-                1, 5, 9,  13,
-                2, 6, 10, 14,
-                3, 7, 11, 15,
-                4, 8, 12, 16
-            ));
+            constexpr float4x4 m1 = translate(float3(1.f, 2.f, 3.f));
+            constexpr float4x4 rm1 = inverse(m1);
+            STATIC_REQUIRE(all(equal_to(
+                unit4_z<float> * m1 * rm1,
+                unit4_z<float>,
+                approx_epsilon_v<float>)));
         }
+
         {
-            constexpr int2x2 m2{1,2,3,4};
-            constexpr int3x3 m3{1,2,3,4,5,6,7,8,9};
-            constexpr int4x4 m4{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-            STATIC_REQUIRE(determinant(m2) == determinant(transpose(m2)));
-            STATIC_REQUIRE(determinant(m3) == determinant(transpose(m3)));
-            STATIC_REQUIRE(determinant(m4) == determinant(transpose(m4)));
-
-            STATIC_REQUIRE(determinant(generate_frank_matrix<int, 2>()) == 1);
-            STATIC_REQUIRE(determinant(generate_frank_matrix<int, 3>()) == 1);
-            STATIC_REQUIRE(determinant(generate_frank_matrix<int, 4>()) == 1);
-
-            STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 2>())) == 1);
-            STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 3>())) == 1);
-            STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 4>())) == 1);
+            const float3 axis2 = normalize(float3(1.f, 2.f, 3.f));
+            const float4x4 m2 = rotate(0.5f,axis2);
+            const float4x4 rm2 = inverse(m2);
+            REQUIRE(all(equal_to(
+                unit4_z<float> * m2 * rm2,
+                unit4_z<float>,
+                approx_epsilon_v<float>)));
         }
+
         {
-            STATIC_REQUIRE(inverse(float2x2()) == float2x2());
-            STATIC_REQUIRE(inverse(float3x3()) == float3x3());
-            STATIC_REQUIRE(inverse(float4x4()) == float4x4());
+            const float3 axis3 = normalize(float3(1.f, 2.f, 3.f));
+            const float3x3 m3 = float3x3(rotate(0.5f,axis3));
+            const float3x3 rm3 = inverse(m3);
+            REQUIRE(all(equal_to(
+                unit3_z<float> * m3 * rm3,
+                unit3_z<float>,
+                approx_epsilon_v<float>)));
+        }
 
-            STATIC_REQUIRE(inverse(float2x2(0.5)) == float2x2(2.f));
-            STATIC_REQUIRE(inverse(float3x3(0.5)) == float3x3(2.f));
-            STATIC_REQUIRE(inverse(float4x4(0.5)) == float4x4(2.f));
-
-            STATIC_REQUIRE(inverse(translate(float3{1.f,2.f,3.f})) == approx4x4(translate(float3{-1.f,-2.f,-3.f})));
-
-            REQUIRE(inverse(rotate(0.5f,normalize(float3{1.f,2.f,3.f}))) == approx4x4(rotate(-0.5f,normalize(float3{1.f,2.f,3.f}))));
-            REQUIRE(inverse(float3x3(rotate(0.5f,normalize(float3{1.f,2.f,3.f})))) == approx3x3(float3x3(rotate(-0.5f,normalize(float3{1.f,2.f,3.f})))));
-            REQUIRE(inverse(float2x2(rotate(0.5f,float3{0,0,1}))) == approx2x2(float2x2(rotate(-0.5f,float3{0,0,1}))));
+        {
+            const float3 axis4 = normalize(float3(0.f, 0.f, 3.f));
+            const float2x2 m4 = float2x2(rotate(0.5f,axis4));
+            const float2x2 rm4 = inverse(m4);
+            REQUIRE(all(equal_to(
+                unit2_y<float> * m4 * rm4,
+                unit2_y<float>,
+                approx_epsilon_v<float>)));
         }
     }
 }

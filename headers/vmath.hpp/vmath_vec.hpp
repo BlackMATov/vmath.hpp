@@ -18,7 +18,7 @@ namespace vmath_hpp::detail
     public:
         T x{}, y{};
     public:
-        vec_base() = default;
+        constexpr vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v} {}
@@ -54,7 +54,7 @@ namespace vmath_hpp::detail
     public:
         T x{}, y{}, z{};
     public:
-        vec_base() = default;
+        constexpr vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v}, z{v} {}
@@ -95,7 +95,7 @@ namespace vmath_hpp::detail
     public:
         T x{}, y{}, z{}, w{};
     public:
-        vec_base() = default;
+        constexpr vec_base() = default;
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v}, z{v}, w{v} {}
@@ -164,13 +164,9 @@ namespace vmath_hpp
         using base_type::vec_base;
         using base_type::operator[];
 
-        vec() = default;
-
-        vec(vec&&) = default;
-        vec& operator=(vec&&) = default;
-
-        vec(const vec&) = default;
-        vec& operator=(const vec&) = default;
+        constexpr vec() = default;
+        constexpr vec(const vec&) = default;
+        constexpr vec& operator=(const vec&) = default;
 
         void swap(vec& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < Size; ++i ) {

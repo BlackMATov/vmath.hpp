@@ -7,9 +7,7 @@
 #include <vmath.hpp/vmath_mat.hpp>
 #include <vmath.hpp/vmath_mat_fun.hpp>
 
-#define CATCH_CONFIG_FAST_COMPILE
-#include <catch2/catch.hpp>
-
+#include "doctest/doctest.h"
 #include "vmath_tests.hpp"
 
 namespace
@@ -19,7 +17,7 @@ namespace
 }
 
 TEST_CASE("vmath/mat") {
-    SECTION("size/sizeof") {
+    SUBCASE("size/sizeof") {
         STATIC_REQUIRE(int2x2{}.size == 2);
         STATIC_REQUIRE(int3x3{}.size == 3);
         STATIC_REQUIRE(int4x4{}.size == 4);
@@ -29,7 +27,7 @@ TEST_CASE("vmath/mat") {
         STATIC_REQUIRE(sizeof(int4x4{}) == sizeof(int) * 4 * 4);
     }
 
-    SECTION("ctors") {
+    SUBCASE("ctors") {
         {
             STATIC_REQUIRE(int2x2()[0] == int2(1,0));
             STATIC_REQUIRE(int2x2()[1] == int2(0,1));
@@ -77,7 +75,7 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SECTION("operator=") {
+    SUBCASE("operator=") {
         {
             int2x2 v(1,2,3,4);
             int2x2 v2;
@@ -92,7 +90,7 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SECTION("swap") {
+    SUBCASE("swap") {
         {
             int2x2 v1(1,2,3,4);
             int2x2 v2(4,5,6,7);
@@ -109,7 +107,7 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SECTION("operator[]") {
+    SUBCASE("operator[]") {
         {
             STATIC_REQUIRE(int2x2()[0] == int2(1,0));
             STATIC_REQUIRE(int2x2()[1] == int2(0,1));
@@ -146,13 +144,13 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SECTION("at") {
+    SUBCASE("at") {
         STATIC_REQUIRE(int2x2(1,2,3,4).at(0) == int2(1,2));
         STATIC_REQUIRE(int2x2(1,2,3,4).at(1) == int2(3,4));
-        REQUIRE_THROWS_AS(int2x2(1,2,3,4).at(2), std::out_of_range);
+        REQUIRE_THROWS_AS((void)int2x2(1,2,3,4).at(2), std::out_of_range);
     }
 
-    SECTION("operator==/operator!=") {
+    SUBCASE("operator==/operator!=") {
         STATIC_REQUIRE(int2x2(1,2,3,4) == int2x2(1,2,3,4));
         STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) == int2x2(2,2,3,4));
         STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) == int2x2(1,3,3,4));
@@ -162,7 +160,7 @@ TEST_CASE("vmath/mat") {
         STATIC_REQUIRE(int2x2(1,2,3,4) != int2x2(1,3,3,4));
     }
 
-    SECTION("operator<") {
+    SUBCASE("operator<") {
         STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) < int2x2(1,2,3,4));
 
         STATIC_REQUIRE(int2x2(1,1,3,4) < int2x2(1,2,3,4));

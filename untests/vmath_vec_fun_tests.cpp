@@ -6,9 +6,7 @@
 
 #include <vmath.hpp/vmath_ext.hpp>
 
-#define CATCH_CONFIG_FAST_COMPILE
-#include <catch2/catch.hpp>
-
+#include "doctest/doctest.h"
 #include "vmath_tests.hpp"
 
 namespace
@@ -18,7 +16,7 @@ namespace
 }
 
 TEST_CASE("vmath/vec_fun") {
-    SECTION("Detail") {
+    SUBCASE("Detail") {
         STATIC_REQUIRE(map([](const int& x){
             return x * 2;
         }, int2{1}) == int2{2});
@@ -44,7 +42,7 @@ TEST_CASE("vmath/vec_fun") {
         }, int2{1}) == 2);
     }
 
-    SECTION("Operators") {
+    SUBCASE("Operators") {
         STATIC_REQUIRE(-int2(1,-2) == int2(-1,2));
 
         STATIC_REQUIRE(int2(1,2) + 3 == int2(4,5));
@@ -92,7 +90,7 @@ TEST_CASE("vmath/vec_fun") {
         }
     }
 
-    SECTION("Angle and Trigonometry Functions") {
+    SUBCASE("Angle and Trigonometry Functions") {
         STATIC_REQUIRE(radians(degrees(float2(12.13f))) == approx2(12.13f));
         STATIC_REQUIRE(degrees(radians(float2(12.13f))) == approx2(12.13f));
 
@@ -114,7 +112,7 @@ TEST_CASE("vmath/vec_fun") {
         (void)atanh(float2(1.f));
     }
 
-    SECTION("Exponential Functions") {
+    SUBCASE("Exponential Functions") {
         (void)pow(float2(1.f), float2(2.f));
         (void)exp(float2(1.f));
         (void)log(float2(1.f));
@@ -124,7 +122,7 @@ TEST_CASE("vmath/vec_fun") {
         (void)rsqrt(float2(1.f));
     }
 
-    SECTION("Common Functions") {
+    SUBCASE("Common Functions") {
         STATIC_REQUIRE(abs(float2(1.f, -1.f)) == approx2(1.f,1.f));
         STATIC_REQUIRE(sign(float3(1.f, -1.f, 0.f)) == approx3(1.f,-1.f,0.f));
         STATIC_REQUIRE(reciprocal(float2(2.f, 4.f)) == approx2(0.5f,0.25f));
@@ -141,7 +139,7 @@ TEST_CASE("vmath/vec_fun") {
         {
             float2 out_i{};
             REQUIRE(modf(float2(1.7f), &out_i) == approx2(0.7f));
-            REQUIRE(out_i.x == Approx(1.f));
+            REQUIRE(out_i.x == approx(1.f));
         }
 
         STATIC_REQUIRE(min(int2(1,2)) == 1);
@@ -172,26 +170,26 @@ TEST_CASE("vmath/vec_fun") {
         REQUIRE_FALSE(isinf(float2(1.f)).x);
         REQUIRE(isfinite(float2(1.f)).x);
 
-        REQUIRE_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == Approx(12.f));
+        REQUIRE_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == approx(12.f));
 
         {
             int2 out_exp{};
-            REQUIRE(frexp(float2(1.7f), &out_exp).x == Approx(0.85f));
+            REQUIRE(frexp(float2(1.7f), &out_exp).x == approx(0.85f));
             REQUIRE(out_exp == int2(1));
         }
 
-        REQUIRE(ldexp(float2(0.85f), int2(1)).x == Approx(1.7f));
+        REQUIRE(ldexp(float2(0.85f), int2(1)).x == approx(1.7f));
     }
 
-    SECTION("Geometric Functions") {
-        REQUIRE(length(float2(10.f,0.f)) == Approx(10.f));
-        REQUIRE(length(float2(-10.f,0.f)) == Approx(10.f));
+    SUBCASE("Geometric Functions") {
+        REQUIRE(length(float2(10.f,0.f)) == approx(10.f));
+        REQUIRE(length(float2(-10.f,0.f)) == approx(10.f));
 
         STATIC_REQUIRE(length2(float2(10.f,0.f)) == approx(100.f));
         STATIC_REQUIRE(length2(float2(-10.f,0.f)) == approx(100.f));
 
-        REQUIRE(distance(float2(5.f,0.f), float2(10.f,0.f)) == Approx(5.f));
-        REQUIRE(distance(float2(-5.f,0.f), float2(-10.f,0.f)) == Approx(5.f));
+        REQUIRE(distance(float2(5.f,0.f), float2(10.f,0.f)) == approx(5.f));
+        REQUIRE(distance(float2(-5.f,0.f), float2(-10.f,0.f)) == approx(5.f));
 
         STATIC_REQUIRE(distance2(float2(5.f,0.f), float2(10.f,0.f)) == approx(25.f));
         STATIC_REQUIRE(distance2(float2(-5.f,0.f), float2(-10.f,0.f)) == approx(25.f));
@@ -199,14 +197,14 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(dot(int2(1,2),int2(3,4)) == 11);
         STATIC_REQUIRE(cross(int2(1,0),int2(0,1)) == 1);
         STATIC_REQUIRE(cross(int3(1,0,0),int3(0,1,0)) == int3(0,0,1));
-        REQUIRE(normalize(float2(0.5f,0.f)).x == Approx(1.f));
+        REQUIRE(normalize(float2(0.5f,0.f)).x == approx(1.f));
 
         STATIC_REQUIRE(faceforward(float2(1.f), float2(2.f), float2(3.f)).x == approx(-1.f));
         STATIC_REQUIRE(reflect(float2(1.f), float2(2.f)).x == approx(-15.f));
-        REQUIRE(refract(float2(1.f), float2(2.f), 1.f).x == Approx(-15.f));
+        REQUIRE(refract(float2(1.f), float2(2.f), 1.f).x == approx(-15.f));
     }
 
-    SECTION("Vector Relational Functions") {
+    SUBCASE("Vector Relational Functions") {
         STATIC_REQUIRE(less(int3(1,1,1), int3(0,1,2)) == bool3(false, false, true));
         STATIC_REQUIRE(less_equal(int3(1,1,1), int3(0,1,2)) == bool3(false, true, true));
 

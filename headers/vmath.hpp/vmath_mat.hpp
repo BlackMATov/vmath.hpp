@@ -24,7 +24,7 @@ namespace vmath_hpp::detail
             {1, 0},
             {0, 1}};
     public:
-        mat_base() = default;
+        constexpr mat_base() = default;
 
         constexpr explicit mat_base(T v)
         : rows{
@@ -65,7 +65,7 @@ namespace vmath_hpp::detail
             {0, 1, 0},
             {0, 0, 1}};
     public:
-        mat_base() = default;
+        constexpr mat_base() = default;
 
         constexpr explicit mat_base(T v)
         : rows{
@@ -113,7 +113,7 @@ namespace vmath_hpp::detail
             {0, 0, 1, 0},
             {0, 0, 0, 1}};
     public:
-        mat_base() = default;
+        constexpr mat_base() = default;
 
         constexpr explicit mat_base(T v)
         : rows{
@@ -179,13 +179,9 @@ namespace vmath_hpp
         using base_type::mat_base;
         using base_type::rows;
 
-        mat() = default;
-
-        mat(mat&&) = default;
-        mat& operator=(mat&&) = default;
-
-        mat(const mat&) = default;
-        mat& operator=(const mat&) = default;
+        constexpr mat() = default;
+        constexpr mat(const mat&) = default;
+        constexpr mat& operator=(const mat&) = default;
 
         void swap(mat& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < Size; ++i ) {

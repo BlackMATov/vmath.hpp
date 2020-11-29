@@ -19,76 +19,88 @@ namespace vmath_hpp::detail
     namespace impl
     {
         template < typename A, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr auto map_impl(F&& f, const mat<A, Size>& a, std::index_sequence<Is...>)
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        auto map_impl(F&& f, const mat<A, Size>& a, std::index_sequence<Is...>)
             -> mat<typename std::invoke_result_t<F, vec<A, Size>>::value_type, Size>
         {
             return { f(a[Is])... };
         }
 
         template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, std::index_sequence<Is...>)
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, std::index_sequence<Is...>)
             -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::value_type, Size>
         {
             return { f(a[Is], b[Is])... };
         }
 
         template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
             -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::value_type, Size>
         {
             return { f(a[Is], b[Is], c[Is])... };
         }
 
         template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr A fold_impl(F&& f, A init, const mat<B, Size>& b, std::index_sequence<Is...>) {
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        A fold_impl(F&& f, A init, const mat<B, Size>& b, std::index_sequence<Is...>) {
             return ((init = f(std::move(init), b[Is])), ...);
         }
 
         template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr A fold_impl(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>) {
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        A fold_impl(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>) {
             return ((init = f(std::move(init), b[Is], c[Is])), ...);
         }
 
         template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
-        [[nodiscard]] constexpr vec<A, Size> fold1_impl(F&& f, const mat<A, Size>& a, std::index_sequence<I, Is...>) {
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        vec<A, Size> fold1_impl(F&& f, const mat<A, Size>& a, std::index_sequence<I, Is...>) {
             vec<A, Size> init = a[I];
             return ((init = f(std::move(init), a[Is])), ...);
         }
     }
 
     template < typename A, std::size_t Size, typename F >
-    [[nodiscard]] constexpr auto map(F&& f, const mat<A, Size>& a)
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map(F&& f, const mat<A, Size>& a)
         -> mat<typename std::invoke_result_t<F, vec<A, Size>>::value_type, Size>
     {
         return impl::map_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
-    [[nodiscard]] constexpr auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b)
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b)
         -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::value_type, Size>
     {
         return impl::zip_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
-    [[nodiscard]] constexpr auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c)
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c)
         -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::value_type, Size>
     {
         return impl::zip_impl(std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
-    [[nodiscard]] constexpr A fold(F&& f, A init, const mat<B, Size>& b) {
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    A fold(F&& f, A init, const mat<B, Size>& b) {
         return impl::fold_impl(std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
-    [[nodiscard]] constexpr A fold(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c) {
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    A fold(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c) {
         return impl::fold_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, std::size_t Size, typename F >
-    [[nodiscard]] constexpr vec<A, Size> fold1(F&& f, const mat<A, Size>& a) {
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    vec<A, Size> fold1(F&& f, const mat<A, Size>& a) {
         return impl::fold1_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 }
@@ -103,7 +115,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs) {
-        return map(std::negate<>(), xs);
+        return map([](const vec<T, Size>& x){ return -x; }, xs);
     }
 
     // operator+
@@ -120,7 +132,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator+(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip(std::plus<>(), xs, ys);
+        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x + y; }, xs, ys);
     }
 
     // operator+=
@@ -149,7 +161,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip(std::minus<>(), xs, ys);
+        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x - y; }, xs, ys);
     }
 
     // operator-=
@@ -281,7 +293,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip(std::divides<>(), xs, ys);
+        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x / y; }, xs, ys);
     }
 
     // operator/=
@@ -337,7 +349,8 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T >
-        [[nodiscard]] constexpr mat<T, 2> transpose_2x2_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 2> transpose_2x2_impl(
             T a, T c,
             T b, T d)
         {
@@ -347,7 +360,8 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        [[nodiscard]] constexpr mat<T, 3> transpose_3x3_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 3> transpose_3x3_impl(
             T a, T d, T g,
             T b, T e, T h,
             T c, T f, T i)
@@ -359,7 +373,8 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        [[nodiscard]] constexpr mat<T, 4> transpose_4x4_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 4> transpose_4x4_impl(
             T a, T e, T i, T m,
             T b, T f, T j, T n,
             T c, T g, T k, T o,
@@ -400,7 +415,8 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T >
-        [[nodiscard]] constexpr T determinant_2x2_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        T determinant_2x2_impl(
             T a, T b,
             T c, T d)
         {
@@ -410,7 +426,8 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        [[nodiscard]] constexpr T determinant_3x3_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        T determinant_3x3_impl(
             T a, T b, T c,
             T d, T e, T f,
             T g, T h, T i)
@@ -423,7 +440,8 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        [[nodiscard]] constexpr T determinant_4x4_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        T determinant_4x4_impl(
             T a, T b, T c, T d,
             T e, T f, T g, T h,
             T i, T j, T k, T l,
@@ -464,7 +482,8 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T >
-        [[nodiscard]] constexpr mat<T, 2> inverse_2x2_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 2> inverse_2x2_impl(
             T a, T b,
             T c, T d)
         {
@@ -480,7 +499,8 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        [[nodiscard]] constexpr mat<T, 3> inverse_3x3_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 3> inverse_3x3_impl(
             T a, T b, T c,
             T d, T e, T f,
             T g, T h, T i)
@@ -505,7 +525,8 @@ namespace vmath_hpp
         }
 
         template < typename T >
-        [[nodiscard]] constexpr mat<T, 4> inverse_4x4_impl(
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 4> inverse_4x4_impl(
             T a, T b, T c, T d,
             T e, T f, T g, T h,
             T i, T j, T k, T l,

@@ -9,11 +9,17 @@
 #include <cmath>
 #include <cstddef>
 
-#include <algorithm>
-#include <functional>
 #include <stdexcept>
 #include <type_traits>
 #include <utility>
+
+#if defined(_MSC_VER)
+#  define VMATH_HPP_FORCE_INLINE __forceinline
+#elif defined(__clang__) || defined(__GNUC__)
+#  define VMATH_HPP_FORCE_INLINE inline __attribute__((__always_inline__))
+#else
+#  define VMATH_HPP_FORCE_INLINE inline
+#endif
 
 namespace vmath_hpp
 {

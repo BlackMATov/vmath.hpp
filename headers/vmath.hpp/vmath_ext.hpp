@@ -154,12 +154,14 @@ namespace vmath_hpp
     namespace impl
     {
         template < typename T, std::size_t Size, std::size_t... Is >
-        [[nodiscard]] constexpr vec<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, std::index_sequence<Is...>) {
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        vec<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, std::index_sequence<Is...>) {
             return { m[Is][index]... };
         }
 
         template < typename T, std::size_t Size, std::size_t... Is >
-        [[nodiscard]] constexpr mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v, std::index_sequence<Is...>) {
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v, std::index_sequence<Is...>) {
             return { component(m[Is], index, v[Is])... };
         }
     }
@@ -184,12 +186,22 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> translate(const vec<T, 3>& v) {
+    [[nodiscard]] constexpr mat<T, 4> translate(T x, T y, T z) {
         return {
-            { 1,   0,   0,  0},
-            { 0,   1,   0,  0},
-            { 0,   0,   1,  0},
-            {v.x, v.y, v.z, 1}};
+            {1, 0, 0, 0},
+            {0, 1, 0, 0},
+            {0, 0, 1, 0},
+            {x, y, z, 1}};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> translate(const vec<T, 3>& v) {
+        return translate(v.x, v.y, v.z);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z) {
+        return m * translate(x, y, z);
     }
 
     template < typename T >
@@ -231,12 +243,22 @@ namespace vmath_hpp
     // scale
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> scale(const vec<T, 3>& v) {
+    [[nodiscard]] constexpr mat<T, 4> scale(T x, T y, T z) {
         return {
-            {v.x,  0,   0,  0},
-            { 0,  v.y,  0,  0},
-            { 0,   0,  v.z, 0},
-            { 0,   0,   0,  1}};
+            {x, 0, 0, 0},
+            {0, y, 0, 0},
+            {0, 0, z, 0},
+            {0, 0, 0, 1}};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> scale(const vec<T, 3>& v) {
+        return scale(v.x, v.y, v.z);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z) {
+        return m * scale(x, y, z);
     }
 
     template < typename T >
@@ -286,11 +308,21 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> translate(const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> translate(T x, T y) {
         return {
-            { 1,   0,  0},
-            { 0,   1,  0},
-            {v.x, v.y, 1}};
+            {1, 0, 0},
+            {0, 1, 0},
+            {x, y, 1}};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> translate(const vec<T, 2>& v) {
+        return translate(v.x, v.y);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> translate(const mat<T, 3>& m, T x, T y) {
+        return m * translate(x, y);
     }
 
     template < typename T >
@@ -318,11 +350,21 @@ namespace vmath_hpp
     // scale
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> scale(T x, T y) {
         return {
-            {v.x,  0,  0},
-            { 0,  v.y, 0},
-            { 0,   0,  1}};
+            {x, 0, 0},
+            {0, y, 0},
+            {0, 0, 1}};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 2>& v) {
+        return scale(v.x, v.y);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y) {
+        return m * scale(x, y);
     }
 
     template < typename T >
@@ -333,11 +375,21 @@ namespace vmath_hpp
     // shear
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear(const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 3> shear(T x, T y) {
         return {
-            { 1,  v.y, 0},
-            {v.x,  1,  0},
-            { 0,   0,  1}};
+            {1, y, 0},
+            {x, 1, 0},
+            {0, 0, 1}};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> shear(const vec<T, 2>& v) {
+        return shear(v.x, v.y);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> shear(const mat<T, 3>& m, T x, T y) {
+        return m * shear(x, y);
     }
 
     template < typename T >

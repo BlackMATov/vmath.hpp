@@ -83,7 +83,7 @@ class vec_base<T, 2> {
 public:
     T x{}, y{};
 
-    vec_base() = default;
+    constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
     constexpr vec_base(T x, T y);
     constexpr explicit vec_base(const vec_base<T, 3>& xy);
@@ -95,7 +95,7 @@ class vec_base<T, 3> {
 public:
     T x{}, y{}, z{};
 
-    vec_base() = default;
+    constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
     constexpr vec_base(T x, T y, T z);
     constexpr vec_base(const vec_base<T, 2>& xy, T z);
@@ -108,7 +108,7 @@ class vec_base<T, 4> {
 public:
     T x{}, y{}, z{}, w{};
 
-    vec_base() = default;
+    constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
     constexpr vec_base(T x, T y, T z, T w);
     constexpr vec_base(const vec_base<T, 2>& xy, T z, T w);
@@ -185,7 +185,7 @@ public:
         {1, 0},
         {0, 1}};
 
-    mat_base() = default;
+    constexpr mat_base() = default;
     constexpr explicit mat_base(T v);
 
     constexpr mat_base(
@@ -210,7 +210,7 @@ public:
         {0, 1, 0},
         {0, 0, 1}};
 
-    mat_base() = default;
+    constexpr mat_base() = default;
     constexpr explicit mat_base(T v);
 
     constexpr mat_base(
@@ -238,7 +238,7 @@ public:
         {0, 0, 1, 0},
         {0, 0, 0, 1}};
 
-    mat_base() = default;
+    constexpr mat_base() = default;
     constexpr explicit mat_base(T v);
 
     constexpr mat_base(
@@ -1073,7 +1073,13 @@ constexpr mat<T, Size> column(const mat<T, Size>& m, size_t index, const vec<T, 
 
 ```cpp
 template < typename T >
+constexpr mat<T, 4> translate(T x, T y, T z);
+
+template < typename T >
 constexpr mat<T, 4> translate(const vec<T, 3>& v);
+
+template < typename T >
+constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z);
 
 template < typename T >
 constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v);
@@ -1085,10 +1091,18 @@ template < typename T >
 mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis);
 
 template < typename T >
+constexpr mat<T, 4> scale(T x, T y, T z);
+
+template < typename T >
 constexpr mat<T, 4> scale(const vec<T, 3>& v);
 
 template < typename T >
+constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z);
+
+template < typename T >
 constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v);
+
+// look_at
 
 template < typename T >
 mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up);
@@ -1101,7 +1115,13 @@ mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>&
 
 ```cpp
 template < typename T >
+constexpr mat<T, 3> translate(T x, T y);
+
+template < typename T >
 constexpr mat<T, 3> translate(const vec<T, 2>& v);
+
+template < typename T >
+constexpr mat<T, 3> translate(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
 constexpr mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v);
@@ -1113,13 +1133,25 @@ template < typename T >
 mat<T, 3> rotate(const mat<T, 3>& m, T angle);
 
 template < typename T >
+constexpr mat<T, 3> scale(T x, T y);
+
+template < typename T >
 constexpr mat<T, 3> scale(const vec<T, 2>& v);
+
+template < typename T >
+constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
 constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v);
 
 template < typename T >
+constexpr mat<T, 3> shear(T x, T y);
+
+template < typename T >
 constexpr mat<T, 3> shear(const vec<T, 2>& v);
+
+template < typename T >
+constexpr mat<T, 3> shear(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
 constexpr mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v);
