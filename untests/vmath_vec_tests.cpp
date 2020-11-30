@@ -4,11 +4,8 @@
  * Copyright (C) 2020, by Matvey Cherevko (blackmatov@gmail.com)
  ******************************************************************************/
 
-#include <vmath.hpp/vmath_vec.hpp>
-#include <vmath.hpp/vmath_vec_fun.hpp>
-
-#include "doctest/doctest.h"
 #include "vmath_tests.hpp"
+#include "doctest/doctest.hpp"
 
 namespace
 {

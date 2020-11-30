@@ -4,10 +4,8 @@
  * Copyright (C) 2020, by Matvey Cherevko (blackmatov@gmail.com)
  ******************************************************************************/
 
-#include <vmath.hpp/vmath_ext.hpp>
-
-#include "doctest/doctest.h"
 #include "vmath_tests.hpp"
+#include "doctest/doctest.hpp"
 
 #include <set>
 #include <map>
