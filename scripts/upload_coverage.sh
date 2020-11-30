@@ -11,7 +11,7 @@ lcov -d . -z
 ctest --verbose
 
 lcov -d . -c -o "coverage.info"
-lcov -r "coverage.info" "*/usr/*" "*/doctest/*" "*/untests/*" -o "coverage.info"
+lcov -r "coverage.info" "*/usr/*" "*/untests/*" -o "coverage.info"
 lcov -l "coverage.info"
 
 bash <(curl -s https://codecov.io/bash) -f "coverage.info" || echo "Codecov did not collect coverage reports"
