@@ -204,8 +204,16 @@ namespace vmath_hpp
         void swap(mat& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < Size; ++i ) {
                 using std::swap;
-                swap((*this)[i], other[i]);
+                swap(rows[i], other.rows[i]);
             }
+        }
+
+        [[nodiscard]] constexpr pointer data() noexcept {
+            return &rows[0];
+        }
+
+        [[nodiscard]] constexpr const_pointer data() const noexcept {
+            return &rows[0];
         }
 
         [[nodiscard]] constexpr reference operator[](std::size_t index) noexcept {

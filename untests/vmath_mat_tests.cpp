@@ -121,6 +121,29 @@ TEST_CASE("vmath/mat") {
         }
     }
 
+    SUBCASE("data") {
+        {
+            int2x2 m2;
+            STATIC_REQUIRE(m2.data() == &m2[0]);
+
+            int3x3 m3;
+            STATIC_REQUIRE(m3.data() == &m3[0]);
+
+            int4x4 m4;
+            STATIC_REQUIRE(m4.data() == &m4[0]);
+        }
+        {
+            constexpr int2x2 m2;
+            STATIC_REQUIRE(m2.data() == &m2[0]);
+
+            constexpr int3x3 m3;
+            STATIC_REQUIRE(m3.data() == &m3[0]);
+
+            constexpr int4x4 m4;
+            STATIC_REQUIRE(m4.data() == &m4[0]);
+        }
+    }
+
     SUBCASE("operator[]") {
         {
             STATIC_REQUIRE(int2x2()[0] == int2(1,0));

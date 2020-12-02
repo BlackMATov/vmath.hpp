@@ -118,6 +118,29 @@ TEST_CASE("vmath/vec") {
         }
     }
 
+    SUBCASE("data") {
+        {
+            int2 i2;
+            REQUIRE(i2.data() == &i2[0]);
+
+            int3 i3;
+            REQUIRE(i3.data() == &i3[0]);
+
+            int4 i4;
+            REQUIRE(i4.data() == &i4[0]);
+        }
+        {
+            constexpr int2 i2;
+            STATIC_REQUIRE(i2.data() == &i2[0]);
+
+            constexpr int3 i3;
+            STATIC_REQUIRE(i3.data() == &i3[0]);
+
+            constexpr int4 i4;
+            STATIC_REQUIRE(i4.data() == &i4[0]);
+        }
+    }
+
     SUBCASE("operator[]") {
         {
             STATIC_REQUIRE(int2(1,2).x == 1);

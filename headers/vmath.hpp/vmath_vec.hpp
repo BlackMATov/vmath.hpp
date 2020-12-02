@@ -175,6 +175,14 @@ namespace vmath_hpp
             }
         }
 
+        [[nodiscard]] constexpr pointer data() noexcept {
+            return &(*this)[0];
+        }
+
+        [[nodiscard]] constexpr const_pointer data() const noexcept {
+            return &(*this)[0];
+        }
+
         [[nodiscard]] constexpr reference at(std::size_t index) {
             if ( index >= Size ) {
                 throw std::out_of_range("vec::at");

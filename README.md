@@ -134,6 +134,9 @@ public:
 
     void swap(vec& other) noexcept(is_nothrow_swappable_v<T>);
 
+    constexpr pointer data() noexcept;
+    constexpr const_pointer data() const noexcept;
+
     constexpr reference at(size_t index);
     constexpr const_reference at(size_t index) const;
 
@@ -274,6 +277,9 @@ public:
     static constexpr size_t size = Size;
 
     void swap(mat& other) noexcept(is_nothrow_swappable_v<T>);
+
+    constexpr pointer data() noexcept;
+    constexpr const_pointer data() const noexcept;
 
     constexpr reference at(size_t index);
     constexpr const_reference at(size_t index) const;
