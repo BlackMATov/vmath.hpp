@@ -21,7 +21,7 @@ namespace vmath_hpp::detail
         template < typename A, std::size_t Size, typename F, std::size_t... Is >
         [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
         auto map_impl(F&& f, const mat<A, Size>& a, std::index_sequence<Is...>)
-            -> mat<typename std::invoke_result_t<F, vec<A, Size>>::value_type, Size>
+            -> mat<typename std::invoke_result_t<F, vec<A, Size>>::component_type, Size>
         {
             return { f(a[Is])... };
         }
@@ -29,7 +29,7 @@ namespace vmath_hpp::detail
         template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
         [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
         auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, std::index_sequence<Is...>)
-            -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::value_type, Size>
+            -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::component_type, Size>
         {
             return { f(a[Is], b[Is])... };
         }
@@ -37,7 +37,7 @@ namespace vmath_hpp::detail
         template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
         [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
         auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
-            -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::value_type, Size>
+            -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::component_type, Size>
         {
             return { f(a[Is], b[Is], c[Is])... };
         }
@@ -65,7 +65,7 @@ namespace vmath_hpp::detail
     template < typename A, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map(F&& f, const mat<A, Size>& a)
-        -> mat<typename std::invoke_result_t<F, vec<A, Size>>::value_type, Size>
+        -> mat<typename std::invoke_result_t<F, vec<A, Size>>::component_type, Size>
     {
         return impl::map_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
@@ -73,7 +73,7 @@ namespace vmath_hpp::detail
     template < typename A, typename B, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b)
-        -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::value_type, Size>
+        -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::component_type, Size>
     {
         return impl::zip_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
     }
@@ -81,7 +81,7 @@ namespace vmath_hpp::detail
     template < typename A, typename B, typename C, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c)
-        -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::value_type, Size>
+        -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::component_type, Size>
     {
         return impl::zip_impl(std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
     }

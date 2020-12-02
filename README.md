@@ -122,13 +122,13 @@ public:
 template < typename T, size_t Size >
 class vec final : public vec_base<T, Size> {
 public:
-    using value_type = T;
+    using component_type = T;
 
-    using pointer = value_type*;
-    using const_pointer = const value_type*;
+    using pointer = component_type*;
+    using const_pointer = const component_type*;
 
-    using reference = value_type&;
-    using const_reference = const value_type&;
+    using reference = component_type&;
+    using const_reference = const component_type&;
 
     static constexpr size_t size = Size;
 
