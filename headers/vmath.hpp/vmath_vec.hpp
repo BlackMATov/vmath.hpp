@@ -189,6 +189,50 @@ namespace vmath_hpp
             return (*this)[index];
         }
     };
+}
+
+namespace vmath_hpp
+{
+    // vec2
+
+    template < typename T >
+    vec(T, T) -> vec<T, 2>;
+
+    // vec3
+
+    template < typename T >
+    vec(T, T, T) -> vec<T, 3>;
+
+    template < typename T >
+    vec(const vec<T, 2>&, T) -> vec<T, 3>;
+
+    template < typename T >
+    vec(T, const vec<T, 2>&) -> vec<T, 3>;
+
+    // vec4
+
+    template < typename T >
+    vec(T, T, T, T) -> vec<T, 4>;
+
+    template < typename T >
+    vec(const vec<T, 2>&, T, T) -> vec<T, 4>;
+
+    template < typename T >
+    vec(T, const vec<T, 2>&, T) -> vec<T, 4>;
+
+    template < typename T >
+    vec(T, T, const vec<T, 2>&) -> vec<T, 4>;
+
+    template < typename T >
+    vec(const vec<T, 2>&, const vec<T, 2>&) -> vec<T, 4>;
+
+    template < typename T >
+    vec(const vec<T, 3>&, T) -> vec<T, 4>;
+
+    template < typename T >
+    vec(T, const vec<T, 3>&) -> vec<T, 4>;
+
+    // swap
 
     template < typename T, std::size_t Size >
     void swap(vec<T, Size>& l, vec<T, Size>& r) noexcept(noexcept(l.swap(r))) {

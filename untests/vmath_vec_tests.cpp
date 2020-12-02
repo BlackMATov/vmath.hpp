@@ -24,6 +24,22 @@ TEST_CASE("vmath/vec") {
         STATIC_REQUIRE(sizeof(int4{}) == sizeof(int) * 4);
     }
 
+    SUBCASE("guides") {
+        STATIC_REQUIRE(vec{1,2}.size == 2);
+
+        STATIC_REQUIRE(vec{1,2,3}.size == 3);
+        STATIC_REQUIRE(vec{{1,2},3}.size == 3);
+        STATIC_REQUIRE(vec{1,{2,3}}.size == 3);
+
+        STATIC_REQUIRE(vec{1,2,3,4}.size == 4);
+        STATIC_REQUIRE(vec{vec{1,2},3,4}.size == 4);
+        STATIC_REQUIRE(vec{1,vec{2,3},4}.size == 4);
+        STATIC_REQUIRE(vec{1,2,vec{3,4}}.size == 4);
+        STATIC_REQUIRE(vec{vec{1,2},vec{3,4}}.size == 4);
+        STATIC_REQUIRE(vec{vec{1,2,3},4}.size == 4);
+        STATIC_REQUIRE(vec{1,vec{2,3,4}}.size == 4);
+    }
+
     SUBCASE("ctors") {
         {
             STATIC_REQUIRE(int2().x == 0);

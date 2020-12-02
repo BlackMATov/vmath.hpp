@@ -24,6 +24,20 @@ TEST_CASE("vmath/mat") {
         STATIC_REQUIRE(sizeof(int4x4{}) == sizeof(int) * 4 * 4);
     }
 
+    SUBCASE("guides") {
+        STATIC_REQUIRE(mat{1,2,3,4}.size == 2);
+        STATIC_REQUIRE(mat{{1,2},{3,4}}.size == 2);
+        STATIC_REQUIRE(mat{vec{1,2},vec{3,4}}.size == 2);
+
+        STATIC_REQUIRE(mat{1,2,3,4,5,6,7,8,9}.size == 3);
+        STATIC_REQUIRE(mat{{1,2,3},{4,5,6},{7,8,9}}.size == 3);
+        STATIC_REQUIRE(mat{vec{1,2,3},vec{4,5,6},vec{7,8,9}}.size == 3);
+
+        STATIC_REQUIRE(mat{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}.size == 4);
+        STATIC_REQUIRE(mat{{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}}.size == 4);
+        STATIC_REQUIRE(mat{vec{1,2,3,4},vec{5,6,7,8},vec{9,10,11,12},vec{13,14,15,16}}.size == 4);
+    }
+
     SUBCASE("ctors") {
         {
             STATIC_REQUIRE(int2x2()[0] == int2(1,0));

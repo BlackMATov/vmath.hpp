@@ -230,6 +230,44 @@ namespace vmath_hpp
             return rows[index];
         }
     };
+}
+
+namespace vmath_hpp
+{
+    // mat2
+
+    template < typename T >
+    mat(T, T, T, T) -> mat<T, 2>;
+
+    template < typename T >
+    mat(const vec<T, 2>&, const vec<T, 2>&) -> mat<T, 2>;
+
+    template < typename T >
+    mat(std::initializer_list<T>, std::initializer_list<T>) -> mat<T, 2>;
+
+    // mat3
+
+    template < typename T >
+    mat(T, T, T, T, T, T, T, T, T) -> mat<T, 3>;
+
+    template < typename T >
+    mat(const vec<T, 3>&, const vec<T, 3>&, const vec<T, 3>&) -> mat<T, 3>;
+
+    template < typename T >
+    mat(std::initializer_list<T>, std::initializer_list<T>, std::initializer_list<T>) -> mat<T, 3>;
+
+    // mat4
+
+    template < typename T >
+    mat(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T) -> mat<T, 4>;
+
+    template < typename T >
+    mat(const vec<T, 4>&, const vec<T, 4>&, const vec<T, 4>&, const vec<T, 4>&) -> mat<T, 4>;
+
+    template < typename T >
+    mat(std::initializer_list<T>, std::initializer_list<T>, std::initializer_list<T>, std::initializer_list<T>) -> mat<T, 4>;
+
+    // swap
 
     template < typename T, std::size_t Size >
     void swap(mat<T, Size>& l, mat<T, Size>& r) noexcept(noexcept(l.swap(r))) {
