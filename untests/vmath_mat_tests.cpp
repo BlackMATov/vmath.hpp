@@ -48,6 +48,7 @@ TEST_CASE("vmath/mat") {
         {
             STATIC_REQUIRE(int2x2() == int2x2(1,0,0,1));
             STATIC_REQUIRE(int2x2(2) == int2x2(2,0,0,2));
+            STATIC_REQUIRE(int2x2(int2{2,3}) == int2x2(2,0,0,3));
             STATIC_REQUIRE(int2x2(1,2,3,4) == int2x2(1,2,3,4));
             STATIC_REQUIRE(int2x2({1,2},{3,4}) == int2x2(1,2,3,4));
             STATIC_REQUIRE(int2x2(int2x2({1,2},{3,4})) == int2x2(1,2,3,4));
@@ -56,6 +57,7 @@ TEST_CASE("vmath/mat") {
 
             STATIC_REQUIRE(int3x3() == int3x3(1,0,0,0,1,0,0,0,1));
             STATIC_REQUIRE(int3x3(2) == int3x3(2,0,0,0,2,0,0,0,2));
+            STATIC_REQUIRE(int3x3(int3{2,3,4}) == int3x3(2,0,0,0,3,0,0,0,4));
             STATIC_REQUIRE(int3x3(1,2,3,4,5,6,7,8,9) == int3x3(1,2,3,4,5,6,7,8,9));
             STATIC_REQUIRE(int3x3({1,2,3},{4,5,6},{7,8,9}) == int3x3(1,2,3,4,5,6,7,8,9));
             STATIC_REQUIRE(int3x3(int3x3({1,2,3},{4,5,6},{7,8,9})) == int3x3(1,2,3,4,5,6,7,8,9));
@@ -64,6 +66,7 @@ TEST_CASE("vmath/mat") {
 
             STATIC_REQUIRE(int4x4() == int4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1));
             STATIC_REQUIRE(int4x4(2) == int4x4(2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,2));
+            STATIC_REQUIRE(int4x4(int4{2,3,4,5}) == int4x4(2,0,0,0,0,3,0,0,0,0,4,0,0,0,0,5));
             STATIC_REQUIRE(int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
             STATIC_REQUIRE(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
             STATIC_REQUIRE(int4x4(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));

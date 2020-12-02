@@ -186,7 +186,8 @@ public:
         {0, 1}};
 
     constexpr mat_base() = default;
-    constexpr explicit mat_base(T v);
+    constexpr explicit mat_base(T d);
+    constexpr explicit mat_base(const row_type& d);
 
     constexpr mat_base(
         T m11, T m12,
@@ -211,7 +212,8 @@ public:
         {0, 0, 1}};
 
     constexpr mat_base() = default;
-    constexpr explicit mat_base(T v);
+    constexpr explicit mat_base(T d);
+    constexpr explicit mat_base(const row_type& d);
 
     constexpr mat_base(
         T m11, T m12, T m13,
@@ -239,7 +241,8 @@ public:
         {0, 0, 0, 1}};
 
     constexpr mat_base() = default;
-    constexpr explicit mat_base(T v);
+    constexpr explicit mat_base(T d);
+    constexpr explicit mat_base(const row_type& d);
 
     constexpr mat_base(
         T m11, T m12, T m13, T m14,

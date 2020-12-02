@@ -26,10 +26,15 @@ namespace vmath_hpp::detail
     public:
         constexpr mat_base() = default;
 
-        constexpr explicit mat_base(T v)
+        constexpr explicit mat_base(T d)
         : rows{
-            row_type{v, 0},
-            row_type{0, v}} {}
+            row_type{d, 0},
+            row_type{0, d}} {}
+
+        constexpr explicit mat_base(const row_type& d)
+        : rows{
+            row_type{d[0], 0},
+            row_type{0, d[1]}} {}
 
         constexpr mat_base(
             T m11, T m12,
@@ -67,11 +72,17 @@ namespace vmath_hpp::detail
     public:
         constexpr mat_base() = default;
 
-        constexpr explicit mat_base(T v)
+        constexpr explicit mat_base(T d)
         : rows{
-            row_type{v, 0, 0},
-            row_type{0, v, 0},
-            row_type{0, 0, v}} {}
+            row_type{d, 0, 0},
+            row_type{0, d, 0},
+            row_type{0, 0, d}} {}
+
+        constexpr explicit mat_base(const row_type& d)
+        : rows{
+            row_type{d[0], 0, 0},
+            row_type{0, d[1], 0},
+            row_type{0, 0, d[2]}} {}
 
         constexpr mat_base(
             T m11, T m12, T m13,
@@ -115,12 +126,19 @@ namespace vmath_hpp::detail
     public:
         constexpr mat_base() = default;
 
-        constexpr explicit mat_base(T v)
+        constexpr explicit mat_base(T d)
         : rows{
-            row_type{v, 0, 0, 0},
-            row_type{0, v, 0, 0},
-            row_type{0, 0, v, 0},
-            row_type{0, 0, 0, v}} {}
+            row_type{d, 0, 0, 0},
+            row_type{0, d, 0, 0},
+            row_type{0, 0, d, 0},
+            row_type{0, 0, 0, d}} {}
+
+        constexpr explicit mat_base(const row_type& d)
+        : rows{
+            row_type{d[0], 0, 0, 0},
+            row_type{0, d[1], 0, 0},
+            row_type{0, 0, d[2], 0},
+            row_type{0, 0, 0, d[3]}} {}
 
         constexpr mat_base(
             T m11, T m12, T m13, T m14,
