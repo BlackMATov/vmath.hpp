@@ -121,26 +121,96 @@ TEST_CASE("vmath/mat") {
         }
     }
 
+    SUBCASE("iter") {
+        {
+            int2x2 m{1,2,3,4};
+
+            REQUIRE(*m.begin() == vec{1,2});
+            REQUIRE(*(m.begin() + 1) == vec{3,4});
+            REQUIRE(*(m.end() - 1) == vec{3,4});
+            REQUIRE(*(m.end() - 2) == vec{1,2});
+            REQUIRE(m.begin() + 2 == m.end());
+            REQUIRE(m.end() - 2 == m.begin());
+
+            REQUIRE(*m.cbegin() == vec{1,2});
+            REQUIRE(*(m.cbegin() + 1) == vec{3,4});
+            REQUIRE(*(m.cend() - 1) == vec{3,4});
+            REQUIRE(*(m.cend() - 2) == vec{1,2});
+            REQUIRE(m.cbegin() + 2 == m.cend());
+            REQUIRE(m.cend() - 2 == m.cbegin());
+
+            REQUIRE(*m.rbegin() == vec{3,4});
+            REQUIRE(*(m.rbegin() + 1) == vec{1,2});
+            REQUIRE(*(m.rend() - 1) == vec{1,2});
+            REQUIRE(*(m.rend() - 2) == vec{3,4});
+            REQUIRE(m.rbegin() + 2 == m.rend());
+            REQUIRE(m.rend() - 2 == m.rbegin());
+
+            REQUIRE(*m.crbegin() == vec{3,4});
+            REQUIRE(*(m.crbegin() + 1) == vec{1,2});
+            REQUIRE(*(m.crend() - 1) == vec{1,2});
+            REQUIRE(*(m.crend() - 2) == vec{3,4});
+            REQUIRE(m.crbegin() + 2 == m.crend());
+            REQUIRE(m.crend() - 2 == m.crbegin());
+
+            *m.begin() = {5,6};
+            REQUIRE(m == int2x2{5,6,3,4});
+            *m.rbegin() = {7,8};
+            REQUIRE(m == int2x2{5,6,7,8});
+        }
+        {
+            const int2x2 m{1,2,3,4};
+
+            REQUIRE(*m.begin() == vec{1,2});
+            REQUIRE(*(m.begin() + 1) == vec{3,4});
+            REQUIRE(*(m.end() - 1) == vec{3,4});
+            REQUIRE(*(m.end() - 2) == vec{1,2});
+            REQUIRE(m.begin() + 2 == m.end());
+            REQUIRE(m.end() - 2 == m.begin());
+
+            REQUIRE(*m.cbegin() == vec{1,2});
+            REQUIRE(*(m.cbegin() + 1) == vec{3,4});
+            REQUIRE(*(m.cend() - 1) == vec{3,4});
+            REQUIRE(*(m.cend() - 2) == vec{1,2});
+            REQUIRE(m.cbegin() + 2 == m.cend());
+            REQUIRE(m.cend() - 2 == m.cbegin());
+
+            REQUIRE(*m.rbegin() == vec{3,4});
+            REQUIRE(*(m.rbegin() + 1) == vec{1,2});
+            REQUIRE(*(m.rend() - 1) == vec{1,2});
+            REQUIRE(*(m.rend() - 2) == vec{3,4});
+            REQUIRE(m.rbegin() + 2 == m.rend());
+            REQUIRE(m.rend() - 2 == m.rbegin());
+
+            REQUIRE(*m.crbegin() == vec{3,4});
+            REQUIRE(*(m.crbegin() + 1) == vec{1,2});
+            REQUIRE(*(m.crend() - 1) == vec{1,2});
+            REQUIRE(*(m.crend() - 2) == vec{3,4});
+            REQUIRE(m.crbegin() + 2 == m.crend());
+            REQUIRE(m.crend() - 2 == m.crbegin());
+        }
+    }
+
     SUBCASE("data") {
         {
             int2x2 m2;
-            STATIC_REQUIRE(m2.data() == &m2[0]);
+            REQUIRE(m2.data() == &m2[0]);
 
             int3x3 m3;
-            STATIC_REQUIRE(m3.data() == &m3[0]);
+            REQUIRE(m3.data() == &m3[0]);
 
             int4x4 m4;
-            STATIC_REQUIRE(m4.data() == &m4[0]);
+            REQUIRE(m4.data() == &m4[0]);
         }
         {
-            constexpr int2x2 m2;
-            STATIC_REQUIRE(m2.data() == &m2[0]);
+            const int2x2 m2;
+            REQUIRE(m2.data() == &m2[0]);
 
-            constexpr int3x3 m3;
-            STATIC_REQUIRE(m3.data() == &m3[0]);
+            const int3x3 m3;
+            REQUIRE(m3.data() == &m3[0]);
 
-            constexpr int4x4 m4;
-            STATIC_REQUIRE(m4.data() == &m4[0]);
+            const int4x4 m4;
+            REQUIRE(m4.data() == &m4[0]);
         }
     }
 

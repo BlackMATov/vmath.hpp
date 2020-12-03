@@ -159,6 +159,11 @@ namespace vmath_hpp
         using reference = component_type&;
         using const_reference = const component_type&;
 
+        using iterator = pointer;
+        using const_iterator = const_pointer;
+        using reverse_iterator = std::reverse_iterator<iterator>;
+        using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
         static constexpr std::size_t size = Size;
     public:
         using base_type::vec_base;
@@ -175,11 +180,26 @@ namespace vmath_hpp
             }
         }
 
-        [[nodiscard]] constexpr pointer data() noexcept {
+        [[nodiscard]] iterator begin() noexcept { return iterator(data()); }
+        [[nodiscard]] const_iterator begin() const noexcept { return const_iterator(data()); }
+        [[nodiscard]] iterator end() noexcept { return iterator(data() + Size); }
+        [[nodiscard]] const_iterator end() const noexcept { return const_iterator(data() + Size); }
+
+        [[nodiscard]] reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
+        [[nodiscard]] const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
+        [[nodiscard]] reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
+        [[nodiscard]] const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
+
+        [[nodiscard]] const_iterator cbegin() const noexcept { return begin(); }
+        [[nodiscard]] const_iterator cend() const noexcept { return end(); }
+        [[nodiscard]] const_reverse_iterator crbegin() const noexcept { return rbegin(); }
+        [[nodiscard]] const_reverse_iterator crend() const noexcept { return rend(); }
+
+        [[nodiscard]] pointer data() noexcept {
             return &(*this)[0];
         }
 
-        [[nodiscard]] constexpr const_pointer data() const noexcept {
+        [[nodiscard]] const_pointer data() const noexcept {
             return &(*this)[0];
         }
 
