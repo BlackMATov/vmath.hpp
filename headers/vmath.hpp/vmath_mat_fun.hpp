@@ -50,6 +50,12 @@ namespace vmath_hpp::detail
 
         template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
         [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        A fold_impl(F&& f, A init, const vec<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>) {
+            return ((init = f(std::move(init), b[Is], c[Is])), ...);
+        }
+
+        template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
         A fold_impl(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>) {
             return ((init = f(std::move(init), b[Is], c[Is])), ...);
         }
@@ -90,6 +96,12 @@ namespace vmath_hpp::detail
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     A fold(F&& f, A init, const mat<B, Size>& b) {
         return impl::fold_impl(std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, typename C, std::size_t Size, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    A fold(F&& f, A init, const vec<B, Size>& b, const mat<C, Size>& c) {
+        return impl::fold_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
@@ -188,78 +200,18 @@ namespace vmath_hpp
         return map([x](const vec<T, Size>& y){ return x * y; }, ys);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<T, 2> operator*(const vec<T, 2>& xs, const mat<T, 2>& ys) {
-        return {
-            xs[0] * ys[0][0] + xs[1] * ys[1][0],
-            xs[0] * ys[0][1] + xs[1] * ys[1][1]};
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> operator*(const vec<T, Size>& xs, const mat<T, Size>& ys) {
+        return fold([](const vec<T, Size>& acc, T x, const vec<T, Size>& y){
+            return acc + x * y;
+        }, vec<T, Size>{}, xs, ys);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> operator*(const mat<T, 2>& xs, const mat<T, 2>& ys) {
-        return {
-            xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0],
-            xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1],
-
-            xs[1][0] * ys[0][0] + xs[1][1] * ys[1][0],
-            xs[1][0] * ys[0][1] + xs[1][1] * ys[1][1]};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const mat<T, 3>& ys) {
-        return {
-            xs[0] * ys[0][0] + xs[1] * ys[1][0] + xs[2] * ys[2][0],
-            xs[0] * ys[0][1] + xs[1] * ys[1][1] + xs[2] * ys[2][1],
-            xs[0] * ys[0][2] + xs[1] * ys[1][2] + xs[2] * ys[2][2]};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> operator*(const mat<T, 3>& xs, const mat<T, 3>& ys) {
-        return {
-            xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0] + xs[0][2] * ys[2][0],
-            xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1] + xs[0][2] * ys[2][1],
-            xs[0][0] * ys[0][2] + xs[0][1] * ys[1][2] + xs[0][2] * ys[2][2],
-
-            xs[1][0] * ys[0][0] + xs[1][1] * ys[1][0] + xs[1][2] * ys[2][0],
-            xs[1][0] * ys[0][1] + xs[1][1] * ys[1][1] + xs[1][2] * ys[2][1],
-            xs[1][0] * ys[0][2] + xs[1][1] * ys[1][2] + xs[1][2] * ys[2][2],
-
-            xs[2][0] * ys[0][0] + xs[2][1] * ys[1][0] + xs[2][2] * ys[2][0],
-            xs[2][0] * ys[0][1] + xs[2][1] * ys[1][1] + xs[2][2] * ys[2][1],
-            xs[2][0] * ys[0][2] + xs[2][1] * ys[1][2] + xs[2][2] * ys[2][2]};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr vec<T, 4> operator*(const vec<T, 4>& xs, const mat<T, 4>& ys) {
-        return {
-            xs[0] * ys[0][0] + xs[1] * ys[1][0] + xs[2] * ys[2][0] + xs[3] * ys[3][0],
-            xs[0] * ys[0][1] + xs[1] * ys[1][1] + xs[2] * ys[2][1] + xs[3] * ys[3][1],
-            xs[0] * ys[0][2] + xs[1] * ys[1][2] + xs[2] * ys[2][2] + xs[3] * ys[3][2],
-            xs[0] * ys[0][3] + xs[1] * ys[1][3] + xs[2] * ys[2][3] + xs[3] * ys[3][3]};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> operator*(const mat<T, 4>& xs, const mat<T, 4>& ys) {
-        return {
-            xs[0][0] * ys[0][0] + xs[0][1] * ys[1][0] + xs[0][2] * ys[2][0] + xs[0][3] * ys[3][0],
-            xs[0][0] * ys[0][1] + xs[0][1] * ys[1][1] + xs[0][2] * ys[2][1] + xs[0][3] * ys[3][1],
-            xs[0][0] * ys[0][2] + xs[0][1] * ys[1][2] + xs[0][2] * ys[2][2] + xs[0][3] * ys[3][2],
-            xs[0][0] * ys[0][3] + xs[0][1] * ys[1][3] + xs[0][2] * ys[2][3] + xs[0][3] * ys[3][3],
-
-            xs[1][0] * ys[0][0] + xs[1][1] * ys[1][0] + xs[1][2] * ys[2][0] + xs[1][3] * ys[3][0],
-            xs[1][0] * ys[0][1] + xs[1][1] * ys[1][1] + xs[1][2] * ys[2][1] + xs[1][3] * ys[3][1],
-            xs[1][0] * ys[0][2] + xs[1][1] * ys[1][2] + xs[1][2] * ys[2][2] + xs[1][3] * ys[3][2],
-            xs[1][0] * ys[0][3] + xs[1][1] * ys[1][3] + xs[1][2] * ys[2][3] + xs[1][3] * ys[3][3],
-
-            xs[2][0] * ys[0][0] + xs[2][1] * ys[1][0] + xs[2][2] * ys[2][0] + xs[2][3] * ys[3][0],
-            xs[2][0] * ys[0][1] + xs[2][1] * ys[1][1] + xs[2][2] * ys[2][1] + xs[2][3] * ys[3][1],
-            xs[2][0] * ys[0][2] + xs[2][1] * ys[1][2] + xs[2][2] * ys[2][2] + xs[2][3] * ys[3][2],
-            xs[2][0] * ys[0][3] + xs[2][1] * ys[1][3] + xs[2][2] * ys[2][3] + xs[2][3] * ys[3][3],
-
-            xs[3][0] * ys[0][0] + xs[3][1] * ys[1][0] + xs[3][2] * ys[2][0] + xs[3][3] * ys[3][0],
-            xs[3][0] * ys[0][1] + xs[3][1] * ys[1][1] + xs[3][2] * ys[2][1] + xs[3][3] * ys[3][1],
-            xs[3][0] * ys[0][2] + xs[3][1] * ys[1][2] + xs[3][2] * ys[2][2] + xs[3][3] * ys[3][2],
-            xs[3][0] * ys[0][3] + xs[3][1] * ys[1][3] + xs[3][2] * ys[2][3] + xs[3][3] * ys[3][3]};
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator*(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map([&ys](const vec<T, Size>& x){
+            return x * ys;
+        }, xs);
     }
 
     // operator*=
