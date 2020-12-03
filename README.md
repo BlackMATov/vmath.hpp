@@ -130,12 +130,32 @@ public:
     using reference = component_type&;
     using const_reference = const component_type&;
 
+    using iterator = pointer;
+    using const_iterator = const_pointer;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
     static constexpr size_t size = Size;
 
     void swap(vec& other) noexcept(is_nothrow_swappable_v<T>);
 
-    constexpr pointer data() noexcept;
-    constexpr const_pointer data() const noexcept;
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
+
+    reverse_iterator rbegin() noexcept;
+    const_reverse_iterator rbegin() const noexcept;
+    reverse_iterator rend() noexcept;
+    const_reverse_iterator rend() const noexcept;
+
+    const_iterator cbegin() const noexcept;
+    const_iterator cend() const noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    const_reverse_iterator crend() const noexcept;
+
+    pointer data() noexcept;
+    const_pointer data() const noexcept;
 
     constexpr reference at(size_t index);
     constexpr const_reference at(size_t index) const;
@@ -274,12 +294,32 @@ public:
     using reference = row_type&;
     using const_reference = const row_type&;
 
+    using iterator = pointer;
+    using const_iterator = const_pointer;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
     static constexpr size_t size = Size;
 
     void swap(mat& other) noexcept(is_nothrow_swappable_v<T>);
 
-    constexpr pointer data() noexcept;
-    constexpr const_pointer data() const noexcept;
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
+
+    reverse_iterator rbegin() noexcept;
+    const_reverse_iterator rbegin() const noexcept;
+    reverse_iterator rend() noexcept;
+    const_reverse_iterator rend() const noexcept;
+
+    const_iterator cbegin() const noexcept;
+    const_iterator cend() const noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    const_reverse_iterator crend() const noexcept;
+
+    pointer data() noexcept;
+    const_pointer data() const noexcept;
 
     constexpr reference at(size_t index);
     constexpr const_reference at(size_t index) const;
