@@ -191,8 +191,8 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] constexpr vec<T, 2> operator*(const vec<T, 2>& xs, const mat<T, 2>& ys) {
         return {
-            xs.x * ys[0][0] + xs.y * ys[1][0],
-            xs.x * ys[0][1] + xs.y * ys[1][1]};
+            xs[0] * ys[0][0] + xs[1] * ys[1][0],
+            xs[0] * ys[0][1] + xs[1] * ys[1][1]};
     }
 
     template < typename T >
@@ -208,9 +208,9 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const mat<T, 3>& ys) {
         return {
-            xs.x * ys[0][0] + xs.y * ys[1][0] + xs.z * ys[2][0],
-            xs.x * ys[0][1] + xs.y * ys[1][1] + xs.z * ys[2][1],
-            xs.x * ys[0][2] + xs.y * ys[1][2] + xs.z * ys[2][2]};
+            xs[0] * ys[0][0] + xs[1] * ys[1][0] + xs[2] * ys[2][0],
+            xs[0] * ys[0][1] + xs[1] * ys[1][1] + xs[2] * ys[2][1],
+            xs[0] * ys[0][2] + xs[1] * ys[1][2] + xs[2] * ys[2][2]};
     }
 
     template < typename T >
@@ -232,10 +232,10 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] constexpr vec<T, 4> operator*(const vec<T, 4>& xs, const mat<T, 4>& ys) {
         return {
-            xs.x * ys[0][0] + xs.y * ys[1][0] + xs.z * ys[2][0] + xs.w * ys[3][0],
-            xs.x * ys[0][1] + xs.y * ys[1][1] + xs.z * ys[2][1] + xs.w * ys[3][1],
-            xs.x * ys[0][2] + xs.y * ys[1][2] + xs.z * ys[2][2] + xs.w * ys[3][2],
-            xs.x * ys[0][3] + xs.y * ys[1][3] + xs.z * ys[2][3] + xs.w * ys[3][3]};
+            xs[0] * ys[0][0] + xs[1] * ys[1][0] + xs[2] * ys[2][0] + xs[3] * ys[3][0],
+            xs[0] * ys[0][1] + xs[1] * ys[1][1] + xs[2] * ys[2][1] + xs[3] * ys[3][1],
+            xs[0] * ys[0][2] + xs[1] * ys[1][2] + xs[2] * ys[2][2] + xs[3] * ys[3][2],
+            xs[0] * ys[0][3] + xs[1] * ys[1][3] + xs[2] * ys[2][3] + xs[3] * ys[3][3]};
     }
 
     template < typename T >
