@@ -14,106 +14,175 @@
 #include "vmath_vec.hpp"
 #include "vmath_vec_fun.hpp"
 
+namespace vmath_hpp::detail::impl
+{
+    template < typename A, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join_impl(
+        F&& f,
+        const mat<A, Size>& a,
+        std::index_sequence<Is...>
+    ) -> mat<typename decltype(f(
+        std::declval<vec<A, Size>>()))::component_type, Size>
+    {
+        return { f(a[Is])... };
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join_impl(
+        F&& f,
+        const mat<A, Size>& a,
+        const mat<B, Size>& b,
+        std::index_sequence<Is...>
+    ) -> mat<typename decltype(f(
+        std::declval<vec<A, Size>>(),
+        std::declval<vec<B, Size>>()))::component_type, Size>
+    {
+        return { f(a[Is], b[Is])... };
+    }
+
+    template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join_impl(
+        F&& f,
+        const mat<A, Size>& a,
+        const mat<B, Size>& b,
+        const mat<C, Size>& c,
+        std::index_sequence<Is...>
+    ) -> mat<typename decltype(f(
+        std::declval<vec<A, Size>>(),
+        std::declval<vec<B, Size>>(),
+        std::declval<vec<C, Size>>()))::component_type, Size>
+    {
+        return { f(a[Is], b[Is], c[Is])... };
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold_join_impl(
+        F&& f,
+        A init,
+        const mat<B, Size>& b,
+        std::index_sequence<Is...>
+    ) -> A {
+        return ((init = f(std::move(init), b[Is])), ...);
+    }
+
+    template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold_join_impl(
+        F&& f,
+        A init,
+        const vec<B, Size>& b,
+        const mat<C, Size>& c,
+        std::index_sequence<Is...>
+    ) -> A {
+        return ((init = f(std::move(init), b[Is], c[Is])), ...);
+    }
+
+    template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold_join_impl(
+        F&& f,
+        A init,
+        const mat<B, Size>& b,
+        const mat<C, Size>& c,
+        std::index_sequence<Is...>
+    ) -> A {
+        return ((init = f(std::move(init), b[Is], c[Is])), ...);
+    }
+
+    template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_join_impl(
+        F&& f,
+        const mat<A, Size>& a,
+        std::index_sequence<I, Is...>
+    ) -> vec<A, Size> {
+        vec<A, Size> init = a[I];
+        return ((init = f(std::move(init), a[Is])), ...);
+    }
+}
+
 namespace vmath_hpp::detail
 {
-    namespace impl
-    {
-        template < typename A, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        auto map_impl(F&& f, const mat<A, Size>& a, std::index_sequence<Is...>)
-            -> mat<typename std::invoke_result_t<F, vec<A, Size>>::component_type, Size>
-        {
-            return { f(a[Is])... };
-        }
-
-        template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, std::index_sequence<Is...>)
-            -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::component_type, Size>
-        {
-            return { f(a[Is], b[Is])... };
-        }
-
-        template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        auto zip_impl(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>)
-            -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::component_type, Size>
-        {
-            return { f(a[Is], b[Is], c[Is])... };
-        }
-
-        template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        A fold_impl(F&& f, A init, const mat<B, Size>& b, std::index_sequence<Is...>) {
-            return ((init = f(std::move(init), b[Is])), ...);
-        }
-
-        template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        A fold_impl(F&& f, A init, const vec<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>) {
-            return ((init = f(std::move(init), b[Is], c[Is])), ...);
-        }
-
-        template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        A fold_impl(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c, std::index_sequence<Is...>) {
-            return ((init = f(std::move(init), b[Is], c[Is])), ...);
-        }
-
-        template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        vec<A, Size> fold1_impl(F&& f, const mat<A, Size>& a, std::index_sequence<I, Is...>) {
-            vec<A, Size> init = a[I];
-            return ((init = f(std::move(init), a[Is])), ...);
-        }
-    }
-
     template < typename A, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map(F&& f, const mat<A, Size>& a)
-        -> mat<typename std::invoke_result_t<F, vec<A, Size>>::component_type, Size>
-    {
-        return impl::map_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
+    auto map_join(
+        F&& f,
+        const mat<A, Size>& a
+    ) {
+        return impl::map_join_impl(
+            std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b)
-        -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>>::component_type, Size>
-    {
-        return impl::zip_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
+    auto map_join(
+        F&& f,
+        const mat<A, Size>& a,
+        const mat<B, Size>& b
+    ) {
+        return impl::map_join_impl(
+            std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto zip(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c)
-        -> mat<typename std::invoke_result_t<F, vec<A, Size>, vec<B, Size>, vec<C, Size>>::component_type, Size>
-    {
-        return impl::zip_impl(std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
+    auto map_join(
+        F&& f,
+        const mat<A, Size>& a,
+        const mat<B, Size>& b,
+        const mat<C, Size>& c
+    ) {
+        return impl::map_join_impl(
+            std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    A fold(F&& f, A init, const mat<B, Size>& b) {
-        return impl::fold_impl(std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
+    auto fold_join(
+        F&& f,
+        A init,
+        const mat<B, Size>& b
+    ) {
+        return impl::fold_join_impl(
+            std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    A fold(F&& f, A init, const vec<B, Size>& b, const mat<C, Size>& c) {
-        return impl::fold_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
+    auto fold_join(
+        F&& f,
+        A init,
+        const vec<B, Size>& b,
+        const mat<C, Size>& c
+    ) {
+        return impl::fold_join_impl(
+            std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    A fold(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c) {
-        return impl::fold_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
+    auto fold_join(
+        F&& f,
+        A init,
+        const mat<B, Size>& b,
+        const mat<C, Size>& c
+    ) {
+        return impl::fold_join_impl(
+            std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    vec<A, Size> fold1(F&& f, const mat<A, Size>& a) {
-        return impl::fold1_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
+    auto fold1_join(
+        F&& f,
+        const mat<A, Size>& a
+    ) {
+        return impl::fold1_join_impl(
+            std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 }
 
@@ -127,24 +196,24 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs) {
-        return map([](const vec<T, Size>& x){ return -x; }, xs);
+        return map_join([](const vec<T, Size>& x){ return -x; }, xs);
     }
 
     // operator+
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator+(const mat<T, Size>& xs, T y) {
-        return map([y](const vec<T, Size>& x){ return x + y; }, xs);
+        return map_join([y](const vec<T, Size>& x){ return x + y; }, xs);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator+(T x, const mat<T, Size>& ys) {
-        return map([x](const vec<T, Size>& y){ return x + y; }, ys);
+        return map_join([x](const vec<T, Size>& y){ return x + y; }, ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator+(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x + y; }, xs, ys);
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x + y; }, xs, ys);
     }
 
     // operator+=
@@ -163,17 +232,17 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs, T y) {
-        return map([y](const vec<T, Size>& x){ return x - y; }, xs);
+        return map_join([y](const vec<T, Size>& x){ return x - y; }, xs);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator-(T x, const mat<T, Size>& ys) {
-        return map([x](const vec<T, Size>& y){ return x - y; }, ys);
+        return map_join([x](const vec<T, Size>& y){ return x - y; }, ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x - y; }, xs, ys);
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x - y; }, xs, ys);
     }
 
     // operator-=
@@ -192,24 +261,24 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator*(const mat<T, Size>& xs, T y) {
-        return map([y](const vec<T, Size>& x){ return x * y; }, xs);
+        return map_join([y](const vec<T, Size>& x){ return x * y; }, xs);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator*(T x, const mat<T, Size>& ys) {
-        return map([x](const vec<T, Size>& y){ return x * y; }, ys);
+        return map_join([x](const vec<T, Size>& y){ return x * y; }, ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> operator*(const vec<T, Size>& xs, const mat<T, Size>& ys) {
-        return fold([](const vec<T, Size>& acc, T x, const vec<T, Size>& y){
+        return fold_join([](const vec<T, Size>& acc, T x, const vec<T, Size>& y){
             return acc + x * y;
         }, vec<T, Size>{}, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator*(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return map([&ys](const vec<T, Size>& x){
+        return map_join([&ys](const vec<T, Size>& x){
             return x * ys;
         }, xs);
     }
@@ -235,17 +304,17 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator/(const mat<T, Size>& xs, T y) {
-        return map([y](const vec<T, Size>& x){ return x / y; }, xs);
+        return map_join([y](const vec<T, Size>& x){ return x / y; }, xs);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator/(T x, const mat<T, Size>& ys) {
-        return map([x](const vec<T, Size>& y){ return x / y; }, ys);
+        return map_join([x](const vec<T, Size>& y){ return x / y; }, ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return zip([](const vec<T, Size>& x, const vec<T, Size>& y){ return x / y; }, xs, ys);
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x / y; }, xs, ys);
     }
 
     // operator/=
@@ -264,14 +333,14 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator==(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return fold([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
+        return fold_join([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
             return acc && (x == y);
         }, true, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator!=(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return fold([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
+        return fold_join([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
             return acc || (x != y);
         }, false, xs, ys);
     }

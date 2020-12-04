@@ -32,27 +32,27 @@ namespace
 
 TEST_CASE("vmath/mat_fun") {
     SUBCASE("detail") {
-        STATIC_REQUIRE(map([](const int2& x){
+        STATIC_REQUIRE(map_join([](const int2& x){
             return x * 2;
         }, int2x2{}) == int2x2(2,0,0,2));
 
-        STATIC_REQUIRE(zip([](const int2& x, const int2& y){
+        STATIC_REQUIRE(map_join([](const int2& x, const int2& y){
             return x + y;
         }, int2x2{}, int2x2{}) == int2x2(2,0,0,2));
 
-        STATIC_REQUIRE(zip([](const int2& x, const int2& y, const int2& z){
+        STATIC_REQUIRE(map_join([](const int2& x, const int2& y, const int2& z){
             return x + y + z;
         }, int2x2{}, int2x2{}, int2x2{}) == int2x2(3,0,0,3));
 
-        STATIC_REQUIRE(fold([](int acc, const int2& x){
+        STATIC_REQUIRE(fold_join([](int acc, const int2& x){
             return acc + x.x;
         }, 0, int2x2{}) == 1);
 
-        STATIC_REQUIRE(fold([](int acc, const int2& x, const int2& y){
+        STATIC_REQUIRE(fold_join([](int acc, const int2& x, const int2& y){
             return acc + x.x + y.x;
         }, 0, int2x2{}, int2x2{}) == 2);
 
-        STATIC_REQUIRE(fold1([](const int2& acc, const int2& x){
+        STATIC_REQUIRE(fold1_join([](const int2& acc, const int2& x){
             return acc + x;
         }, int2x2{}) == int2(1,1));
     }

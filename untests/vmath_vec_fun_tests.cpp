@@ -15,27 +15,27 @@ namespace
 
 TEST_CASE("vmath/vec_fun") {
     SUBCASE("Detail") {
-        STATIC_REQUIRE(map([](const int& x){
+        STATIC_REQUIRE(map_join([](const int& x){
             return x * 2;
         }, int2{1}) == int2{2});
 
-        STATIC_REQUIRE(zip([](const int& x, const int& y){
+        STATIC_REQUIRE(map_join([](const int& x, const int& y){
             return x + y;
         }, int2{1}, int2{1}) == int2{2});
 
-        STATIC_REQUIRE(zip([](const int& x, const int& y, const int& z){
+        STATIC_REQUIRE(map_join([](const int& x, const int& y, const int& z){
             return x + y + z;
         }, int2{1}, int2{1}, int2{1}) == int2(3));
 
-        STATIC_REQUIRE(fold([](int acc, const int& x){
+        STATIC_REQUIRE(fold_join([](int acc, const int& x){
             return acc + x;
         }, 0, int2{1}) == 2);
 
-        STATIC_REQUIRE(fold([](int acc, const int& x, const int& y){
+        STATIC_REQUIRE(fold_join([](int acc, const int& x, const int& y){
             return acc + x + y;
         }, 0, int2{1}, int2{1}) == 4);
 
-        STATIC_REQUIRE(fold1([](const int& acc, const int& x){
+        STATIC_REQUIRE(fold1_join([](const int& acc, const int& x){
             return acc + x;
         }, int2{1}) == 2);
     }
