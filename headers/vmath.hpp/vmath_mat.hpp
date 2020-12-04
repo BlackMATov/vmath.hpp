@@ -99,6 +99,14 @@ namespace vmath_hpp::detail
             const row_type& row2)
         : rows{row0, row1, row2} {}
 
+        constexpr mat_base(
+            const mat_base<T, 2>& m,
+            const vec_base<T, 2>& v)
+        : rows{
+            row_type{m.rows[0], 0},
+            row_type{m.rows[1], 0},
+            row_type{v, 1}} {}
+
         constexpr explicit mat_base(
             const mat_base<T, 2>& other)
         : rows{
@@ -157,6 +165,15 @@ namespace vmath_hpp::detail
             const row_type& row2,
             const row_type& row3)
         : rows{row0, row1, row2, row3} {}
+
+        constexpr mat_base(
+            const mat_base<T, 3>& m,
+            const vec_base<T, 3>& v)
+        : rows{
+            row_type{m.rows[0], 0},
+            row_type{m.rows[1], 0},
+            row_type{m.rows[2], 0},
+            row_type{v, 1}} {}
 
         constexpr explicit mat_base(
             const mat_base<T, 2>& other)
@@ -282,6 +299,9 @@ namespace vmath_hpp
     mat(const vec<T, 3>&, const vec<T, 3>&, const vec<T, 3>&) -> mat<T, 3>;
 
     template < typename T >
+    mat(const mat<T, 2>&, const vec<T, 2>&) -> mat<T, 3>;
+
+    template < typename T >
     mat(std::initializer_list<T>, std::initializer_list<T>, std::initializer_list<T>) -> mat<T, 3>;
 
     // mat4
@@ -291,6 +311,9 @@ namespace vmath_hpp
 
     template < typename T >
     mat(const vec<T, 4>&, const vec<T, 4>&, const vec<T, 4>&, const vec<T, 4>&) -> mat<T, 4>;
+
+    template < typename T >
+    mat(const mat<T, 3>&, const vec<T, 3>&) -> mat<T, 4>;
 
     template < typename T >
     mat(std::initializer_list<T>, std::initializer_list<T>, std::initializer_list<T>, std::initializer_list<T>) -> mat<T, 4>;

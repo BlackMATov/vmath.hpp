@@ -32,10 +32,12 @@ TEST_CASE("vmath/mat") {
         STATIC_REQUIRE(mat{1,2,3,4,5,6,7,8,9}.size == 3);
         STATIC_REQUIRE(mat{{1,2,3},{4,5,6},{7,8,9}}.size == 3);
         STATIC_REQUIRE(mat{vec{1,2,3},vec{4,5,6},vec{7,8,9}}.size == 3);
+        STATIC_REQUIRE(mat{mat{1,2,3,4},vec{5,6}}.size == 3);
 
         STATIC_REQUIRE(mat{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}.size == 4);
         STATIC_REQUIRE(mat{{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}}.size == 4);
         STATIC_REQUIRE(mat{vec{1,2,3,4},vec{5,6,7,8},vec{9,10,11,12},vec{13,14,15,16}}.size == 4);
+        STATIC_REQUIRE(mat{mat{1,2,3,4,5,6,7,8,9},vec{5,6,7}}.size == 4);
     }
 
     SUBCASE("ctors") {
@@ -74,6 +76,7 @@ TEST_CASE("vmath/mat") {
             STATIC_REQUIRE(int3x3(int3{2,3,4}) == int3x3(2,0,0,0,3,0,0,0,4));
             STATIC_REQUIRE(int3x3(1,2,3,4,5,6,7,8,9) == int3x3(1,2,3,4,5,6,7,8,9));
             STATIC_REQUIRE(int3x3({1,2,3},{4,5,6},{7,8,9}) == int3x3(1,2,3,4,5,6,7,8,9));
+            STATIC_REQUIRE(int3x3(int2x2({1,2},{3,4}),int2{5,6}) == int3x3(1,2,0,3,4,0,5,6,1));
             STATIC_REQUIRE(int3x3(int3x3({1,2,3},{4,5,6},{7,8,9})) == int3x3(1,2,3,4,5,6,7,8,9));
             STATIC_REQUIRE(int3x3(int2x2({1,2},{3,4})) == int3x3(1,2,0,3,4,0,0,0,1));
             STATIC_REQUIRE(int3x3(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == int3x3(1,2,3,5,6,7,9,10,11));
@@ -83,6 +86,7 @@ TEST_CASE("vmath/mat") {
             STATIC_REQUIRE(int4x4(int4{2,3,4,5}) == int4x4(2,0,0,0,0,3,0,0,0,0,4,0,0,0,0,5));
             STATIC_REQUIRE(int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
             STATIC_REQUIRE(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            STATIC_REQUIRE(int4x4(int3x3({1,2,3},{4,5,6},{7,8,9}),int3{10,11,12}) == int4x4(1,2,3,0,4,5,6,0,7,8,9,0,10,11,12,1));
             STATIC_REQUIRE(int4x4(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
             STATIC_REQUIRE(int4x4(int2x2({1,2},{3,4})) == int4x4(1,2,0,0,3,4,0,0,0,0,1,0,0,0,0,1));
             STATIC_REQUIRE(int4x4(int3x3({1,2,3},{4,5,6},{7,8,9})) == int4x4(1,2,3,0,4,5,6,0,7,8,9,0,0,0,0,1));

@@ -248,6 +248,10 @@ public:
         const row_type& row1,
         const row_type& row2);
 
+    constexpr mat_base(
+        const mat_base<T, 2>& m,
+        const vec_base<T, 2>& v);
+
     constexpr explicit mat_base(const mat_base<T, 2>& other);
     constexpr explicit mat_base(const mat_base<T, 4>& other);
 };
@@ -278,6 +282,10 @@ public:
         const row_type& row1,
         const row_type& row2,
         const row_type& row3);
+
+    constexpr mat_base(
+        const mat_base<T, 3>& m,
+        const vec_base<T, 3>& v);
 
     constexpr explicit mat_base(const mat_base<T, 2>& other);
     constexpr explicit mat_base(const mat_base<T, 3>& other);
