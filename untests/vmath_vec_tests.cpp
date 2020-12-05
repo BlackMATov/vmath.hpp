@@ -24,6 +24,22 @@ TEST_CASE("vmath/vec") {
         STATIC_REQUIRE(sizeof(int4{}) == sizeof(int) * 4);
     }
 
+    SUBCASE("guides") {
+        STATIC_REQUIRE(vec{1,2}.size == 2);
+
+        STATIC_REQUIRE(vec{1,2,3}.size == 3);
+        STATIC_REQUIRE(vec{{1,2},3}.size == 3);
+        STATIC_REQUIRE(vec{1,{2,3}}.size == 3);
+
+        STATIC_REQUIRE(vec{1,2,3,4}.size == 4);
+        STATIC_REQUIRE(vec{vec{1,2},3,4}.size == 4);
+        STATIC_REQUIRE(vec{1,vec{2,3},4}.size == 4);
+        STATIC_REQUIRE(vec{1,2,vec{3,4}}.size == 4);
+        STATIC_REQUIRE(vec{vec{1,2},vec{3,4}}.size == 4);
+        STATIC_REQUIRE(vec{vec{1,2,3},4}.size == 4);
+        STATIC_REQUIRE(vec{1,vec{2,3,4}}.size == 4);
+    }
+
     SUBCASE("ctors") {
         {
             STATIC_REQUIRE(int2().x == 0);
@@ -99,6 +115,99 @@ TEST_CASE("vmath/vec") {
             swap(v1, v2);
             REQUIRE(v1 == int2(4,5));
             REQUIRE(v2 == int2(1,2));
+        }
+    }
+
+    SUBCASE("iter") {
+        {
+            int2 v{1,2};
+
+            REQUIRE(*v.begin() == 1);
+            REQUIRE(*(v.begin() + 1) == 2);
+            REQUIRE(*(v.end() - 1) == 2);
+            REQUIRE(*(v.end() - 2) == 1);
+            REQUIRE(v.begin() + 2 == v.end());
+            REQUIRE(v.end() - 2 == v.begin());
+
+            REQUIRE(*v.cbegin() == 1);
+            REQUIRE(*(v.cbegin() + 1) == 2);
+            REQUIRE(*(v.cend() - 1) == 2);
+            REQUIRE(*(v.cend() - 2) == 1);
+            REQUIRE(v.cbegin() + 2 == v.cend());
+            REQUIRE(v.cend() - 2 == v.cbegin());
+
+            REQUIRE(*v.rbegin() == 2);
+            REQUIRE(*(v.rbegin() + 1) == 1);
+            REQUIRE(*(v.rend() - 1) == 1);
+            REQUIRE(*(v.rend() - 2) == 2);
+            REQUIRE(v.rbegin() + 2 == v.rend());
+            REQUIRE(v.rend() - 2 == v.rbegin());
+
+            REQUIRE(*v.crbegin() == 2);
+            REQUIRE(*(v.crbegin() + 1) == 1);
+            REQUIRE(*(v.crend() - 1) == 1);
+            REQUIRE(*(v.crend() - 2) == 2);
+            REQUIRE(v.crbegin() + 2 == v.crend());
+            REQUIRE(v.crend() - 2 == v.crbegin());
+
+            *v.begin() = 3;
+            REQUIRE(v == int2{3,2});
+            *v.rbegin() = 4;
+            REQUIRE(v == int2{3,4});
+        }
+        {
+            const int2 v{1,2};
+
+            REQUIRE(*v.begin() == 1);
+            REQUIRE(*(v.begin() + 1) == 2);
+            REQUIRE(*(v.end() - 1) == 2);
+            REQUIRE(*(v.end() - 2) == 1);
+            REQUIRE(v.begin() + 2 == v.end());
+            REQUIRE(v.end() - 2 == v.begin());
+
+            REQUIRE(*v.cbegin() == 1);
+            REQUIRE(*(v.cbegin() + 1) == 2);
+            REQUIRE(*(v.cend() - 1) == 2);
+            REQUIRE(*(v.cend() - 2) == 1);
+            REQUIRE(v.cbegin() + 2 == v.cend());
+            REQUIRE(v.cend() - 2 == v.cbegin());
+
+            REQUIRE(*v.rbegin() == 2);
+            REQUIRE(*(v.rbegin() + 1) == 1);
+            REQUIRE(*(v.rend() - 1) == 1);
+            REQUIRE(*(v.rend() - 2) == 2);
+            REQUIRE(v.rbegin() + 2 == v.rend());
+            REQUIRE(v.rend() - 2 == v.rbegin());
+
+            REQUIRE(*v.crbegin() == 2);
+            REQUIRE(*(v.crbegin() + 1) == 1);
+            REQUIRE(*(v.crend() - 1) == 1);
+            REQUIRE(*(v.crend() - 2) == 2);
+            REQUIRE(v.crbegin() + 2 == v.crend());
+            REQUIRE(v.crend() - 2 == v.crbegin());
+        }
+    }
+
+    SUBCASE("data") {
+        {
+            int2 i2;
+            REQUIRE(i2.data() == &i2[0]);
+
+            int3 i3;
+            REQUIRE(i3.data() == &i3[0]);
+
+            int4 i4;
+            REQUIRE(i4.data() == &i4[0]);
+        }
+        {
+            const int2 i2;
+            REQUIRE(i2.data() == &i2[0]);
+
+            const int3 i3;
+            REQUIRE(i3.data() == &i3[0]);
+
+            const int4 i4;
+            REQUIRE(i4.data() == &i4[0]);
         }
     }
 

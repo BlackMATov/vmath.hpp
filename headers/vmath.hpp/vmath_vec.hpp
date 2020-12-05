@@ -151,13 +151,18 @@ namespace vmath_hpp
         using self_type = vec;
         using base_type = detail::vec_base<T, Size>;
     public:
-        using value_type = T;
+        using component_type = T;
 
-        using pointer = value_type*;
-        using const_pointer = const value_type*;
+        using pointer = component_type*;
+        using const_pointer = const component_type*;
 
-        using reference = value_type&;
-        using const_reference = const value_type&;
+        using reference = component_type&;
+        using const_reference = const component_type&;
+
+        using iterator = pointer;
+        using const_iterator = const_pointer;
+        using reverse_iterator = std::reverse_iterator<iterator>;
+        using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
         static constexpr std::size_t size = Size;
     public:
@@ -175,6 +180,29 @@ namespace vmath_hpp
             }
         }
 
+        [[nodiscard]] iterator begin() noexcept { return iterator(data()); }
+        [[nodiscard]] const_iterator begin() const noexcept { return const_iterator(data()); }
+        [[nodiscard]] iterator end() noexcept { return iterator(data() + Size); }
+        [[nodiscard]] const_iterator end() const noexcept { return const_iterator(data() + Size); }
+
+        [[nodiscard]] reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
+        [[nodiscard]] const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
+        [[nodiscard]] reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
+        [[nodiscard]] const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
+
+        [[nodiscard]] const_iterator cbegin() const noexcept { return begin(); }
+        [[nodiscard]] const_iterator cend() const noexcept { return end(); }
+        [[nodiscard]] const_reverse_iterator crbegin() const noexcept { return rbegin(); }
+        [[nodiscard]] const_reverse_iterator crend() const noexcept { return rend(); }
+
+        [[nodiscard]] pointer data() noexcept {
+            return &(*this)[0];
+        }
+
+        [[nodiscard]] const_pointer data() const noexcept {
+            return &(*this)[0];
+        }
+
         [[nodiscard]] constexpr reference at(std::size_t index) {
             if ( index >= Size ) {
                 throw std::out_of_range("vec::at");
@@ -189,6 +217,50 @@ namespace vmath_hpp
             return (*this)[index];
         }
     };
+}
+
+namespace vmath_hpp
+{
+    // vec2
+
+    template < typename T >
+    vec(T, T) -> vec<T, 2>;
+
+    // vec3
+
+    template < typename T >
+    vec(T, T, T) -> vec<T, 3>;
+
+    template < typename T >
+    vec(const vec<T, 2>&, T) -> vec<T, 3>;
+
+    template < typename T >
+    vec(T, const vec<T, 2>&) -> vec<T, 3>;
+
+    // vec4
+
+    template < typename T >
+    vec(T, T, T, T) -> vec<T, 4>;
+
+    template < typename T >
+    vec(const vec<T, 2>&, T, T) -> vec<T, 4>;
+
+    template < typename T >
+    vec(T, const vec<T, 2>&, T) -> vec<T, 4>;
+
+    template < typename T >
+    vec(T, T, const vec<T, 2>&) -> vec<T, 4>;
+
+    template < typename T >
+    vec(const vec<T, 2>&, const vec<T, 2>&) -> vec<T, 4>;
+
+    template < typename T >
+    vec(const vec<T, 3>&, T) -> vec<T, 4>;
+
+    template < typename T >
+    vec(T, const vec<T, 3>&) -> vec<T, 4>;
+
+    // swap
 
     template < typename T, std::size_t Size >
     void swap(vec<T, Size>& l, vec<T, Size>& r) noexcept(noexcept(l.swap(r))) {

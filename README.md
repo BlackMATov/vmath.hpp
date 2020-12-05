@@ -122,17 +122,40 @@ public:
 template < typename T, size_t Size >
 class vec final : public vec_base<T, Size> {
 public:
-    using value_type = T;
+    using component_type = T;
 
-    using pointer = value_type*;
-    using const_pointer = const value_type*;
+    using pointer = component_type*;
+    using const_pointer = const component_type*;
 
-    using reference = value_type&;
-    using const_reference = const value_type&;
+    using reference = component_type&;
+    using const_reference = const component_type&;
+
+    using iterator = pointer;
+    using const_iterator = const_pointer;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static constexpr size_t size = Size;
 
     void swap(vec& other) noexcept(is_nothrow_swappable_v<T>);
+
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
+
+    reverse_iterator rbegin() noexcept;
+    const_reverse_iterator rbegin() const noexcept;
+    reverse_iterator rend() noexcept;
+    const_reverse_iterator rend() const noexcept;
+
+    const_iterator cbegin() const noexcept;
+    const_iterator cend() const noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    const_reverse_iterator crend() const noexcept;
+
+    pointer data() noexcept;
+    const_pointer data() const noexcept;
 
     constexpr reference at(size_t index);
     constexpr const_reference at(size_t index) const;
@@ -186,7 +209,8 @@ public:
         {0, 1}};
 
     constexpr mat_base() = default;
-    constexpr explicit mat_base(T v);
+    constexpr explicit mat_base(T d);
+    constexpr explicit mat_base(const row_type& d);
 
     constexpr mat_base(
         T m11, T m12,
@@ -211,7 +235,8 @@ public:
         {0, 0, 1}};
 
     constexpr mat_base() = default;
-    constexpr explicit mat_base(T v);
+    constexpr explicit mat_base(T d);
+    constexpr explicit mat_base(const row_type& d);
 
     constexpr mat_base(
         T m11, T m12, T m13,
@@ -222,6 +247,10 @@ public:
         const row_type& row0,
         const row_type& row1,
         const row_type& row2);
+
+    constexpr mat_base(
+        const mat_base<T, 2>& m,
+        const vec_base<T, 2>& v);
 
     constexpr explicit mat_base(const mat_base<T, 2>& other);
     constexpr explicit mat_base(const mat_base<T, 4>& other);
@@ -239,7 +268,8 @@ public:
         {0, 0, 0, 1}};
 
     constexpr mat_base() = default;
-    constexpr explicit mat_base(T v);
+    constexpr explicit mat_base(T d);
+    constexpr explicit mat_base(const row_type& d);
 
     constexpr mat_base(
         T m11, T m12, T m13, T m14,
@@ -252,6 +282,10 @@ public:
         const row_type& row1,
         const row_type& row2,
         const row_type& row3);
+
+    constexpr mat_base(
+        const mat_base<T, 3>& m,
+        const vec_base<T, 3>& v);
 
     constexpr explicit mat_base(const mat_base<T, 2>& other);
     constexpr explicit mat_base(const mat_base<T, 3>& other);
@@ -268,9 +302,32 @@ public:
     using reference = row_type&;
     using const_reference = const row_type&;
 
+    using iterator = pointer;
+    using const_iterator = const_pointer;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
     static constexpr size_t size = Size;
 
     void swap(mat& other) noexcept(is_nothrow_swappable_v<T>);
+
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
+
+    reverse_iterator rbegin() noexcept;
+    const_reverse_iterator rbegin() const noexcept;
+    reverse_iterator rend() noexcept;
+    const_reverse_iterator rend() const noexcept;
+
+    const_iterator cbegin() const noexcept;
+    const_iterator cend() const noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    const_reverse_iterator crend() const noexcept;
+
+    pointer data() noexcept;
+    const_pointer data() const noexcept;
 
     constexpr reference at(size_t index);
     constexpr const_reference at(size_t index) const;

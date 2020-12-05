@@ -101,7 +101,7 @@ TEST_CASE("vmath/ext") {
         {
             constexpr auto v = cast_to<int>(float2{1.5f});
             STATIC_REQUIRE(v == int2(1));
-            STATIC_REQUIRE(std::is_same_v<decltype(v)::value_type, int>);
+            STATIC_REQUIRE(std::is_same_v<decltype(v)::component_type, int>);
         }
         {
             constexpr auto m = cast_to<int>(float2x2{1.5f});
