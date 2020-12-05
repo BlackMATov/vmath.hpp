@@ -617,6 +617,9 @@ T acosh(T x) noexcept;
 template < floating_point T >
 T atanh(T x) noexcept;
 
+template < floating_point T >
+void sincos(T x, T* s, T* c) noexcept;
+
 // Vector
 
 template < typename T, size_t Size >
@@ -663,6 +666,9 @@ vec<T, Size> acosh(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
 vec<T, Size> atanh(const vec<T, Size>& xs);
+
+template < typename T, size_t Size >
+void sincos(const vec<T, Size>& xs, vec<T, Size>* ss, vec<T, Size>* cs);
 ```
 
 ### Exponential Functions

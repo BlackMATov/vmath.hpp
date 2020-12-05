@@ -34,6 +34,13 @@ TEST_CASE("vmath/fun") {
         (void)asinh(0.f);
         (void)acosh(0.f);
         (void)atanh(0.f);
+
+        {
+            float out_s{}, out_c{};
+            sincos(15.f, &out_s, &out_c);
+            REQUIRE(out_s == approx(sin(15.f)));
+            REQUIRE(out_c == approx(cos(15.f)));
+        }
     }
 
     SUBCASE("Exponential Functions") {

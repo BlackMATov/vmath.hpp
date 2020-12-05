@@ -103,6 +103,19 @@ namespace vmath_hpp
     atanh(T x) noexcept {
         return std::atanh(x);
     }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, std::pair<T, T>>
+    sincos(T x) noexcept {
+        return {sin(x), cos(x)};
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, void>
+    sincos(T x, T* s, T* c) noexcept {
+        *s = sin(x);
+        *c = cos(x);
+    }
 }
 
 //
