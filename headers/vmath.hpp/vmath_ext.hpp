@@ -636,4 +636,11 @@ namespace vmath_hpp
     [[nodiscard]] vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& normal) {
         return v * rotate(angle, normal);
     }
+
+    // project
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal) {
+        return dot(v, normal) / length2(normal) * normal;
+    }
 }

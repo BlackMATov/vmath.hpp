@@ -1286,6 +1286,9 @@ vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& normal);
 
 template < typename T >
 vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& normal);
+
+template < typename T, std::size_t Size >
+vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal);
 ```
 
 ## [License (MIT)](./LICENSE.md)

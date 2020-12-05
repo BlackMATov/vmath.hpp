@@ -221,4 +221,9 @@ TEST_CASE("vmath/ext") {
         REQUIRE(rotate(float3(1.5f,0.f,0.f), radians(90.f), float3(0,0,1)) == approx3(0.f,1.5f,0.f));
         REQUIRE(rotate(float4(1.5f,0.f,0.f,1.f), radians(90.f), float3(0,0,1)) == approx4(0.f,1.5f,0.f,1.f));
     }
+
+    SUBCASE("vector project") {
+        REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == approx2(0.f, 2.f));
+        REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == approx3(0.f, 0.f, 2.f));
+    }
 }
