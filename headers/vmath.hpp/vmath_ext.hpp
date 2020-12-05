@@ -240,6 +240,54 @@ namespace vmath_hpp
         return m * rotate(angle, axis);
     }
 
+    template < typename T >
+    [[nodiscard]] mat<T, 4> rotate_x(T angle) {
+        const T cs = cos(angle);
+        const T sn = sin(angle);
+        return {
+            1, 0,   0,  0,
+            0, cs,  sn, 0,
+            0, -sn, cs, 0,
+            0, 0,   0,  1};
+    }
+
+    template < typename T >
+    [[nodiscard]] mat<T, 4> rotate_x(const mat<T, 4>& m, T angle) {
+        return m * rotate_x(angle);
+    }
+
+    template < typename T >
+    [[nodiscard]] mat<T, 4> rotate_y(T angle) {
+        const T cs = cos(angle);
+        const T sn = sin(angle);
+        return {
+            cs, 0, -sn, 0,
+            0,  1, 0,   0,
+            sn, 0, cs,  0,
+            0,  0, 0,   1};
+    }
+
+    template < typename T >
+    [[nodiscard]] mat<T, 4> rotate_y(const mat<T, 4>& m, T angle) {
+        return m * rotate_y(angle);
+    }
+
+    template < typename T >
+    [[nodiscard]] mat<T, 4> rotate_z(T angle) {
+        const T cs = cos(angle);
+        const T sn = sin(angle);
+        return {
+            cs,  sn, 0, 0,
+            -sn, cs, 0, 0,
+            0,   0,  1, 0,
+            0,   0,  0, 1};
+    }
+
+    template < typename T >
+    [[nodiscard]] mat<T, 4> rotate_z(const mat<T, 4>& m, T angle) {
+        return m * rotate_z(angle);
+    }
+
     // scale
 
     template < typename T >

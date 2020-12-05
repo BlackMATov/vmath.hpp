@@ -1148,6 +1148,24 @@ template < typename T >
 mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis);
 
 template < typename T >
+mat<T, 4> rotate_x(T angle);
+
+template < typename T >
+mat<T, 4> rotate_x(const mat<T, 4>& m, T angle);
+
+template < typename T >
+mat<T, 4> rotate_y(T angle);
+
+template < typename T >
+mat<T, 4> rotate_y(const mat<T, 4>& m, T angle);
+
+template < typename T >
+mat<T, 4> rotate_z(T angle);
+
+template < typename T >
+mat<T, 4> rotate_z(const mat<T, 4>& m, T angle);
+
+template < typename T >
 constexpr mat<T, 4> scale(T x, T y, T z);
 
 template < typename T >
