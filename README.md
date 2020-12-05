@@ -618,6 +618,9 @@ template < floating_point T >
 T atanh(T x) noexcept;
 
 template < floating_point T >
+std::pair<T, T> sincos(T x) noexcept;
+
+template < floating_point T >
 void sincos(T x, T* s, T* c) noexcept;
 
 // Vector
@@ -759,8 +762,14 @@ T modf(T x, T* y) noexcept;
 template < arithmetic T >
 constexpr T min(T x, T y) noexcept;
 
+template < arithmetic T, arithmetic... Ts >
+constexpr std::common_type_t<T, Ts...> min(T x, T y, Ts... ts) noexcept;
+
 template < arithmetic T >
 constexpr T max(T x, T y) noexcept;
+
+template < arithmetic T, arithmetic... Ts >
+constexpr std::common_type_t<T, Ts...> max(T x, T y, Ts... ts) noexcept;
 
 template < arithmetic T >
 constexpr T clamp(T x, T min_x, T max_x) noexcept;

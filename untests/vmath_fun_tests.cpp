@@ -85,8 +85,13 @@ TEST_CASE("vmath/fun") {
             REQUIRE(out_i == approx(1.f));
         }
 
-        STATIC_REQUIRE(min(1.f, 2.f) == approx(1.f));
-        STATIC_REQUIRE(max(1.f, 2.f) == approx(2.f));
+        STATIC_REQUIRE(min(0.f, 1.f) == approx(0.f));
+        STATIC_REQUIRE(min(3.f, 2.f, 1.f) == approx(1.f));
+        STATIC_REQUIRE(min(4.f, 3.f, 2.f, 1.f) == approx(1.f));
+
+        STATIC_REQUIRE(max(0.f, 1.f) == approx(1.f));
+        STATIC_REQUIRE(max(3.f, 2.f, 1.f) == approx(3.f));
+        STATIC_REQUIRE(max(4.f, 3.f, 2.f, 1.f) == approx(4.f));
 
         STATIC_REQUIRE(clamp(1.0f, 2.f, 3.f) == approx(2.0f));
         STATIC_REQUIRE(clamp(2.5f, 2.f, 3.f) == approx(2.5f));

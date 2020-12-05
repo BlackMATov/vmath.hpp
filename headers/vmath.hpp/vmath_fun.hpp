@@ -86,10 +86,26 @@ namespace vmath_hpp
         return x < y ? x : y;
     }
 
+    template < typename T, typename... Ts >
+    [[nodiscard]] std::enable_if_t<
+        std::is_arithmetic_v<T>,
+        std::common_type_t<T, Ts...>>
+    constexpr min(T x, T y, Ts... ts) noexcept {
+        return min(min(x, y), ts...);
+    }
+
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr max(T x, T y) noexcept {
         return x < y ? y : x;
+    }
+
+    template < typename T, typename... Ts >
+    [[nodiscard]] std::enable_if_t<
+        std::is_arithmetic_v<T>,
+        std::common_type_t<T, Ts...>>
+    constexpr max(T x, T y, Ts... ts) noexcept {
+        return max(max(x, y), ts...);
     }
 
     template < typename T >
