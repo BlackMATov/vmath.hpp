@@ -9,6 +9,158 @@
 #include "vmath_fwd.hpp"
 
 //
+// Common Functions
+//
+
+namespace vmath_hpp
+{
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_unsigned_v<T>, T>
+    constexpr abs(T x) noexcept {
+        return x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_signed_v<T>, T>
+    constexpr abs(T x) noexcept {
+        return x >= T(0) ? x : -x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr sign(T x) noexcept {
+        return static_cast<T>((T(0) < x) - (x < T(0)));
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr reciprocal(T x) noexcept {
+        return T(1) / x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    floor(T x) noexcept {
+        return std::floor(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    trunc(T x) noexcept {
+        return std::trunc(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    round(T x) noexcept {
+        return std::round(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    ceil(T x) noexcept {
+        return std::ceil(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    fract(T x) noexcept {
+        return x - floor(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    fmod(T x, T y) noexcept {
+        return std::fmod(x, y);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    modf(T x, T* y) noexcept {
+        return std::modf(x, y);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr min(T x, T y) noexcept {
+        return x < y ? x : y;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr max(T x, T y) noexcept {
+        return x < y ? y : x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr clamp(T x, T min_x, T max_x) noexcept {
+        return min(max(x, min_x), max_x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr saturate(T x) noexcept {
+        return clamp(x, T(0), T(1));
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr lerp(T x, T y, T a) noexcept {
+        return x * (T(1) - a) + y * a;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr step(T edge, T x) noexcept {
+        return x < edge ? T(0) : T(1);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr smoothstep(T edge0, T edge1, T x) noexcept {
+        const T t = clamp((x - edge0) / (edge1 - edge0), T(0), T(1));
+        return t * t * (T(3) - T(2) * t);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    isnan(T x) noexcept {
+        return std::isnan(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    isinf(T x) noexcept {
+        return std::isinf(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    isfinite(T x) noexcept {
+        return std::isfinite(x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    fma(T x, T y, T z) noexcept {
+        return std::fma(x, y, z);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    frexp(T x, int* exp) noexcept {
+        return std::frexp(x, exp);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    ldexp(T x, int exp) noexcept {
+        return std::ldexp(x, exp);
+    }
+}
+
+//
 // Angle and Trigonometry Functions
 //
 
@@ -163,159 +315,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     rsqrt(T x) noexcept {
-        return T(1) / sqrt(x);
-    }
-}
-
-//
-// Common Functions
-//
-
-namespace vmath_hpp
-{
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_unsigned_v<T>, T>
-    constexpr abs(T x) noexcept {
-        return x;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_signed_v<T>, T>
-    constexpr abs(T x) noexcept {
-        return x >= T(0) ? x : -x;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
-    constexpr sign(T x) noexcept {
-        return static_cast<T>((T(0) < x) - (x < T(0)));
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    constexpr reciprocal(T x) noexcept {
-        return T(1) / x;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    floor(T x) noexcept {
-        return std::floor(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    trunc(T x) noexcept {
-        return std::trunc(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    round(T x) noexcept {
-        return std::round(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    ceil(T x) noexcept {
-        return std::ceil(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    fract(T x) noexcept {
-        return x - floor(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    fmod(T x, T y) noexcept {
-        return std::fmod(x, y);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    modf(T x, T* y) noexcept {
-        return std::modf(x, y);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
-    constexpr min(T x, T y) noexcept {
-        return x < y ? x : y;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
-    constexpr max(T x, T y) noexcept {
-        return x < y ? y : x;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
-    constexpr clamp(T x, T min_x, T max_x) noexcept {
-        return min(max(x, min_x), max_x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
-    constexpr saturate(T x) noexcept {
-        return clamp(x, T(0), T(1));
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    constexpr lerp(T x, T y, T a) noexcept {
-        return x * (T(1) - a) + y * a;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    constexpr step(T edge, T x) noexcept {
-        return x < edge ? T(0) : T(1);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    constexpr smoothstep(T edge0, T edge1, T x) noexcept {
-        const T t = clamp((x - edge0) / (edge1 - edge0), T(0), T(1));
-        return t * t * (T(3) - T(2) * t);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    isnan(T x) noexcept {
-        return std::isnan(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    isinf(T x) noexcept {
-        return std::isinf(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    isfinite(T x) noexcept {
-        return std::isfinite(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    fma(T x, T y, T z) noexcept {
-        return std::fma(x, y, z);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    frexp(T x, int* exp) noexcept {
-        return std::frexp(x, exp);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    ldexp(T x, int exp) noexcept {
-        return std::ldexp(x, exp);
+        return reciprocal(sqrt(x));
     }
 }
 

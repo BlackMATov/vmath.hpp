@@ -213,26 +213,27 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
-        const T x = axis.x;
-        const T y = axis.y;
-        const T z = axis.z;
-        const T px = x * x;
-        const T py = y * y;
-        const T pz = z * z;
-        const T cs = cos(angle);
-        const T sn = sin(angle);
-        const T ics = T(1) - cs;
-        const T xym = x * y * ics;
-        const T xzm = x * z * ics;
-        const T yzm = y * z * ics;
-        const T xsn = x * sn;
-        const T ysn = y * sn;
-        const T zsn = z * sn;
+        const auto [s, c] = sincos(angle);
+        const auto [x, y, z] = normalize(axis);
+
+        const T xx = x * x;
+        const T yy = y * y;
+        const T zz = z * z;
+
+        const T xs = x * s;
+        const T ys = y * s;
+        const T zs = z * s;
+
+        const T ic = T(1) - c;
+        const T xym = x * y * ic;
+        const T xzm = x * z * ic;
+        const T yzm = y * z * ic;
+
         return {
-            px * ics + cs, xym + zsn,     xzm - ysn,     0,
-            xym - zsn,     py * ics + cs, yzm + xsn,     0,
-            xzm + ysn,     yzm - xsn,     pz * ics + cs, 0,
-            0,             0,             0,             1};
+            xx * ic + c, xym + zs,    xzm - ys,    0,
+            xym - zs,    yy * ic + c, yzm + xs,    0,
+            xzm + ys,    yzm - xs,    zz * ic + c, 0,
+            0,           0,           0,           1};
     }
 
     template < typename T >
@@ -242,13 +243,12 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate_x(T angle) {
-        const T cs = cos(angle);
-        const T sn = sin(angle);
+        const auto [s, c] = sincos(angle);
         return {
-            1, 0,   0,  0,
-            0, cs,  sn, 0,
-            0, -sn, cs, 0,
-            0, 0,   0,  1};
+            1,  0, 0, 0,
+            0,  c, s, 0,
+            0, -s, c, 0,
+            0,  0, 0, 1};
     }
 
     template < typename T >
@@ -258,13 +258,12 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate_y(T angle) {
-        const T cs = cos(angle);
-        const T sn = sin(angle);
+        const auto [s, c] = sincos(angle);
         return {
-            cs, 0, -sn, 0,
-            0,  1, 0,   0,
-            sn, 0, cs,  0,
-            0,  0, 0,   1};
+            c, 0, -s, 0,
+            0, 1,  0, 0,
+            s, 0,  c, 0,
+            0, 0,  0, 1};
     }
 
     template < typename T >
@@ -274,13 +273,12 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate_z(T angle) {
-        const T cs = cos(angle);
-        const T sn = sin(angle);
+        const auto [s, c] = sincos(angle);
         return {
-            cs,  sn, 0, 0,
-            -sn, cs, 0, 0,
-            0,   0,  1, 0,
-            0,   0,  0, 1};
+             c, s, 0, 0,
+            -s, c, 0, 0,
+             0, 0, 1, 0,
+             0, 0, 0, 1};
     }
 
     template < typename T >
@@ -321,9 +319,11 @@ namespace vmath_hpp
         const vec<T, 3> az = normalize(at - eye);
         const vec<T, 3> ax = normalize(cross(up, az));
         const vec<T, 3> ay = cross(az, ax);
+
         const T dx = dot(ax, eye);
         const T dy = dot(ay, eye);
         const T dz = dot(az, eye);
+
         return {
             ax.x, ay.x, az.x, 0,
             ax.y, ay.y, az.y, 0,
@@ -336,9 +336,11 @@ namespace vmath_hpp
         const vec<T, 3> az = normalize(eye - at);
         const vec<T, 3> ax = normalize(cross(up, az));
         const vec<T, 3> ay = cross(az, ax);
+
         const T dx = dot(ax, eye);
         const T dy = dot(ay, eye);
         const T dz = dot(az, eye);
+
         return {
             ax.x, ay.x, az.x, 0,
             ax.y, ay.y, az.y, 0,
@@ -382,12 +384,11 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 3> rotate(T angle) {
-        const T cs = cos(angle);
-        const T sn = sin(angle);
+        const auto [s, c] = sincos(angle);
         return {
-            cs,  sn, 0,
-            -sn, cs, 0,
-            0,   0,  1};
+             c, s, 0,
+            -s, c, 0,
+             0, 0, 1};
     }
 
     template < typename T >
@@ -482,9 +483,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> orthographic_lh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
-        const T sx = T(2) / (right - left);
-        const T sy = T(2) / (top - bottom);
-        const T sz = T(1) / (zfar - znear);
+        const T sx = T(2) * reciprocal(right - left);
+        const T sy = T(2) * reciprocal(top - bottom);
+        const T sz = T(1) * reciprocal(zfar - znear);
 
         const T tx = - (right + left) / (right - left);
         const T ty = - (top + bottom) / (top - bottom);
@@ -499,9 +500,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> orthographic_lh_no(T left, T right, T bottom, T top, T znear, T zfar) {
-        const T sx = T(2) / (right - left);
-        const T sy = T(2) / (top - bottom);
-        const T sz = T(2) / (zfar - znear);
+        const T sx = T(2) * reciprocal(right - left);
+        const T sy = T(2) * reciprocal(top - bottom);
+        const T sz = T(2) * reciprocal(zfar - znear);
 
         const T tx = - (right + left) / (right - left);
         const T ty = - (top + bottom) / (top - bottom);
@@ -516,9 +517,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> orthographic_rh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
-        const T sx = T(2) / (right - left);
-        const T sy = T(2) / (top - bottom);
-        const T sz = -T(1) / (zfar - znear);
+        const T sx = T(2) * reciprocal(right - left);
+        const T sy = T(2) * reciprocal(top - bottom);
+        const T sz = -T(1) * reciprocal(zfar - znear);
 
         const T tx = - (right + left) / (right - left);
         const T ty = - (top + bottom) / (top - bottom);
@@ -533,9 +534,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> orthographic_rh_no(T left, T right, T bottom, T top, T znear, T zfar) {
-        const T sx = T(2) / (right - left);
-        const T sy = T(2) / (top - bottom);
-        const T sz = -T(2) / (zfar - znear);
+        const T sx = T(2) * reciprocal(right - left);
+        const T sy = T(2) * reciprocal(top - bottom);
+        const T sz = -T(2) * reciprocal(zfar - znear);
 
         const T tx = - (right + left) / (right - left);
         const T ty = - (top + bottom) / (top - bottom);
@@ -552,7 +553,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> perspective_lh_zo(T fov, T aspect, T znear, T zfar) {
-        const T sy = T(1) / tan(fov * T(0.5));
+        const T sy = reciprocal(tan(fov * T(0.5)));
         const T sx = sy / aspect;
         const T sz = zfar / (zfar - znear);
         const T tz = (znear * zfar) / (znear - zfar);
@@ -565,7 +566,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> perspective_lh_no(T fov, T aspect, T znear, T zfar) {
-        const T sy = T(1) / tan(fov * T(0.5));
+        const T sy = reciprocal(tan(fov * T(0.5)));
         const T sx = sy / aspect;
         const T sz = (zfar + znear) / (zfar - znear);
         const T tz = (T(2) * znear * zfar) / (znear - zfar);
@@ -578,28 +579,28 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> perspective_rh_zo(T fov, T aspect, T znear, T zfar) {
-        const T sy = T(1) / tan(fov * T(0.5));
+        const T sy = reciprocal(tan(fov * T(0.5)));
         const T sx = sy / aspect;
         const T sz = zfar / (znear - zfar);
         const T tz = (znear * zfar) / (znear - zfar);
         return  {
-            sx, 0,  0,  0,
-            0,  sy, 0,  0,
+            sx, 0,  0,   0,
+            0,  sy, 0,   0,
             0,  0,  sz, -1,
-            0,  0,  tz, 0};
+            0,  0,  tz,  0};
     }
 
     template < typename T >
     [[nodiscard]] mat<T, 4> perspective_rh_no(T fov, T aspect, T znear, T zfar) {
-        const T sy = T(1) / tan(fov * T(0.5));
+        const T sy = reciprocal(tan(fov * T(0.5)));
         const T sx = sy / aspect;
         const T sz = (zfar + znear) / (znear - zfar);
         const T tz = (T(2) * znear * zfar) / (znear - zfar);
         return  {
-            sx, 0,  0,  0,
-            0,  sy, 0,  0,
+            sx, 0,  0,   0,
+            0,  sy, 0,   0,
             0,  0,  sz, -1,
-            0,  0,  tz, 0};
+            0,  0,  tz,  0};
     }
 }
 
@@ -620,11 +621,10 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] vec<T, 2> rotate(const vec<T, 2>& v, T angle) {
-        const T cs = cos(angle);
-        const T sn = sin(angle);
+        const auto [s, c] = sincos(angle);
         return {
-            v.x * cs - v.y * sn,
-            v.x * sn + v.y * cs};
+            v.x * c - v.y * s,
+            v.x * s + v.y * c};
     }
 
     template < typename T >
