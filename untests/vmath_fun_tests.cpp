@@ -165,6 +165,16 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE_FALSE(not_equal_to(1, 1, 0));
         STATIC_REQUIRE_FALSE(not_equal_to(1, 1, 1));
 
+        STATIC_REQUIRE(equal_to(1.f, 1.f + std::numeric_limits<float>::epsilon() * 0.5f));
+        STATIC_REQUIRE_FALSE(equal_to(1.f, 1.f + std::numeric_limits<float>::epsilon() * 1.5f));
+        STATIC_REQUIRE(equal_to(100.f, 100.f + std::numeric_limits<float>::epsilon() * 90.f));
+        STATIC_REQUIRE_FALSE(equal_to(100.f, 100.f + std::numeric_limits<float>::epsilon() * 110.f));
+
+        STATIC_REQUIRE_FALSE(not_equal_to(1.f, 1.f + std::numeric_limits<float>::epsilon() * 0.5f));
+        STATIC_REQUIRE(not_equal_to(1.f, 1.f + std::numeric_limits<float>::epsilon() * 1.5f));
+        STATIC_REQUIRE_FALSE(not_equal_to(100.f, 100.f + std::numeric_limits<float>::epsilon() * 90.f));
+        STATIC_REQUIRE(not_equal_to(100.f, 100.f + std::numeric_limits<float>::epsilon() * 110.f));
+
         STATIC_REQUIRE_FALSE(any(false));
         STATIC_REQUIRE_FALSE(any(0));
         STATIC_REQUIRE(any(true));

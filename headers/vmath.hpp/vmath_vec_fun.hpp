@@ -293,15 +293,13 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator==(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return fold_join([](bool acc, T x, T y){
-            return acc && (x == y);
+            return acc && equal_to(x, y);
         }, true, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator!=(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return fold_join([](bool acc, T x, T y){
-            return acc || (x != y);
-        }, false, xs, ys);
+        return !(xs == ys);
     }
 
     // operator<

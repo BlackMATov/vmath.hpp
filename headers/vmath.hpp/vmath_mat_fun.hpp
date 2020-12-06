@@ -340,9 +340,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator!=(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return fold_join([](bool acc, const vec<T, Size>& x, const vec<T, Size>& y){
-            return acc || (x != y);
-        }, false, xs, ys);
+        return !(xs == ys);
     }
 
     // operator<
