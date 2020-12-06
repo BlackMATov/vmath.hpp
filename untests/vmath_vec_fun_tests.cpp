@@ -108,6 +108,13 @@ TEST_CASE("vmath/vec_fun") {
         (void)asinh(float2(1.f));
         (void)acosh(float2(1.f));
         (void)atanh(float2(1.f));
+
+        {
+            float2 out_ss{}, out_cs{};
+            sincos(float2(10.f,15.f), &out_ss, &out_cs);
+            REQUIRE(out_ss == approx2(sin(10.f), sin(15.f)));
+            REQUIRE(out_cs == approx2(cos(10.f), cos(15.f)));
+        }
     }
 
     SUBCASE("Exponential Functions") {

@@ -293,15 +293,13 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator==(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return fold_join([](bool acc, T x, T y){
-            return acc && (x == y);
+            return acc && equal_to(x, y);
         }, true, xs, ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator!=(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return fold_join([](bool acc, T x, T y){
-            return acc || (x != y);
-        }, false, xs, ys);
+        return !(xs == ys);
     }
 
     // operator<
@@ -399,6 +397,12 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     [[nodiscard]] vec<T, Size> atanh(const vec<T, Size>& xs) {
         return map_join([](T x) { return atanh(x); }, xs);
+    }
+
+    template < typename T, size_t Size >
+    void sincos(const vec<T, Size>& xs, vec<T, Size>* ss, vec<T, Size>* cs) {
+        *ss = map_join([](T x){ return sin(x); }, xs);
+        *cs = map_join([](T x){ return cos(x); }, xs);
     }
 }
 

@@ -617,6 +617,12 @@ T acosh(T x) noexcept;
 template < floating_point T >
 T atanh(T x) noexcept;
 
+template < floating_point T >
+std::pair<T, T> sincos(T x) noexcept;
+
+template < floating_point T >
+void sincos(T x, T* s, T* c) noexcept;
+
 // Vector
 
 template < typename T, size_t Size >
@@ -663,6 +669,9 @@ vec<T, Size> acosh(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
 vec<T, Size> atanh(const vec<T, Size>& xs);
+
+template < typename T, size_t Size >
+void sincos(const vec<T, Size>& xs, vec<T, Size>* ss, vec<T, Size>* cs);
 ```
 
 ### Exponential Functions
@@ -753,8 +762,14 @@ T modf(T x, T* y) noexcept;
 template < arithmetic T >
 constexpr T min(T x, T y) noexcept;
 
+template < arithmetic T, arithmetic... Ts >
+constexpr std::common_type_t<T, Ts...> min(T x, T y, Ts... ts) noexcept;
+
 template < arithmetic T >
 constexpr T max(T x, T y) noexcept;
+
+template < arithmetic T, arithmetic... Ts >
+constexpr std::common_type_t<T, Ts...> max(T x, T y, Ts... ts) noexcept;
 
 template < arithmetic T >
 constexpr T clamp(T x, T min_x, T max_x) noexcept;
@@ -1148,6 +1163,24 @@ template < typename T >
 mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis);
 
 template < typename T >
+mat<T, 4> rotate_x(T angle);
+
+template < typename T >
+mat<T, 4> rotate_x(const mat<T, 4>& m, T angle);
+
+template < typename T >
+mat<T, 4> rotate_y(T angle);
+
+template < typename T >
+mat<T, 4> rotate_y(const mat<T, 4>& m, T angle);
+
+template < typename T >
+mat<T, 4> rotate_z(T angle);
+
+template < typename T >
+mat<T, 4> rotate_z(const mat<T, 4>& m, T angle);
+
+template < typename T >
 constexpr mat<T, 4> scale(T x, T y, T z);
 
 template < typename T >
@@ -1268,6 +1301,9 @@ vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& normal);
 
 template < typename T >
 vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& normal);
+
+template < typename T, std::size_t Size >
+vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal);
 ```
 
 ## [License (MIT)](./LICENSE.md)

@@ -145,6 +145,15 @@ TEST_CASE("vmath/ext") {
     SUBCASE("matrix rotate") {
         constexpr float pi = radians(180.f);
         constexpr float pi_2 = radians(90.f);
+        constexpr float pi_4 = radians(45.f);
+
+        REQUIRE(float4(0.f,1.f,0.f,1.f) * rotate_x(pi_2) == approx4(0.f,0.f,1.f,1.f));
+        REQUIRE(float4(0.f,0.f,1.f,1.f) * rotate_y(pi_2) == approx4(1.f,0.f,0.f,1.f));
+        REQUIRE(float4(1.f,0.f,0.f,1.f) * rotate_z(pi_2) == approx4(0.f,1.f,0.f,1.f));
+
+        REQUIRE(float4(0.f,1.f,0.f,1.f) * rotate_x(rotate_x(pi_4),pi_4) == approx4(0.f,0.f,1.f,1.f));
+        REQUIRE(float4(0.f,0.f,1.f,1.f) * rotate_y(rotate_y(pi_4),pi_4) == approx4(1.f,0.f,0.f,1.f));
+        REQUIRE(float4(1.f,0.f,0.f,1.f) * rotate_z(rotate_z(pi_4),pi_4) == approx4(0.f,1.f,0.f,1.f));
 
         REQUIRE(float3(2.f,3.f,1.f) * rotate(pi) == approx3(-2.f,-3.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
@@ -211,5 +220,10 @@ TEST_CASE("vmath/ext") {
 
         REQUIRE(rotate(float3(1.5f,0.f,0.f), radians(90.f), float3(0,0,1)) == approx3(0.f,1.5f,0.f));
         REQUIRE(rotate(float4(1.5f,0.f,0.f,1.f), radians(90.f), float3(0,0,1)) == approx4(0.f,1.5f,0.f,1.f));
+    }
+
+    SUBCASE("vector project") {
+        REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == approx2(0.f, 2.f));
+        REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == approx3(0.f, 0.f, 2.f));
     }
 }

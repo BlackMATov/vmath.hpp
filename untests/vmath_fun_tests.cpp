@@ -34,6 +34,13 @@ TEST_CASE("vmath/fun") {
         (void)asinh(0.f);
         (void)acosh(0.f);
         (void)atanh(0.f);
+
+        {
+            float out_s{}, out_c{};
+            sincos(15.f, &out_s, &out_c);
+            REQUIRE(out_s == approx(sin(15.f)));
+            REQUIRE(out_c == approx(cos(15.f)));
+        }
     }
 
     SUBCASE("Exponential Functions") {
@@ -78,8 +85,13 @@ TEST_CASE("vmath/fun") {
             REQUIRE(out_i == approx(1.f));
         }
 
-        STATIC_REQUIRE(min(1.f, 2.f) == approx(1.f));
-        STATIC_REQUIRE(max(1.f, 2.f) == approx(2.f));
+        STATIC_REQUIRE(min(0.f, 1.f) == approx(0.f));
+        STATIC_REQUIRE(min(3.f, 2.f, 1.f) == approx(1.f));
+        STATIC_REQUIRE(min(4.f, 3.f, 2.f, 1.f) == approx(1.f));
+
+        STATIC_REQUIRE(max(0.f, 1.f) == approx(1.f));
+        STATIC_REQUIRE(max(3.f, 2.f, 1.f) == approx(3.f));
+        STATIC_REQUIRE(max(4.f, 3.f, 2.f, 1.f) == approx(4.f));
 
         STATIC_REQUIRE(clamp(1.0f, 2.f, 3.f) == approx(2.0f));
         STATIC_REQUIRE(clamp(2.5f, 2.f, 3.f) == approx(2.5f));
@@ -152,6 +164,16 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE_FALSE(not_equal_to(1, 1));
         STATIC_REQUIRE_FALSE(not_equal_to(1, 1, 0));
         STATIC_REQUIRE_FALSE(not_equal_to(1, 1, 1));
+
+        STATIC_REQUIRE(equal_to(1.f, 1.f + std::numeric_limits<float>::epsilon() * 0.5f));
+        STATIC_REQUIRE_FALSE(equal_to(1.f, 1.f + std::numeric_limits<float>::epsilon() * 1.5f));
+        STATIC_REQUIRE(equal_to(100.f, 100.f + std::numeric_limits<float>::epsilon() * 90.f));
+        STATIC_REQUIRE_FALSE(equal_to(100.f, 100.f + std::numeric_limits<float>::epsilon() * 110.f));
+
+        STATIC_REQUIRE_FALSE(not_equal_to(1.f, 1.f + std::numeric_limits<float>::epsilon() * 0.5f));
+        STATIC_REQUIRE(not_equal_to(1.f, 1.f + std::numeric_limits<float>::epsilon() * 1.5f));
+        STATIC_REQUIRE_FALSE(not_equal_to(100.f, 100.f + std::numeric_limits<float>::epsilon() * 90.f));
+        STATIC_REQUIRE(not_equal_to(100.f, 100.f + std::numeric_limits<float>::epsilon() * 110.f));
 
         STATIC_REQUIRE_FALSE(any(false));
         STATIC_REQUIRE_FALSE(any(0));
