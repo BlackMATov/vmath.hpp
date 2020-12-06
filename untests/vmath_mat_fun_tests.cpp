@@ -59,6 +59,7 @@ TEST_CASE("vmath/mat_fun") {
 
     SUBCASE("operators") {
         STATIC_REQUIRE(-int2x2(1,2,3,4) == int2x2(-1,-2,-3,-4));
+        STATIC_REQUIRE(!int2x2(-1,0,1,2) == bool2x2(false,true,false,false));
 
         STATIC_REQUIRE(int2x2(1,2,3,4) + 2 == int2x2(3,4,5,6));
         STATIC_REQUIRE(int2x2(1,2,3,4) - 2 == int2x2(-1,0,1,2));
