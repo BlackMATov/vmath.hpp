@@ -399,14 +399,26 @@ namespace vmath_hpp
 }
 
 //
-// Scalar Relational Functions
+// Relational Functions
 //
 
 namespace vmath_hpp
 {
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr equal_to(T x, T y) noexcept {
+    constexpr any(T x) noexcept {
+        return !!x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr all(T x) noexcept {
+        return !!x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr approximately(T x, T y) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
             // http://www.realtimecollisiondetection.net/pubs/Tolerances
             const T epsilon = std::numeric_limits<T>::epsilon();
@@ -418,36 +430,12 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr equal_to(T x, T y, T epsilon) noexcept {
+    constexpr approximately(T x, T y, T epsilon) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
             // http://www.realtimecollisiondetection.net/pubs/Tolerances
             return abs(x - y) <= epsilon * max(T(1), abs(x), abs(y));
         } else {
             return abs(x - y) <= epsilon;
         }
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr not_equal_to(T x, T y) noexcept {
-        return !equal_to(x, y);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr not_equal_to(T x, T y, T epsilon) noexcept {
-        return !equal_to(x, y, epsilon);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr any(T x) noexcept {
-        return !!x;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr all(T x) noexcept {
-        return !!x;
     }
 }

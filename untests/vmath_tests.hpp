@@ -73,21 +73,21 @@ namespace vmath_tests
 
     template < typename T >
     constexpr bool operator==(const T& l, const approx<T>& r) {
-        return equal_to(l, r.value, approx_epsilon_v<T>);
+        return approximately(l, r.value, approx_epsilon_v<T>);
     }
 
     template < typename T >
     constexpr bool operator==(const vec<T, 2>& l, const approx2<T>& r) {
-        return all(equal_to(l, r.value, approx_epsilon_v<T>));
+        return all(approximately(l, r.value, approx_epsilon_v<T>));
     }
 
     template < typename T >
     constexpr bool operator==(const vec<T, 3>& l, const approx3<T>& r) {
-        return all(equal_to(l, r.value, approx_epsilon_v<T>));
+        return all(approximately(l, r.value, approx_epsilon_v<T>));
     }
 
     template < typename T >
     constexpr bool operator==(const vec<T, 4>& l, const approx4<T>& r) {
-        return all(equal_to(l, r.value, approx_epsilon_v<T>));
+        return all(approximately(l, r.value, approx_epsilon_v<T>));
     }
 }

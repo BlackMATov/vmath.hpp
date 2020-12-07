@@ -1255,68 +1255,72 @@ vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta);
 
 ```cpp
 template < arithmetic T >
-constexpr bool equal_to(T x, T y) noexcept;
-
-template < arithmetic T >
-constexpr bool equal_to(T x, T y, T epsilon) noexcept;
-
-template < arithmetic T >
-constexpr bool not_equal_to(T x, T y) noexcept;
-
-template < arithmetic T >
-constexpr bool not_equal_to(T x, T y, T epsilon) noexcept;
-
-template < arithmetic T >
 constexpr bool any(T x) noexcept;
 
 template < arithmetic T >
 constexpr bool all(T x) noexcept;
+
+template < arithmetic T >
+constexpr bool approximately(T x, T y) noexcept;
+
+template < arithmetic T >
+constexpr bool approximately(T x, T y, T epsilon) noexcept;
 ```
 
 #### Vector
 
 ```cpp
 template < typename T, size_t Size >
-constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> equal_to(T x, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y, T epsilon);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> equal_to(T x, const vec<T, Size>& ys, T epsilon);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, T y);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> not_equal_to(T x, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, T y, T epsilon);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> not_equal_to(T x, const vec<T, Size>& ys, T epsilon);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
-
-template < typename T, size_t Size >
 constexpr bool any(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
 constexpr bool all(const vec<T, Size>& xs);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> approximately(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, T y, T epsilon);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> approximately(T x, const vec<T, Size>& ys, T epsilon);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
+```
+
+#### Matrix
+
+```cpp
+template < typename T, size_t Size >
+constexpr bool any(const mat<T, Size>& xs);
+
+template < typename T, size_t Size >
+constexpr bool all(const mat<T, Size>& xs);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> approximately(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, T y, T epsilon);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> approximately(T x, const mat<T, Size>& ys, T epsilon);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon);
 ```
 
 ### Matrix Functions

@@ -181,6 +181,44 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_REQUIRE((1 >= int2x2(0,1,2,3)) == bool2x2(true, true, false, false));
     }
 
+    SUBCASE("relational functions") {
+        STATIC_REQUIRE_FALSE(any(bool2x2(false, false, false, false)));
+        STATIC_REQUIRE(any(bool2x2(true, false, true, false)));
+        STATIC_REQUIRE(any(bool2x2(false, true, false, true)));
+        STATIC_REQUIRE(any(bool2x2(true, true, true, true)));
+
+        STATIC_REQUIRE_FALSE(any(int2x2(0, 0, 0, 0)));
+        STATIC_REQUIRE(any(int2x2(1, 0, 1, 0)));
+        STATIC_REQUIRE(any(int2x2(0, 1, 0, 1)));
+        STATIC_REQUIRE(any(int2x2(1, 1, 1, 1)));
+
+        STATIC_REQUIRE_FALSE(all(bool2x2(false, false, false, false)));
+        STATIC_REQUIRE_FALSE(all(bool2x2(true, false, true, false)));
+        STATIC_REQUIRE_FALSE(all(bool2x2(false, true, false, true)));
+        STATIC_REQUIRE(all(bool2x2(true, true, true, true)));
+
+        STATIC_REQUIRE_FALSE(all(int2x2(0, 0, 0, 0)));
+        STATIC_REQUIRE_FALSE(all(int2x2(1, 0, 1, 0)));
+        STATIC_REQUIRE_FALSE(all(int2x2(0, 1, 0, 1)));
+        STATIC_REQUIRE(all(int2x2(1, 1, 1, 1)));
+
+        STATIC_REQUIRE(approximately(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(false, true, false, false));
+        STATIC_REQUIRE(approximately(int2x2(0,1,2,3),1) == bool2x2(false, true, false, false));
+        STATIC_REQUIRE(approximately(1,int2x2(0,1,2,3)) == bool2x2(false, true, false, false));
+
+        STATIC_REQUIRE(approximately(int2x2(1,1,1,1), int2x2(0,1,2,3), 0) == bool2x2(false, true, false, false));
+        STATIC_REQUIRE(approximately(int2x2(0,1,2,3), 1, 0) == bool2x2(false, true, false, false));
+        STATIC_REQUIRE(approximately(1, int2x2(0,1,2,3), 0) == bool2x2(false, true, false, false));
+
+        STATIC_REQUIRE(approximately(int2x2(1,1,1,1), int2x2(0,1,2,3), 1) == bool2x2(true, true, true, false));
+        STATIC_REQUIRE(approximately(int2x2(0,1,2,3), 1, 1) == bool2x2(true, true, true, false));
+        STATIC_REQUIRE(approximately(1, int2x2(0,1,2,3), 1) == bool2x2(true, true, true, false));
+
+        STATIC_REQUIRE(approximately(int2x2(1,1,1,1), int2x2(0,1,2,3), 2) == bool2x2(true, true, true, true));
+        STATIC_REQUIRE(approximately(int2x2(0,1,2,3), 1, 2) == bool2x2(true, true, true, true));
+        STATIC_REQUIRE(approximately(1, int2x2(0,1,2,3), 2) == bool2x2(true, true, true, true));
+    }
+
     SUBCASE("transpose") {
         STATIC_REQUIRE(transpose(int2x2(
             1, 2,
@@ -242,7 +280,7 @@ TEST_CASE("vmath/mat_fun") {
         {
             constexpr float4x4 m1 = translate(float3(1.f, 2.f, 3.f));
             constexpr float4x4 rm1 = inverse(m1);
-            STATIC_REQUIRE(all(equal_to(
+            STATIC_REQUIRE(all(approximately(
                 unit4_z<float> * m1 * rm1,
                 unit4_z<float>,
                 approx_epsilon_v<float>)));
@@ -252,7 +290,7 @@ TEST_CASE("vmath/mat_fun") {
             const float3 axis2 = normalize(float3(1.f, 2.f, 3.f));
             const float4x4 m2 = rotate(0.5f,axis2);
             const float4x4 rm2 = inverse(m2);
-            REQUIRE(all(equal_to(
+            REQUIRE(all(approximately(
                 unit4_z<float> * m2 * rm2,
                 unit4_z<float>,
                 approx_epsilon_v<float>)));
@@ -262,7 +300,7 @@ TEST_CASE("vmath/mat_fun") {
             const float3 axis3 = normalize(float3(1.f, 2.f, 3.f));
             const float3x3 m3 = float3x3(rotate(0.5f,axis3));
             const float3x3 rm3 = inverse(m3);
-            REQUIRE(all(equal_to(
+            REQUIRE(all(approximately(
                 unit3_z<float> * m3 * rm3,
                 unit3_z<float>,
                 approx_epsilon_v<float>)));
@@ -272,7 +310,7 @@ TEST_CASE("vmath/mat_fun") {
             const float3 axis4 = normalize(float3(0.f, 0.f, 3.f));
             const float2x2 m4 = float2x2(rotate(0.5f,axis4));
             const float2x2 rm4 = inverse(m4);
-            REQUIRE(all(equal_to(
+            REQUIRE(all(approximately(
                 unit2_y<float> * m4 * rm4,
                 unit2_y<float>,
                 approx_epsilon_v<float>)));

@@ -898,77 +898,11 @@ namespace vmath_hpp
 }
 
 //
-// Vector Relational Functions
+// Relational Functions
 //
 
 namespace vmath_hpp
 {
-    // equal_to
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return equal_to(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return equal_to(x, y); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y){ return equal_to(x, y); }, xs, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y, T epsilon) {
-        return map_join([y, epsilon](T x){ return equal_to(x, y, epsilon); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(T x, const vec<T, Size>& ys, T epsilon) {
-        return map_join([x, epsilon](T y){ return equal_to(x, y, epsilon); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon) {
-        return map_join([epsilon](T x, T y){ return equal_to(x, y, epsilon); }, xs, ys);
-    }
-
-    // not_equal_to
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return not_equal_to(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return not_equal_to(x, y); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y){ return not_equal_to(x, y); }, xs, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, T y, T epsilon) {
-        return map_join([y, epsilon](T x){ return not_equal_to(x, y, epsilon); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(T x, const vec<T, Size>& ys, T epsilon) {
-        return map_join([x, epsilon](T y){ return not_equal_to(x, y, epsilon); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon) {
-        return map_join([epsilon](T x, T y){ return not_equal_to(x, y, epsilon); }, xs, ys);
-    }
-
-    // any/all
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool any(const vec<T, Size>& xs) {
         return fold_join([](bool acc, T x){ return acc || any(x); }, false, xs);
@@ -977,5 +911,35 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool all(const vec<T, Size>& xs) {
         return fold_join([](bool acc, T x){ return acc && all(x); }, true, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, T y) {
+        return map_join([y](T x){ return approximately(x, y); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<bool, Size> approximately(T x, const vec<T, Size>& ys) {
+        return map_join([x](T y){ return approximately(x, y); }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return map_join([](T x, T y){ return approximately(x, y); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, T y, T epsilon) {
+        return map_join([y, epsilon](T x){ return approximately(x, y, epsilon); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<bool, Size> approximately(T x, const vec<T, Size>& ys, T epsilon) {
+        return map_join([x, epsilon](T y){ return approximately(x, y, epsilon); }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon) {
+        return map_join([epsilon](T x, T y){ return approximately(x, y, epsilon); }, xs, ys);
     }
 }

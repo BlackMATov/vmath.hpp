@@ -545,6 +545,53 @@ namespace vmath_hpp
 }
 
 //
+// Relational Functions
+//
+
+namespace vmath_hpp
+{
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr bool any(const mat<T, Size>& xs) {
+        return fold_join([](bool acc, const vec<T, Size>& x){ return acc || any(x); }, false, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr bool all(const mat<T, Size>& xs) {
+        return fold_join([](bool acc, const vec<T, Size>& x){ return acc && all(x); }, true, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return approximately(x, y); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> approximately(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return approximately(x, y); }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return approximately(x, y); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, T y, T epsilon) {
+        return map_join([y, epsilon](const vec<T, Size>& x){ return approximately(x, y, epsilon); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> approximately(T x, const mat<T, Size>& ys, T epsilon) {
+        return map_join([x, epsilon](const vec<T, Size>& y){ return approximately(x, y, epsilon); }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon) {
+        return map_join([epsilon](const vec<T, Size>& x, const vec<T, Size>& y){ return approximately(x, y, epsilon); }, xs, ys);
+    }
+}
+
+//
 // Matrix Functions
 //
 

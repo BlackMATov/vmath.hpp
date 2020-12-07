@@ -268,39 +268,7 @@ TEST_CASE("vmath/vec_fun") {
         REQUIRE(refract(float2(1.f), float2(2.f), 1.f).x == approx(-15.f));
     }
 
-    SUBCASE("Vector Relational Functions") {
-        STATIC_REQUIRE(equal_to(int3(1,1,1), int3(0,1,2)) == bool3(false, true, false));
-        STATIC_REQUIRE(equal_to(int3(0,1,2),1) == bool3(false, true, false));
-        STATIC_REQUIRE(equal_to(1,int3(0,1,2)) == bool3(false, true, false));
-
-        STATIC_REQUIRE(equal_to(int4(1,1,1,1), int4(0,1,2,3), 0) == bool4(false, true, false, false));
-        STATIC_REQUIRE(equal_to(int4(0,1,2,3), 1, 0) == bool4(false, true, false, false));
-        STATIC_REQUIRE(equal_to(1, int4(0,1,2,3), 0) == bool4(false, true, false, false));
-
-        STATIC_REQUIRE(equal_to(int4(1,1,1,1), int4(0,1,2,3), 1) == bool4(true, true, true, false));
-        STATIC_REQUIRE(equal_to(int4(0,1,2,3), 1, 1) == bool4(true, true, true, false));
-        STATIC_REQUIRE(equal_to(1, int4(0,1,2,3), 1) == bool4(true, true, true, false));
-
-        STATIC_REQUIRE(equal_to(int4(1,1,1,1), int4(0,1,2,3), 2) == bool4(true, true, true, true));
-        STATIC_REQUIRE(equal_to(int4(0,1,2,3), 1, 2) == bool4(true, true, true, true));
-        STATIC_REQUIRE(equal_to(1, int4(0,1,2,3), 2) == bool4(true, true, true, true));
-
-        STATIC_REQUIRE(not_equal_to(int3(1,1,1), int3(0,1,2)) == bool3(true, false, true));
-        STATIC_REQUIRE(not_equal_to(int3(0,1,2),1) == bool3(true, false, true));
-        STATIC_REQUIRE(not_equal_to(1,int3(0,1,2)) == bool3(true, false, true));
-
-        STATIC_REQUIRE(not_equal_to(int4(1,1,1,1), int4(0,1,2,3), 0) == bool4(true, false, true, true));
-        STATIC_REQUIRE(not_equal_to(int4(0,1,2,3), 1, 0) == bool4(true, false, true, true));
-        STATIC_REQUIRE(not_equal_to(1, int4(0,1,2,3), 0) == bool4(true, false, true, true));
-
-        STATIC_REQUIRE(not_equal_to(int4(1,1,1,1), int4(0,1,2,3), 1) == bool4(false, false, false, true));
-        STATIC_REQUIRE(not_equal_to(int4(0,1,2,3), 1, 1) == bool4(false, false, false, true));
-        STATIC_REQUIRE(not_equal_to(1, int4(0,1,2,3), 1) == bool4(false, false, false, true));
-
-        STATIC_REQUIRE(not_equal_to(int4(1,1,1,1), int4(0,1,2,3), 2) == bool4(false, false, false, false));
-        STATIC_REQUIRE(not_equal_to(int4(0,1,2,3), 1, 2) == bool4(false, false, false, false));
-        STATIC_REQUIRE(not_equal_to(1, int4(0,1,2,3), 2) == bool4(false, false, false, false));
-
+    SUBCASE("Relational Functions") {
         STATIC_REQUIRE_FALSE(any(bool2(false, false)));
         STATIC_REQUIRE(any(bool2(true, false)));
         STATIC_REQUIRE(any(bool2(false, true)));
@@ -320,5 +288,21 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE_FALSE(all(int2(1, 0)));
         STATIC_REQUIRE_FALSE(all(int2(0, 1)));
         STATIC_REQUIRE(all(int2(1, 1)));
+
+        STATIC_REQUIRE(approximately(int3(1,1,1), int3(0,1,2)) == bool3(false, true, false));
+        STATIC_REQUIRE(approximately(int3(0,1,2),1) == bool3(false, true, false));
+        STATIC_REQUIRE(approximately(1,int3(0,1,2)) == bool3(false, true, false));
+
+        STATIC_REQUIRE(approximately(int4(1,1,1,1), int4(0,1,2,3), 0) == bool4(false, true, false, false));
+        STATIC_REQUIRE(approximately(int4(0,1,2,3), 1, 0) == bool4(false, true, false, false));
+        STATIC_REQUIRE(approximately(1, int4(0,1,2,3), 0) == bool4(false, true, false, false));
+
+        STATIC_REQUIRE(approximately(int4(1,1,1,1), int4(0,1,2,3), 1) == bool4(true, true, true, false));
+        STATIC_REQUIRE(approximately(int4(0,1,2,3), 1, 1) == bool4(true, true, true, false));
+        STATIC_REQUIRE(approximately(1, int4(0,1,2,3), 1) == bool4(true, true, true, false));
+
+        STATIC_REQUIRE(approximately(int4(1,1,1,1), int4(0,1,2,3), 2) == bool4(true, true, true, true));
+        STATIC_REQUIRE(approximately(int4(0,1,2,3), 1, 2) == bool4(true, true, true, true));
+        STATIC_REQUIRE(approximately(1, int4(0,1,2,3), 2) == bool4(true, true, true, true));
     }
 }
