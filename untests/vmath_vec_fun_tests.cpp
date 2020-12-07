@@ -42,22 +42,38 @@ TEST_CASE("vmath/vec_fun") {
 
     SUBCASE("Operators") {
         STATIC_REQUIRE(-int2(1,-2) == int2(-1,2));
+        STATIC_REQUIRE(~uint2(0xF0F0F0F0,0x0F0F0F0F) == uint2(0x0F0F0F0F,0xF0F0F0F0));
         STATIC_REQUIRE(!int3(-1,0,1) == bool3(false, true, false));
 
         STATIC_REQUIRE(int2(1,2) + 3 == int2(4,5));
         STATIC_REQUIRE(int2(1,2) - 3 == int2(-2,-1));
         STATIC_REQUIRE(int2(1,2) * 3 == int2(3,6));
         STATIC_REQUIRE(int2(2,4) / 2 == int2(1,2));
+        STATIC_REQUIRE((int2(11,12) & 6) == int2(2,4));
+        STATIC_REQUIRE((int2(11,12) | 6) == int2(15,14));
+        STATIC_REQUIRE((int2(11,12) ^ 6) == int2(13,10));
+        STATIC_REQUIRE((int2(1,0) && 1) == bool2(1,0));
+        STATIC_REQUIRE((int2(1,0) || 1) == bool2(1,1));
 
         STATIC_REQUIRE(3 + int2(1,2) == int2(4,5));
         STATIC_REQUIRE(3 - int2(1,2) == int2(2,1));
         STATIC_REQUIRE(3 * int2(1,2) == int2(3,6));
         STATIC_REQUIRE(4 / int2(2,4) == int2(2,1));
+        STATIC_REQUIRE((6 & int2(11,12)) == int2(2,4));
+        STATIC_REQUIRE((6 | int2(11,12)) == int2(15,14));
+        STATIC_REQUIRE((6 ^ int2(11,12)) == int2(13,10));
+        STATIC_REQUIRE((1 && int2(1,0)) == bool2(1,0));
+        STATIC_REQUIRE((1 || int2(1,0)) == bool2(1,1));
 
         STATIC_REQUIRE(int2(1,2) + int2(3,4) == int2(4,6));
         STATIC_REQUIRE(int2(1,2) - int2(3,4) == int2(-2,-2));
         STATIC_REQUIRE(int2(1,2) * int2(3,4) == int2(3,8));
         STATIC_REQUIRE(int2(3,4) / int2(1,2) == int2(3,2));
+        STATIC_REQUIRE((int2(6,7) & int2(11,12)) == int2(2,4));
+        STATIC_REQUIRE((int2(6,7) | int2(11,12)) == int2(15,15));
+        STATIC_REQUIRE((int2(6,7) ^ int2(11,12)) == int2(13,11));
+        STATIC_REQUIRE((int2(0,1) && int2(1,0)) == bool2(0,0));
+        STATIC_REQUIRE((int2(0,1) || int2(1,0)) == bool2(1,1));
 
         {
             int2 v{1,2};
@@ -86,6 +102,30 @@ TEST_CASE("vmath/vec_fun") {
             REQUIRE(v == int2{3,9});
             REQUIRE(&v == &(v /= int2{3,4}));
             REQUIRE(v == int2{1,2});
+        }
+        {
+            int2 v1{11,12};
+            REQUIRE(&v1 == &(v1 &= 6));
+            REQUIRE(v1 == int2(2,4));
+            int2 v2{6,7};
+            REQUIRE(&v2 == &(v2 &= int2(11,12)));
+            REQUIRE(v2 == int2(2,4));
+        }
+        {
+            int2 v1{11,12};
+            REQUIRE(&v1 == &(v1 |= 6));
+            REQUIRE(v1 == int2(15,14));
+            int2 v2{6,7};
+            REQUIRE(&v2 == &(v2 |= int2(11,12)));
+            REQUIRE(v2 == int2(15,15));
+        }
+        {
+            int2 v1{11,12};
+            REQUIRE(&v1 == &(v1 ^= 6));
+            REQUIRE(v1 == int2(13,10));
+            int2 v2{6,7};
+            REQUIRE(&v2 == &(v2 ^= int2(11,12)));
+            REQUIRE(v2 == int2(13,11));
         }
     }
 
