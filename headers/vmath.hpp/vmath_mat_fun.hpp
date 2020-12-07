@@ -199,6 +199,13 @@ namespace vmath_hpp
         return map_join([](const vec<T, Size>& x){ return -x; }, xs);
     }
 
+    // ~operator
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator~(const mat<T, Size>& xs) {
+        return map_join([](const vec<T, Size>& x){ return ~x; }, xs);
+    }
+
     // !operator
 
     template < typename T, std::size_t Size >
@@ -227,12 +234,12 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator+=(mat<T, Size>& xs, T y) {
-        return (xs = xs + y);
+        return (xs = (xs + y));
     }
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator+=(mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return (xs = xs + ys);
+        return (xs = (xs + ys));
     }
 
     // operator-
@@ -256,12 +263,12 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator-=(mat<T, Size>& xs, T y) {
-        return (xs = xs - y);
+        return (xs = (xs - y));
     }
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator-=(mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return (xs = xs - ys);
+        return (xs = (xs - ys));
     }
 
     // operator*
@@ -294,17 +301,17 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator*=(mat<T, Size>& xs, T y) {
-        return (xs = xs * y);
+        return (xs = (xs * y));
     }
 
     template < typename T, std::size_t Size >
     constexpr vec<T, Size>& operator*=(vec<T, Size>& xs, const mat<T, Size>& ys) {
-        return (xs = xs * ys);
+        return (xs = (xs * ys));
     }
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator*=(mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return (xs = xs * ys);
+        return (xs = (xs * ys));
     }
 
     // operator/
@@ -328,12 +335,133 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, T y) {
-        return (xs = xs / y);
+        return (xs = (xs / y));
     }
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return (xs = xs / ys);
+        return (xs = (xs / ys));
+    }
+
+    // operator&
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator&(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return x & y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator&(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return x & y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator&(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x & y; }, xs, ys);
+    }
+
+    // operator&=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator&=(mat<T, Size>& xs, T y) {
+        return (xs = (xs & y));
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator&=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = (xs & ys));
+    }
+
+    // operator|
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator|(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return x | y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator|(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return x | y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator|(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x | y; }, xs, ys);
+    }
+
+    // operator|=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator|=(mat<T, Size>& xs, T y) {
+        return (xs = (xs | y));
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator|=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = (xs | ys));
+    }
+
+    // operator^
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator^(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return x ^ y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator^(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return x ^ y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator^(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x ^ y; }, xs, ys);
+    }
+
+    // operator^=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator^=(mat<T, Size>& xs, T y) {
+        return (xs = (xs ^ y));
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator^=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = (xs ^ ys));
+    }
+
+    // operator&&
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> operator&&(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return x && y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> operator&&(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return x && y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> operator&&(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x && y; }, xs, ys);
+    }
+
+    // operator||
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> operator||(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return x || y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> operator||(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return x || y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<bool, Size> operator||(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x || y; }, xs, ys);
     }
 
     // operator==
