@@ -148,8 +148,8 @@ TEST_CASE("vmath/vec_fun") {
     }
 
     SUBCASE("Angle and Trigonometry Functions") {
-        STATIC_REQUIRE(radians(degrees(float2(12.13f))) == approx2(12.13f));
-        STATIC_REQUIRE(degrees(radians(float2(12.13f))) == approx2(12.13f));
+        STATIC_REQUIRE(radians(degrees(float2(12.13f))) == uapprox2(12.13f));
+        STATIC_REQUIRE(degrees(radians(float2(12.13f))) == uapprox2(12.13f));
 
         (void)sin(float2(1.f));
         (void)cos(float2(1.f));
@@ -171,8 +171,8 @@ TEST_CASE("vmath/vec_fun") {
         {
             float2 out_ss{}, out_cs{};
             sincos(float2(10.f,15.f), &out_ss, &out_cs);
-            REQUIRE(out_ss == approx2(sin(10.f), sin(15.f)));
-            REQUIRE(out_cs == approx2(cos(10.f), cos(15.f)));
+            REQUIRE(out_ss == uapprox2(sin(10.f), sin(15.f)));
+            REQUIRE(out_cs == uapprox2(cos(10.f), cos(15.f)));
         }
     }
 
@@ -187,9 +187,9 @@ TEST_CASE("vmath/vec_fun") {
     }
 
     SUBCASE("Common Functions") {
-        STATIC_REQUIRE(abs(float2(1.f, -1.f)) == approx2(1.f,1.f));
-        STATIC_REQUIRE(sign(float3(1.f, -1.f, 0.f)) == approx3(1.f,-1.f,0.f));
-        STATIC_REQUIRE(reciprocal(float2(2.f, 4.f)) == approx2(0.5f,0.25f));
+        STATIC_REQUIRE(abs(float2(1.f, -1.f)) == uapprox2(1.f,1.f));
+        STATIC_REQUIRE(sign(float3(1.f, -1.f, 0.f)) == uapprox3(1.f,-1.f,0.f));
+        STATIC_REQUIRE(reciprocal(float2(2.f, 4.f)) == uapprox2(0.5f,0.25f));
 
         (void)floor(float2(1.f, -1.f));
         (void)trunc(float2(1.f, -1.f));
@@ -197,13 +197,13 @@ TEST_CASE("vmath/vec_fun") {
         (void)ceil(float2(1.f, -1.f));
         (void)fract(float2(1.f, -1.f));
 
-        REQUIRE(fmod(float2(1.7f), 1.2f) == approx2(0.5f));
-        REQUIRE(fmod(float2(1.7f), float2(1.2f)) == approx2(0.5f));
+        REQUIRE(fmod(float2(1.7f), 1.2f) == uapprox2(0.5f));
+        REQUIRE(fmod(float2(1.7f), float2(1.2f)) == uapprox2(0.5f));
 
         {
             float2 out_i{};
-            REQUIRE(modf(float2(1.7f), &out_i) == approx2(0.7f));
-            REQUIRE(out_i.x == approx(1.f));
+            REQUIRE(modf(float2(1.7f), &out_i) == uapprox2(0.7f));
+            REQUIRE(out_i.x == uapprox(1.f));
         }
 
         STATIC_REQUIRE(min(int2(1,2)) == 1);
@@ -217,55 +217,55 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(clamp(int2(1,2), 0, 1) == int2(1,1));
         STATIC_REQUIRE(clamp(int2(1,2), int2(0), int2(1)) == int2(1,1));
 
-        STATIC_REQUIRE(saturate(float3(-1.f,0.5,1.5f)) == approx3(0.f,0.5f,1.f));
+        STATIC_REQUIRE(saturate(float3(-1.f,0.5,1.5f)) == uapprox3(0.f,0.5f,1.f));
 
-        STATIC_REQUIRE(lerp(float2(0.f), float2(10.f), 0.5f) == approx2(5.f));
-        STATIC_REQUIRE(lerp(float2(0.f), float2(10.f), float2(0.5f)) == approx2(5.f));
+        STATIC_REQUIRE(lerp(float2(0.f), float2(10.f), 0.5f) == uapprox2(5.f));
+        STATIC_REQUIRE(lerp(float2(0.f), float2(10.f), float2(0.5f)) == uapprox2(5.f));
 
-        STATIC_REQUIRE(step(0.5f, float2(0.4f)) == approx2(0.f));
-        STATIC_REQUIRE(step(0.5f, float2(0.6f)) == approx2(1.f));
-        STATIC_REQUIRE(step(float2(0.5f), float2(0.4f)) == approx2(0.f));
-        STATIC_REQUIRE(step(float2(0.5f), float2(0.6f)) == approx2(1.f));
+        STATIC_REQUIRE(step(0.5f, float2(0.4f)) == uapprox2(0.f));
+        STATIC_REQUIRE(step(0.5f, float2(0.6f)) == uapprox2(1.f));
+        STATIC_REQUIRE(step(float2(0.5f), float2(0.4f)) == uapprox2(0.f));
+        STATIC_REQUIRE(step(float2(0.5f), float2(0.6f)) == uapprox2(1.f));
 
-        STATIC_REQUIRE(smoothstep(0.f, 1.f, float2(0.1f)) == approx2(0.028f));
-        STATIC_REQUIRE(smoothstep(float2(0.f), float2(1.f), float2(0.1f)) == approx2(0.028f));
+        STATIC_REQUIRE(smoothstep(0.f, 1.f, float2(0.1f)) == uapprox2(0.028f));
+        STATIC_REQUIRE(smoothstep(float2(0.f), float2(1.f), float2(0.1f)) == uapprox2(0.028f));
 
         REQUIRE_FALSE(isnan(float2(1.f)).x);
         REQUIRE_FALSE(isinf(float2(1.f)).x);
         REQUIRE(isfinite(float2(1.f)).x);
 
-        REQUIRE_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == approx(12.f));
+        REQUIRE_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == uapprox(12.f));
 
         {
             int2 out_exp{};
-            REQUIRE(frexp(float2(1.7f), &out_exp).x == approx(0.85f));
+            REQUIRE(frexp(float2(1.7f), &out_exp).x == uapprox(0.85f));
             REQUIRE(out_exp == int2(1));
         }
 
-        REQUIRE(ldexp(float2(0.85f), int2(1)).x == approx(1.7f));
+        REQUIRE(ldexp(float2(0.85f), int2(1)).x == uapprox(1.7f));
     }
 
     SUBCASE("Geometric Functions") {
-        REQUIRE(length(float2(10.f,0.f)) == approx(10.f));
-        REQUIRE(length(float2(-10.f,0.f)) == approx(10.f));
+        REQUIRE(length(float2(10.f,0.f)) == uapprox(10.f));
+        REQUIRE(length(float2(-10.f,0.f)) == uapprox(10.f));
 
-        STATIC_REQUIRE(length2(float2(10.f,0.f)) == approx(100.f));
-        STATIC_REQUIRE(length2(float2(-10.f,0.f)) == approx(100.f));
+        STATIC_REQUIRE(length2(float2(10.f,0.f)) == uapprox(100.f));
+        STATIC_REQUIRE(length2(float2(-10.f,0.f)) == uapprox(100.f));
 
-        REQUIRE(distance(float2(5.f,0.f), float2(10.f,0.f)) == approx(5.f));
-        REQUIRE(distance(float2(-5.f,0.f), float2(-10.f,0.f)) == approx(5.f));
+        REQUIRE(distance(float2(5.f,0.f), float2(10.f,0.f)) == uapprox(5.f));
+        REQUIRE(distance(float2(-5.f,0.f), float2(-10.f,0.f)) == uapprox(5.f));
 
-        STATIC_REQUIRE(distance2(float2(5.f,0.f), float2(10.f,0.f)) == approx(25.f));
-        STATIC_REQUIRE(distance2(float2(-5.f,0.f), float2(-10.f,0.f)) == approx(25.f));
+        STATIC_REQUIRE(distance2(float2(5.f,0.f), float2(10.f,0.f)) == uapprox(25.f));
+        STATIC_REQUIRE(distance2(float2(-5.f,0.f), float2(-10.f,0.f)) == uapprox(25.f));
 
         STATIC_REQUIRE(dot(int2(1,2),int2(3,4)) == 11);
         STATIC_REQUIRE(cross(int2(1,0),int2(0,1)) == 1);
         STATIC_REQUIRE(cross(int3(1,0,0),int3(0,1,0)) == int3(0,0,1));
-        REQUIRE(normalize(float2(0.5f,0.f)).x == approx(1.f));
+        REQUIRE(normalize(float2(0.5f,0.f)).x == uapprox(1.f));
 
-        STATIC_REQUIRE(faceforward(float2(1.f), float2(2.f), float2(3.f)).x == approx(-1.f));
-        STATIC_REQUIRE(reflect(float2(1.f), float2(2.f)).x == approx(-15.f));
-        REQUIRE(refract(float2(1.f), float2(2.f), 1.f).x == approx(-15.f));
+        STATIC_REQUIRE(faceforward(float2(1.f), float2(2.f), float2(3.f)).x == uapprox(-1.f));
+        STATIC_REQUIRE(reflect(float2(1.f), float2(2.f)).x == uapprox(-15.f));
+        REQUIRE(refract(float2(1.f), float2(2.f), 1.f).x == uapprox(-15.f));
     }
 
     SUBCASE("Relational Functions") {

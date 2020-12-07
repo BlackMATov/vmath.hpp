@@ -120,7 +120,7 @@ TEST_CASE("vmath/mat_fun") {
         {
             int4 v{0, 0, 0, 1};
             REQUIRE(&v == &(v *= translate(int3{1,2,3})));
-            REQUIRE(v == approx4(1,2,3,1));
+            REQUIRE(v == uapprox4(1,2,3,1));
         }
         {
             int3 v{1, 2, 3};
@@ -283,7 +283,7 @@ TEST_CASE("vmath/mat_fun") {
             STATIC_REQUIRE(all(approximately(
                 unit4_z<float> * m1 * rm1,
                 unit4_z<float>,
-                approx_epsilon_v<float>)));
+                uapprox_epsilon_v<float>)));
         }
 
         {
@@ -293,7 +293,7 @@ TEST_CASE("vmath/mat_fun") {
             REQUIRE(all(approximately(
                 unit4_z<float> * m2 * rm2,
                 unit4_z<float>,
-                approx_epsilon_v<float>)));
+                uapprox_epsilon_v<float>)));
         }
 
         {
@@ -303,7 +303,7 @@ TEST_CASE("vmath/mat_fun") {
             REQUIRE(all(approximately(
                 unit3_z<float> * m3 * rm3,
                 unit3_z<float>,
-                approx_epsilon_v<float>)));
+                uapprox_epsilon_v<float>)));
         }
 
         {
@@ -313,7 +313,7 @@ TEST_CASE("vmath/mat_fun") {
             REQUIRE(all(approximately(
                 unit2_y<float> * m4 * rm4,
                 unit2_y<float>,
-                approx_epsilon_v<float>)));
+                uapprox_epsilon_v<float>)));
         }
     }
 }

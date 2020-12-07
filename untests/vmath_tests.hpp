@@ -13,58 +13,58 @@ namespace vmath_tests
     using namespace vmath_hpp;
 
     template < typename T >
-    struct approx_epsilon;
+    struct uapprox_epsilon;
 
     template <>
-    struct approx_epsilon<int> {
+    struct uapprox_epsilon<int> {
         static constexpr int value = 0;
     };
 
     template <>
-    struct approx_epsilon<float> {
+    struct uapprox_epsilon<float> {
         static constexpr float value = FLT_EPSILON * 100;
     };
 
     template <>
-    struct approx_epsilon<double> {
+    struct uapprox_epsilon<double> {
         static constexpr float value = DBL_EPSILON * 100;
     };
 
     template < typename T >
-    inline constexpr T approx_epsilon_v = approx_epsilon<T>::value;
+    inline constexpr T uapprox_epsilon_v = uapprox_epsilon<T>::value;
 
     //
     //
     //
 
     template < typename T >
-    struct approx {
+    struct uapprox {
         T value;
-        explicit constexpr approx(T v) : value(v) {}
+        explicit constexpr uapprox(T v) : value(v) {}
     };
 
     template < typename T >
-    struct approx2 {
+    struct uapprox2 {
         vec<T, 2> value;
-        constexpr explicit approx2(T v) : value(v) {}
-        constexpr explicit approx2(T x, T y) : value(x, y) {}
-        constexpr explicit approx2(const vec<T, 2>& v) : value(v) {}
+        constexpr explicit uapprox2(T v) : value(v) {}
+        constexpr explicit uapprox2(T x, T y) : value(x, y) {}
+        constexpr explicit uapprox2(const vec<T, 2>& v) : value(v) {}
     };
 
     template < typename T >
-    struct approx3 {
+    struct uapprox3 {
         vec<T, 3> value;
-        constexpr explicit approx3(T v) : value(v) {}
-        constexpr explicit approx3(T x, T y, T z) : value(x, y, z) {}
-        constexpr explicit approx3(const vec<T, 3>& v) : value(v) {}
+        constexpr explicit uapprox3(T v) : value(v) {}
+        constexpr explicit uapprox3(T x, T y, T z) : value(x, y, z) {}
+        constexpr explicit uapprox3(const vec<T, 3>& v) : value(v) {}
     };
 
     template < typename T >
-    struct approx4 {
+    struct uapprox4 {
         vec<T, 4> value;
-        constexpr explicit approx4(T v) : value(v) {}
-        constexpr explicit approx4(T x, T y, T z, T w) : value(x, y, z, w) {}
-        constexpr explicit approx4(const vec<T, 4>& v) : value(v) {}
+        constexpr explicit uapprox4(T v) : value(v) {}
+        constexpr explicit uapprox4(T x, T y, T z, T w) : value(x, y, z, w) {}
+        constexpr explicit uapprox4(const vec<T, 4>& v) : value(v) {}
     };
 
     //
@@ -72,22 +72,22 @@ namespace vmath_tests
     //
 
     template < typename T >
-    constexpr bool operator==(const T& l, const approx<T>& r) {
-        return approximately(l, r.value, approx_epsilon_v<T>);
+    constexpr bool operator==(const T& l, const uapprox<T>& r) {
+        return approximately(l, r.value, uapprox_epsilon_v<T>);
     }
 
     template < typename T >
-    constexpr bool operator==(const vec<T, 2>& l, const approx2<T>& r) {
-        return all(approximately(l, r.value, approx_epsilon_v<T>));
+    constexpr bool operator==(const vec<T, 2>& l, const uapprox2<T>& r) {
+        return all(approximately(l, r.value, uapprox_epsilon_v<T>));
     }
 
     template < typename T >
-    constexpr bool operator==(const vec<T, 3>& l, const approx3<T>& r) {
-        return all(approximately(l, r.value, approx_epsilon_v<T>));
+    constexpr bool operator==(const vec<T, 3>& l, const uapprox3<T>& r) {
+        return all(approximately(l, r.value, uapprox_epsilon_v<T>));
     }
 
     template < typename T >
-    constexpr bool operator==(const vec<T, 4>& l, const approx4<T>& r) {
-        return all(approximately(l, r.value, approx_epsilon_v<T>));
+    constexpr bool operator==(const vec<T, 4>& l, const uapprox4<T>& r) {
+        return all(approximately(l, r.value, uapprox_epsilon_v<T>));
     }
 }
