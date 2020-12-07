@@ -135,11 +135,11 @@ TEST_CASE("vmath/ext") {
     }
 
     SUBCASE("matrix translate") {
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(float2{1.f,2.f}) == approx3(3.f,5.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(translate(float2{1.f,2.f}), float2{1.f,2.f}) == approx3(4.f,7.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(float2{1.f,2.f}) == uapprox3(3.f,5.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(translate(float2{1.f,2.f}), float2{1.f,2.f}) == uapprox3(4.f,7.f,1.f));
 
-        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(float3{1.f,2.f,3.f}) == approx4(3.f,5.f,7.f,1.f));
-        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(translate(float3{1.f,2.f,3.f}), float3{1.f,2.f,3.f}) == approx4(4.f,7.f,10.f,1.f));
+        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(float3{1.f,2.f,3.f}) == uapprox4(3.f,5.f,7.f,1.f));
+        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(translate(float3{1.f,2.f,3.f}), float3{1.f,2.f,3.f}) == uapprox4(4.f,7.f,10.f,1.f));
     }
 
     SUBCASE("matrix rotate") {
@@ -147,47 +147,47 @@ TEST_CASE("vmath/ext") {
         constexpr float pi_2 = radians(90.f);
         constexpr float pi_4 = radians(45.f);
 
-        REQUIRE(float4(0.f,1.f,0.f,1.f) * rotate_x(pi_2) == approx4(0.f,0.f,1.f,1.f));
-        REQUIRE(float4(0.f,0.f,1.f,1.f) * rotate_y(pi_2) == approx4(1.f,0.f,0.f,1.f));
-        REQUIRE(float4(1.f,0.f,0.f,1.f) * rotate_z(pi_2) == approx4(0.f,1.f,0.f,1.f));
+        REQUIRE(float4(0.f,1.f,0.f,1.f) * rotate_x(pi_2) == uapprox4(0.f,0.f,1.f,1.f));
+        REQUIRE(float4(0.f,0.f,1.f,1.f) * rotate_y(pi_2) == uapprox4(1.f,0.f,0.f,1.f));
+        REQUIRE(float4(1.f,0.f,0.f,1.f) * rotate_z(pi_2) == uapprox4(0.f,1.f,0.f,1.f));
 
-        REQUIRE(float4(0.f,1.f,0.f,1.f) * rotate_x(rotate_x(pi_4),pi_4) == approx4(0.f,0.f,1.f,1.f));
-        REQUIRE(float4(0.f,0.f,1.f,1.f) * rotate_y(rotate_y(pi_4),pi_4) == approx4(1.f,0.f,0.f,1.f));
-        REQUIRE(float4(1.f,0.f,0.f,1.f) * rotate_z(rotate_z(pi_4),pi_4) == approx4(0.f,1.f,0.f,1.f));
+        REQUIRE(float4(0.f,1.f,0.f,1.f) * rotate_x(rotate_x(pi_4),pi_4) == uapprox4(0.f,0.f,1.f,1.f));
+        REQUIRE(float4(0.f,0.f,1.f,1.f) * rotate_y(rotate_y(pi_4),pi_4) == uapprox4(1.f,0.f,0.f,1.f));
+        REQUIRE(float4(1.f,0.f,0.f,1.f) * rotate_z(rotate_z(pi_4),pi_4) == uapprox4(0.f,1.f,0.f,1.f));
 
-        REQUIRE(float3(2.f,3.f,1.f) * rotate(pi) == approx3(-2.f,-3.f,1.f));
-        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
-        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,float3{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(float3(2.f,3.f,1.f) * rotate(pi) == uapprox3(-2.f,-3.f,1.f));
+        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,float3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
 
-        REQUIRE(float3(2.f,3.f,1.f) * rotate(rotate(pi_2),pi_2) == approx3(-2.f,-3.f,1.f));
-        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
-        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,float3{0.f,0.f,1.f}),pi_2,float3{0.f,0.f,1.f}) == approx4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(float3(2.f,3.f,1.f) * rotate(rotate(pi_2),pi_2) == uapprox3(-2.f,-3.f,1.f));
+        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,float3{0.f,0.f,1.f}),pi_2,float3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
     }
 
     SUBCASE("matrix scale") {
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(float2{2.f,3.f}) == approx3(4.f,9.f,1.f));
-        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == approx4(4.f,9.f,16.f,1.f));
-        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == approx4(4.f,9.f,16.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(float2{2.f,3.f}) == uapprox3(4.f,9.f,1.f));
+        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
+        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
 
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(scale(float2{2.f,2.f}), {2.f,3.f}) == approx3(8.f,18.f,1.f));
-        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), {2.f,3.f,4.f}) == approx4(8.f,18.f,32.f,1.f));
-        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), float3{2.f,3.f,4.f}) == approx4(8.f,18.f,32.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(scale(float2{2.f,2.f}), {2.f,3.f}) == uapprox3(8.f,18.f,1.f));
+        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), {2.f,3.f,4.f}) == uapprox4(8.f,18.f,32.f,1.f));
+        STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), float3{2.f,3.f,4.f}) == uapprox4(8.f,18.f,32.f,1.f));
     }
 
     SUBCASE("matrix shear") {
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(0.f) == approx3(2.f,3.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(1.f) == approx3(5.f,3.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(shear_x(1.f),1.f) == approx3(8.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(0.f) == uapprox3(2.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(1.f) == uapprox3(5.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(shear_x(1.f),1.f) == uapprox3(8.f,3.f,1.f));
 
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(0.f) == approx3(2.f,3.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(1.f) == approx3(2.f,5.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(shear_y(1.f),1.f) == approx3(2.f,7.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(0.f) == uapprox3(2.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(1.f) == uapprox3(2.f,5.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(shear_y(1.f),1.f) == uapprox3(2.f,7.f,1.f));
 
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,0.f)) == approx3(2.f,3.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(1.f,0.f)) == approx3(5.f,3.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,1.f)) == approx3(2.f,5.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(1.f,0.f)),float2(1.f,0.f)) == approx3(8.f,3.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(0.f,1.f)),float2(0.f,1.f)) == approx3(2.f,7.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,0.f)) == uapprox3(2.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(1.f,0.f)) == uapprox3(5.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,1.f)) == uapprox3(2.f,5.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(1.f,0.f)),float2(1.f,0.f)) == uapprox3(8.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(0.f,1.f)),float2(0.f,1.f)) == uapprox3(2.f,7.f,1.f));
     }
 
     SUBCASE("matrix look_at") {
@@ -206,24 +206,24 @@ TEST_CASE("vmath/ext") {
     }
 
     SUBCASE("vector angle") {
-        REQUIRE(angle(float2(2.f,0.f), float2(0.f,1.f)) == approx(radians(90.f)));
-        REQUIRE(angle(float2(0.f,3.f), float2(1.f,0.f)) == approx(radians(90.f)));
-        REQUIRE(angle(float2(0.5f,0.f), float2(-1.f,0.f)) == approx(radians(180.f)));
-        REQUIRE(angle(float2(-0.2f,0.f), float2(1.f,0.f)) == approx(radians(180.f)));
-        REQUIRE(angle(float3(0.f,2.f,0.f), float3(0.f,0.f,1.f)) == approx(radians(90.f)));
-        REQUIRE(angle(float3(0.f,0.f,3.f), float3(0.f,1.f,0.f)) == approx(radians(90.f)));
+        REQUIRE(angle(float2(2.f,0.f), float2(0.f,1.f)) == uapprox(radians(90.f)));
+        REQUIRE(angle(float2(0.f,3.f), float2(1.f,0.f)) == uapprox(radians(90.f)));
+        REQUIRE(angle(float2(0.5f,0.f), float2(-1.f,0.f)) == uapprox(radians(180.f)));
+        REQUIRE(angle(float2(-0.2f,0.f), float2(1.f,0.f)) == uapprox(radians(180.f)));
+        REQUIRE(angle(float3(0.f,2.f,0.f), float3(0.f,0.f,1.f)) == uapprox(radians(90.f)));
+        REQUIRE(angle(float3(0.f,0.f,3.f), float3(0.f,1.f,0.f)) == uapprox(radians(90.f)));
     }
 
     SUBCASE("vector rotate") {
-        REQUIRE(rotate(float2(2.f,0.f), radians(90.f)) == approx2(0.f,2.f));
-        REQUIRE(rotate(float2(1.5f,0.f), radians(-90.f)) == approx2(0.f,-1.5f));
+        REQUIRE(rotate(float2(2.f,0.f), radians(90.f)) == uapprox2(0.f,2.f));
+        REQUIRE(rotate(float2(1.5f,0.f), radians(-90.f)) == uapprox2(0.f,-1.5f));
 
-        REQUIRE(rotate(float3(1.5f,0.f,0.f), radians(90.f), float3(0,0,1)) == approx3(0.f,1.5f,0.f));
-        REQUIRE(rotate(float4(1.5f,0.f,0.f,1.f), radians(90.f), float3(0,0,1)) == approx4(0.f,1.5f,0.f,1.f));
+        REQUIRE(rotate(float3(1.5f,0.f,0.f), radians(90.f), float3(0,0,1)) == uapprox3(0.f,1.5f,0.f));
+        REQUIRE(rotate(float4(1.5f,0.f,0.f,1.f), radians(90.f), float3(0,0,1)) == uapprox4(0.f,1.5f,0.f,1.f));
     }
 
     SUBCASE("vector project") {
-        REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == approx2(0.f, 2.f));
-        REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == approx3(0.f, 0.f, 2.f));
+        REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == uapprox2(0.f, 2.f));
+        REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == uapprox3(0.f, 0.f, 2.f));
     }
 }
