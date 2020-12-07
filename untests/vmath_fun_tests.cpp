@@ -143,16 +143,6 @@ TEST_CASE("vmath/fun") {
     }
 
     SUBCASE("Scalar Relational Functions") {
-        STATIC_REQUIRE(less(0, 1));
-        STATIC_REQUIRE(less_equal(0, 1));
-        STATIC_REQUIRE_FALSE(less(1, 1));
-        STATIC_REQUIRE(less_equal(1, 1));
-
-        STATIC_REQUIRE(greater(1, 0));
-        STATIC_REQUIRE(greater_equal(1, 0));
-        STATIC_REQUIRE_FALSE(greater(1, 1));
-        STATIC_REQUIRE(greater_equal(1, 1));
-
         STATIC_REQUIRE(equal_to(1, 1));
         STATIC_REQUIRE_FALSE(equal_to(0, 1));
         STATIC_REQUIRE_FALSE(equal_to(0, 1, 0));

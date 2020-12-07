@@ -267,14 +267,4 @@ TEST_CASE("vmath/vec") {
         STATIC_REQUIRE(int2(1,2) != int2(2,2));
         STATIC_REQUIRE(int2(1,2) != int2(1,3));
     }
-
-    SUBCASE("operator<") {
-        STATIC_REQUIRE_FALSE(int2(1,2) < int2(1,2));
-
-        STATIC_REQUIRE(int2(1,1) < int2(1,2));
-        STATIC_REQUIRE_FALSE(int2(1,2) < int2(1,1));
-
-        STATIC_REQUIRE(int2(0,3) < int2(1,2));
-        STATIC_REQUIRE_FALSE(int2(1,2) < int2(0,3));
-    }
 }

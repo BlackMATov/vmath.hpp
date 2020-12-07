@@ -57,7 +57,9 @@ Most functions and types are based on the HLSL ([High-Level Shading Language for
 - [Vector Types](#Vector-Types)
 - [Matrix Types](#Matrix-Types)
 - [Vector Operators](#Vector-Operators)
+- [Vector Relational Operators](#Vector-Relational-Operators)
 - [Matrix Operators](#Matrix-Operators)
+- [Matrix Relational Operators](#Matrix-Relational-Operators)
 - [Angle and Trigonometry Functions](#Angle-and-Trigonometry-Functions)
 - [Exponential Functions](#Exponential-Functions)
 - [Common Functions](#Common-Functions)
@@ -552,6 +554,54 @@ template < typename T, size_t Size >
 constexpr bool operator<(const vec<T, Size>& xs, const vec<T, Size>& ys);
 ```
 
+### Vector Relational Operators
+
+```cpp
+// operator<
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator<(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator<(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator<(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator<=
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator<=(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator<=(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator<=(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator>
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator>(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator>(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator>(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator>=
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator>=(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator>=(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator>=(const vec<T, Size>& xs, const vec<T, Size>& ys);
+```
+
 ### Matrix Operators
 
 ```cpp
@@ -737,6 +787,54 @@ constexpr bool operator!=(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
 constexpr bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys);
+```
+
+### Matrix Relational Operators
+
+```cpp
+// operator<
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator<(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator<(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator<(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator<=
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator<=(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator<=(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator<=(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator>
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator>(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator>(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator>(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator>=
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator>=(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator>=(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator>=(const mat<T, Size>& xs, const mat<T, Size>& ys);
 ```
 
 ### Angle and Trigonometry Functions
@@ -1157,18 +1255,6 @@ vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta);
 
 ```cpp
 template < arithmetic T >
-constexpr bool less(T x, T y) noexcept;
-
-template < arithmetic T >
-constexpr bool less_equal(T x, T y) noexcept;
-
-template < arithmetic T >
-constexpr bool greater(T x, T y) noexcept;
-
-template < arithmetic T >
-constexpr bool greater_equal(T x, T y) noexcept;
-
-template < arithmetic T >
 constexpr bool equal_to(T x, T y) noexcept;
 
 template < arithmetic T >
@@ -1190,42 +1276,6 @@ constexpr bool all(T x) noexcept;
 #### Vector
 
 ```cpp
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less(const vec<T, Size>& xs, T y);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less(T x, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, T y);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less_equal(T x, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater(const vec<T, Size>& xs, T y);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater(T x, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, T y);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater_equal(T x, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
-
 template < typename T, size_t Size >
 constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y);
 

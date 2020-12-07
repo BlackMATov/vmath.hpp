@@ -406,30 +406,6 @@ namespace vmath_hpp
 {
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr less(T x, T y) noexcept {
-        return x < y;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr less_equal(T x, T y) noexcept {
-        return x <= y;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr greater(T x, T y) noexcept {
-        return x > y;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr greater_equal(T x, T y) noexcept {
-        return x >= y;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
     constexpr equal_to(T x, T y) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
             // http://www.realtimecollisiondetection.net/pubs/Tolerances
