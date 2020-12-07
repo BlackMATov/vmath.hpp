@@ -326,21 +326,11 @@ namespace vmath_hpp
         return map_join([x](const vec<T, Size>& y){ return x / y; }, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x / y; }, xs, ys);
-    }
-
     // operator/=
 
     template < typename T, std::size_t Size >
     constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, T y) {
         return (xs = (xs / y));
-    }
-
-    template < typename T, std::size_t Size >
-    constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return (xs = (xs / ys));
     }
 
     // operator&

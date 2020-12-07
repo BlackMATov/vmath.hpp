@@ -84,7 +84,6 @@ TEST_CASE("vmath/mat_fun") {
 
         STATIC_REQUIRE(int2x2(1,2,3,4) + int2x2(5,6,7,8) == int2x2(6,8,10,12));
         STATIC_REQUIRE(int2x2(1,2,3,4) - int2x2(5,6,7,8) == int2x2(-4,-4,-4,-4));
-        STATIC_REQUIRE(int2x2(5,6,7,8) / int2x2(1,2,3,4) == int2x2(5,3,2,2));
 
         STATIC_REQUIRE(int2x2() * int2x2() == int2x2());
         STATIC_REQUIRE(int3x3() * int3x3() == int3x3());
@@ -118,14 +117,6 @@ TEST_CASE("vmath/mat_fun") {
             REQUIRE(&v == &(v *= 3));
             REQUIRE(v == int2x2{3,6,9,12});
         }
-        {
-            int2x2 v{6,18,36,60};
-            REQUIRE(&v == &(v /= 2));
-            REQUIRE(v == int2x2{3,9,18,30});
-            REQUIRE(&v == &(v /= int2x2{3,4,3,10}));
-            REQUIRE(v == int2x2{1,2,6,3});
-        }
-
         {
             int4 v{0, 0, 0, 1};
             REQUIRE(&v == &(v *= translate(int3{1,2,3})));
