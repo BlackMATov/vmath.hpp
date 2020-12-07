@@ -188,9 +188,9 @@ using size2 = vec<size_t, 2>;
 using size3 = vec<size_t, 3>;
 using size4 = vec<size_t, 4>;
 
-using ptrdiff2 = vec<std::ptrdiff_t, 2>;
-using ptrdiff3 = vec<std::ptrdiff_t, 3>;
-using ptrdiff4 = vec<std::ptrdiff_t, 4>;
+using ptrdiff2 = vec<ptrdiff_t, 2>;
+using ptrdiff3 = vec<ptrdiff_t, 3>;
+using ptrdiff4 = vec<ptrdiff_t, 4>;
 ```
 
 ### Matrix Types
@@ -360,9 +360,9 @@ using size2x2 = mat<size_t, 2>;
 using size3x3 = mat<size_t, 3>;
 using size4x4 = mat<size_t, 4>;
 
-using ptrdiff2x2 = mat<std::ptrdiff_t, 2>;
-using ptrdiff3x3 = mat<std::ptrdiff_t, 3>;
-using ptrdiff4x4 = mat<std::ptrdiff_t, 4>;
+using ptrdiff2x2 = mat<ptrdiff_t, 2>;
+using ptrdiff3x3 = mat<ptrdiff_t, 3>;
+using ptrdiff4x4 = mat<ptrdiff_t, 4>;
 ```
 
 ### Vector Operators
@@ -373,9 +373,14 @@ using ptrdiff4x4 = mat<std::ptrdiff_t, 4>;
 template < typename T, size_t Size >
 constexpr vec<T, Size> operator-(const vec<T, Size>& xs);
 
+// ~operator
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator~(const vec<T, Size>& xs);
+
 // !operator
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> operator!(const vec<T, Size>& xs);
 
 // operator+
@@ -454,6 +459,85 @@ constexpr vec<T, Size>& operator/=(vec<T, Size>& xs, T y);
 template < typename T, size_t Size >
 constexpr vec<T, Size>& operator/=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
+// operator&
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator&(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator&(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator&(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator&=
+
+template < typename T, size_t Size >
+constexpr vec<T, Size>& operator&=(vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size>& operator&=(vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator|
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator|(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator|(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator|(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator|=
+
+template < typename T, size_t Size >
+constexpr vec<T, Size>& operator|=(vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size>& operator|=(vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator^
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator^(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator^(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size> operator^(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator^=
+
+template < typename T, size_t Size >
+constexpr vec<T, Size>& operator^=(vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<T, Size>& operator^=(vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator&&
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator&&(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator&&(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator&&(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator||
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator||(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator||(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr vec<bool, Size> operator||(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
 // operator==
 
 template < typename T, size_t Size >
@@ -475,6 +559,11 @@ constexpr bool operator<(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
 constexpr mat<T, Size> operator-(const mat<T, Size>& xs);
+
+// ~operator
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator~(const mat<T, Size>& xs);
 
 // !operator
 
@@ -552,16 +641,89 @@ constexpr mat<T, Size> operator/(const mat<T, Size>& xs, T y);
 template < typename T, size_t Size >
 constexpr mat<T, Size> operator/(T x, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<T, Size> operator/(const mat<T, Size>& xs, const mat<T, Size>& ys);
-
 // operator/=
 
 template < typename T, size_t Size >
 constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, T y);
 
+// operator&
+
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr mat<T, Size> operator&(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator&(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator&(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator&=
+
+template < typename T, size_t Size >
+constexpr mat<T, Size>& operator&=(mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size>& operator&=(mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator|
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator|(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator|(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator|(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator|=
+
+template < typename T, size_t Size >
+constexpr mat<T, Size>& operator|=(mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size>& operator|=(mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator^
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator^(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator^(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size> operator^(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator^=
+
+template < typename T, size_t Size >
+constexpr mat<T, Size>& operator^=(mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<T, Size>& operator^=(mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator&&
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator&&(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator&&(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator&&(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator||
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator||(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator||(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+constexpr mat<bool, Size> operator||(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator==
 
@@ -628,7 +790,7 @@ template < floating_point T >
 T atanh(T x) noexcept;
 
 template < floating_point T >
-std::pair<T, T> sincos(T x) noexcept;
+pair<T, T> sincos(T x) noexcept;
 
 template < floating_point T >
 void sincos(T x, T* s, T* c) noexcept;
@@ -777,13 +939,13 @@ template < arithmetic T >
 constexpr T min(T x, T y) noexcept;
 
 template < arithmetic T, arithmetic... Ts >
-constexpr std::common_type_t<T, Ts...> min(T x, T y, Ts... ts) noexcept;
+constexpr common_type_t<T, Ts...> min(T x, T y, Ts... ts) noexcept;
 
 template < arithmetic T >
 constexpr T max(T x, T y) noexcept;
 
 template < arithmetic T, arithmetic... Ts >
-constexpr std::common_type_t<T, Ts...> max(T x, T y, Ts... ts) noexcept;
+constexpr common_type_t<T, Ts...> max(T x, T y, Ts... ts) noexcept;
 
 template < arithmetic T >
 constexpr T clamp(T x, T min_x, T max_x) noexcept;
@@ -1028,76 +1190,76 @@ constexpr bool all(T x) noexcept;
 #### Vector
 
 ```cpp
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> less(const vec<T, Size>& xs, T y);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> less(T x, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, T y);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> less_equal(T x, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> greater(const vec<T, Size>& xs, T y);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> greater(T x, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, T y);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> greater_equal(T x, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> equal_to(T x, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y, T epsilon);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> equal_to(T x, const vec<T, Size>& ys, T epsilon);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, T y);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> not_equal_to(T x, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, T y, T epsilon);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> not_equal_to(T x, const vec<T, Size>& ys, T epsilon);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
 
 template < typename T, size_t Size >
@@ -1368,7 +1530,7 @@ vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& normal);
 template < typename T >
 vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& normal);
 
-template < typename T, std::size_t Size >
+template < typename T, size_t Size >
 vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal);
 ```
 
