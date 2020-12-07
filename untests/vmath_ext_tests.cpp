@@ -7,6 +7,8 @@
 #include "vmath_tests.hpp"
 #include "doctest/doctest.hpp"
 
+#include <set>
+#include <map>
 #include <unordered_set>
 #include <unordered_map>
 
@@ -62,6 +64,19 @@ TEST_CASE("vmath/ext") {
 
         REQUIRE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,3,4}));
         REQUIRE_FALSE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,4,3}));
+        {
+            std::set<int2> s;
+            s.insert(int2(1,2));
+            REQUIRE(s.count(int2(1,2)) > 0);
+            REQUIRE_FALSE(s.count(int2(1,1)) > 0);
+        }
+        {
+            std::map<int2, int> s;
+            s.emplace(int2(1,2),3);
+            s.emplace(int2(2,3),5);
+            REQUIRE(s[int2(1,2)] == 3);
+            REQUIRE(s[int2(2,3)] == 5);
+        }
         {
             std::unordered_set<int2> s;
             s.insert(int2(1,2));

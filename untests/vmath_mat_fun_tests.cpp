@@ -163,24 +163,6 @@ TEST_CASE("vmath/mat_fun") {
         }
     }
 
-    SUBCASE("relational operators") {
-        STATIC_REQUIRE((int2x2(1,1,1,1) < int2x2(0,1,2,3)) == bool2x2(false, false, true, true));
-        STATIC_REQUIRE((int2x2(0,1,2,3) < 1) == bool2x2(true, false, false, false));
-        STATIC_REQUIRE((1 < int2x2(0,1,2,3)) == bool2x2(false, false, true, true));
-
-        STATIC_REQUIRE((int2x2(1,1,1,1) <= int2x2(0,1,2,3)) == bool2x2(false, true, true, true));
-        STATIC_REQUIRE((int2x2(0,1,2,3) <= 1) == bool2x2(true, true, false, false));
-        STATIC_REQUIRE((1 <= int2x2(0,1,2,3)) == bool2x2(false, true, true, true));
-
-        STATIC_REQUIRE((int2x2(1,1,1,1) > int2x2(0,1,2,3)) == bool2x2(true, false, false, false));
-        STATIC_REQUIRE((int2x2(0,1,2,3) > 1) == bool2x2(false, false, true, true));
-        STATIC_REQUIRE((1 > int2x2(0,1,2,3)) == bool2x2(true, false, false, false));
-
-        STATIC_REQUIRE((int2x2(1,1,1,1) >= int2x2(0,1,2,3)) == bool2x2(true, true, false, false));
-        STATIC_REQUIRE((int2x2(0,1,2,3) >= 1) == bool2x2(false, true, true, true));
-        STATIC_REQUIRE((1 >= int2x2(0,1,2,3)) == bool2x2(true, true, false, false));
-    }
-
     SUBCASE("relational functions") {
         STATIC_REQUIRE_FALSE(any(bool2x2(false, false, false, false)));
         STATIC_REQUIRE(any(bool2x2(true, false, true, false)));
@@ -217,6 +199,30 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_REQUIRE(approx(int2x2(1,1,1,1), int2x2(0,1,2,3), 2) == bool2x2(true, true, true, true));
         STATIC_REQUIRE(approx(int2x2(0,1,2,3), 1, 2) == bool2x2(true, true, true, true));
         STATIC_REQUIRE(approx(1, int2x2(0,1,2,3), 2) == bool2x2(true, true, true, true));
+
+        STATIC_REQUIRE(less(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(false, false, true, true));
+        STATIC_REQUIRE(less(int2x2(0,1,2,3), 1) == bool2x2(true, false, false, false));
+        STATIC_REQUIRE(less(1, int2x2(0,1,2,3)) == bool2x2(false, false, true, true));
+
+        STATIC_REQUIRE(less_equal(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(false, true, true, true));
+        STATIC_REQUIRE(less_equal(int2x2(0,1,2,3), 1) == bool2x2(true, true, false, false));
+        STATIC_REQUIRE(less_equal(1, int2x2(0,1,2,3)) == bool2x2(false, true, true, true));
+
+        STATIC_REQUIRE(greater(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(true, false, false, false));
+        STATIC_REQUIRE(greater(int2x2(0,1,2,3), 1) == bool2x2(false, false, true, true));
+        STATIC_REQUIRE(greater(1, int2x2(0,1,2,3)) == bool2x2(true, false, false, false));
+
+        STATIC_REQUIRE(greater_equal(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(true, true, false, false));
+        STATIC_REQUIRE(greater_equal(int2x2(0,1,2,3), 1) == bool2x2(false, true, true, true));
+        STATIC_REQUIRE(greater_equal(1, int2x2(0,1,2,3)) == bool2x2(true, true, false, false));
+
+        STATIC_REQUIRE(equal_to(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(false, true, false, false));
+        STATIC_REQUIRE(equal_to(int2x2(0,1,2,3),1) == bool2x2(false, true, false, false));
+        STATIC_REQUIRE(equal_to(1,int2x2(0,1,2,3)) == bool2x2(false, true, false, false));
+
+        STATIC_REQUIRE(not_equal_to(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(true, false, true, true));
+        STATIC_REQUIRE(not_equal_to(int2x2(0,1,2,3),1) == bool2x2(true, false, true, true));
+        STATIC_REQUIRE(not_equal_to(1,int2x2(0,1,2,3)) == bool2x2(true, false, true, true));
     }
 
     SUBCASE("transpose") {

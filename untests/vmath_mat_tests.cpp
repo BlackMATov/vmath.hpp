@@ -270,4 +270,14 @@ TEST_CASE("vmath/mat") {
         STATIC_REQUIRE(int2x2(1,2,3,4) != int2x2(2,2,3,4));
         STATIC_REQUIRE(int2x2(1,2,3,4) != int2x2(1,3,3,4));
     }
+
+    SUBCASE("operator<") {
+        STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) < int2x2(1,2,3,4));
+
+        STATIC_REQUIRE(int2x2(1,1,3,4) < int2x2(1,2,3,4));
+        STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) < int2x2(1,1,3,4));
+
+        STATIC_REQUIRE(int2x2(0,3,3,4) < int2x2(1,2,3,4));
+        STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) < int2x2(0,3,3,4));
+    }
 }

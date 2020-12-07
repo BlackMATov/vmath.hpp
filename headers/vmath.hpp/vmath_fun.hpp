@@ -438,4 +438,40 @@ namespace vmath_hpp
             return abs(x - y) <= epsilon;
         }
     }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr less(T x, T y) noexcept {
+        return x < y;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr less_equal(T x, T y) noexcept {
+        return x <= y;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr greater(T x, T y) noexcept {
+        return x > y;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr greater_equal(T x, T y) noexcept {
+        return x >= y;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr equal_to(T x, T y) noexcept {
+        return x == y;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr not_equal_to(T x, T y) noexcept {
+        return x != y;
+    }
 }
