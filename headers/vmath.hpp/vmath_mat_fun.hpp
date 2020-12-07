@@ -561,33 +561,33 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, T y) {
-        return map_join([y](const vec<T, Size>& x){ return approximately(x, y); }, xs);
+    [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return approx(x, y); }, xs);
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approximately(T x, const mat<T, Size>& ys) {
-        return map_join([x](const vec<T, Size>& y){ return approximately(x, y); }, ys);
+    [[nodiscard]] constexpr mat<bool, Size> approx(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return approx(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, const mat<T, Size>& ys) {
-        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return approximately(x, y); }, xs, ys);
+    [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return approx(x, y); }, xs, ys);
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, T y, T epsilon) {
-        return map_join([y, epsilon](const vec<T, Size>& x){ return approximately(x, y, epsilon); }, xs);
+    [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, T y, T epsilon) {
+        return map_join([y, epsilon](const vec<T, Size>& x){ return approx(x, y, epsilon); }, xs);
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approximately(T x, const mat<T, Size>& ys, T epsilon) {
-        return map_join([x, epsilon](const vec<T, Size>& y){ return approximately(x, y, epsilon); }, ys);
+    [[nodiscard]] constexpr mat<bool, Size> approx(T x, const mat<T, Size>& ys, T epsilon) {
+        return map_join([x, epsilon](const vec<T, Size>& y){ return approx(x, y, epsilon); }, ys);
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon) {
-        return map_join([epsilon](const vec<T, Size>& x, const vec<T, Size>& y){ return approximately(x, y, epsilon); }, xs, ys);
+    [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon) {
+        return map_join([epsilon](const vec<T, Size>& x, const vec<T, Size>& y){ return approx(x, y, epsilon); }, xs, ys);
     }
 }
 

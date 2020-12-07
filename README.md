@@ -1261,10 +1261,10 @@ template < arithmetic T >
 constexpr bool all(T x) noexcept;
 
 template < arithmetic T >
-constexpr bool approximately(T x, T y) noexcept;
+constexpr bool approx(T x, T y) noexcept;
 
 template < arithmetic T >
-constexpr bool approximately(T x, T y, T epsilon) noexcept;
+constexpr bool approx(T x, T y, T epsilon) noexcept;
 ```
 
 #### Vector
@@ -1277,22 +1277,22 @@ template < typename T, size_t Size >
 constexpr bool all(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, T y);
+constexpr vec<bool, Size> approx(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> approximately(T x, const vec<T, Size>& ys);
+constexpr vec<bool, Size> approx(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr vec<bool, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, T y, T epsilon);
+constexpr vec<bool, Size> approx(const vec<T, Size>& xs, T y, T epsilon);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> approximately(T x, const vec<T, Size>& ys, T epsilon);
+constexpr vec<bool, Size> approx(T x, const vec<T, Size>& ys, T epsilon);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> approximately(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
+constexpr vec<bool, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
 ```
 
 #### Matrix
@@ -1305,22 +1305,22 @@ template < typename T, size_t Size >
 constexpr bool all(const mat<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, T y);
+constexpr mat<bool, Size> approx(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> approximately(T x, const mat<T, Size>& ys);
+constexpr mat<bool, Size> approx(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, T y, T epsilon);
+constexpr mat<bool, Size> approx(const mat<T, Size>& xs, T y, T epsilon);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> approximately(T x, const mat<T, Size>& ys, T epsilon);
+constexpr mat<bool, Size> approx(T x, const mat<T, Size>& ys, T epsilon);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> approximately(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon);
+constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon);
 ```
 
 ### Matrix Functions

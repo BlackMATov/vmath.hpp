@@ -153,14 +153,14 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(all(true));
         STATIC_REQUIRE(all(1));
 
-        STATIC_REQUIRE(approximately(1, 1));
-        STATIC_REQUIRE_FALSE(approximately(0, 1));
-        STATIC_REQUIRE_FALSE(approximately(0, 1, 0));
-        STATIC_REQUIRE(approximately(0, 1, 1));
+        STATIC_REQUIRE(approx(1, 1));
+        STATIC_REQUIRE_FALSE(approx(0, 1));
+        STATIC_REQUIRE_FALSE(approx(0, 1, 0));
+        STATIC_REQUIRE(approx(0, 1, 1));
 
-        STATIC_REQUIRE(approximately(1.f, 1.f + std::numeric_limits<float>::epsilon() * 0.5f));
-        STATIC_REQUIRE_FALSE(approximately(1.f, 1.f + std::numeric_limits<float>::epsilon() * 1.5f));
-        STATIC_REQUIRE(approximately(100.f, 100.f + std::numeric_limits<float>::epsilon() * 90.f));
-        STATIC_REQUIRE_FALSE(approximately(100.f, 100.f + std::numeric_limits<float>::epsilon() * 110.f));
+        STATIC_REQUIRE(approx(1.f, 1.f + std::numeric_limits<float>::epsilon() * 0.5f));
+        STATIC_REQUIRE_FALSE(approx(1.f, 1.f + std::numeric_limits<float>::epsilon() * 1.5f));
+        STATIC_REQUIRE(approx(100.f, 100.f + std::numeric_limits<float>::epsilon() * 90.f));
+        STATIC_REQUIRE_FALSE(approx(100.f, 100.f + std::numeric_limits<float>::epsilon() * 110.f));
     }
 }

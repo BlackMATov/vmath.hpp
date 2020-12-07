@@ -289,20 +289,20 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE_FALSE(all(int2(0, 1)));
         STATIC_REQUIRE(all(int2(1, 1)));
 
-        STATIC_REQUIRE(approximately(int3(1,1,1), int3(0,1,2)) == bool3(false, true, false));
-        STATIC_REQUIRE(approximately(int3(0,1,2),1) == bool3(false, true, false));
-        STATIC_REQUIRE(approximately(1,int3(0,1,2)) == bool3(false, true, false));
+        STATIC_REQUIRE(approx(int3(1,1,1), int3(0,1,2)) == bool3(false, true, false));
+        STATIC_REQUIRE(approx(int3(0,1,2),1) == bool3(false, true, false));
+        STATIC_REQUIRE(approx(1,int3(0,1,2)) == bool3(false, true, false));
 
-        STATIC_REQUIRE(approximately(int4(1,1,1,1), int4(0,1,2,3), 0) == bool4(false, true, false, false));
-        STATIC_REQUIRE(approximately(int4(0,1,2,3), 1, 0) == bool4(false, true, false, false));
-        STATIC_REQUIRE(approximately(1, int4(0,1,2,3), 0) == bool4(false, true, false, false));
+        STATIC_REQUIRE(approx(int4(1,1,1,1), int4(0,1,2,3), 0) == bool4(false, true, false, false));
+        STATIC_REQUIRE(approx(int4(0,1,2,3), 1, 0) == bool4(false, true, false, false));
+        STATIC_REQUIRE(approx(1, int4(0,1,2,3), 0) == bool4(false, true, false, false));
 
-        STATIC_REQUIRE(approximately(int4(1,1,1,1), int4(0,1,2,3), 1) == bool4(true, true, true, false));
-        STATIC_REQUIRE(approximately(int4(0,1,2,3), 1, 1) == bool4(true, true, true, false));
-        STATIC_REQUIRE(approximately(1, int4(0,1,2,3), 1) == bool4(true, true, true, false));
+        STATIC_REQUIRE(approx(int4(1,1,1,1), int4(0,1,2,3), 1) == bool4(true, true, true, false));
+        STATIC_REQUIRE(approx(int4(0,1,2,3), 1, 1) == bool4(true, true, true, false));
+        STATIC_REQUIRE(approx(1, int4(0,1,2,3), 1) == bool4(true, true, true, false));
 
-        STATIC_REQUIRE(approximately(int4(1,1,1,1), int4(0,1,2,3), 2) == bool4(true, true, true, true));
-        STATIC_REQUIRE(approximately(int4(0,1,2,3), 1, 2) == bool4(true, true, true, true));
-        STATIC_REQUIRE(approximately(1, int4(0,1,2,3), 2) == bool4(true, true, true, true));
+        STATIC_REQUIRE(approx(int4(1,1,1,1), int4(0,1,2,3), 2) == bool4(true, true, true, true));
+        STATIC_REQUIRE(approx(int4(0,1,2,3), 1, 2) == bool4(true, true, true, true));
+        STATIC_REQUIRE(approx(1, int4(0,1,2,3), 2) == bool4(true, true, true, true));
     }
 }

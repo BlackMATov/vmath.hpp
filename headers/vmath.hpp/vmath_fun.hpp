@@ -418,7 +418,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr approximately(T x, T y) noexcept {
+    constexpr approx(T x, T y) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
             // http://www.realtimecollisiondetection.net/pubs/Tolerances
             const T epsilon = std::numeric_limits<T>::epsilon();
@@ -430,7 +430,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr approximately(T x, T y, T epsilon) noexcept {
+    constexpr approx(T x, T y, T epsilon) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
             // http://www.realtimecollisiondetection.net/pubs/Tolerances
             return abs(x - y) <= epsilon * max(T(1), abs(x), abs(y));
