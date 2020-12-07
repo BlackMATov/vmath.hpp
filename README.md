@@ -1010,7 +1010,7 @@ template < arithmetic T >
 constexpr T sign(T x) noexcept;
 
 template < floating_point T >
-constexpr T reciprocal(T x) noexcept;
+constexpr T rcp(T x) noexcept;
 
 template < floating_point T >
 T floor(T x) noexcept;
@@ -1089,7 +1089,7 @@ template < typename T, size_t Size >
 constexpr vec<T, Size> sign(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> reciprocal(const vec<T, Size>& xs);
+constexpr vec<T, Size> rcp(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
 vec<T, Size> floor(const vec<T, Size>& xs);

@@ -34,7 +34,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    constexpr reciprocal(T x) noexcept {
+    constexpr rcp(T x) noexcept {
         return T(1) / x;
     }
 
@@ -331,7 +331,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     rsqrt(T x) noexcept {
-        return reciprocal(sqrt(x));
+        return rcp(sqrt(x));
     }
 }
 

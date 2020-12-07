@@ -483,9 +483,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> orthographic_lh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
-        const T sx = T(2) * reciprocal(right - left);
-        const T sy = T(2) * reciprocal(top - bottom);
-        const T sz = T(1) * reciprocal(zfar - znear);
+        const T sx = T(2) * rcp(right - left);
+        const T sy = T(2) * rcp(top - bottom);
+        const T sz = T(1) * rcp(zfar - znear);
 
         const T tx = - (right + left) / (right - left);
         const T ty = - (top + bottom) / (top - bottom);
@@ -500,9 +500,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> orthographic_lh_no(T left, T right, T bottom, T top, T znear, T zfar) {
-        const T sx = T(2) * reciprocal(right - left);
-        const T sy = T(2) * reciprocal(top - bottom);
-        const T sz = T(2) * reciprocal(zfar - znear);
+        const T sx = T(2) * rcp(right - left);
+        const T sy = T(2) * rcp(top - bottom);
+        const T sz = T(2) * rcp(zfar - znear);
 
         const T tx = - (right + left) / (right - left);
         const T ty = - (top + bottom) / (top - bottom);
@@ -517,9 +517,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> orthographic_rh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
-        const T sx = T(2) * reciprocal(right - left);
-        const T sy = T(2) * reciprocal(top - bottom);
-        const T sz = -T(1) * reciprocal(zfar - znear);
+        const T sx = T(2) * rcp(right - left);
+        const T sy = T(2) * rcp(top - bottom);
+        const T sz = -T(1) * rcp(zfar - znear);
 
         const T tx = - (right + left) / (right - left);
         const T ty = - (top + bottom) / (top - bottom);
@@ -534,9 +534,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> orthographic_rh_no(T left, T right, T bottom, T top, T znear, T zfar) {
-        const T sx = T(2) * reciprocal(right - left);
-        const T sy = T(2) * reciprocal(top - bottom);
-        const T sz = -T(2) * reciprocal(zfar - znear);
+        const T sx = T(2) * rcp(right - left);
+        const T sy = T(2) * rcp(top - bottom);
+        const T sz = -T(2) * rcp(zfar - znear);
 
         const T tx = - (right + left) / (right - left);
         const T ty = - (top + bottom) / (top - bottom);
@@ -553,7 +553,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> perspective_lh_zo(T fov, T aspect, T znear, T zfar) {
-        const T sy = reciprocal(tan(fov * T(0.5)));
+        const T sy = rcp(tan(fov * T(0.5)));
         const T sx = sy / aspect;
         const T sz = zfar / (zfar - znear);
         const T tz = (znear * zfar) / (znear - zfar);
@@ -566,7 +566,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> perspective_lh_no(T fov, T aspect, T znear, T zfar) {
-        const T sy = reciprocal(tan(fov * T(0.5)));
+        const T sy = rcp(tan(fov * T(0.5)));
         const T sx = sy / aspect;
         const T sz = (zfar + znear) / (zfar - znear);
         const T tz = (T(2) * znear * zfar) / (znear - zfar);
@@ -579,7 +579,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> perspective_rh_zo(T fov, T aspect, T znear, T zfar) {
-        const T sy = reciprocal(tan(fov * T(0.5)));
+        const T sy = rcp(tan(fov * T(0.5)));
         const T sx = sy / aspect;
         const T sz = zfar / (znear - zfar);
         const T tz = (znear * zfar) / (znear - zfar);
@@ -592,7 +592,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> perspective_rh_no(T fov, T aspect, T znear, T zfar) {
-        const T sy = reciprocal(tan(fov * T(0.5)));
+        const T sy = rcp(tan(fov * T(0.5)));
         const T sx = sy / aspect;
         const T sz = (zfar + znear) / (znear - zfar);
         const T tz = (T(2) * znear * zfar) / (znear - zfar);

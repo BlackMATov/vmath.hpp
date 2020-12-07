@@ -660,8 +660,8 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> reciprocal(const vec<T, Size>& xs) {
-        return map_join([](T x) { return reciprocal(x); }, xs);
+    [[nodiscard]] constexpr vec<T, Size> rcp(const vec<T, Size>& xs) {
+        return map_join([](T x) { return rcp(x); }, xs);
     }
 
     template < typename T, std::size_t Size >

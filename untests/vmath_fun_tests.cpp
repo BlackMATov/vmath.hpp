@@ -66,8 +66,8 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(sign(-2.f) == uapprox(-1.f));
         STATIC_REQUIRE(sign(0.f) == uapprox(0.f));
 
-        STATIC_REQUIRE(reciprocal(2.f) == uapprox(0.5f));
-        STATIC_REQUIRE(reciprocal(4.f) == uapprox(0.25f));
+        STATIC_REQUIRE(rcp(2.f) == uapprox(0.5f));
+        STATIC_REQUIRE(rcp(4.f) == uapprox(0.25f));
 
         REQUIRE(floor(1.7f) == uapprox(1.f));
         REQUIRE(trunc(1.7f) == uapprox(1.f));

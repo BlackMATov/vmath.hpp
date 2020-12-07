@@ -738,7 +738,7 @@ namespace vmath_hpp
             T a, T b,
             T c, T d)
         {
-            const T inv_det = reciprocal(determinant_2x2_impl(
+            const T inv_det = rcp(determinant_2x2_impl(
                 a, b,
                 c, d));
 
@@ -756,7 +756,7 @@ namespace vmath_hpp
             T d, T e, T f,
             T g, T h, T i)
         {
-            const T inv_det = reciprocal(determinant_3x3_impl(
+            const T inv_det = rcp(determinant_3x3_impl(
                 a, b, c,
                 d, e, f,
                 g, h, i));
@@ -783,7 +783,7 @@ namespace vmath_hpp
             T i, T j, T k, T l,
             T m, T n, T o, T p)
         {
-            const T inv_det = reciprocal(determinant_4x4_impl(
+            const T inv_det = rcp(determinant_4x4_impl(
                 a, b, c, d,
                 e, f, g, h,
                 i, j, k, l,

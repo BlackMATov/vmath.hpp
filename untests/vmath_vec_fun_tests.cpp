@@ -189,7 +189,7 @@ TEST_CASE("vmath/vec_fun") {
     SUBCASE("Common Functions") {
         STATIC_REQUIRE(abs(float2(1.f, -1.f)) == uapprox2(1.f,1.f));
         STATIC_REQUIRE(sign(float3(1.f, -1.f, 0.f)) == uapprox3(1.f,-1.f,0.f));
-        STATIC_REQUIRE(reciprocal(float2(2.f, 4.f)) == uapprox2(0.5f,0.25f));
+        STATIC_REQUIRE(rcp(float2(2.f, 4.f)) == uapprox2(0.5f,0.25f));
 
         (void)floor(float2(1.f, -1.f));
         (void)trunc(float2(1.f, -1.f));
