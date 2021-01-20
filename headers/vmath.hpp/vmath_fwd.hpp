@@ -91,3 +91,12 @@ namespace vmath_hpp
     using ptrdiff3x3 = mat<std::ptrdiff_t, 3>;
     using ptrdiff4x4 = mat<std::ptrdiff_t, 4>;
 }
+
+namespace vmath_hpp
+{
+    template < typename T >
+    class qua;
+
+    using fqua = qua<float>;
+    using dqua = qua<double>;
+}

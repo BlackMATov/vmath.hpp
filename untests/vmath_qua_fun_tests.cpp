@@ -4,18 +4,14 @@
  * Copyright (C) 2020-2021, by Matvey Cherevko (blackmatov@gmail.com)
  ******************************************************************************/
 
-#pragma once
+#include "vmath_tests.hpp"
+#include "doctest/doctest.hpp"
 
-#include "vmath_fwd.hpp"
+namespace
+{
+    using namespace vmath_hpp;
+    using namespace vmath_tests;
+}
 
-#include "vmath_fun.hpp"
-#include "vmath_ext.hpp"
-
-#include "vmath_mat.hpp"
-#include "vmath_mat_fun.hpp"
-
-#include "vmath_qua.hpp"
-#include "vmath_qua_fun.hpp"
-
-#include "vmath_vec.hpp"
-#include "vmath_vec_fun.hpp"
+TEST_CASE("vmath/qua_fun") {
+}
