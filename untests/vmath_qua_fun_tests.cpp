@@ -39,4 +39,24 @@ TEST_CASE("vmath/qua_fun") {
             return acc + x;
         }, qua{1,2,3,4}) == 10);
     }
+
+    SUBCASE("Operators") {
+        STATIC_REQUIRE(+qua(1,-2,3,-4) == qua(1,-2,3,-4));
+        STATIC_REQUIRE(-qua(1,-2,3,-4) == qua(-1,2,-3,4));
+
+        STATIC_REQUIRE(qua(1,2,3,4) + qua(3,4,5,6) == qua(4,6,8,10));
+        STATIC_REQUIRE(qua(1,2,3,4) - qua(3,5,7,9) == qua(-2,-3,-4,-5));
+
+        {
+            qua v{1,2,3,4};
+            REQUIRE(&v == &(v += qua{3,4,5,6}));
+            REQUIRE(v == qua{4,6,8,10});
+        }
+
+        {
+            qua v{1,2,3,4};
+            REQUIRE(&v == &(v -= qua{3,4,5,6}));
+            REQUIRE(v == qua{-2,-2,-2,-2});
+        }
+    }
 }

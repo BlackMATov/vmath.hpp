@@ -165,6 +165,48 @@ namespace vmath_hpp::detail
 
 namespace vmath_hpp
 {
+    // +operator
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator+(const qua<T>& xs) {
+        return xs;
+    }
+
+    // -operator
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator-(const qua<T>& xs) {
+        return map_join([](T x){ return -x; }, xs);
+    }
+
+    // operator+
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator+(const qua<T>& xs, const qua<T>& ys) {
+        return map_join([](T x, T y){ return x + y; }, xs, ys);
+    }
+
+    // operator+=
+
+    template < typename T >
+    constexpr qua<T>& operator+=(qua<T>& xs, const qua<T>& ys) {
+        return (xs = (xs + ys));
+    }
+
+    // operator-
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator-(const qua<T>& xs, const qua<T>& ys) {
+        return map_join([](T x, T y){ return x - y; }, xs, ys);
+    }
+
+    // operator-=
+
+    template < typename T >
+    constexpr qua<T>& operator-=(qua<T>& xs, const qua<T>& ys) {
+        return (xs = (xs - ys));
+    }
+
     // operator==
 
     template < typename T >
