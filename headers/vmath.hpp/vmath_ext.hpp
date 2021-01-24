@@ -11,6 +11,7 @@
 #include "vmath_fun.hpp"
 #include "vmath_vec_fun.hpp"
 #include "vmath_mat_fun.hpp"
+#include "vmath_qua_fun.hpp"
 
 //
 // Units
@@ -73,6 +74,11 @@ namespace vmath_hpp::detail
     [[nodiscard]] std::size_t hash(const mat<T, Size>& m) noexcept {
         return fold_join(hash_combiner{}, std::size_t{}, m);
     }
+
+    template < typename T >
+    [[nodiscard]] std::size_t hash(const qua<T>& q) noexcept {
+        return fold_join(hash_combiner{}, std::size_t{}, q);
+    }
 }
 
 namespace std
@@ -88,6 +94,13 @@ namespace std
     struct hash<vmath_hpp::mat<T, Size>> {
         size_t operator()(const vmath_hpp::mat<T, Size>& m) const noexcept {
             return vmath_hpp::detail::hash(m);
+        }
+    };
+
+    template < typename T >
+    struct hash<vmath_hpp::qua<T>> {
+        size_t operator()(const vmath_hpp::qua<T>& q) const noexcept {
+            return vmath_hpp::detail::hash(q);
         }
     };
 }
@@ -114,6 +127,11 @@ namespace vmath_hpp
     template < typename To, typename From, std::size_t Size >
     [[nodiscard]] constexpr mat<To, Size> cast_to(const mat<From, Size>& m) {
         return detail::map_join([](const vec<From, Size>& v){ return cast_to<To>(v); }, m);
+    }
+
+    template < typename To, typename From >
+    [[nodiscard]] constexpr qua<To> cast_to(const qua<From>& q) {
+        return detail::map_join([](From x){ return cast_to<To>(x); }, q);
     }
 }
 

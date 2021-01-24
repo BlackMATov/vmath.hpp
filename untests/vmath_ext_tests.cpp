@@ -52,7 +52,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(identity4x4<int> == int4x4());
     }
 
-    SUBCASE("hash") {
+    SUBCASE("vector hash") {
         REQUIRE(std::hash<int2>{}({1,2}) == std::hash<int2>{}({1,2}));
         REQUIRE_FALSE(std::hash<int2>{}({1,2}) == std::hash<int2>{}({2,1}));
 
@@ -62,8 +62,6 @@ TEST_CASE("vmath/ext") {
         REQUIRE(std::hash<int4>{}({1,2,3,4}) == std::hash<int4>{}({1,2,3,4}));
         REQUIRE_FALSE(std::hash<int4>{}({1,2,3,4}) == std::hash<int4>{}({3,2,1,4}));
 
-        REQUIRE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,3,4}));
-        REQUIRE_FALSE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,4,3}));
         {
             std::set<int2> s;
             s.insert(int2(1,2));
@@ -92,6 +90,70 @@ TEST_CASE("vmath/ext") {
         }
     }
 
+    SUBCASE("matrix hash") {
+        REQUIRE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,3,4}));
+        REQUIRE_FALSE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,4,3}));
+
+        {
+            std::set<int2x2> s;
+            s.insert(int2x2(1,2,3,4));
+            REQUIRE(s.count(int2x2(1,2,3,4)) > 0);
+            REQUIRE_FALSE(s.count(int2x2(1,1,1,1)) > 0);
+        }
+        {
+            std::map<int2x2, int> s;
+            s.emplace(int2x2(1,2,3,4),3);
+            s.emplace(int2x2(2,3,4,5),5);
+            REQUIRE(s[int2x2(1,2,3,4)] == 3);
+            REQUIRE(s[int2x2(2,3,4,5)] == 5);
+        }
+        {
+            std::unordered_set<int2x2> s;
+            s.insert(int2x2(1,2,3,4));
+            REQUIRE(s.count(int2x2(1,2,3,4)) > 0);
+            REQUIRE_FALSE(s.count(int2x2(1,1,1,1)) > 0);
+        }
+        {
+            std::unordered_map<int2x2, int> s;
+            s.emplace(int2x2(1,2,3,4),3);
+            s.emplace(int2x2(2,3,4,5),5);
+            REQUIRE(s[int2x2(1,2,3,4)] == 3);
+            REQUIRE(s[int2x2(2,3,4,5)] == 5);
+        }
+    }
+
+    SUBCASE("quaternion hash") {
+        REQUIRE(std::hash<fqua>{}({1,2,3,4}) == std::hash<fqua>{}({1,2,3,4}));
+        REQUIRE_FALSE(std::hash<fqua>{}({1,2,3,4}) == std::hash<fqua>{}({3,2,1,4}));
+
+        {
+            std::set<qua<int>> s;
+            s.insert(qua(1,2,3,4));
+            REQUIRE(s.count(qua(1,2,3,4)) > 0);
+            REQUIRE_FALSE(s.count(qua(1,1,1,1)) > 0);
+        }
+        {
+            std::map<qua<int>, int> s;
+            s.emplace(qua(1,2,3,4),3);
+            s.emplace(qua(2,3,4,5),5);
+            REQUIRE(s[qua(1,2,3,4)] == 3);
+            REQUIRE(s[qua(2,3,4,5)] == 5);
+        }
+        {
+            std::unordered_set<qua<int>> s;
+            s.insert(qua(1,2,3,4));
+            REQUIRE(s.count(qua(1,2,3,4)) > 0);
+            REQUIRE_FALSE(s.count(qua(1,1,1,1)) > 0);
+        }
+        {
+            std::unordered_map<qua<int>, int> s;
+            s.emplace(qua(1,2,3,4),3);
+            s.emplace(qua(2,3,4,5),5);
+            REQUIRE(s[qua(1,2,3,4)] == 3);
+            REQUIRE(s[qua(2,3,4,5)] == 5);
+        }
+    }
+
     SUBCASE("cast_to") {
         {
             constexpr auto i = cast_to<int>(1.5f);
@@ -107,6 +169,11 @@ TEST_CASE("vmath/ext") {
             constexpr auto m = cast_to<int>(float2x2{1.5f});
             STATIC_REQUIRE(m == int2x2(1));
             STATIC_REQUIRE(std::is_same_v<decltype(m)::row_type, int2>);
+        }
+        {
+            constexpr auto v = cast_to<int>(fqua{1.5f, 2.2f, 3.6f, 4.5f});
+            STATIC_REQUIRE(v == qua(1,2,3,4));
+            STATIC_REQUIRE(std::is_same_v<decltype(v)::component_type, int>);
         }
     }
 
