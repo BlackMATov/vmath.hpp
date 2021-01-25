@@ -193,3 +193,36 @@ namespace vmath_hpp
         return qua(normalize(vec{xs}));
     }
 }
+
+//
+// Relational Functions
+//
+
+namespace vmath_hpp
+{
+    // approx
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys) {
+        return approx(vec{xs}, vec{ys});
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon) {
+        return approx(vec{xs}, vec{ys}, epsilon);
+    }
+
+    // equal_to
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<bool, 4> equal_to(const qua<T>& xs, const qua<T>& ys) {
+        return equal_to(vec{xs}, vec{ys});
+    }
+
+    // not_equal_to
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<bool, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys) {
+        return not_equal_to(vec{xs}, vec{ys});
+    }
+}

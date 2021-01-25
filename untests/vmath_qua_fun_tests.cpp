@@ -81,4 +81,14 @@ TEST_CASE("vmath/qua_fun") {
 
         REQUIRE(normalize(fqua(0.5f,0.f,0.f,0.f)).v == uapprox3(1.f,0.f,0.f));
     }
+
+    SUBCASE("Relational Functions") {
+        STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
+        STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3), 0) == bool4(false, true, false, false));
+        STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3), 1) == bool4(true, true, true, false));
+        STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3), 2) == bool4(true, true, true, true));
+
+        STATIC_REQUIRE(equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
+        STATIC_REQUIRE(not_equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, false, true, true));
+    }
 }
