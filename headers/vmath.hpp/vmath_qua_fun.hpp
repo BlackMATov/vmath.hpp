@@ -62,6 +62,67 @@ namespace vmath_hpp
         return (xs = (xs - ys));
     }
 
+    // operator*
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator*(const qua<T>& xs, T y) {
+        return qua(vec{xs} * y);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator*(T x, const qua<T>& ys) {
+        return qua(x * vec{ys});
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const qua<T>& ys) {
+        const vec qv2 = cross(ys.v, xs) * T(2);
+        return xs + qv2 * ys.s + cross(ys.v, qv2);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator*(const qua<T>& xs, const qua<T>& ys) {
+        return {
+            cross(ys.v, xs.v) + ys.s * xs.v + xs.s * ys.v,
+            ys.s * xs.s - dot(ys.v, xs.v)};
+    }
+
+    // operator*=
+
+    template < typename T >
+    constexpr qua<T>& operator*=(qua<T>& xs, T y) {
+        return (xs = (xs * y));
+    }
+
+    template < typename T >
+    constexpr vec<T, 3>& operator*=(vec<T, 3>& xs, const qua<T>& ys) {
+        return (xs = (xs * ys));
+    }
+
+    template < typename T >
+    constexpr qua<T>& operator*=(qua<T>& xs, const qua<T>& ys) {
+        return (xs = (xs * ys));
+    }
+
+    // operator/
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator/(const qua<T>& xs, T y) {
+        return qua(vec{xs} / y);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> operator/(T x, const qua<T>& ys) {
+        return qua(x / vec{ys});
+    }
+
+    // operator/=
+
+    template < typename T >
+    constexpr qua<T>& operator/=(qua<T>& xs, T y) {
+        return (xs = (xs / y));
+    }
+
     // operator==
 
     template < typename T >

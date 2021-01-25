@@ -32,5 +32,35 @@ TEST_CASE("vmath/qua_fun") {
             REQUIRE(&v == &(v -= qua{3,4,5,6}));
             REQUIRE(v == qua{-2,-2,-2,-2});
         }
+
+        STATIC_REQUIRE(qua(1,2,3,4) * 2 == qua(2,4,6,8));
+        STATIC_REQUIRE(qua(2,4,6,8) / 2 == qua(1,2,3,4));
+
+        STATIC_REQUIRE(2 * qua(1,2,3,4) == qua(2,4,6,8));
+        STATIC_REQUIRE(8 / qua(1,2,4,8) == qua(8,4,2,1));
+
+        {
+            qua v{1,2,3,4};
+            REQUIRE(&v == &(v *= 2));
+            REQUIRE(v == qua{2,4,6,8});
+            REQUIRE(&v == &(v *= qua<int>{}));
+            REQUIRE(v == qua{2,4,6,8});
+        }
+
+        {
+            qua v{2,4,6,8};
+            REQUIRE(&v == &(v /= 2));
+            REQUIRE(v == qua{1,2,3,4});
+        }
+
+        {
+            float3 v{1,0,0};
+            REQUIRE(&v == &(v *= fqua{0,0,0.7071067812f,0.7071067812f}));
+            REQUIRE(v == uapprox3(0.f,1.f,0.f));
+        }
+
+        STATIC_REQUIRE(fqua{} * fqua{} == fqua{});
+        STATIC_REQUIRE(float3{1,2,3} * fqua{} == uapprox3(1.f,2.f,3.f));
+        STATIC_REQUIRE(float3{1,0,0} * fqua{0,0,0.7071067812f,0.7071067812f} == uapprox3(0.f,1.f,0.f));
     }
 }
