@@ -662,3 +662,57 @@ namespace vmath_hpp
         return dot(v, normal) / length2(normal) * normal;
     }
 }
+
+//
+// Quaternion Transform
+//
+
+namespace vmath_hpp
+{
+    // qrotate
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate(T angle, const vec<T, 3>& axis) {
+        const auto [s, c] = sincos(angle * T(0.5));
+        const auto [x, y, z] = normalize(axis);
+        return {vec{x,y,z} * s, c};
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate(const qua<T>& q, T angle, const vec<T, 3>& axis) {
+        return q * qrotate(angle, axis);
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate_x(T angle) {
+        const auto [s, c] = sincos(angle * T(0.5));
+        return {s, T(0), T(0), c};
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate_x(const qua<T>& q, T angle) {
+        return qrotate(q, angle, unit3_x<T>);
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate_y(T angle) {
+        const auto [s, c] = sincos(angle * T(0.5));
+        return {T(0), s, T(0), c};
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate_y(const qua<T>& q, T angle) {
+        return qrotate(q, angle, unit3_y<T>);
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate_z(T angle) {
+        const auto [s, c] = sincos(angle * T(0.5));
+        return {T(0), T(0), s, c};
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate_z(const qua<T>& q, T angle) {
+        return qrotate(q, angle, unit3_z<T>);
+    }
+}

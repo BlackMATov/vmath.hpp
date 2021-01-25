@@ -226,3 +226,24 @@ namespace vmath_hpp
         return not_equal_to(vec{xs}, vec{ys});
     }
 }
+
+//
+// Quaternion Functions
+//
+
+namespace vmath_hpp
+{
+    // conjugate
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> conjugate(const qua<T>& q) {
+        return {-q.v, q.s};
+    }
+
+    // inverse
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> inverse(const qua<T>& q) {
+        return conjugate(q) * rcp(dot(q, q));
+    }
+}

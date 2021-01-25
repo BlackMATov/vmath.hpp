@@ -91,4 +91,13 @@ TEST_CASE("vmath/qua_fun") {
         STATIC_REQUIRE(equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
         STATIC_REQUIRE(not_equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, false, true, true));
     }
+
+    SUBCASE("Quaternion Functions") {
+        STATIC_REQUIRE(conjugate(qua(1,2,3,4)) == qua(-1,-2,-3,4));
+        STATIC_REQUIRE(inverse(qua(0.f,0.f,0.7071067812f,0.7071067812f)).v == uapprox3(0.f,0.f,-0.7071067812f));
+        STATIC_REQUIRE(inverse(qua(0.f,0.f,0.7071067812f,0.7071067812f)).s == uapprox(0.7071067812f));
+
+        REQUIRE(inverse(qrotate_x(10.f)) == qrotate_x(-10.f));
+        REQUIRE(all(approx(inverse(qrotate_x(10.f) * qrotate_y(15.f)), qrotate_y(-15.f) * qrotate_x(-10.f))));
+    }
 }

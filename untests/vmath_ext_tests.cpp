@@ -293,4 +293,28 @@ TEST_CASE("vmath/ext") {
         REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == uapprox2(0.f, 2.f));
         REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == uapprox3(0.f, 0.f, 2.f));
     }
+
+    SUBCASE("quaternion qrotate") {
+        constexpr float pi = radians(180.f);
+        constexpr float pi_2 = radians(90.f);
+        constexpr float pi_4 = radians(45.f);
+
+        REQUIRE(float3(0.f,1.f,0.f) * qrotate_x(pi_2) == uapprox3(0.f,0.f,1.f));
+        REQUIRE(float3(0.f,0.f,1.f) * qrotate_y(pi_2) == uapprox3(1.f,0.f,0.f));
+        REQUIRE(float3(1.f,0.f,0.f) * qrotate_z(pi_2) == uapprox3(0.f,1.f,0.f));
+
+        REQUIRE(float3(0.f,1.f,0.f) * qrotate_x(qrotate_x(pi_4),pi_4) == uapprox3(0.f,0.f,1.f));
+        REQUIRE(float3(0.f,0.f,1.f) * qrotate_y(qrotate_y(pi_4),pi_4) == uapprox3(1.f,0.f,0.f));
+        REQUIRE(float3(1.f,0.f,0.f) * qrotate_z(qrotate_z(pi_4),pi_4) == uapprox3(0.f,1.f,0.f));
+
+        REQUIRE(float3(2.f,3.f,4.f) * qrotate(pi,{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
+        REQUIRE(float3(2.f,3.f,4.f) * qrotate(pi,float3{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
+
+        REQUIRE(float3(2.f,3.f,4.f) * qrotate(qrotate(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
+        REQUIRE(float3(2.f,3.f,4.f) * qrotate(qrotate(pi_2,float3{0.f,0.f,1.f}),pi_2,float3{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
+
+        REQUIRE(qrotate_x(12.3f) == qrotate(12.3f, unit3_x<float> * 2.f));
+        REQUIRE(qrotate_y(12.3f) == qrotate(12.3f, unit3_y<float> * 2.f));
+        REQUIRE(qrotate_z(12.3f) == qrotate(12.3f, unit3_z<float> * 2.f));
+    }
 }
