@@ -646,13 +646,23 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& normal) {
-        return v * mat<T, 3>(rotate(angle, normal));
+    [[nodiscard]] vec<T, 3> rotate(const vec<T, 3>& v, const qua<T>& q) {
+        return v * q;
     }
 
     template < typename T >
-    [[nodiscard]] vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& normal) {
-        return v * rotate(angle, normal);
+    [[nodiscard]] vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& axis) {
+        return v * qrotate(angle, axis);
+    }
+
+    template < typename T >
+    [[nodiscard]] vec<T, 4> rotate(const vec<T, 4>& v, const qua<T>& q) {
+        return v * q;
+    }
+
+    template < typename T >
+    [[nodiscard]] vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& axis) {
+        return v * qrotate(angle, axis);
     }
 
     // project

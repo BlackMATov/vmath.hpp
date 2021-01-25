@@ -59,9 +59,17 @@ TEST_CASE("vmath/qua_fun") {
             REQUIRE(v == uapprox3(0.f,1.f,0.f));
         }
 
+        {
+            float4 v{1,0,0,2};
+            REQUIRE(&v == &(v *= fqua{0,0,0.7071067812f,0.7071067812f}));
+            REQUIRE(v == uapprox4(0.f,1.f,0.f,2.f));
+        }
+
         STATIC_REQUIRE(fqua{} * fqua{} == fqua{});
         STATIC_REQUIRE(float3{1,2,3} * fqua{} == uapprox3(1.f,2.f,3.f));
+        STATIC_REQUIRE(float4{1,2,3,4} * fqua{} == uapprox4(1.f,2.f,3.f,4.f));
         STATIC_REQUIRE(float3{1,0,0} * fqua{0,0,0.7071067812f,0.7071067812f} == uapprox3(0.f,1.f,0.f));
+        STATIC_REQUIRE(float4{1,0,0,2} * fqua{0,0,0.7071067812f,0.7071067812f} == uapprox4(0.f,1.f,0.f,2.f));
     }
 
     SUBCASE("Common Functions") {

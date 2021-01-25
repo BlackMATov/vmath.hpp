@@ -81,6 +81,11 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] constexpr vec<T, 4> operator*(const vec<T, 4>& xs, const qua<T>& ys) {
+        return {vec<T, 3>{xs} * ys, xs.w};
+    }
+
+    template < typename T >
     [[nodiscard]] constexpr qua<T> operator*(const qua<T>& xs, const qua<T>& ys) {
         return {
             cross(ys.v, xs.v) + ys.s * xs.v + xs.s * ys.v,
@@ -96,6 +101,11 @@ namespace vmath_hpp
 
     template < typename T >
     constexpr vec<T, 3>& operator*=(vec<T, 3>& xs, const qua<T>& ys) {
+        return (xs = (xs * ys));
+    }
+
+    template < typename T >
+    constexpr vec<T, 4>& operator*=(vec<T, 4>& xs, const qua<T>& ys) {
         return (xs = (xs * ys));
     }
 
