@@ -63,4 +63,10 @@ TEST_CASE("vmath/qua_fun") {
         STATIC_REQUIRE(float3{1,2,3} * fqua{} == uapprox3(1.f,2.f,3.f));
         STATIC_REQUIRE(float3{1,0,0} * fqua{0,0,0.7071067812f,0.7071067812f} == uapprox3(0.f,1.f,0.f));
     }
+
+    SUBCASE("Common Functions") {
+        REQUIRE_FALSE(any(isnan(fqua(1,1,1,1))));
+        REQUIRE_FALSE(any(isinf(fqua(1,1,1,1))));
+        REQUIRE(all(isfinite(fqua(1,1,1,1))));
+    }
 }
