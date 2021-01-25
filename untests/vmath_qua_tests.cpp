@@ -23,35 +23,26 @@ TEST_CASE("vmath/qua") {
     }
 
     SUBCASE("guides") {
-        STATIC_REQUIRE(qua{1}.size == 4);
         STATIC_REQUIRE(qua{1,2,3,4}.size == 4);
         STATIC_REQUIRE(qua{{1,2,3},4}.size == 4);
         STATIC_REQUIRE(qua{vec{1,2,3},4}.size == 4);
         STATIC_REQUIRE(qua{{1,2,3,4}}.size == 4);
-        STATIC_REQUIRE(qua{vec{1,2,3,4}}.size == 4);
+        STATIC_REQUIRE(qua(vec{1,2,3,4}).size == 4);
     }
 
     SUBCASE("ctors") {
         {
-            STATIC_REQUIRE(fqua{}.x == 0.f);
-            STATIC_REQUIRE(fqua{}.y == 0.f);
-            STATIC_REQUIRE(fqua{}.z == 0.f);
-            STATIC_REQUIRE(fqua{}.w == 1.f);
+            STATIC_REQUIRE(fqua{}.v == uapprox3(0.f));
+            STATIC_REQUIRE(fqua{}.s == uapprox(1.f));
 
-            STATIC_REQUIRE(fqua{1,2,3,4}.x == 1.f);
-            STATIC_REQUIRE(fqua{1,2,3,4}.y == 2.f);
-            STATIC_REQUIRE(fqua{1,2,3,4}.z == 3.f);
-            STATIC_REQUIRE(fqua{1,2,3,4}.w == 4.f);
+            STATIC_REQUIRE(fqua{1,2,3,4}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_REQUIRE(fqua{1,2,3,4}.s == uapprox(4.f));
 
-            STATIC_REQUIRE(fqua{{1,2,3},4}.x == 1.f);
-            STATIC_REQUIRE(fqua{{1,2,3},4}.y == 2.f);
-            STATIC_REQUIRE(fqua{{1,2,3},4}.z == 3.f);
-            STATIC_REQUIRE(fqua{{1,2,3},4}.w == 4.f);
+            STATIC_REQUIRE(fqua{{1,2,3},4}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_REQUIRE(fqua{{1,2,3},4}.s == uapprox(4.f));
 
-            STATIC_REQUIRE(fqua{{1,2,3,4}}.x == 1.f);
-            STATIC_REQUIRE(fqua{{1,2,3,4}}.y == 2.f);
-            STATIC_REQUIRE(fqua{{1,2,3,4}}.z == 3.f);
-            STATIC_REQUIRE(fqua{{1,2,3,4}}.w == 4.f);
+            STATIC_REQUIRE(fqua{{1,2,3,4}}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_REQUIRE(fqua{{1,2,3,4}}.s == uapprox(4.f));
         }
         {
             constexpr fqua q(1,2,3,4);
@@ -64,9 +55,9 @@ TEST_CASE("vmath/qua") {
             STATIC_REQUIRE(q2 == fqua(1,2,3,4));
         }
         {
-            STATIC_REQUIRE(fqua(2) == fqua(0,0,0,2));
             STATIC_REQUIRE(fqua(1,2,3,4) == fqua(1,2,3,4));
             STATIC_REQUIRE(fqua(float3(1,2,3),4) == fqua(1,2,3,4));
+            STATIC_REQUIRE(fqua(float4(1,2,3,4)) == fqua(1,2,3,4));
         }
     }
 
@@ -185,24 +176,20 @@ TEST_CASE("vmath/qua") {
 
     SUBCASE("operator[]") {
         {
-            STATIC_REQUIRE(fqua(1,2,3,4).x == 1);
-            STATIC_REQUIRE(fqua(1,2,3,4).y == 2);
-            STATIC_REQUIRE(fqua(1,2,3,4).z == 3);
-            STATIC_REQUIRE(fqua(1,2,3,4).w == 4);
+            STATIC_REQUIRE(qua(1,2,3,4).v == vec(1,2,3));
+            STATIC_REQUIRE(qua(1,2,3,4).s == 4);
         }
         {
-            STATIC_REQUIRE(fqua(1,2,3,4)[0] == 1);
-            STATIC_REQUIRE(fqua(1,2,3,4)[1] == 2);
-            STATIC_REQUIRE(fqua(1,2,3,4)[2] == 3);
-            STATIC_REQUIRE(fqua(1,2,3,4)[3] == 4);
+            STATIC_REQUIRE(qua(1,2,3,4)[0] == 1);
+            STATIC_REQUIRE(qua(1,2,3,4)[1] == 2);
+            STATIC_REQUIRE(qua(1,2,3,4)[2] == 3);
+            STATIC_REQUIRE(qua(1,2,3,4)[3] == 4);
         }
         {
-            fqua v;
-            v.x = 1;
-            v.y = 2;
-            v.z = 3;
-            v.w = 4;
-            REQUIRE(v == fqua(1,2,3,4));
+            qua<int> v;
+            v.v = vec(1,2,3);
+            v.s = 4;
+            REQUIRE(v == qua(1,2,3,4));
         }
     }
 
