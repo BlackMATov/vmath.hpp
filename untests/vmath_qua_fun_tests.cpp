@@ -69,4 +69,16 @@ TEST_CASE("vmath/qua_fun") {
         REQUIRE_FALSE(any(isinf(fqua(1,1,1,1))));
         REQUIRE(all(isfinite(fqua(1,1,1,1))));
     }
+
+    SUBCASE("Geometric Functions") {
+        STATIC_REQUIRE(dot(qua(1,2,3,4),qua(3,4,5,6)) == 50);
+
+        REQUIRE(length(fqua(10.f,0.f,0.f,0.f)) == uapprox(10.f));
+        REQUIRE(length(fqua(-10.f,0.f,0.f,0.f)) == uapprox(10.f));
+
+        STATIC_REQUIRE(length2(fqua(10.f,0.f,0.f,0.f)) == uapprox(100.f));
+        STATIC_REQUIRE(length2(fqua(-10.f,0.f,0.f,0.f)) == uapprox(100.f));
+
+        REQUIRE(normalize(fqua(0.5f,0.f,0.f,0.f)).v == uapprox3(1.f,0.f,0.f));
+    }
 }

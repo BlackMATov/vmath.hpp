@@ -167,5 +167,29 @@ namespace vmath_hpp
     }
 }
 
+//
+// Geometric Functions
+//
+
+namespace vmath_hpp
+{
+    template < typename T >
+    [[nodiscard]] constexpr T dot(const qua<T>& xs, const qua<T>& ys) {
+        return dot(vec{xs}, vec{ys});
+    }
+
+    template < typename T >
+    [[nodiscard]] T length(const qua<T>& xs) {
+        return length(vec{xs});
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr T length2(const qua<T>& xs) {
+        return length2(vec{xs});
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> normalize(const qua<T>& xs) {
+        return qua(normalize(vec{xs}));
     }
 }
