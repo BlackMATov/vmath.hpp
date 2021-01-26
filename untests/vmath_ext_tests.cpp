@@ -285,11 +285,19 @@ TEST_CASE("vmath/ext") {
         REQUIRE(rotate(float2(2.f,0.f), radians(90.f)) == uapprox2(0.f,2.f));
         REQUIRE(rotate(float2(1.5f,0.f), radians(-90.f)) == uapprox2(0.f,-1.5f));
 
+        REQUIRE(rotate_x(float3(0.f,1.5f,0.f), radians(90.f)) == uapprox3(0.f,0.f,1.5f));
+        REQUIRE(rotate_y(float3(0.f,0.f,1.5f), radians(90.f)) == uapprox3(1.5f,0.f,0.f));
+        REQUIRE(rotate_z(float3(1.5f,0.f,0.f), radians(90.f)) == uapprox3(0.f,1.5f,0.f));
+
         REQUIRE(rotate(float3(1.5f,0.f,0.f), qrotate_z(radians(90.f))) == uapprox3(0.f,1.5f,0.f));
         REQUIRE(rotate(float3(1.5f,0.f,0.f), radians(90.f), float3(0,0,1)) == uapprox3(0.f,1.5f,0.f));
 
-        REQUIRE(rotate(float4(1.5f,0.f,0.f,1.f), qrotate_z(radians(90.f))) == uapprox4(0.f,1.5f,0.f,1.f));
-        REQUIRE(rotate(float4(1.5f,0.f,0.f,1.f), radians(90.f), float3(0,0,1)) == uapprox4(0.f,1.5f,0.f,1.f));
+        REQUIRE(rotate_x(float4(0.f,1.5f,0.f,2.f), radians(90.f)) == uapprox4(0.f,0.f,1.5f,2.f));
+        REQUIRE(rotate_y(float4(0.f,0.f,1.5f,2.f), radians(90.f)) == uapprox4(1.5f,0.f,0.f,2.f));
+        REQUIRE(rotate_z(float4(1.5f,0.f,0.f,2.f), radians(90.f)) == uapprox4(0.f,1.5f,0.f,2.f));
+
+        REQUIRE(rotate(float4(1.5f,0.f,0.f,2.f), qrotate_z(radians(90.f))) == uapprox4(0.f,1.5f,0.f,2.f));
+        REQUIRE(rotate(float4(1.5f,0.f,0.f,2.f), radians(90.f), float3(0,0,1)) == uapprox4(0.f,1.5f,0.f,2.f));
     }
 
     SECTION("vector project") {
