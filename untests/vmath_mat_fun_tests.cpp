@@ -58,7 +58,8 @@ TEST_CASE("vmath/mat_fun") {
     }
 
     SECTION("operators") {
-        STATIC_REQUIRE(-int2x2(1,2,3,4) == int2x2(-1,-2,-3,-4));
+        STATIC_REQUIRE(+int2x2(1,-2,3,-4) == int2x2(1,-2,3,-4));
+        STATIC_REQUIRE(-int2x2(1,-2,3,-4) == int2x2(-1,2,-3,4));
         STATIC_REQUIRE(~uint2x2(0xF0F0F0F0,0x0F0F0F0F,0xF0F0F0F0,0x0F0F0F0F) == uint2x2(0x0F0F0F0F,0xF0F0F0F0,0x0F0F0F0F,0xF0F0F0F0));
         STATIC_REQUIRE(!int2x2(-1,0,1,2) == bool2x2(false,true,false,false));
 

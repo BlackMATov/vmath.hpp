@@ -165,6 +165,13 @@ namespace vmath_hpp::detail
 
 namespace vmath_hpp
 {
+    // +operator
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> operator+(const vec<T, Size>& xs) {
+        return xs;
+    }
+
     // -operator
 
     template < typename T, std::size_t Size >
