@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "vmath_tests.hpp"
-#include "doctest/doctest.hpp"
+#include "catch/catch.hpp"
 
 namespace
 {
@@ -14,7 +14,7 @@ namespace
 }
 
 TEST_CASE("vmath/mat") {
-    SUBCASE("size/sizeof") {
+    SECTION("size/sizeof") {
         STATIC_REQUIRE(int2x2{}.size == 2);
         STATIC_REQUIRE(int3x3{}.size == 3);
         STATIC_REQUIRE(int4x4{}.size == 4);
@@ -24,7 +24,7 @@ TEST_CASE("vmath/mat") {
         STATIC_REQUIRE(sizeof(int4x4{}) == sizeof(int) * 4 * 4);
     }
 
-    SUBCASE("guides") {
+    SECTION("guides") {
         STATIC_REQUIRE(mat{1,2,3,4}.size == 2);
         STATIC_REQUIRE(mat{{1,2},{3,4}}.size == 2);
         STATIC_REQUIRE(mat{vec{1,2},vec{3,4}}.size == 2);
@@ -40,7 +40,7 @@ TEST_CASE("vmath/mat") {
         STATIC_REQUIRE(mat{mat{1,2,3,4,5,6,7,8,9},vec{5,6,7}}.size == 4);
     }
 
-    SUBCASE("ctors") {
+    SECTION("ctors") {
         {
             STATIC_REQUIRE(int2x2()[0] == int2(1,0));
             STATIC_REQUIRE(int2x2()[1] == int2(0,1));
@@ -93,7 +93,7 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SUBCASE("operator=") {
+    SECTION("operator=") {
         {
             int2x2 v(1,2,3,4);
             int2x2 v2;
@@ -108,7 +108,7 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SUBCASE("swap") {
+    SECTION("swap") {
         {
             int2x2 v1(1,2,3,4);
             int2x2 v2(4,5,6,7);
@@ -125,7 +125,7 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SUBCASE("iter") {
+    SECTION("iter") {
         {
             int2x2 m{1,2,3,4};
 
@@ -195,7 +195,7 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SUBCASE("data") {
+    SECTION("data") {
         {
             int2x2 m2;
             REQUIRE(m2.data() == &m2[0]);
@@ -218,7 +218,7 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SUBCASE("operator[]") {
+    SECTION("operator[]") {
         {
             STATIC_REQUIRE(int2x2()[0] == int2(1,0));
             STATIC_REQUIRE(int2x2()[1] == int2(0,1));
@@ -255,13 +255,13 @@ TEST_CASE("vmath/mat") {
         }
     }
 
-    SUBCASE("at") {
+    SECTION("at") {
         STATIC_REQUIRE(int2x2(1,2,3,4).at(0) == int2(1,2));
         STATIC_REQUIRE(int2x2(1,2,3,4).at(1) == int2(3,4));
         REQUIRE_THROWS_AS((void)int2x2(1,2,3,4).at(2), std::out_of_range);
     }
 
-    SUBCASE("operator==/operator!=") {
+    SECTION("operator==/operator!=") {
         STATIC_REQUIRE(int2x2(1,2,3,4) == int2x2(1,2,3,4));
         STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) == int2x2(2,2,3,4));
         STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) == int2x2(1,3,3,4));
@@ -271,7 +271,7 @@ TEST_CASE("vmath/mat") {
         STATIC_REQUIRE(int2x2(1,2,3,4) != int2x2(1,3,3,4));
     }
 
-    SUBCASE("operator<") {
+    SECTION("operator<") {
         STATIC_REQUIRE_FALSE(int2x2(1,2,3,4) < int2x2(1,2,3,4));
 
         STATIC_REQUIRE(int2x2(1,1,3,4) < int2x2(1,2,3,4));

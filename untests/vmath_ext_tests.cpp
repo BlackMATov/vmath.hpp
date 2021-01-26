@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "vmath_tests.hpp"
-#include "doctest/doctest.hpp"
+#include "catch/catch.hpp"
 
 #include <set>
 #include <map>
@@ -19,7 +19,7 @@ namespace
 }
 
 TEST_CASE("vmath/ext") {
-    SUBCASE("units") {
+    SECTION("units") {
         STATIC_REQUIRE(zero2<int> == int2(0,0));
         STATIC_REQUIRE(zero3<int> == int3(0,0,0));
         STATIC_REQUIRE(zero4<int> == int4(0,0,0,0));
@@ -52,7 +52,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(identity4x4<int> == int4x4());
     }
 
-    SUBCASE("vector hash") {
+    SECTION("vector hash") {
         REQUIRE(std::hash<int2>{}({1,2}) == std::hash<int2>{}({1,2}));
         REQUIRE_FALSE(std::hash<int2>{}({1,2}) == std::hash<int2>{}({2,1}));
 
@@ -90,7 +90,7 @@ TEST_CASE("vmath/ext") {
         }
     }
 
-    SUBCASE("matrix hash") {
+    SECTION("matrix hash") {
         REQUIRE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,3,4}));
         REQUIRE_FALSE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,4,3}));
 
@@ -122,7 +122,7 @@ TEST_CASE("vmath/ext") {
         }
     }
 
-    SUBCASE("quaternion hash") {
+    SECTION("quaternion hash") {
         REQUIRE(std::hash<fqua>{}({1,2,3,4}) == std::hash<fqua>{}({1,2,3,4}));
         REQUIRE_FALSE(std::hash<fqua>{}({1,2,3,4}) == std::hash<fqua>{}({3,2,1,4}));
 
@@ -154,7 +154,7 @@ TEST_CASE("vmath/ext") {
         }
     }
 
-    SUBCASE("cast_to") {
+    SECTION("cast_to") {
         {
             constexpr auto i = cast_to<int>(1.5f);
             STATIC_REQUIRE(i == 1);
@@ -177,7 +177,7 @@ TEST_CASE("vmath/ext") {
         }
     }
 
-    SUBCASE("component") {
+    SECTION("component") {
         STATIC_REQUIRE(component(int2{1,2}, 0) == 1);
         STATIC_REQUIRE(component(int2{1,2}, 1) == 2);
 
@@ -185,7 +185,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(component(int2{0,0}, 1, 2) == int2{0,2});
     }
 
-    SUBCASE("row") {
+    SECTION("row") {
         STATIC_REQUIRE(row(int2x2(1,2,3,4), 0) == int2(1,2));
         STATIC_REQUIRE(row(int2x2(1,2,3,4), 1) == int2(3,4));
 
@@ -193,7 +193,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(row(int2x2(), 1, {3,4}) == int2x2(1,0,3,4));
     }
 
-    SUBCASE("column") {
+    SECTION("column") {
         STATIC_REQUIRE(column(int2x2(1,2,3,4), 0) == int2(1,3));
         STATIC_REQUIRE(column(int2x2(1,2,3,4), 1) == int2(2,4));
 
@@ -201,7 +201,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(column(int2x2(), 1, {3,4}) == int2x2(1,3,0,4));
     }
 
-    SUBCASE("matrix translate") {
+    SECTION("matrix translate") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(float2{1.f,2.f}) == uapprox3(3.f,5.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(translate(float2{1.f,2.f}), float2{1.f,2.f}) == uapprox3(4.f,7.f,1.f));
 
@@ -209,7 +209,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(translate(float3{1.f,2.f,3.f}), float3{1.f,2.f,3.f}) == uapprox4(4.f,7.f,10.f,1.f));
     }
 
-    SUBCASE("matrix rotate") {
+    SECTION("matrix rotate") {
         constexpr float pi = radians(180.f);
         constexpr float pi_2 = radians(90.f);
         constexpr float pi_4 = radians(45.f);
@@ -231,7 +231,7 @@ TEST_CASE("vmath/ext") {
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,float3{0.f,0.f,1.f}),pi_2,float3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
     }
 
-    SUBCASE("matrix scale") {
+    SECTION("matrix scale") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(float2{2.f,3.f}) == uapprox3(4.f,9.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
@@ -241,7 +241,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), float3{2.f,3.f,4.f}) == uapprox4(8.f,18.f,32.f,1.f));
     }
 
-    SUBCASE("matrix shear") {
+    SECTION("matrix shear") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(0.f) == uapprox3(2.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(1.f) == uapprox3(5.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(shear_x(1.f),1.f) == uapprox3(8.f,3.f,1.f));
@@ -257,7 +257,7 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(0.f,1.f)),float2(0.f,1.f)) == uapprox3(2.f,7.f,1.f));
     }
 
-    SUBCASE("matrix look_at") {
+    SECTION("matrix look_at") {
         (void)look_at_lh(float3(-10.f), float3(0.f), float3(0,-1,0));
         (void)look_at_rh(float3(-10.f), float3(0.f), float3(0,-1,0));
 
@@ -272,7 +272,7 @@ TEST_CASE("vmath/ext") {
         (void)perspective_rh_no(1.f, 1.3f, 0.f, 10.f);
     }
 
-    SUBCASE("vector angle") {
+    SECTION("vector angle") {
         REQUIRE(angle(float2(2.f,0.f), float2(0.f,1.f)) == uapprox(radians(90.f)));
         REQUIRE(angle(float2(0.f,3.f), float2(1.f,0.f)) == uapprox(radians(90.f)));
         REQUIRE(angle(float2(0.5f,0.f), float2(-1.f,0.f)) == uapprox(radians(180.f)));
@@ -281,7 +281,7 @@ TEST_CASE("vmath/ext") {
         REQUIRE(angle(float3(0.f,0.f,3.f), float3(0.f,1.f,0.f)) == uapprox(radians(90.f)));
     }
 
-    SUBCASE("vector rotate") {
+    SECTION("vector rotate") {
         REQUIRE(rotate(float2(2.f,0.f), radians(90.f)) == uapprox2(0.f,2.f));
         REQUIRE(rotate(float2(1.5f,0.f), radians(-90.f)) == uapprox2(0.f,-1.5f));
 
@@ -292,12 +292,12 @@ TEST_CASE("vmath/ext") {
         REQUIRE(rotate(float4(1.5f,0.f,0.f,1.f), radians(90.f), float3(0,0,1)) == uapprox4(0.f,1.5f,0.f,1.f));
     }
 
-    SUBCASE("vector project") {
+    SECTION("vector project") {
         REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == uapprox2(0.f, 2.f));
         REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == uapprox3(0.f, 0.f, 2.f));
     }
 
-    SUBCASE("quaternion qrotate") {
+    SECTION("quaternion qrotate") {
         constexpr float pi = radians(180.f);
         constexpr float pi_2 = radians(90.f);
         constexpr float pi_4 = radians(45.f);

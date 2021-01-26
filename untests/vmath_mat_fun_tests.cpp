@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "vmath_tests.hpp"
-#include "doctest/doctest.hpp"
+#include "catch/catch.hpp"
 
 namespace
 {
@@ -31,7 +31,7 @@ namespace
 }
 
 TEST_CASE("vmath/mat_fun") {
-    SUBCASE("detail") {
+    SECTION("detail") {
         STATIC_REQUIRE(map_join([](const int2& x){
             return x * 2;
         }, int2x2{}) == int2x2(2,0,0,2));
@@ -57,7 +57,7 @@ TEST_CASE("vmath/mat_fun") {
         }, int2x2{}) == int2(1,1));
     }
 
-    SUBCASE("operators") {
+    SECTION("operators") {
         STATIC_REQUIRE(-int2x2(1,2,3,4) == int2x2(-1,-2,-3,-4));
         STATIC_REQUIRE(~uint2x2(0xF0F0F0F0,0x0F0F0F0F,0xF0F0F0F0,0x0F0F0F0F) == uint2x2(0x0F0F0F0F,0xF0F0F0F0,0x0F0F0F0F,0xF0F0F0F0));
         STATIC_REQUIRE(!int2x2(-1,0,1,2) == bool2x2(false,true,false,false));
@@ -163,7 +163,7 @@ TEST_CASE("vmath/mat_fun") {
         }
     }
 
-    SUBCASE("relational functions") {
+    SECTION("relational functions") {
         STATIC_REQUIRE_FALSE(any(bool2x2(false, false, false, false)));
         STATIC_REQUIRE(any(bool2x2(true, false, true, false)));
         STATIC_REQUIRE(any(bool2x2(false, true, false, true)));
@@ -225,7 +225,7 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_REQUIRE(not_equal_to(1,int2x2(0,1,2,3)) == bool2x2(true, false, true, true));
     }
 
-    SUBCASE("transpose") {
+    SECTION("transpose") {
         STATIC_REQUIRE(transpose(int2x2(
             1, 2,
             3, 4
@@ -257,7 +257,7 @@ TEST_CASE("vmath/mat_fun") {
         ));
     }
 
-    SUBCASE("determinant") {
+    SECTION("determinant") {
         constexpr int2x2 m2{1,2,3,4};
         constexpr int3x3 m3{1,2,3,4,5,6,7,8,9};
         constexpr int4x4 m4{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
@@ -274,7 +274,7 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_REQUIRE(determinant(transpose(generate_frank_matrix<int, 4>())) == 1);
     }
 
-    SUBCASE("inverse") {
+    SECTION("inverse") {
         STATIC_REQUIRE(inverse(float2x2()) == float2x2());
         STATIC_REQUIRE(inverse(float3x3()) == float3x3());
         STATIC_REQUIRE(inverse(float4x4()) == float4x4());

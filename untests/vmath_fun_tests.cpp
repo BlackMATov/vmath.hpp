@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "vmath_tests.hpp"
-#include "doctest/doctest.hpp"
+#include "catch/catch.hpp"
 
 namespace
 {
@@ -14,7 +14,7 @@ namespace
 }
 
 TEST_CASE("vmath/fun") {
-    SUBCASE("Angle and Trigonometry Functions") {
+    SECTION("Angle and Trigonometry Functions") {
         STATIC_REQUIRE(radians(degrees(12.13f)) == uapprox(12.13f));
         STATIC_REQUIRE(degrees(radians(12.13f)) == uapprox(12.13f));
 
@@ -43,7 +43,7 @@ TEST_CASE("vmath/fun") {
         }
     }
 
-    SUBCASE("Exponential Functions") {
+    SECTION("Exponential Functions") {
         (void)pow(2.f, 3.f);
         (void)exp(2.f);
         (void)log(2.f);
@@ -53,7 +53,7 @@ TEST_CASE("vmath/fun") {
         (void)rsqrt(2.f);
     }
 
-    SUBCASE("Common Functions") {
+    SECTION("Common Functions") {
         STATIC_REQUIRE(vmath_hpp::abs(1) == 1);
         STATIC_REQUIRE(vmath_hpp::abs(-1) == 1);
         STATIC_REQUIRE(vmath_hpp::abs(1.f) == uapprox(1.f));
@@ -121,7 +121,7 @@ TEST_CASE("vmath/fun") {
         REQUIRE(ldexp(0.85f, 1) == uapprox(1.7f));
     }
 
-    SUBCASE("Geometric Functions") {
+    SECTION("Geometric Functions") {
         STATIC_REQUIRE(length(10.f) == uapprox(10.f));
         STATIC_REQUIRE(length(-10.f) == uapprox(10.f));
 
@@ -142,7 +142,7 @@ TEST_CASE("vmath/fun") {
         REQUIRE(refract(1.f, 2.f, 1.f) == uapprox(-7.f));
     }
 
-    SUBCASE("Relational Functions") {
+    SECTION("Relational Functions") {
         STATIC_REQUIRE_FALSE(any(false));
         STATIC_REQUIRE_FALSE(any(0));
         STATIC_REQUIRE(any(true));
