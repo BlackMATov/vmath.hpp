@@ -96,6 +96,10 @@ TEST_CASE("vmath/qua_fun") {
         STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3), 1) == bool4(true, true, true, false));
         STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3), 2) == bool4(true, true, true, true));
 
+        STATIC_REQUIRE(less(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, false, true, true));
+        STATIC_REQUIRE(less_equal(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, true, true));
+        STATIC_REQUIRE(greater(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, false, false, false));
+        STATIC_REQUIRE(greater_equal(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, true, false, false));
         STATIC_REQUIRE(equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
         STATIC_REQUIRE(not_equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, false, true, true));
     }

@@ -222,6 +222,34 @@ namespace vmath_hpp
         return approx(vec{xs}, vec{ys}, epsilon);
     }
 
+    // less
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<bool, 4> less(const qua<T>& xs, const qua<T>& ys) {
+        return less(vec{xs}, vec{ys});
+    }
+
+    // less_equal
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<bool, 4> less_equal(const qua<T>& xs, const qua<T>& ys) {
+        return less_equal(vec{xs}, vec{ys});
+    }
+
+    // greater
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<bool, 4> greater(const qua<T>& xs, const qua<T>& ys) {
+        return greater(vec{xs}, vec{ys});
+    }
+
+    // greater_equal
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<bool, 4> greater_equal(const qua<T>& xs, const qua<T>& ys) {
+        return greater_equal(vec{xs}, vec{ys});
+    }
+
     // equal_to
 
     template < typename T >
