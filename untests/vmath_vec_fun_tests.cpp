@@ -272,43 +272,16 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(all(int2(1, 1)));
 
         STATIC_REQUIRE(approx(int3(1,1,1), int3(0,1,2)) == bool3(false, true, false));
-        STATIC_REQUIRE(approx(int3(0,1,2),1) == bool3(false, true, false));
-        STATIC_REQUIRE(approx(1,int3(0,1,2)) == bool3(false, true, false));
-
         STATIC_REQUIRE(approx(int4(1,1,1,1), int4(0,1,2,3), 0) == bool4(false, true, false, false));
-        STATIC_REQUIRE(approx(int4(0,1,2,3), 1, 0) == bool4(false, true, false, false));
-        STATIC_REQUIRE(approx(1, int4(0,1,2,3), 0) == bool4(false, true, false, false));
-
         STATIC_REQUIRE(approx(int4(1,1,1,1), int4(0,1,2,3), 1) == bool4(true, true, true, false));
-        STATIC_REQUIRE(approx(int4(0,1,2,3), 1, 1) == bool4(true, true, true, false));
-        STATIC_REQUIRE(approx(1, int4(0,1,2,3), 1) == bool4(true, true, true, false));
-
         STATIC_REQUIRE(approx(int4(1,1,1,1), int4(0,1,2,3), 2) == bool4(true, true, true, true));
-        STATIC_REQUIRE(approx(int4(0,1,2,3), 1, 2) == bool4(true, true, true, true));
-        STATIC_REQUIRE(approx(1, int4(0,1,2,3), 2) == bool4(true, true, true, true));
 
         STATIC_REQUIRE(less(int3(1,1,1), int3(0,1,2)) == bool3(false, false, true));
-        STATIC_REQUIRE(less(int3(0,1,2), 1) == bool3(true, false, false));
-        STATIC_REQUIRE(less(1, int3(0,1,2)) == bool3(false, false, true));
-
         STATIC_REQUIRE(less_equal(int3(1,1,1), int3(0,1,2)) == bool3(false, true, true));
-        STATIC_REQUIRE(less_equal(int3(0,1,2), 1) == bool3(true, true, false));
-        STATIC_REQUIRE(less_equal(1, int3(0,1,2)) == bool3(false, true, true));
-
         STATIC_REQUIRE(greater(int3(1,1,1), int3(0,1,2)) == bool3(true, false, false));
-        STATIC_REQUIRE(greater(int3(0,1,2), 1) == bool3(false, false, true));
-        STATIC_REQUIRE(greater(1, int3(0,1,2)) == bool3(true, false, false));
-
         STATIC_REQUIRE(greater_equal(int3(1,1,1), int3(0,1,2)) == bool3(true, true, false));
-        STATIC_REQUIRE(greater_equal(int3(0,1,2), 1) == bool3(false, true, true));
-        STATIC_REQUIRE(greater_equal(1, int3(0,1,2)) == bool3(true, true, false));
 
         STATIC_REQUIRE(equal_to(int3(1,1,1), int3(0,1,2)) == bool3(false, true, false));
-        STATIC_REQUIRE(equal_to(int3(0,1,2),1) == bool3(false, true, false));
-        STATIC_REQUIRE(equal_to(1,int3(0,1,2)) == bool3(false, true, false));
-
         STATIC_REQUIRE(not_equal_to(int3(1,1,1), int3(0,1,2)) == bool3(true, false, true));
-        STATIC_REQUIRE(not_equal_to(int3(0,1,2),1) == bool3(true, false, true));
-        STATIC_REQUIRE(not_equal_to(1,int3(0,1,2)) == bool3(true, false, true));
     }
 }

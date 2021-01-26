@@ -864,28 +864,8 @@ namespace vmath_hpp
     // approx
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> approx(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return approx(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> approx(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return approx(x, y); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return map_join([](T x, T y){ return approx(x, y); }, xs, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> approx(const vec<T, Size>& xs, T y, T epsilon) {
-        return map_join([y, epsilon](T x){ return approx(x, y, epsilon); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> approx(T x, const vec<T, Size>& ys, T epsilon) {
-        return map_join([x, epsilon](T y){ return approx(x, y, epsilon); }, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -896,31 +876,11 @@ namespace vmath_hpp
     // less
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> less(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return less(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> less(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return less(x, y); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return map_join([](T x, T y){ return less(x, y); }, xs, ys);
     }
 
     // less_equal
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return less_equal(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> less_equal(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return less_equal(x, y); }, ys);
-    }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys) {
@@ -930,31 +890,11 @@ namespace vmath_hpp
     // greater
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> greater(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return greater(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> greater(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return greater(x, y); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return map_join([](T x, T y){ return greater(x, y); }, xs, ys);
     }
 
     // greater_equal
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return greater_equal(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> greater_equal(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return greater_equal(x, y); }, ys);
-    }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys) {
@@ -964,31 +904,11 @@ namespace vmath_hpp
     // equal_to
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return equal_to(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return equal_to(x, y); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return map_join([](T x, T y){ return equal_to(x, y); }, xs, ys);
     }
 
     // not_equal_to
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return not_equal_to(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return not_equal_to(x, y); }, ys);
-    }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
