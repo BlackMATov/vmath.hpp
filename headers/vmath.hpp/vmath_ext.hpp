@@ -698,8 +698,15 @@ namespace vmath_hpp
     // project
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal) {
-        return dot(v, normal) / length2(normal) * normal;
+    [[nodiscard]] constexpr vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal) {
+        return dot(v, normal) / dot(normal, normal) * normal;
+    }
+
+    // perpendicular
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> perpendicular(const vec<T, Size>& v, const vec<T, Size>& normal) {
+        return v - project(v, normal);
     }
 }
 

@@ -301,8 +301,13 @@ TEST_CASE("vmath/ext") {
     }
 
     SECTION("vector project") {
-        REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == uapprox2(0.f, 2.f));
-        REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == uapprox3(0.f, 0.f, 2.f));
+        STATIC_REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == uapprox2(0.f, 2.f));
+        STATIC_REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == uapprox3(0.f, 0.f, 2.f));
+    }
+
+    SECTION("vector perpendicular") {
+        STATIC_REQUIRE(perpendicular(float2(2.f, 2.f), float2(0.f, 1.f)) == uapprox2(2.f, 0.f));
+        STATIC_REQUIRE(perpendicular(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == uapprox3(2.f, 2.f, 0.f));
     }
 
     SECTION("quaternion qrotate") {
