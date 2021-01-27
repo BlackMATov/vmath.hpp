@@ -86,12 +86,28 @@ namespace vmath_hpp
         return x < y ? x : y;
     }
 
-    template < typename T, typename... Ts >
-    [[nodiscard]] std::enable_if_t<
-        std::is_arithmetic_v<T>,
-        std::common_type_t<T, Ts...>>
-    constexpr min(T x, T y, Ts... ts) noexcept {
-        return min(min(x, y), ts...);
+    template < typename T >
+    [[nodiscard]] constexpr T min(std::initializer_list<T> xs) {
+        auto iter = xs.begin();
+        auto smallest = iter++;
+        for ( auto last = xs.end(); iter != last; ++iter ) {
+            if ( *iter < *smallest ) {
+                smallest = iter;
+            }
+        }
+        return *smallest;
+    }
+
+    template < typename T, class Compare >
+    [[nodiscard]] constexpr T min(std::initializer_list<T> xs, Compare comp) {
+        auto iter = xs.begin();
+        auto smallest = iter++;
+        for ( auto last = xs.end(); iter != last; ++iter ) {
+            if ( comp(*iter, *smallest) ) {
+                smallest = iter;
+            }
+        }
+        return *smallest;
     }
 
     template < typename T >
@@ -100,12 +116,28 @@ namespace vmath_hpp
         return x < y ? y : x;
     }
 
-    template < typename T, typename... Ts >
-    [[nodiscard]] std::enable_if_t<
-        std::is_arithmetic_v<T>,
-        std::common_type_t<T, Ts...>>
-    constexpr max(T x, T y, Ts... ts) noexcept {
-        return max(max(x, y), ts...);
+    template < typename T >
+    [[nodiscard]] constexpr T max(std::initializer_list<T> xs) {
+        auto iter = xs.begin();
+        auto largest = iter++;
+        for ( auto last = xs.end(); iter != last; ++iter ) {
+            if ( *largest < *iter ) {
+                largest = iter;
+            }
+        }
+        return *largest;
+    }
+
+    template < typename T, class Compare >
+    [[nodiscard]] constexpr T max(std::initializer_list<T> xs, Compare comp) {
+        auto iter = xs.begin();
+        auto largest = iter++;
+        for ( auto last = xs.end(); iter != last; ++iter ) {
+            if ( comp(*largest, *iter) ) {
+                largest = iter;
+            }
+        }
+        return *largest;
     }
 
     template < typename T >
@@ -422,7 +454,7 @@ namespace vmath_hpp
         if constexpr ( std::is_floating_point_v<T> ) {
             // http://www.realtimecollisiondetection.net/pubs/Tolerances
             const T epsilon = std::numeric_limits<T>::epsilon();
-            return abs(x - y) <= epsilon * max(T(1), abs(x), abs(y));
+            return abs(x - y) <= epsilon * max({T(1), abs(x), abs(y)});
         } else {
             return x == y;
         }
@@ -433,7 +465,7 @@ namespace vmath_hpp
     constexpr approx(T x, T y, T epsilon) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
             // http://www.realtimecollisiondetection.net/pubs/Tolerances
-            return abs(x - y) <= epsilon * max(T(1), abs(x), abs(y));
+            return abs(x - y) <= epsilon * max({T(1), abs(x), abs(y)});
         } else {
             return abs(x - y) <= epsilon;
         }
