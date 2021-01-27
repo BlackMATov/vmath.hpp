@@ -230,6 +230,32 @@ namespace vmath_hpp
     // rotate
 
     template < typename T >
+    [[nodiscard]] mat<T, 4> rotate(const qua<T>& q) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/
+
+        const auto [qv, qs] = normalize(q);
+
+        const T xx = qv.x * qv.x;
+        const T yy = qv.y * qv.y;
+        const T zz = qv.z * qv.z;
+
+        const T xy = qv.x * qv.y;
+        const T xz = qv.x * qv.z;
+        const T yz = qv.y * qv.z;
+
+        const T xw = qv.x * qs;
+        const T yw = qv.y * qs;
+        const T zw = qv.z * qs;
+
+        return {
+            T(1) - (T(2) * (yy + zz)), T(2) * (xy + zw),          T(2) * (xz - yw),          0,
+            T(2) * (xy - zw),          T(1) - (T(2) * (xx + zz)), T(2) * (yz + xw),          0,
+            T(2) * (xz + yw),          T(2) * (yz - xw),          T(1) - (T(2) * (xx + yy)), 0,
+            0,                         0,                         0,                         1};
+    }
+
+    template < typename T >
     [[nodiscard]] mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
         const auto [s, c] = sincos(angle);
         const auto [x, y, z] = normalize(axis);

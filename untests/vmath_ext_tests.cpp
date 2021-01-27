@@ -315,6 +315,10 @@ TEST_CASE("vmath/ext") {
         constexpr float pi_2 = radians(90.f);
         constexpr float pi_4 = radians(45.f);
 
+        REQUIRE(all(approx(
+            rotate(12.3f, float3(1.f,2.f,3.f)),
+            rotate(qrotate(12.3f, float3(1.f,2.f,3.f)) * 2.f))));
+
         REQUIRE(float3(0.f,1.f,0.f) * qrotate_x(pi_2) == uapprox3(0.f,0.f,1.f));
         REQUIRE(float3(0.f,0.f,1.f) * qrotate_y(pi_2) == uapprox3(1.f,0.f,0.f));
         REQUIRE(float3(1.f,0.f,0.f) * qrotate_z(pi_2) == uapprox3(0.f,1.f,0.f));
