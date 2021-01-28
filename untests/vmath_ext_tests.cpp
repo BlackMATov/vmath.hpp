@@ -225,10 +225,12 @@ TEST_CASE("vmath/ext") {
         REQUIRE(float3(2.f,3.f,1.f) * rotate(pi) == uapprox3(-2.f,-3.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(pi,float3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(qrotate(pi,float3{0.f,0.f,1.f})) == uapprox4(-2.f,-3.f,4.f,1.f));
 
         REQUIRE(float3(2.f,3.f,1.f) * rotate(rotate(pi_2),pi_2) == uapprox3(-2.f,-3.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,float3{0.f,0.f,1.f}),pi_2,float3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
+        REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(qrotate(pi_2,float3{0.f,0.f,1.f})),qrotate(pi_2,float3{0.f,0.f,1.f})) == uapprox4(-2.f,-3.f,4.f,1.f));
     }
 
     SECTION("matrix scale") {
@@ -244,32 +246,60 @@ TEST_CASE("vmath/ext") {
     SECTION("matrix shear") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(0.f) == uapprox3(2.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(1.f) == uapprox3(5.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(2.f) == uapprox3(8.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(shear_x(1.f),1.f) == uapprox3(8.f,3.f,1.f));
 
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(0.f) == uapprox3(2.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(1.f) == uapprox3(2.f,5.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(2.f) == uapprox3(2.f,7.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_y(shear_y(1.f),1.f) == uapprox3(2.f,7.f,1.f));
 
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,0.f)) == uapprox3(2.f,3.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(1.f,0.f)) == uapprox3(5.f,3.f,1.f));
-        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,1.f)) == uapprox3(2.f,5.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(2.f,0.f)) == uapprox3(8.f,3.f,1.f));
+        STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(float2(0.f,2.f)) == uapprox3(2.f,7.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(1.f,0.f)),float2(1.f,0.f)) == uapprox3(8.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(0.f,1.f)),float2(0.f,1.f)) == uapprox3(2.f,7.f,1.f));
     }
 
+    SECTION("matrix orthographic") {
+        REQUIRE(all(approx(
+            orthographic_lh_no(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
+            orthographic_lh_zo(100.f, 800.f, 50.f, 640.f, 5.f, 10.f) * scale(1.f,1.f,2.f) * translate(0.f,0.f,-1.f))));
+
+        REQUIRE(all(approx(
+            orthographic_rh_no(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
+            orthographic_rh_zo(100.f, 800.f, 50.f, 640.f, 5.f, 10.f) * scale(1.f,1.f,2.f) * translate(0.f,0.f,-1.f))));
+
+        REQUIRE(all(approx(
+            orthographic_lh_no(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
+            scale(1.f,1.f,-1.f) * orthographic_rh_no(100.f, 800.f, 50.f, 640.f, 5.f, 10.f))));
+
+        REQUIRE(all(approx(
+            orthographic_lh_zo(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
+            scale(1.f,1.f,-1.f) * orthographic_rh_zo(100.f, 800.f, 50.f, 640.f, 5.f, 10.f))));
+    }
+
+    SECTION("matrix perspective") {
+        REQUIRE(all(approx(
+            perspective_lh_no(1.5f, 1.3f, 0.f, 10.f),
+            perspective_lh_zo(1.5f, 1.3f, 0.f, 10.f) * scale(1.f,1.f,2.f) * translate(0.f,0.f,-1.f))));
+
+        REQUIRE(all(approx(
+            perspective_rh_no(1.5f, 1.3f, 0.f, 10.f),
+            perspective_rh_zo(1.5f, 1.3f, 0.f, 10.f) * scale(1.f,1.f,2.f) * translate(0.f,0.f,-1.f))));
+
+        REQUIRE(all(approx(
+            perspective_lh_no(1.5f, 1.3f, 0.f, 10.f),
+            scale(1.f,1.f,-1.f) * perspective_rh_no(1.5f, 1.3f, 0.f, 10.f))));
+
+        REQUIRE(all(approx(
+            perspective_lh_zo(1.5f, 1.3f, 0.f, 10.f),
+            scale(1.f,1.f,-1.f) * perspective_rh_zo(1.5f, 1.3f, 0.f, 10.f))));
+    }
+
     SECTION("matrix look_at") {
-        (void)look_at_lh(float3(-10.f), float3(0.f), float3(0,-1,0));
-        (void)look_at_rh(float3(-10.f), float3(0.f), float3(0,-1,0));
-
-        (void)orthographic_lh_zo(0.f, 800.f, 0.f, 640.f, 0.f, 10.f);
-        (void)orthographic_lh_no(0.f, 800.f, 0.f, 640.f, 0.f, 10.f);
-        (void)orthographic_rh_zo(0.f, 800.f, 0.f, 640.f, 0.f, 10.f);
-        (void)orthographic_rh_no(0.f, 800.f, 0.f, 640.f, 0.f, 10.f);
-
-        (void)perspective_lh_zo(1.f, 1.3f, 0.f, 10.f);
-        (void)perspective_lh_no(1.f, 1.3f, 0.f, 10.f);
-        (void)perspective_rh_zo(1.f, 1.3f, 0.f, 10.f);
-        (void)perspective_rh_no(1.f, 1.3f, 0.f, 10.f);
+        (void)look_at_lh(float3(1,2,3), float3(0,0,0), float3(0,2,0));
+        (void)look_at_rh(float3(1,2,3), float3(0,0,0), float3(0,2,0));
     }
 
     SECTION("vector angle") {
