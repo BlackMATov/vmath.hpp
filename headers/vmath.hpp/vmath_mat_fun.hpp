@@ -650,6 +650,9 @@ namespace vmath_hpp
             T a, T b,
             T c, T d)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/twoD/
+
             return
                 + a * d
                 - b * c;
@@ -662,6 +665,9 @@ namespace vmath_hpp
             T d, T e, T f,
             T g, T h, T i)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
+
             return
                 + a * determinant_2x2_impl(e, f, h, i)
                 - b * determinant_2x2_impl(d, f, g, i)
@@ -677,6 +683,9 @@ namespace vmath_hpp
             T i, T j, T k, T l,
             T m, T n, T o, T p)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/fourD/
+
             return
                 + a * determinant_3x3_impl(f, g, h, j, k, l, n, o, p)
                 - b * determinant_3x3_impl(e, g, h, i, k, l, m, o, p)
@@ -717,6 +726,9 @@ namespace vmath_hpp
             T a, T b,
             T c, T d)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/twoD/
+
             const T inv_det = rcp(determinant_2x2_impl(
                 a, b,
                 c, d));
@@ -735,6 +747,9 @@ namespace vmath_hpp
             T d, T e, T f,
             T g, T h, T i)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/
+
             const T inv_det = rcp(determinant_3x3_impl(
                 a, b, c,
                 d, e, f,
@@ -762,6 +777,9 @@ namespace vmath_hpp
             T i, T j, T k, T l,
             T m, T n, T o, T p)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/
+
             const T inv_det = rcp(determinant_4x4_impl(
                 a, b, c, d,
                 e, f, g, h,

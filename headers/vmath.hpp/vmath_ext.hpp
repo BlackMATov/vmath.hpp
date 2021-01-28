@@ -257,6 +257,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
+
         const auto [s, c] = sincos(angle);
         const auto [x, y, z] = normalize(axis);
 
@@ -269,15 +272,20 @@ namespace vmath_hpp
         const T zs = z * s;
 
         const T ic = T(1) - c;
+
+        const T xxm = xx * ic;
+        const T yym = yy * ic;
+        const T zzm = zz * ic;
+
         const T xym = x * y * ic;
         const T xzm = x * z * ic;
         const T yzm = y * z * ic;
 
         return {
-            xx * ic + c, xym + zs,    xzm - ys,    0,
-            xym - zs,    yy * ic + c, yzm + xs,    0,
-            xzm + ys,    yzm - xs,    zz * ic + c, 0,
-            0,           0,           0,           1};
+            xxm + c,  xym + zs, xzm - ys, 0,
+            xym - zs, yym + c,  yzm + xs, 0,
+            xzm + ys, yzm - xs, zzm + c,  0,
+            0,        0,        0,        1};
     }
 
     template < typename T >
@@ -287,6 +295,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate_x(T angle) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
+
         const auto [s, c] = sincos(angle);
         return {
             1,  0, 0, 0,
@@ -302,6 +313,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate_y(T angle) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
+
         const auto [s, c] = sincos(angle);
         return {
             c, 0, -s, 0,
@@ -317,6 +331,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate_z(T angle) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
+
         const auto [s, c] = sincos(angle);
         return {
              c, s, 0, 0,
@@ -360,9 +377,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
-        const vec<T, 3> az = normalize(at - eye);
-        const vec<T, 3> ax = normalize(cross(up, az));
-        const vec<T, 3> ay = cross(az, ax);
+        const vec az = normalize(at - eye);
+        const vec ax = normalize(cross(up, az));
+        const vec ay = cross(az, ax);
 
         const T dx = dot(ax, eye);
         const T dy = dot(ay, eye);
@@ -377,9 +394,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
-        const vec<T, 3> az = normalize(eye - at);
-        const vec<T, 3> ax = normalize(cross(up, az));
-        const vec<T, 3> ay = cross(az, ax);
+        const vec az = normalize(eye - at);
+        const vec ax = normalize(cross(up, az));
+        const vec ay = cross(az, ax);
 
         const T dx = dot(ax, eye);
         const T dy = dot(ay, eye);
@@ -746,6 +763,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] qua<T> qrotate(T angle, const vec<T, 3>& axis) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
+
         const auto [s, c] = sincos(angle * T(0.5));
         const auto [x, y, z] = normalize(axis);
         return {vec{x,y,z} * s, c};
