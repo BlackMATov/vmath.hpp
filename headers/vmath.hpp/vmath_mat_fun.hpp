@@ -733,9 +733,9 @@ namespace vmath_hpp
                 a, b,
                 c, d));
 
-            const mat<T, 2> inv_m(
+            const mat inv_m{
                 d, -b,
-                -c, a);
+                -c, a};
 
             return inv_m * inv_det;
         }
@@ -755,7 +755,7 @@ namespace vmath_hpp
                 d, e, f,
                 g, h, i));
 
-            const mat<T, 3> inv_m(
+            const mat inv_m{
                 e * i - f * h,
                 c * h - b * i,
                 b * f - c * e,
@@ -764,7 +764,7 @@ namespace vmath_hpp
                 c * d - a * f,
                 d * h - e * g,
                 b * g - a * h,
-                a * e - b * d);
+                a * e - b * d};
 
             return inv_m * inv_det;
         }
@@ -786,7 +786,7 @@ namespace vmath_hpp
                 i, j, k, l,
                 m, n, o, p));
 
-            const mat<T, 4> inv_m(
+            const mat inv_m{
                 (f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n)),
                 (j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n)),
                 (n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f)),
@@ -802,7 +802,7 @@ namespace vmath_hpp
                 (e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n)),
                 (i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n)),
                 (m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f)),
-                (a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i)));
+                (a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i))};
 
             return inv_m * inv_det;
         }
