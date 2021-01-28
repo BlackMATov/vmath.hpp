@@ -762,6 +762,62 @@ namespace vmath_hpp
     // qrotate
 
     template < typename T >
+    [[nodiscard]] qua<T> qrotate(const mat<T, 3>& m) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
+
+        const T wv = m[0][0] + m[1][1] + m[2][2];
+        const T xv = m[0][0] - m[1][1] - m[2][2];
+        const T yv = m[1][1] - m[0][0] - m[2][2];
+        const T zv = m[2][2] - m[0][0] - m[1][1];
+
+        struct pmv {
+            const T v{};
+            const int i{};
+        };
+
+        const auto [mv,mi] = max<pmv>({
+            {wv, 0},
+            {xv, 1},
+            {yv, 2},
+            {zv, 3},
+        }, [](auto&& l, auto&& r){
+            return l.v < r.v;
+        });
+
+        const T qv = T(0.5) * sqrt(T(1) + mv);
+        const T rqv = T(0.25) * rcp(qv);
+
+        switch ( mi ) {
+        default:
+        case 0:
+            return {
+                (m[1][2] - m[2][1]) * rqv,
+                (m[2][0] - m[0][2]) * rqv,
+                (m[0][1] - m[1][0]) * rqv,
+                qv};
+        case 1:
+            return {
+                qv,
+                (m[1][0] + m[0][1]) * rqv,
+                (m[2][0] + m[0][2]) * rqv,
+                (m[1][2] - m[2][1]) * rqv};
+        case 2:
+            return {
+                (m[1][0] + m[0][1]) * rqv,
+                qv,
+                (m[2][1] + m[1][2]) * rqv,
+                (m[2][0] - m[0][2]) * rqv};
+        case 3:
+            return {
+                (m[2][0] + m[0][2]) * rqv,
+                (m[2][1] + m[1][2]) * rqv,
+                qv,
+                (m[0][1] - m[1][0]) * rqv};
+        }
+    }
+
+    template < typename T >
     [[nodiscard]] qua<T> qrotate(T angle, const vec<T, 3>& axis) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
@@ -807,5 +863,31 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] qua<T> qrotate_z(const qua<T>& q, T angle) {
         return qrotate(q, angle, unit3_z<T>);
+    }
+
+    // look_at
+
+    template < typename T >
+    [[nodiscard]] qua<T> qlook_at_lh(const vec<T, 3>& dir, const vec<T, 3>& up) {
+        const vec az = normalize(dir);
+        const vec ax = normalize(cross(up, az));
+        const vec ay = cross(az, ax);
+
+        return qrotate(mat{
+            ax.x, ay.x, az.x,
+            ax.y, ay.y, az.y,
+            ax.z, ay.z, az.z});
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qlook_at_rh(const vec<T, 3>& dir, const vec<T, 3>& up) {
+        const vec az = normalize(-dir);
+        const vec ax = normalize(cross(up, az));
+        const vec ay = cross(az, ax);
+
+        return qrotate(mat{
+            ax.x, ay.x, az.x,
+            ax.y, ay.y, az.y,
+            ax.z, ay.z, az.z});
     }
 }

@@ -337,4 +337,13 @@ TEST_CASE("vmath/ext") {
         REQUIRE(qrotate_y(12.3f) == qrotate(12.3f, unit3_y<float> * 2.f));
         REQUIRE(qrotate_z(12.3f) == qrotate(12.3f, unit3_z<float> * 2.f));
     }
+
+    SECTION("quaternion look_at") {
+        REQUIRE(all(approx(
+            qlook_at_lh(float3(1.f,2.f,3.f), float3(0,1,0)),
+            qrotate(float3x3(look_at_lh(float3(), float3(1.f,2.f,3.f), float3(0,1,0)))))));
+        REQUIRE(all(approx(
+            qlook_at_rh(float3(1.f,2.f,3.f), float3(0,1,0)),
+            qrotate(float3x3(look_at_rh(float3(), float3(1.f,2.f,3.f), float3(0,1,0)))))));
+    }
 }
