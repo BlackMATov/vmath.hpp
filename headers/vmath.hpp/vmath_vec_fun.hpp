@@ -465,7 +465,7 @@ namespace vmath_hpp
 }
 
 //
-// Angle and Trigonometry Functions
+// Angle and Trigonometric Functions
 //
 
 namespace vmath_hpp

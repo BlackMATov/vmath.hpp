@@ -130,7 +130,7 @@ TEST_CASE("vmath/vec_fun") {
         }
     }
 
-    SECTION("Angle and Trigonometry Functions") {
+    SECTION("Angle and Trigonometric Functions") {
         STATIC_REQUIRE(radians(degrees(float2(12.13f))) == uapprox2(12.13f));
         STATIC_REQUIRE(degrees(radians(float2(12.13f))) == uapprox2(12.13f));
 
@@ -202,8 +202,13 @@ TEST_CASE("vmath/vec_fun") {
 
         STATIC_REQUIRE(saturate(float3(-1.f,0.5,1.5f)) == uapprox3(0.f,0.5f,1.f));
 
-        STATIC_REQUIRE(lerp(float2(0.f), float2(10.f), 0.5f) == uapprox2(5.f));
-        STATIC_REQUIRE(lerp(float2(0.f), float2(10.f), float2(0.5f)) == uapprox2(5.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), 0.f) == uapprox2(2.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), 0.5f) == uapprox2(6.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), 1.f) == uapprox2(10.f));
+
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(0.f)) == uapprox2(2.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(0.5f)) == uapprox2(6.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(1.f)) == uapprox2(10.f));
 
         STATIC_REQUIRE(step(0.5f, float2(0.4f)) == uapprox2(0.f));
         STATIC_REQUIRE(step(0.5f, float2(0.6f)) == uapprox2(1.f));

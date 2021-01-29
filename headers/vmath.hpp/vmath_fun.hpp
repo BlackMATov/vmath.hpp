@@ -209,7 +209,7 @@ namespace vmath_hpp
 }
 
 //
-// Angle and Trigonometry Functions
+// Angle and Trigonometric Functions
 //
 
 namespace vmath_hpp
@@ -228,94 +228,63 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    sin(T x) noexcept {
-        return std::sin(x);
-    }
+    sin(T x) noexcept { return std::sin(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    cos(T x) noexcept {
-        return std::cos(x);
-    }
+    cos(T x) noexcept { return std::cos(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    tan(T x) noexcept {
-        return std::tan(x);
-    }
+    tan(T x) noexcept { return std::tan(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    asin(T x) noexcept {
-        return std::asin(x);
-    }
+    asin(T x) noexcept { return std::asin(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    acos(T x) noexcept {
-        return std::acos(x);
-    }
+    acos(T x) noexcept { return std::acos(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atan(T x) noexcept {
-        return std::atan(x);
-    }
+    atan(T x) noexcept { return std::atan(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atan2(T y, T x) noexcept {
-        return std::atan2(y, x);
-    }
+    atan2(T y, T x) noexcept { return std::atan2(y, x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    sinh(T x) noexcept {
-        return std::sinh(x);
-    }
+    sinh(T x) noexcept { return std::sinh(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    cosh(T x) noexcept {
-        return std::cosh(x);
-    }
+    cosh(T x) noexcept { return std::cosh(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    tanh(T x) noexcept {
-        return std::tanh(x);
-    }
+    tanh(T x) noexcept { return std::tanh(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    asinh(T x) noexcept {
-        return std::asinh(x);
-    }
+    asinh(T x) noexcept { return std::asinh(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    acosh(T x) noexcept {
-        return std::acosh(x);
-    }
+    acosh(T x) noexcept { return std::acosh(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atanh(T x) noexcept {
-        return std::atanh(x);
-    }
+    atanh(T x) noexcept { return std::atanh(x); }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, std::pair<T, T>>
-    sincos(T x) noexcept {
-        return {sin(x), cos(x)};
-    }
+    sincos(T x) noexcept { return {sin(x), cos(x)}; }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, void>
-    sincos(T x, T* s, T* c) noexcept {
-        *s = sin(x);
-        *c = cos(x);
-    }
+    sincos(T x, T* s, T* c) noexcept { *s = sin(x); *c = cos(x); }
 }
 
 //

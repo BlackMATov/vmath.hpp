@@ -14,32 +14,28 @@ namespace
 }
 
 TEST_CASE("vmath/fun") {
-    SECTION("Angle and Trigonometry Functions") {
+    SECTION("Angle and Trigonometric Functions") {
         STATIC_REQUIRE(radians(degrees(12.13f)) == uapprox(12.13f));
         STATIC_REQUIRE(degrees(radians(12.13f)) == uapprox(12.13f));
 
-        (void)sin(0.f);
-        (void)cos(0.f);
-        (void)tan(0.f);
+        {
+            REQUIRE(asin(sin(1.23f)) == uapprox(1.23f));
+            REQUIRE(acos(cos(1.23f)) == uapprox(1.23f));
+            REQUIRE(atan(tan(1.23f)) == uapprox(1.23f));
 
-        (void)asin(0.f);
-        (void)acos(0.f);
-        (void)atan(0.f);
-        (void)atan2(0.f, 0.f);
-
-        (void)sinh(0.f);
-        (void)cosh(0.f);
-        (void)tanh(0.f);
-
-        (void)asinh(0.f);
-        (void)acosh(0.f);
-        (void)atanh(0.f);
+            REQUIRE(asinh(sinh(1.23f)) == uapprox(1.23f));
+            REQUIRE(acosh(cosh(1.23f)) == uapprox(1.23f));
+            REQUIRE(atanh(tanh(1.23f)) == uapprox(1.23f));
+        }
 
         {
             float out_s{}, out_c{};
             sincos(15.f, &out_s, &out_c);
             REQUIRE(out_s == uapprox(sin(15.f)));
             REQUIRE(out_c == uapprox(cos(15.f)));
+            const auto [out_s2, out_c2] = sincos(15.f);
+            REQUIRE(out_s2 == uapprox(sin(15.f)));
+            REQUIRE(out_c2 == uapprox(cos(15.f)));
         }
     }
 
@@ -121,7 +117,10 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(saturate(0.5f) == uapprox(0.5f));
         STATIC_REQUIRE(saturate(1.5f) == uapprox(1.f));
 
-        STATIC_REQUIRE(lerp(0.f, 10.f, 0.5f) == uapprox(5.f));
+        STATIC_REQUIRE(lerp(2.f, 10.f, 0.f) == uapprox(2.f));
+        STATIC_REQUIRE(lerp(2.f, 10.f, 0.5f) == uapprox(6.f));
+        STATIC_REQUIRE(lerp(2.f, 10.f, 1.f) == uapprox(10.f));
+
         STATIC_REQUIRE(step(0.5f, 0.4f) == uapprox(0.f));
         STATIC_REQUIRE(step(0.5f, 0.6f) == uapprox(1.f));
         STATIC_REQUIRE(smoothstep(0.f, 1.f, 0.1f) == uapprox(0.028f));

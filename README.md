@@ -58,7 +58,7 @@ Most functions and types are based on the HLSL ([High-Level Shading Language for
 - [Matrix Types](#Matrix-Types)
 - [Vector Operators](#Vector-Operators)
 - [Matrix Operators](#Matrix-Operators)
-- [Angle and Trigonometry Functions](#Angle-and-Trigonometry-Functions)
+- [Angle and Trigonometric Functions](#Angle-and-Trigonometric-Functions)
 - [Exponential Functions](#Exponential-Functions)
 - [Common Functions](#Common-Functions)
 - [Geometric Functions](#Geometric-Functions)
@@ -743,7 +743,7 @@ template < typename T, size_t Size >
 constexpr bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys);
 ```
 
-### Angle and Trigonometry Functions
+### Angle and Trigonometric Functions
 
 #### Scalar
 
