@@ -582,93 +582,91 @@ namespace vmath_hpp
     // orthographic
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> orthographic_lh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> orthographic_lh(T width, T height, T znear, T zfar) {
         /// REFERENCE:
-        /// https://en.wikipedia.org/wiki/Orthographic_projection
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixortholh
 
-        const T sx = T(2) * rcp(right - left);
-        const T sy = T(2) * rcp(top - bottom);
-        const T sz = T(1) * rcp(zfar - znear);
+        const T rwidth = rcp(width);
+        const T rheight = rcp(height);
+        const T frange = rcp(zfar - znear);
 
-        const T tx = - (right + left) * rcp(right - left);
-        const T ty = - (top + bottom) * rcp(top - bottom);
-        const T tz = - znear * rcp(zfar - znear);
+        const T sx = T(2) * rwidth;
+        const T sy = T(2) * rheight;
+        const T sz = frange;
+        const T tz = -frange * znear;
 
         return {
             sx, 0,  0,  0,
             0,  sy, 0,  0,
             0,  0,  sz, 0,
-            tx, ty, tz, 1};
+            0,  0,  tz, 1};
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> orthographic_lh_no(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> orthographic_rh(T width, T height, T znear, T zfar) {
         /// REFERENCE:
-        /// https://en.wikipedia.org/wiki/Orthographic_projection
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixorthorh
 
-        const T sx = T(2) * rcp(right - left);
-        const T sy = T(2) * rcp(top - bottom);
-        const T sz = T(2) * rcp(zfar - znear);
+        const T rwidth = rcp(width);
+        const T rheight = rcp(height);
+        const T frange = rcp(znear - zfar);
 
-        const T tx = - (right + left) * rcp(right - left);
-        const T ty = - (top + bottom) * rcp(top - bottom);
-        const T tz = - (zfar + znear) * rcp(zfar - znear);
+        const T sx = T(2) * rwidth;
+        const T sy = T(2) * rheight;
+        const T sz = frange;
+        const T tz = frange * znear;
 
         return {
             sx, 0,  0,  0,
             0,  sy, 0,  0,
             0,  0,  sz, 0,
-            tx, ty, tz, 1};
+            0,  0,  tz, 1};
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> orthographic_rh_zo(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> orthographic_lh(T left, T right, T bottom, T top, T znear, T zfar) {
         /// REFERENCE:
-        /// https://en.wikipedia.org/wiki/Orthographic_projection
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixorthooffcenterlh
 
-        const T sx = T(2) * rcp(right - left);
-        const T sy = T(2) * rcp(top - bottom);
-        const T sz = -T(1) * rcp(zfar - znear);
-
-        const T tx = - (right + left) * rcp(right - left);
-        const T ty = - (top + bottom) * rcp(top - bottom);
-        const T tz = - znear * rcp(zfar - znear);
+        const T rwidth = rcp(right - left);
+        const T rheight = rcp(top - bottom);
+        const T frange = rcp(zfar - znear);
 
         return {
-            sx, 0,  0,  0,
-            0,  sy, 0,  0,
-            0,  0,  sz, 0,
-            tx, ty, tz, 1};
+            T(2) * rwidth,            0,                         0,               0,
+            0,                        T(2) * rheight,            0,               0,
+            0,                        0,                         frange,          0,
+            -(left + right) * rwidth, -(top + bottom) * rheight, -frange * znear, 1};
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> orthographic_rh_no(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] mat<T, 4> orthographic_rh(T left, T right, T bottom, T top, T znear, T zfar) {
         /// REFERENCE:
-        /// https://en.wikipedia.org/wiki/Orthographic_projection
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixorthooffcenterrh
 
-        const T sx = T(2) * rcp(right - left);
-        const T sy = T(2) * rcp(top - bottom);
-        const T sz = -T(2) * rcp(zfar - znear);
-
-        const T tx = - (right + left) * rcp(right - left);
-        const T ty = - (top + bottom) * rcp(top - bottom);
-        const T tz = - (zfar + znear) * rcp(zfar - znear);
+        const T rwidth = rcp(right - left);
+        const T rheight = rcp(top - bottom);
+        const T frange = rcp(znear - zfar);
 
         return {
-            sx, 0,  0,  0,
-            0,  sy, 0,  0,
-            0,  0,  sz, 0,
-            tx, ty, tz, 1};
+            T(2) * rwidth,            0,                         0,              0,
+            0,                        T(2) * rheight,            0,              0,
+            0,                        0,                         frange,         0,
+            -(left + right) * rwidth, -(top + bottom) * rheight, frange * znear, 1};
     }
 
     // perspective
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_lh_zo(T fov, T aspect, T znear, T zfar) {
-        const T sy = rcp(tan(fov * T(0.5)));
-        const T sx = sy / aspect;
-        const T sz = zfar / (zfar - znear);
-        const T tz = (znear * zfar) / (znear - zfar);
+    [[nodiscard]] mat<T, 4> perspective_lh(T width, T height, T znear, T zfar) {
+        /// REFERENCE:
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivelh
+
+        const T sx = T(2) * znear * rcp(width);
+        const T sy = T(2) * znear * rcp(height);
+        const T sz = zfar * rcp(zfar - znear);
+        const T tz = (znear * zfar) * rcp(znear - zfar);
+
         return {
             sx, 0,  0,  0,
             0,  sy, 0,  0,
@@ -677,25 +675,16 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_lh_no(T fov, T aspect, T znear, T zfar) {
-        const T sy = rcp(tan(fov * T(0.5)));
-        const T sx = sy / aspect;
-        const T sz = (zfar + znear) / (zfar - znear);
-        const T tz = (T(2) * znear * zfar) / (znear - zfar);
-        return {
-            sx, 0,  0,  0,
-            0,  sy, 0,  0,
-            0,  0,  sz, 1,
-            0,  0,  tz, 0};
-    }
+    [[nodiscard]] mat<T, 4> perspective_rh(T width, T height, T znear, T zfar) {
+        /// REFERENCE:
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectiverh
 
-    template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_rh_zo(T fov, T aspect, T znear, T zfar) {
-        const T sy = rcp(tan(fov * T(0.5)));
-        const T sx = sy / aspect;
-        const T sz = zfar / (znear - zfar);
-        const T tz = (znear * zfar) / (znear - zfar);
-        return  {
+        const T sx = T(2) * znear * rcp(width);
+        const T sy = T(2) * znear * rcp(height);
+        const T sz = zfar * rcp(znear - zfar);
+        const T tz = (znear * zfar) * rcp(znear - zfar);
+
+        return {
             sx, 0,  0,   0,
             0,  sy, 0,   0,
             0,  0,  sz, -1,
@@ -703,11 +692,65 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_rh_no(T fov, T aspect, T znear, T zfar) {
-        const T sy = rcp(tan(fov * T(0.5)));
-        const T sx = sy / aspect;
-        const T sz = (zfar + znear) / (znear - zfar);
-        const T tz = (T(2) * znear * zfar) / (znear - zfar);
+    [[nodiscard]] mat<T, 4> perspective_lh(T left, T right, T bottom, T top, T znear, T zfar) {
+        /// REFERENCE:
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectiveoffcenterlh
+
+        const T znear2 = T(2) * znear;
+        const T rwidth = rcp(right - left);
+        const T rheight = rcp(top - bottom);
+        const T frange = zfar * rcp(zfar - znear);
+
+        return {
+            znear2 * rwidth,          0,                         0,               0,
+            0,                        znear2 * rheight,          0,               0,
+            -(left + right) * rwidth, -(top + bottom) * rheight, frange,          1,
+            0,                        0,                         -frange * znear, 0};
+    }
+
+    template < typename T >
+    [[nodiscard]] mat<T, 4> perspective_rh(T left, T right, T bottom, T top, T znear, T zfar) {
+        /// REFERENCE:
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectiveoffcenterrh
+
+        const T znear2 = T(2) * znear;
+        const T rwidth = rcp(right - left);
+        const T rheight = rcp(top - bottom);
+        const T frange = zfar * rcp(znear - zfar);
+
+        return {
+            znear2 * rwidth,         0,                        0,               0,
+            0,                       znear2 * rheight,         0,               0,
+            (left + right) * rwidth, (top + bottom) * rheight, frange,         -1,
+            0,                       0,                        frange * znear,  0};
+    }
+
+    template < typename T >
+    [[nodiscard]] mat<T, 4> perspective_fov_lh(T fovy, T aspect, T znear, T zfar) {
+        /// REFERENCE:
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivefovlh
+
+        const T sy = rcp(tan(fovy * T(0.5)));
+        const T sx = sy * rcp(aspect);
+        const T sz = zfar * rcp(zfar - znear);
+        const T tz = (znear * zfar) * rcp(znear - zfar);
+
+        return {
+            sx, 0,  0,  0,
+            0,  sy, 0,  0,
+            0,  0,  sz, 1,
+            0,  0,  tz, 0};
+    }
+
+    template < typename T >
+    [[nodiscard]] mat<T, 4> perspective_fov_rh(T fovy, T aspect, T znear, T zfar) {
+        /// REFERENCE:
+        /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivefovrh
+
+        const T sy = rcp(tan(fovy * T(0.5)));
+        const T sx = sy * rcp(aspect);
+        const T sz = zfar * rcp(znear - zfar);
+        const T tz = (znear * zfar) * rcp(znear - zfar);
         return  {
             sx, 0,  0,   0,
             0,  sy, 0,   0,

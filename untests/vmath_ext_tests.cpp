@@ -263,38 +263,27 @@ TEST_CASE("vmath/ext") {
 
     SECTION("matrix orthographic") {
         REQUIRE(all(approx(
-            orthographic_lh_no(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
-            orthographic_lh_zo(100.f, 800.f, 50.f, 640.f, 5.f, 10.f) * scale(1.f,1.f,2.f) * translate(0.f,0.f,-1.f))));
+            orthographic_lh(800.f, 600.f, 5.f, 10.f),
+            scale(1.f,1.f,-1.f) * orthographic_rh(800.f, 600.f, 5.f, 10.f))));
 
         REQUIRE(all(approx(
-            orthographic_rh_no(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
-            orthographic_rh_zo(100.f, 800.f, 50.f, 640.f, 5.f, 10.f) * scale(1.f,1.f,2.f) * translate(0.f,0.f,-1.f))));
-
-        REQUIRE(all(approx(
-            orthographic_lh_no(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
-            scale(1.f,1.f,-1.f) * orthographic_rh_no(100.f, 800.f, 50.f, 640.f, 5.f, 10.f))));
-
-        REQUIRE(all(approx(
-            orthographic_lh_zo(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
-            scale(1.f,1.f,-1.f) * orthographic_rh_zo(100.f, 800.f, 50.f, 640.f, 5.f, 10.f))));
+            orthographic_lh(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
+            scale(1.f,1.f,-1.f) * orthographic_rh(100.f, 800.f, 50.f, 640.f, 5.f, 10.f))));
     }
+
 
     SECTION("matrix perspective") {
         REQUIRE(all(approx(
-            perspective_lh_no(1.5f, 1.3f, 0.f, 10.f),
-            perspective_lh_zo(1.5f, 1.3f, 0.f, 10.f) * scale(1.f,1.f,2.f) * translate(0.f,0.f,-1.f))));
+            perspective_lh(800.f, 600.f, 5.f, 10.f),
+            scale(1.f,1.f,-1.f) * perspective_rh(800.f, 600.f, 5.f, 10.f))));
 
         REQUIRE(all(approx(
-            perspective_rh_no(1.5f, 1.3f, 0.f, 10.f),
-            perspective_rh_zo(1.5f, 1.3f, 0.f, 10.f) * scale(1.f,1.f,2.f) * translate(0.f,0.f,-1.f))));
+            perspective_fov_lh(1.5f, 1.3f, 0.f, 10.f),
+            scale(1.f,1.f,-1.f) * perspective_fov_rh(1.5f, 1.3f, 0.f, 10.f))));
 
         REQUIRE(all(approx(
-            perspective_lh_no(1.5f, 1.3f, 0.f, 10.f),
-            scale(1.f,1.f,-1.f) * perspective_rh_no(1.5f, 1.3f, 0.f, 10.f))));
-
-        REQUIRE(all(approx(
-            perspective_lh_zo(1.5f, 1.3f, 0.f, 10.f),
-            scale(1.f,1.f,-1.f) * perspective_rh_zo(1.5f, 1.3f, 0.f, 10.f))));
+            perspective_lh(100.f, 800.f, 50.f, 600.f, 5.f, 10.f),
+            scale(1.f,1.f,-1.f) * perspective_rh(100.f, 800.f, 50.f, 600.f, 5.f, 10.f))));
     }
 
     SECTION("matrix look_at") {
