@@ -162,6 +162,43 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T >
+    [[nodiscard]] qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T a) {
+        return qua(lerp(vec{xs}, vec{ys}, a));
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T xs_a, T ys_a) {
+        return qua(lerp(vec{xs}, vec{ys}, xs_a, ys_a));
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> nlerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
+        const T xs_scale = T(1) - a;
+        const T ys_scale = a * sign(dot(unit_xs, unit_ys));
+        return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> slerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
+        const T raw_cos_theta = dot(unit_xs, unit_ys);
+        const T raw_cos_theta_sign = sign(raw_cos_theta);
+
+        // half degree linear threshold: cos((pi / 180) * 0.25)
+        if ( const T cos_theta = raw_cos_theta * raw_cos_theta_sign; cos_theta < T(0.99999) ) {
+            const T theta = acos(cos_theta);
+            const T rsin_theta = rsqrt(T(1) - sqr(cos_theta));
+            const T xs_scale = sin((T(1) - a) * theta) * rsin_theta;
+            const T ys_scale = sin(a * theta) * raw_cos_theta_sign * rsin_theta;
+            return lerp(unit_xs, unit_ys, xs_scale, ys_scale);
+        } else {
+            // use linear interpolation for small angles
+            const T xs_scale = T(1) - a;
+            const T ys_scale = a * raw_cos_theta_sign;
+            return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
+        }
+    }
+
+    template < typename T >
     [[nodiscard]] vec<bool, 4> isnan(const qua<T>& xs) {
         return isnan(vec{xs});
     }

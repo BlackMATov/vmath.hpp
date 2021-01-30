@@ -73,9 +73,76 @@ TEST_CASE("vmath/qua_fun") {
     }
 
     SECTION("Common Functions") {
-        REQUIRE_FALSE(any(isnan(fqua(1,1,1,1))));
-        REQUIRE_FALSE(any(isinf(fqua(1,1,1,1))));
-        REQUIRE(all(isfinite(fqua(1,1,1,1))));
+        {
+            REQUIRE(all(approx(
+                qrotate_z(radians(5.f)),
+                nlerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.f),
+                0.00001f)));
+            REQUIRE(all(approx(
+                qrotate_z(radians(6.f)),
+                nlerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.1f),
+                0.00001f)));
+            REQUIRE(all(approx(
+                qrotate_z(radians(10.f)),
+                nlerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.5f),
+                0.00001f)));
+            REQUIRE(all(approx(
+                qrotate_z(radians(15.f)),
+                nlerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 1.f),
+                0.00001f)));
+
+            REQUIRE(all(approx(
+                qrotate_z(radians(315.f)),
+                nlerp(qrotate_z(radians(270.f)), qrotate_z(radians(0.f)), 0.5f))));
+            REQUIRE(all(approx(
+                qrotate_z(radians(290.f)),
+                nlerp(qrotate_z(radians(220.f)), qrotate_z(radians(0.f)), 0.5f))));
+        }
+        {
+            REQUIRE(all(approx(
+                qrotate_z(radians(5.f)),
+                slerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.f),
+                0.00001f)));
+            REQUIRE(all(approx(
+                qrotate_z(radians(6.f)),
+                slerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.1f),
+                0.00001f)));
+            REQUIRE(all(approx(
+                qrotate_z(radians(10.f)),
+                slerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.5f),
+                0.00001f)));
+            REQUIRE(all(approx(
+                qrotate_z(radians(15.f)),
+                slerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 1.f),
+                0.00001f)));
+
+            REQUIRE(all(approx(
+                qrotate_z(radians(0.f)),
+                slerp(qrotate_z(radians(0.f)), qrotate_z(radians(0.f)), 0.5f))));
+            REQUIRE(all(approx(
+                qrotate_z(radians(0.25f)),
+                slerp(qrotate_z(radians(0.f)), qrotate_z(radians(0.5f)), 0.5f))));
+
+            REQUIRE(all(approx(
+                qrotate_z(radians(-45.f)),
+                slerp(qrotate_z(radians(0.f)), qrotate_z(radians(270.f)), 0.5f))));
+            REQUIRE(all(approx(
+                qrotate_z(radians(-70.f)),
+                slerp(qrotate_z(radians(0.f)), qrotate_z(radians(220.f)), 0.5f))));
+
+            REQUIRE(all(approx(
+                qrotate_z(radians(315.f)),
+                slerp(qrotate_z(radians(270.f)), qrotate_z(radians(0.f)), 0.5f))));
+            REQUIRE(all(approx(
+                qrotate_z(radians(290.f)),
+                slerp(qrotate_z(radians(220.f)), qrotate_z(radians(0.f)), 0.5f))));
+        }
+
+        {
+            REQUIRE_FALSE(any(isnan(fqua(1,1,1,1))));
+            REQUIRE_FALSE(any(isinf(fqua(1,1,1,1))));
+            REQUIRE(all(isfinite(fqua(1,1,1,1))));
+        }
     }
 
     SECTION("Geometric Functions") {
