@@ -55,6 +55,9 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(vmath_hpp::abs(1.f) == uapprox(1.f));
         STATIC_REQUIRE(vmath_hpp::abs(-1.f) == uapprox(1.f));
 
+        STATIC_REQUIRE(sqr(2) == 4);
+        STATIC_REQUIRE(sqr(-4.f) == uapprox(16.f));
+
         STATIC_REQUIRE(sign(2) == 1);
         STATIC_REQUIRE(sign(-2) == -1);
         STATIC_REQUIRE(sign(0) == 0);
@@ -120,6 +123,10 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(lerp(2.f, 10.f, 0.f) == uapprox(2.f));
         STATIC_REQUIRE(lerp(2.f, 10.f, 0.5f) == uapprox(6.f));
         STATIC_REQUIRE(lerp(2.f, 10.f, 1.f) == uapprox(10.f));
+
+        STATIC_REQUIRE(lerp(2.f, 10.f, 0.f, 1.f) == uapprox(10.f));
+        STATIC_REQUIRE(lerp(2.f, 10.f, 1.f, 0.f) == uapprox(2.f));
+        STATIC_REQUIRE(lerp(2.f, 10.f, 0.5f, 0.2f) == uapprox(3.f));
 
         STATIC_REQUIRE(step(0.5f, 0.4f) == uapprox(0.f));
         STATIC_REQUIRE(step(0.5f, 0.6f) == uapprox(1.f));

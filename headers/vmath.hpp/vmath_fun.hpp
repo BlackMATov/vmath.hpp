@@ -28,6 +28,12 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr sqr(T x) noexcept {
+        return x * x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr sign(T x) noexcept {
         return static_cast<T>((T(0) < x) - (x < T(0)));
     }
@@ -156,6 +162,12 @@ namespace vmath_hpp
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr lerp(T x, T y, T a) noexcept {
         return x * (T(1) - a) + y * a;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr lerp(T x, T y, T x_a, T y_a) noexcept {
+        return x * x_a + y * y_a;
     }
 
     template < typename T >

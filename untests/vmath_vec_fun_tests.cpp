@@ -206,9 +206,17 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), 0.5f) == uapprox2(6.f));
         STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), 1.f) == uapprox2(10.f));
 
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), 0.f, 1.f) == uapprox2(10.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), 1.f, 0.f) == uapprox2(2.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), 0.5f, 0.2f) == uapprox2(3.f));
+
         STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(0.f)) == uapprox2(2.f));
         STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(0.5f)) == uapprox2(6.f));
         STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(1.f)) == uapprox2(10.f));
+
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(0.f), float2(1.f)) == uapprox2(10.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(1.f), float2(0.f)) == uapprox2(2.f));
+        STATIC_REQUIRE(lerp(float2(2.f), float2(10.f), float2(0.5f), float2(0.2f)) == uapprox2(3.f));
 
         STATIC_REQUIRE(step(0.5f, float2(0.4f)) == uapprox2(0.f));
         STATIC_REQUIRE(step(0.5f, float2(0.6f)) == uapprox2(1.f));
