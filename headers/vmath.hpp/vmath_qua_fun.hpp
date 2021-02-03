@@ -76,6 +76,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const qua<T>& ys) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/
+
         const vec qv2 = cross(ys.v, xs) * T(2);
         return xs + qv2 * ys.s + cross(ys.v, qv2);
     }
@@ -87,6 +90,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr qua<T> operator*(const qua<T>& xs, const qua<T>& ys) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/arithmetic/
+
         return {
             cross(ys.v, xs.v) + ys.s * xs.v + xs.s * ys.v,
             ys.s * xs.s - dot(ys.v, xs.v)};
@@ -180,6 +186,9 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] qua<T> slerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
+        /// REFERENCE:
+        /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
+
         const T raw_cos_theta = dot(unit_xs, unit_ys);
         const T raw_cos_theta_sign = sign(raw_cos_theta);
 

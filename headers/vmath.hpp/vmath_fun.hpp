@@ -433,7 +433,8 @@ namespace vmath_hpp
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
     constexpr approx(T x, T y) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
-            // http://www.realtimecollisiondetection.net/pubs/Tolerances
+            /// REFERENCE:
+            /// http://www.realtimecollisiondetection.net/pubs/Tolerances
             const T epsilon = std::numeric_limits<T>::epsilon();
             return abs(x - y) <= epsilon * max({T(1), abs(x), abs(y)});
         } else {
@@ -445,7 +446,8 @@ namespace vmath_hpp
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
     constexpr approx(T x, T y, T epsilon) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
-            // http://www.realtimecollisiondetection.net/pubs/Tolerances
+            /// REFERENCE:
+            /// http://www.realtimecollisiondetection.net/pubs/Tolerances
             return abs(x - y) <= epsilon * max({T(1), abs(x), abs(y)});
         } else {
             return abs(x - y) <= epsilon;
