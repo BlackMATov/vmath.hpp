@@ -201,6 +201,16 @@ TEST_CASE("vmath/ext") {
         STATIC_REQUIRE(column(int2x2(), 1, {3,4}) == int2x2(1,3,0,4));
     }
 
+    SECTION("real") {
+        STATIC_REQUIRE(real(qua{1,2,3,4}) == 4);
+        STATIC_REQUIRE(real(qua{1,2,3,4}, 5) == qua{1,2,3,5});
+    }
+
+    SECTION("imag") {
+        STATIC_REQUIRE(imag(qua{1,2,3,4}) == vec{1,2,3});
+        STATIC_REQUIRE(imag(qua{1,2,3,4}, {4,3,2}) == qua{4,3,2,4});
+    }
+
     SECTION("matrix translate") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(float2{1.f,2.f}) == uapprox3(3.f,5.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(translate(float2{1.f,2.f}), float2{1.f,2.f}) == uapprox3(4.f,7.f,1.f));

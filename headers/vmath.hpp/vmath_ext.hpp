@@ -149,8 +149,8 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> component(vec<T, Size> v, std::size_t index, T x) {
-        v[index] = x;
+    [[nodiscard]] constexpr vec<T, Size> component(vec<T, Size> v, std::size_t index, T component) {
+        v[index] = component;
         return v;
     }
 
@@ -162,8 +162,8 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<T, Size> row(mat<T, Size> m, std::size_t index, const vec<T, Size>& v) {
-        m.rows[index] = v;
+    [[nodiscard]] constexpr mat<T, Size> row(mat<T, Size> m, std::size_t index, const vec<T, Size>& row) {
+        m.rows[index] = row;
         return m;
     }
 
@@ -179,8 +179,8 @@ namespace vmath_hpp
 
         template < typename T, std::size_t Size, std::size_t... Is >
         [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v, std::index_sequence<Is...>) {
-            return { component(m[Is], index, v[Is])... };
+        mat<T, Size> column_impl(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& column, std::index_sequence<Is...>) {
+            return { component(m[Is], index, column[Is])... };
         }
     }
 
@@ -190,8 +190,34 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<T, Size> column(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& v) {
-        return impl::column_impl(m, index, v, std::make_index_sequence<Size>{});
+    [[nodiscard]] constexpr mat<T, Size> column(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& column) {
+        return impl::column_impl(m, index, column, std::make_index_sequence<Size>{});
+    }
+
+    // real
+
+    template < typename T >
+    [[nodiscard]] constexpr T real(const qua<T>& q) {
+        return q.s;
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> real(qua<T> q, T real) {
+        q.s = real;
+        return q;
+    }
+
+    // imag
+
+    template < typename T >
+    [[nodiscard]] constexpr vec<T, 3> imag(const qua<T>& q) {
+        return q.v;
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> imag(qua<T> q, const vec<T, 3>& imag) {
+        q.v = imag;
+        return q;
     }
 }
 
