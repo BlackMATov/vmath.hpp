@@ -245,6 +245,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] T distance(const qua<T>& xs, const qua<T>& ys) {
+        const qua zs = xs * conjugate(ys);
+        return T(2) * atan2(length(zs.v), abs(zs.s));
+    }
+
+    template < typename T >
     [[nodiscard]] constexpr qua<T> normalize(const qua<T>& xs) {
         return qua(normalize(vec{xs}));
     }
