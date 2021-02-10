@@ -262,8 +262,7 @@ TEST_CASE("vmath/mat_fun") {
             constexpr float4x4 rm1 = inverse(m1);
             STATIC_REQUIRE(all(approx(
                 unit4_z<float> * m1 * rm1,
-                unit4_z<float>,
-                uapprox_epsilon_v<float>)));
+                unit4_z<float>)));
         }
 
         {
@@ -272,8 +271,7 @@ TEST_CASE("vmath/mat_fun") {
             const float4x4 rm2 = inverse(m2);
             REQUIRE(all(approx(
                 unit4_z<float> * m2 * rm2,
-                unit4_z<float>,
-                uapprox_epsilon_v<float>)));
+                unit4_z<float>)));
         }
 
         {
@@ -282,8 +280,7 @@ TEST_CASE("vmath/mat_fun") {
             const float3x3 rm3 = inverse(m3);
             REQUIRE(all(approx(
                 unit3_z<float> * m3 * rm3,
-                unit3_z<float>,
-                uapprox_epsilon_v<float>)));
+                unit3_z<float>)));
         }
 
         {
@@ -292,8 +289,7 @@ TEST_CASE("vmath/mat_fun") {
             const float2x2 rm4 = inverse(m4);
             REQUIRE(all(approx(
                 unit2_y<float> * m4 * rm4,
-                unit2_y<float>,
-                uapprox_epsilon_v<float>)));
+                unit2_y<float>)));
         }
     }
 }
