@@ -943,6 +943,33 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] qua<T> qrotate(const qua<T>& q, const mat<T, 3>& m) {
+        return q * qrotate(m);
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate(const vec<T, 3>& from, const vec<T, 3>& to) {
+        /// REFERENCE:
+        /// http://lolengine.net/blog/2014/02/24/quaternion-from-two-vectors-final
+
+        const T n = sqrt(length2(from) * length2(to));
+        const T s = dot(from, to) + n;
+
+        if ( s < T(0.000001) * n ) {
+            return abs(from.x) > abs(from.z)
+                ? normalize(qua{vec{-from.y, from.x, T(0)}, T(0)})
+                : normalize(qua{vec{T(0), -from.z, from.y}, T(0)});
+        }
+
+        return normalize(qua{cross(from, to), s});
+    }
+
+    template < typename T >
+    [[nodiscard]] qua<T> qrotate(const qua<T>& q, const vec<T, 3>& from, const vec<T, 3>& to) {
+        return q * qrotate(from, to);
+    }
+
+    template < typename T >
     [[nodiscard]] qua<T> qrotate(T angle, const vec<T, 3>& axis) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
