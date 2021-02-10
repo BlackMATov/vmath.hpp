@@ -265,23 +265,27 @@ namespace vmath_hpp
 
         const auto [qv, qs] = normalize(q);
 
-        const T xx = qv.x * qv.x;
-        const T yy = qv.y * qv.y;
-        const T zz = qv.z * qv.z;
+        const T x2 = qv.x * T(2);
+        const T y2 = qv.y * T(2);
+        const T z2 = qv.z * T(2);
 
-        const T xy = qv.x * qv.y;
-        const T xz = qv.x * qv.z;
-        const T yz = qv.y * qv.z;
+        const T sx2 = qs * x2;
+        const T sy2 = qs * y2;
+        const T sz2 = qs * z2;
 
-        const T xw = qv.x * qs;
-        const T yw = qv.y * qs;
-        const T zw = qv.z * qs;
+        const T xx2 = qv.x * x2;
+        const T xy2 = qv.x * y2;
+        const T xz2 = qv.x * z2;
+
+        const T yy2 = qv.y * y2;
+        const T yz2 = qv.y * z2;
+        const T zz2 = qv.z * z2;
 
         return {
-            T(1) - (T(2) * (yy + zz)), T(2) * (xy + zw),          T(2) * (xz - yw),          0,
-            T(2) * (xy - zw),          T(1) - (T(2) * (xx + zz)), T(2) * (yz + xw),          0,
-            T(2) * (xz + yw),          T(2) * (yz - xw),          T(1) - (T(2) * (xx + yy)), 0,
-            0,                         0,                         0,                         1};
+            T(1) - (yy2 + zz2), (xy2 + sz2),        (xz2 - sy2),        0,
+            (xy2 - sz2),        T(1) - (xx2 + zz2), (yz2 + sx2),        0,
+            (xz2 + sy2),        (yz2 - sx2),        T(1) - (xx2 + yy2), 0,
+            0,                  0,                  0,                  1};
     }
 
     template < typename T >
@@ -795,7 +799,8 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] T angle(const vec<T, Size>& x, const vec<T, Size>& y) {
-        return acos(dot(x, y) * rsqrt(length2(x) * length2(y)));
+        const T rs = rsqrt(length2(x) * length2(y));
+        return acos(clamp(dot(x, y) * rs, T(-1), T(1)));
     }
 
     // rotate
