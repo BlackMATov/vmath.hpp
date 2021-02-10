@@ -1,0 +1,21 @@
+name: darwin
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-10.15
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+        - { xcode: "10.3" }
+        - { xcode: "11.7" }
+        - { xcode: "12.4" }
+    name: "xcode-${{matrix.compiler.xcode}}"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Select Xcode
+      run: sudo xcode-select --switch "/Applications/Xcode_${{matrix.compiler.xcode}}.app"
+    - name: Build
+      run: .ci/build_darwin.sh
