@@ -5,6 +5,7 @@
  ******************************************************************************/
 
 #include <vmath.hpp/vmath.hpp>
+#include "doctest/doctest.hpp"
 
 namespace vmath_tests
 {

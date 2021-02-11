@@ -5,7 +5,6 @@
  ******************************************************************************/
 
 #include "vmath_tests.hpp"
-#include "catch/catch.hpp"
 
 #include <set>
 #include <map>
@@ -56,7 +55,7 @@ TEST_CASE("vmath/ext/units") {
 }
 
 TEST_CASE("vmath/ext/hash") {
-    SECTION("vector") {
+    SUBCASE("vector") {
         REQUIRE(std::hash<int2>{}({1,2}) == std::hash<int2>{}({1,2}));
         REQUIRE_FALSE(std::hash<int2>{}({1,2}) == std::hash<int2>{}({2,1}));
 
@@ -94,7 +93,7 @@ TEST_CASE("vmath/ext/hash") {
         }
     }
 
-    SECTION("matrix") {
+    SUBCASE("matrix") {
         REQUIRE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,3,4}));
         REQUIRE_FALSE(std::hash<int2x2>{}({1,2,3,4}) == std::hash<int2x2>{}({1,2,4,3}));
 
@@ -126,7 +125,7 @@ TEST_CASE("vmath/ext/hash") {
         }
     }
 
-    SECTION("quaternion") {
+    SUBCASE("quaternion") {
         REQUIRE(std::hash<fqua>{}({1,2,3,4}) == std::hash<fqua>{}({1,2,3,4}));
         REQUIRE_FALSE(std::hash<fqua>{}({1,2,3,4}) == std::hash<fqua>{}({3,2,1,4}));
 
@@ -160,7 +159,7 @@ TEST_CASE("vmath/ext/hash") {
 }
 
 TEST_CASE("vmath/ext/cast") {
-    SECTION("cast_to") {
+    SUBCASE("cast_to") {
         constexpr auto i = cast_to<int>(1.5f);
         STATIC_REQUIRE(i == 1);
         STATIC_REQUIRE(std::is_same_v<decltype(i), const int>);
@@ -180,7 +179,7 @@ TEST_CASE("vmath/ext/cast") {
 }
 
 TEST_CASE("vmath/ext/access") {
-    SECTION("component") {
+    SUBCASE("component") {
         STATIC_REQUIRE(component(int2{1,2}, 0) == 1);
         STATIC_REQUIRE(component(int2{1,2}, 1) == 2);
 
@@ -188,7 +187,7 @@ TEST_CASE("vmath/ext/access") {
         STATIC_REQUIRE(component(int2{0,0}, 1, 2) == int2{0,2});
     }
 
-    SECTION("row") {
+    SUBCASE("row") {
         STATIC_REQUIRE(row(int2x2(1,2,3,4), 0) == int2(1,2));
         STATIC_REQUIRE(row(int2x2(1,2,3,4), 1) == int2(3,4));
 
@@ -196,7 +195,7 @@ TEST_CASE("vmath/ext/access") {
         STATIC_REQUIRE(row(int2x2(), 1, {3,4}) == int2x2(1,0,3,4));
     }
 
-    SECTION("column") {
+    SUBCASE("column") {
         STATIC_REQUIRE(column(int2x2(1,2,3,4), 0) == int2(1,3));
         STATIC_REQUIRE(column(int2x2(1,2,3,4), 1) == int2(2,4));
 
@@ -204,19 +203,19 @@ TEST_CASE("vmath/ext/access") {
         STATIC_REQUIRE(column(int2x2(), 1, {3,4}) == int2x2(1,3,0,4));
     }
 
-    SECTION("real") {
+    SUBCASE("real") {
         STATIC_REQUIRE(real(qua{1,2,3,4}) == 4);
         STATIC_REQUIRE(real(qua{1,2,3,4}, 5) == qua{1,2,3,5});
     }
 
-    SECTION("imag") {
+    SUBCASE("imag") {
         STATIC_REQUIRE(imag(qua{1,2,3,4}) == vec{1,2,3});
         STATIC_REQUIRE(imag(qua{1,2,3,4}, {4,3,2}) == qua{4,3,2,4});
     }
 }
 
 TEST_CASE("vmath/ext/matrix_transform") {
-    SECTION("translate") {
+    SUBCASE("translate") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(float2{1.f,2.f}) == uapprox3(3.f,5.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * translate(translate(float2{1.f,2.f}), float2{1.f,2.f}) == uapprox3(4.f,7.f,1.f));
 
@@ -224,7 +223,7 @@ TEST_CASE("vmath/ext/matrix_transform") {
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * translate(translate(float3{1.f,2.f,3.f}), float3{1.f,2.f,3.f}) == uapprox4(4.f,7.f,10.f,1.f));
     }
 
-    SECTION("rotate") {
+    SUBCASE("rotate") {
         REQUIRE(float4(0.f,1.f,0.f,1.f) * rotate_x(pi_2) == uapprox4(0.f,0.f,1.f,1.f));
         REQUIRE(float4(0.f,0.f,1.f,1.f) * rotate_y(pi_2) == uapprox4(1.f,0.f,0.f,1.f));
         REQUIRE(float4(1.f,0.f,0.f,1.f) * rotate_z(pi_2) == uapprox4(0.f,1.f,0.f,1.f));
@@ -244,7 +243,7 @@ TEST_CASE("vmath/ext/matrix_transform") {
         REQUIRE(float4(2.f,3.f,4.f,1.f) * rotate(rotate(qrotate(pi_2,float3{0.f,0.f,1.f})),qrotate(pi_2,float3{0.f,0.f,1.f})) == uapprox4(-2.f,-3.f,4.f,1.f));
     }
 
-    SECTION("scale") {
+    SUBCASE("scale") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * scale(float2{2.f,3.f}) == uapprox3(4.f,9.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(float3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
@@ -254,7 +253,7 @@ TEST_CASE("vmath/ext/matrix_transform") {
         STATIC_REQUIRE(float4(2.f,3.f,4.f,1.f) * scale(scale(float3{2.f,2.f,2.f}), float3{2.f,3.f,4.f}) == uapprox4(8.f,18.f,32.f,1.f));
     }
 
-    SECTION("shear") {
+    SUBCASE("shear") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(0.f) == uapprox3(2.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(1.f) == uapprox3(5.f,3.f,1.f));
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear_x(2.f) == uapprox3(8.f,3.f,1.f));
@@ -272,14 +271,14 @@ TEST_CASE("vmath/ext/matrix_transform") {
         STATIC_REQUIRE(float3(2.f,3.f,1.f) * shear(shear(float2(0.f,1.f)),float2(0.f,1.f)) == uapprox3(2.f,7.f,1.f));
     }
 
-    SECTION("matrix look_at") {
+    SUBCASE("matrix look_at") {
         (void)look_at_lh(float3(1,2,3), float3(0,0,0), float3(0,2,0));
         (void)look_at_rh(float3(1,2,3), float3(0,0,0), float3(0,2,0));
     }
 }
 
 TEST_CASE("vmath/ext/matrix_projections") {
-    SECTION("orthographic") {
+    SUBCASE("orthographic") {
         REQUIRE(all(approx(
             orthographic_lh(800.f, 600.f, 5.f, 10.f),
             scale(1.f,1.f,-1.f) * orthographic_rh(800.f, 600.f, 5.f, 10.f))));
@@ -290,7 +289,7 @@ TEST_CASE("vmath/ext/matrix_projections") {
     }
 
 
-    SECTION("perspective") {
+    SUBCASE("perspective") {
         REQUIRE(all(approx(
             perspective_lh(800.f, 600.f, 5.f, 10.f),
             scale(1.f,1.f,-1.f) * perspective_rh(800.f, 600.f, 5.f, 10.f))));
@@ -306,7 +305,7 @@ TEST_CASE("vmath/ext/matrix_projections") {
 }
 
 TEST_CASE("vmath/ext/vector_transform") {
-    SECTION("angle") {
+    SUBCASE("angle") {
         REQUIRE(angle(float2(2.f,0.f), float2(0.f,1.f)) == uapprox(radians(90.f)));
         REQUIRE(angle(float2(0.f,3.f), float2(1.f,0.f)) == uapprox(radians(90.f)));
         REQUIRE(angle(float2(0.5f,0.f), float2(-1.f,0.f)) == uapprox(radians(180.f)));
@@ -315,7 +314,7 @@ TEST_CASE("vmath/ext/vector_transform") {
         REQUIRE(angle(float3(0.f,0.f,3.f), float3(0.f,1.f,0.f)) == uapprox(radians(90.f)));
     }
 
-    SECTION("rotate") {
+    SUBCASE("rotate") {
         REQUIRE(rotate(float2(2.f,0.f), radians(90.f)) == uapprox2(0.f,2.f));
         REQUIRE(rotate(float2(1.5f,0.f), radians(-90.f)) == uapprox2(0.f,-1.5f));
 
@@ -334,19 +333,19 @@ TEST_CASE("vmath/ext/vector_transform") {
         REQUIRE(rotate(float4(1.5f,0.f,0.f,2.f), radians(90.f), float3(0,0,1)) == uapprox4(0.f,1.5f,0.f,2.f));
     }
 
-    SECTION("project") {
+    SUBCASE("project") {
         STATIC_REQUIRE(project(float2(2.f, 2.f), float2(0.f, 1.f)) == uapprox2(0.f, 2.f));
         STATIC_REQUIRE(project(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == uapprox3(0.f, 0.f, 2.f));
     }
 
-    SECTION("perpendicular") {
+    SUBCASE("perpendicular") {
         STATIC_REQUIRE(perpendicular(float2(2.f, 2.f), float2(0.f, 1.f)) == uapprox2(2.f, 0.f));
         STATIC_REQUIRE(perpendicular(float3(2.f, 2.f, 2.f), float3(0.f, 0.f, 1.f)) == uapprox3(2.f, 2.f, 0.f));
     }
 }
 
 TEST_CASE("vmath/ext/quaternion_transform") {
-    SECTION("qrotate(m)") {
+    SUBCASE("qrotate(m)") {
         REQUIRE(all(approx(
             vec{4.f,3.f,2.f,1.f} * rotate(qrotate(float3x3(rotate(0.f, vec{1.f,2.f,3.f})))),
             vec{4.f,3.f,2.f,1.f} * rotate(0.f, vec{1.f,2.f,3.f}), 0.001f)));
@@ -358,7 +357,7 @@ TEST_CASE("vmath/ext/quaternion_transform") {
             vec{4.f,3.f,2.f,1.f} * rotate(radians(-190.5f), vec{1.f,2.f,3.f}), 0.001f)));
     }
 
-    SECTION("qrotate(q, m)") {
+    SUBCASE("qrotate(q, m)") {
         REQUIRE(all(approx(
             vec{4.f,3.f,2.f} * qrotate(
                 qrotate(float3x3(rotate(0.f, vec{1.f,2.f,3.f}))),
@@ -368,7 +367,7 @@ TEST_CASE("vmath/ext/quaternion_transform") {
                 float3x3(rotate(0.f, vec{3.f,2.f,1.f})))));
     }
 
-    SECTION("qrotate(from, to)") {
+    SUBCASE("qrotate(from, to)") {
         REQUIRE(+unit3_x<float> * qrotate(-unit3_x<float>, +unit3_x<float>) == uapprox3(-unit3_x<float>));
         REQUIRE(-unit3_y<float> * qrotate(+unit3_y<float>, -unit3_y<float>) == uapprox3(+unit3_y<float>));
         REQUIRE(+unit3_z<float> * qrotate(-unit3_z<float>, +unit3_z<float>) == uapprox3(-unit3_z<float>));
@@ -376,7 +375,7 @@ TEST_CASE("vmath/ext/quaternion_transform") {
         REQUIRE(vec{-2.f,1.f,3.f} * qrotate(vec{-2.f,1.f,3.f}, vec{1.f,2.f,3.f}) == uapprox3(1.f,2.f,3.f));
     }
 
-    SECTION("qrotate(q, from, to)") {
+    SUBCASE("qrotate(q, from, to)") {
         REQUIRE(vec{1.f,2.f,3.f} *
             inverse(qrotate(float3x3(rotate(radians(12.f), {2.f,2.f,2.f})))) *
             qrotate(
@@ -385,7 +384,7 @@ TEST_CASE("vmath/ext/quaternion_transform") {
                 vec{-2.f,1.f,3.f}) == uapprox3(vec{-2.f,1.f,3.f}));
     }
 
-    SECTION("qrotate(angle, axis)") {
+    SUBCASE("qrotate(angle, axis)") {
         REQUIRE(all(approx(
             rotate(12.3f, float3(1.f,2.f,3.f)),
             rotate(qrotate(12.3f, float3(1.f,2.f,3.f)) * 2.f))));
@@ -402,7 +401,7 @@ TEST_CASE("vmath/ext/quaternion_transform") {
         REQUIRE(qrotate_z(12.3f) == qrotate(12.3f, unit3_z<float> * 2.f));
     }
 
-    SECTION("qrotate(q, angle, axis)") {
+    SUBCASE("qrotate(q, angle, axis)") {
         REQUIRE(float3(0.f,1.f,0.f) * qrotate_x(qrotate_x(pi_4),pi_4) == uapprox3(0.f,0.f,1.f));
         REQUIRE(float3(0.f,0.f,1.f) * qrotate_y(qrotate_y(pi_4),pi_4) == uapprox3(1.f,0.f,0.f));
         REQUIRE(float3(1.f,0.f,0.f) * qrotate_z(qrotate_z(pi_4),pi_4) == uapprox3(0.f,1.f,0.f));
@@ -411,7 +410,7 @@ TEST_CASE("vmath/ext/quaternion_transform") {
         REQUIRE(float3(2.f,3.f,4.f) * qrotate(qrotate(pi_2,float3{0.f,0.f,1.f}),pi_2,float3{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
     }
 
-    SECTION("qlook_at") {
+    SUBCASE("qlook_at") {
         REQUIRE(all(approx(
             qlook_at_lh(float3(1.f,2.f,3.f), float3(0,1,0)),
             qrotate(float3x3(look_at_lh(float3(), float3(1.f,2.f,3.f), float3(0,1,0)))))));

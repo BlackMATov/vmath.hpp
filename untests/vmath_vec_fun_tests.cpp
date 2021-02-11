@@ -5,7 +5,6 @@
  ******************************************************************************/
 
 #include "vmath_tests.hpp"
-#include "catch/catch.hpp"
 
 namespace
 {
@@ -14,7 +13,7 @@ namespace
 }
 
 TEST_CASE("vmath/vec_fun") {
-    SECTION("Detail") {
+    SUBCASE("Detail") {
         STATIC_REQUIRE(map_join([](const int& x){
             return x * 2;
         }, int2{1}) == int2{2});
@@ -40,7 +39,7 @@ TEST_CASE("vmath/vec_fun") {
         }, int2{1}) == 2);
     }
 
-    SECTION("Operators") {
+    SUBCASE("Operators") {
         STATIC_REQUIRE(+int2(1,-2) == int2(1,-2));
         STATIC_REQUIRE(-int2(1,-2) == int2(-1,2));
         STATIC_REQUIRE(~uint2(0xF0F0F0F0,0x0F0F0F0F) == uint2(0x0F0F0F0F,0xF0F0F0F0));
@@ -130,7 +129,7 @@ TEST_CASE("vmath/vec_fun") {
         }
     }
 
-    SECTION("Angle and Trigonometric Functions") {
+    SUBCASE("Angle and Trigonometric Functions") {
         STATIC_REQUIRE(radians(degrees(float2(12.13f))) == uapprox2(12.13f));
         STATIC_REQUIRE(degrees(radians(float2(12.13f))) == uapprox2(12.13f));
 
@@ -159,7 +158,7 @@ TEST_CASE("vmath/vec_fun") {
         }
     }
 
-    SECTION("Exponential Functions") {
+    SUBCASE("Exponential Functions") {
         (void)pow(float2(1.f), float2(2.f));
         (void)exp(float2(1.f));
         (void)log(float2(1.f));
@@ -169,7 +168,7 @@ TEST_CASE("vmath/vec_fun") {
         (void)rsqrt(float2(1.f));
     }
 
-    SECTION("Common Functions") {
+    SUBCASE("Common Functions") {
         STATIC_REQUIRE(abs(float2(1.f, -1.f)) == uapprox2(1.f,1.f));
         STATIC_REQUIRE(sign(float3(1.f, -1.f, 0.f)) == uapprox3(1.f,-1.f,0.f));
         STATIC_REQUIRE(rcp(float2(2.f, 4.f)) == uapprox2(0.5f,0.25f));
@@ -241,7 +240,7 @@ TEST_CASE("vmath/vec_fun") {
         REQUIRE(ldexp(float2(0.85f), int2(1)).x == uapprox(1.7f));
     }
 
-    SECTION("Geometric Functions") {
+    SUBCASE("Geometric Functions") {
         REQUIRE(length(float2(10.f,0.f)) == uapprox(10.f));
         REQUIRE(length(float2(-10.f,0.f)) == uapprox(10.f));
 
@@ -264,7 +263,7 @@ TEST_CASE("vmath/vec_fun") {
         REQUIRE(refract(float2(1.f), float2(2.f), 1.f).x == uapprox(-15.f));
     }
 
-    SECTION("Relational Functions") {
+    SUBCASE("Relational Functions") {
         STATIC_REQUIRE_FALSE(any(bool2(false, false)));
         STATIC_REQUIRE(any(bool2(true, false)));
         STATIC_REQUIRE(any(bool2(false, true)));

@@ -5,7 +5,6 @@
  ******************************************************************************/
 
 #include "vmath_tests.hpp"
-#include "catch/catch.hpp"
 
 namespace
 {
@@ -14,7 +13,7 @@ namespace
 }
 
 TEST_CASE("vmath/qua_fun") {
-    SECTION("Operators") {
+    SUBCASE("Operators") {
         STATIC_REQUIRE(+qua(1,-2,3,-4) == qua(1,-2,3,-4));
         STATIC_REQUIRE(-qua(1,-2,3,-4) == qua(-1,2,-3,4));
 
@@ -72,7 +71,7 @@ TEST_CASE("vmath/qua_fun") {
         STATIC_REQUIRE(float4{1,0,0,2} * fqua{0,0,0.7071067812f,0.7071067812f} == uapprox4(0.f,1.f,0.f,2.f));
     }
 
-    SECTION("Common Functions") {
+    SUBCASE("Common Functions") {
         {
             REQUIRE(all(approx(
                 qrotate_z(radians(5.f)),
@@ -145,7 +144,7 @@ TEST_CASE("vmath/qua_fun") {
         }
     }
 
-    SECTION("Geometric Functions") {
+    SUBCASE("Geometric Functions") {
         STATIC_REQUIRE(dot(qua(1,2,3,4),qua(3,4,5,6)) == 50);
 
         REQUIRE(length(fqua(10.f,0.f,0.f,0.f)) == uapprox(10.f));
@@ -164,7 +163,7 @@ TEST_CASE("vmath/qua_fun") {
         REQUIRE(normalize(fqua(0.5f,0.f,0.f,0.f)).v == uapprox3(1.f,0.f,0.f));
     }
 
-    SECTION("Relational Functions") {
+    SUBCASE("Relational Functions") {
         STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
         STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3), 0) == bool4(false, true, false, false));
         STATIC_REQUIRE(approx(qua(1,1,1,1), qua(0,1,2,3), 1) == bool4(true, true, true, false));
@@ -179,7 +178,7 @@ TEST_CASE("vmath/qua_fun") {
         STATIC_REQUIRE(not_equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, false, true, true));
     }
 
-    SECTION("Quaternion Functions") {
+    SUBCASE("Quaternion Functions") {
         STATIC_REQUIRE(conjugate(qua(1,2,3,4)) == qua(-1,-2,-3,4));
         STATIC_REQUIRE(inverse(qua(0.f,0.f,0.7071067812f,0.7071067812f)).v == uapprox3(0.f,0.f,-0.7071067812f));
         STATIC_REQUIRE(inverse(qua(0.f,0.f,0.7071067812f,0.7071067812f)).s == uapprox(0.7071067812f));

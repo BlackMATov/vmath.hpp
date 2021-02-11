@@ -5,7 +5,6 @@
  ******************************************************************************/
 
 #include "vmath_tests.hpp"
-#include "catch/catch.hpp"
 
 namespace
 {
@@ -14,7 +13,7 @@ namespace
 }
 
 TEST_CASE("vmath/qua") {
-    SECTION("size/sizeof") {
+    SUBCASE("size/sizeof") {
         STATIC_REQUIRE(fqua{}.size == 4);
         STATIC_REQUIRE(dqua{}.size == 4);
 
@@ -22,7 +21,7 @@ TEST_CASE("vmath/qua") {
         STATIC_REQUIRE(sizeof(dqua{}) == sizeof(double) * 4);
     }
 
-    SECTION("guides") {
+    SUBCASE("guides") {
         STATIC_REQUIRE(qua{1,2,3,4}.size == 4);
         STATIC_REQUIRE(qua{{1,2,3},4}.size == 4);
         STATIC_REQUIRE(qua{vec{1,2,3},4}.size == 4);
@@ -30,7 +29,7 @@ TEST_CASE("vmath/qua") {
         STATIC_REQUIRE(qua(vec{1,2,3,4}).size == 4);
     }
 
-    SECTION("ctors") {
+    SUBCASE("ctors") {
         {
             STATIC_REQUIRE(fqua{}.v == uapprox3(0.f));
             STATIC_REQUIRE(fqua{}.s == uapprox(1.f));
@@ -61,7 +60,7 @@ TEST_CASE("vmath/qua") {
         }
     }
 
-    SECTION("operator=") {
+    SUBCASE("operator=") {
         {
             fqua v(1,2,3,4);
             fqua v2;
@@ -76,7 +75,7 @@ TEST_CASE("vmath/qua") {
         }
     }
 
-    SECTION("swap") {
+    SUBCASE("swap") {
         {
             fqua v1(1,2,3,4);
             fqua v2(4,5,6,7);
@@ -93,7 +92,7 @@ TEST_CASE("vmath/qua") {
         }
     }
 
-    SECTION("iter") {
+    SUBCASE("iter") {
         {
             fqua v{1,2,3,4};
 
@@ -163,7 +162,7 @@ TEST_CASE("vmath/qua") {
         }
     }
 
-    SECTION("data") {
+    SUBCASE("data") {
         {
             fqua i2;
             REQUIRE(i2.data() == &i2[0]);
@@ -174,7 +173,7 @@ TEST_CASE("vmath/qua") {
         }
     }
 
-    SECTION("operator[]") {
+    SUBCASE("operator[]") {
         {
             STATIC_REQUIRE(qua(1,2,3,4).v == vec(1,2,3));
             STATIC_REQUIRE(qua(1,2,3,4).s == 4);
@@ -193,7 +192,7 @@ TEST_CASE("vmath/qua") {
         }
     }
 
-    SECTION("at") {
+    SUBCASE("at") {
         STATIC_REQUIRE(fqua(1,2,3,4).at(0) == 1);
         STATIC_REQUIRE(fqua(1,2,3,4).at(1) == 2);
         STATIC_REQUIRE(fqua(1,2,3,4).at(2) == 3);
@@ -201,7 +200,7 @@ TEST_CASE("vmath/qua") {
         REQUIRE_THROWS_AS((void)fqua(1,2,3,4).at(4), std::out_of_range);
     }
 
-    SECTION("operator==/operator!=") {
+    SUBCASE("operator==/operator!=") {
         STATIC_REQUIRE(fqua(1,2,3,4) == fqua(1,2,3,4));
         STATIC_REQUIRE_FALSE(fqua(1,2,3,4) == fqua(2,2,3,4));
         STATIC_REQUIRE_FALSE(fqua(1,2,3,4) == fqua(1,3,3,4));
@@ -211,7 +210,7 @@ TEST_CASE("vmath/qua") {
         STATIC_REQUIRE(fqua(1,2,3,4) != fqua(1,3,3,4));
     }
 
-    SECTION("operator<") {
+    SUBCASE("operator<") {
         STATIC_REQUIRE_FALSE(fqua(1,2,3,4) < fqua(1,2,3,4));
 
         STATIC_REQUIRE(fqua(0,2,3,4) < fqua(1,2,3,4));
