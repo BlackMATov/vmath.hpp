@@ -9,11 +9,13 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: "windows-2016", vs: "Visual Studio 2017" }
-        - { os: "windows-2019", vs: "Visual Studio 2019" }
-        platform: [x86, x64]
+        # https://github.com/actions/virtual-environments/tree/main/images/win
+        - { os: "windows-2016", vs: "Visual Studio 2017", arch: "x86" }
+        - { os: "windows-2016", vs: "Visual Studio 2017", arch: "x64" }
+        - { os: "windows-2019", vs: "Visual Studio 2019", arch: "x86" }
+        - { os: "windows-2019", vs: "Visual Studio 2019", arch: "x64" }
     name: "${{matrix.config.vs}}"
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      run: .ci\build_windows_${{matrix.platform}}.bat
+    - name: build
+      run: .ci\build_windows_${{matrix.config.arch}}.bat
