@@ -16,7 +16,7 @@ jobs:
     name: "xcode-${{matrix.config.xcode}}"
     steps:
     - uses: actions/checkout@v2
-    - name: select xcode
+    - name: Select Xcode
       run: sudo xcode-select --switch "/Applications/Xcode_${{matrix.config.xcode}}.app"
-    - name: build
+    - name: Build && Test
       run: .ci/build_darwin.sh

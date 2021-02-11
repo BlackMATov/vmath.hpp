@@ -8,7 +8,7 @@ jobs:
     name: "coverage"
     steps:
     - uses: actions/checkout@v2
-    - name: install lcov
+    - name: Install lcov by Homebrew
       run: brew install lcov
-    - name: build
+    - name: Build && Test && Upload
       run: .ci/build_coverage.sh

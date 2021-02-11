@@ -17,5 +17,5 @@ jobs:
     name: "${{matrix.config.vs}}"
     steps:
     - uses: actions/checkout@v2
-    - name: build
+    - name: Build && Test
       run: .ci\build_windows_${{matrix.config.arch}}.bat
