@@ -1,0 +1,19 @@
+name: windows
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{matrix.config.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: "windows-2016", vs: "Visual Studio 2017" }
+        - { os: "windows-2019", vs: "Visual Studio 2019" }
+        platform: [x86, x64]
+    name: "${{matrix.config.vs}}"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: .ci\build_windows_${{matrix.platform}}.bat
