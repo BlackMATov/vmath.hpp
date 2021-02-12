@@ -155,6 +155,9 @@ TEST_CASE("vmath/vec_fun") {
             sincos(float2(10.f,15.f), &out_ss, &out_cs);
             REQUIRE(out_ss == uapprox2(sin(10.f), sin(15.f)));
             REQUIRE(out_cs == uapprox2(cos(10.f), cos(15.f)));
+            const auto [out_ss2, out_cs2] = sincos(float2(10.f,15.f));
+            REQUIRE(out_ss2 == uapprox2(sin(10.f), sin(15.f)));
+            REQUIRE(out_cs2 == uapprox2(cos(10.f), cos(15.f)));
         }
     }
 

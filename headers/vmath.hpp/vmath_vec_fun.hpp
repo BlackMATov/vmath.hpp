@@ -576,10 +576,15 @@ namespace vmath_hpp
         return map_join([](T x) { return atanh(x); }, xs);
     }
 
-    template < typename T, size_t Size >
+    template < typename T, std::size_t Size >
+    std::pair<vec<T, Size>, vec<T, Size>> sincos(const vec<T, Size>& xs) {
+        return { sin(xs), cos(xs) };
+    }
+
+    template < typename T, std::size_t Size >
     void sincos(const vec<T, Size>& xs, vec<T, Size>* ss, vec<T, Size>* cs) {
-        *ss = map_join([](T x){ return sin(x); }, xs);
-        *cs = map_join([](T x){ return cos(x); }, xs);
+        *ss = sin(xs);
+        *cs = cos(xs);
     }
 }
 
