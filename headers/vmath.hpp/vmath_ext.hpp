@@ -838,31 +838,6 @@ namespace vmath_hpp
         return v * qrotate(angle, axis);
     }
 
-    template < typename T >
-    [[nodiscard]] vec<T, 4> rotate_x(const vec<T, 4>& v, T angle) {
-        return v * qrotate(angle, unit3_x<T>);
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<T, 4> rotate_y(const vec<T, 4>& v, T angle) {
-        return v * qrotate(angle, unit3_y<T>);
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<T, 4> rotate_z(const vec<T, 4>& v, T angle) {
-        return v * qrotate(angle, unit3_z<T>);
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<T, 4> rotate(const vec<T, 4>& v, const qua<T>& q) {
-        return v * q;
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<T, 4> rotate(const vec<T, 4>& v, T angle, const vec<T, 3>& axis) {
-        return v * qrotate(angle, axis);
-    }
-
     // project
 
     template < typename T, std::size_t Size >

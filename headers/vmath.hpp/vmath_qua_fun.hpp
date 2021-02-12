@@ -84,11 +84,6 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] constexpr vec<T, 4> operator*(const vec<T, 4>& xs, const qua<T>& ys) {
-        return {vec<T, 3>{xs} * ys, xs.w};
-    }
-
-    template < typename T >
     [[nodiscard]] constexpr qua<T> operator*(const qua<T>& xs, const qua<T>& ys) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/arithmetic/
@@ -107,11 +102,6 @@ namespace vmath_hpp
 
     template < typename T >
     constexpr vec<T, 3>& operator*=(vec<T, 3>& xs, const qua<T>& ys) {
-        return (xs = (xs * ys));
-    }
-
-    template < typename T >
-    constexpr vec<T, 4>& operator*=(vec<T, 4>& xs, const qua<T>& ys) {
         return (xs = (xs * ys));
     }
 
