@@ -43,7 +43,7 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK(+int2(1,-2) == int2(1,-2));
         STATIC_CHECK(-int2(1,-2) == int2(-1,2));
         STATIC_CHECK(~uint2(0xF0F0F0F0,0x0F0F0F0F) == uint2(0x0F0F0F0F,0xF0F0F0F0));
-        STATIC_CHECK(!int3(-1,0,1) == bool3(false, true, false));
+        STATIC_CHECK((!int3(-1,0,1)) == bool3(false, true, false));
 
         STATIC_CHECK(int2(1,2) + 3 == int2(4,5));
         STATIC_CHECK(int2(1,2) - 3 == int2(-2,-1));
@@ -189,7 +189,7 @@ TEST_CASE("vmath/vec_fun") {
 
         CHECK(copysign(
             float4(2.f, -4.f, 2.f, -4.f),
-            float4(10.f, 5.f, -4.f, -0.4))
+            float4(10.f, 5.f, -4.f, -0.4f))
         == uapprox4(2.f, 4.f, -2.f, -4.f));
 
         (void)floor(float2(1.f, -1.f));
