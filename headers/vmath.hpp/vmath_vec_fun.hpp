@@ -806,7 +806,7 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    std::pair<vec<T, Size>, vec<T, Size>> sincos(const vec<T, Size>& xs) {
+    [[nodiscard]] std::pair<vec<T, Size>, vec<T, Size>> sincos(const vec<T, Size>& xs) {
         return { sin(xs), cos(xs) };
     }
 

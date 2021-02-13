@@ -406,7 +406,7 @@ public:
 
     constexpr explicit operator vec<T, 4>() const;
 
-    void swap(qua& other) noexcept(std::is_nothrow_swappable_v<T>);
+    void swap(qua& other) noexcept(is_nothrow_swappable_v<T>);
 
     iterator begin() noexcept;
     const_iterator begin() const noexcept;

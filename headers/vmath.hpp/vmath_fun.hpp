@@ -281,7 +281,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, void>
+    std::enable_if_t<std::is_floating_point_v<T>, void>
     sincos(T x, T* s, T* c) noexcept {
         *s = sin(x);
         *c = cos(x);
