@@ -236,6 +236,8 @@ TEST_CASE("vmath/mat") {
             v[0] = int2(1,2);
             v[1] = int2(3,4);
             CHECK(v == int2x2(1,2,3,4));
+            CHECK(std::as_const(v).at(0) == int2(1,2));
+            CHECK(std::as_const(v).at(1) == int2(3,4));
         }
         {
             int3x3 v;
@@ -243,6 +245,9 @@ TEST_CASE("vmath/mat") {
             v[1] = int3(4,5,6);
             v[2] = int3(7,8,9);
             CHECK(v == int3x3(1,2,3,4,5,6,7,8,9));
+            CHECK(std::as_const(v).at(0) == int3(1,2,3));
+            CHECK(std::as_const(v).at(1) == int3(4,5,6));
+            CHECK(std::as_const(v).at(2) == int3(7,8,9));
         }
         {
             int4x4 v;
@@ -251,6 +256,10 @@ TEST_CASE("vmath/mat") {
             v[2] = int4(9,10,11,12);
             v[3] = int4(13,14,15,16);
             CHECK(v == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            CHECK(std::as_const(v).at(0) == int4(1,2,3,4));
+            CHECK(std::as_const(v).at(1) == int4(5,6,7,8));
+            CHECK(std::as_const(v).at(2) == int4(9,10,11,12));
+            CHECK(std::as_const(v).at(3) == int4(13,14,15,16));
         }
     }
 

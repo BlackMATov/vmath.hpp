@@ -190,6 +190,33 @@ TEST_CASE("vmath/qua") {
             v.s = 4;
             CHECK(v == qua(1,2,3,4));
         }
+        {
+            qua<int> v;
+            v[0] = 1;
+            v[1] = 2;
+            v[2] = 3;
+            v[3] = 4;
+            CHECK(v == qua(1,2,3,4));
+        }
+        {
+            qua<int> v;
+            v.at(0) = 1;
+            v.at(1) = 2;
+            v.at(2) = 3;
+            v.at(3) = 4;
+            CHECK(v == qua(1,2,3,4));
+        }
+        {
+            const qua v{1,2,3,4};
+            CHECK(v[0] == 1);
+            CHECK(v[1] == 2);
+            CHECK(v[2] == 3);
+            CHECK(v[3] == 4);
+            CHECK(v.at(0) == 1);
+            CHECK(v.at(1) == 2);
+            CHECK(v.at(2) == 3);
+            CHECK(v.at(3) == 4);
+        }
     }
 
     SUBCASE("at") {

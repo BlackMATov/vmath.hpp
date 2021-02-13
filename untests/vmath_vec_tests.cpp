@@ -233,6 +233,8 @@ TEST_CASE("vmath/vec") {
             v.x = 1;
             v.y = 2;
             CHECK(v == int2(1,2));
+            CHECK(std::as_const(v).at(0) == 1);
+            CHECK(std::as_const(v).at(1) == 2);
         }
         {
             int3 v;
@@ -240,6 +242,9 @@ TEST_CASE("vmath/vec") {
             v.y = 2;
             v.z = 3;
             CHECK(v == int3(1,2,3));
+            CHECK(std::as_const(v).at(0) == 1);
+            CHECK(std::as_const(v).at(1) == 2);
+            CHECK(std::as_const(v).at(2) == 3);
         }
         {
             int4 v;
@@ -248,6 +253,10 @@ TEST_CASE("vmath/vec") {
             v.z = 3;
             v.w = 4;
             CHECK(v == int4(1,2,3,4));
+            CHECK(std::as_const(v).at(0) == 1);
+            CHECK(std::as_const(v).at(1) == 2);
+            CHECK(std::as_const(v).at(2) == 3);
+            CHECK(std::as_const(v).at(3) == 4);
         }
     }
 
