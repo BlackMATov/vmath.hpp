@@ -49,13 +49,13 @@ namespace vmath_hpp
     using double3 = vec<double, 3>;
     using double4 = vec<double, 4>;
 
-    using size2 = vec<std::size_t, 2>;
-    using size3 = vec<std::size_t, 3>;
-    using size4 = vec<std::size_t, 4>;
+    using size2_t = vec<std::size_t, 2>;
+    using size3_t = vec<std::size_t, 3>;
+    using size4_t = vec<std::size_t, 4>;
 
-    using ptrdiff2 = vec<std::ptrdiff_t, 2>;
-    using ptrdiff3 = vec<std::ptrdiff_t, 3>;
-    using ptrdiff4 = vec<std::ptrdiff_t, 4>;
+    using ptrdiff2_t = vec<std::ptrdiff_t, 2>;
+    using ptrdiff3_t = vec<std::ptrdiff_t, 3>;
+    using ptrdiff4_t = vec<std::ptrdiff_t, 4>;
 }
 
 namespace vmath_hpp
@@ -83,13 +83,13 @@ namespace vmath_hpp
     using double3x3 = mat<double, 3>;
     using double4x4 = mat<double, 4>;
 
-    using size2x2 = mat<std::size_t, 2>;
-    using size3x3 = mat<std::size_t, 3>;
-    using size4x4 = mat<std::size_t, 4>;
+    using size2x2_t = mat<std::size_t, 2>;
+    using size3x3_t = mat<std::size_t, 3>;
+    using size4x4_t = mat<std::size_t, 4>;
 
-    using ptrdiff2x2 = mat<std::ptrdiff_t, 2>;
-    using ptrdiff3x3 = mat<std::ptrdiff_t, 3>;
-    using ptrdiff4x4 = mat<std::ptrdiff_t, 4>;
+    using ptrdiff2x2_t = mat<std::ptrdiff_t, 2>;
+    using ptrdiff3x3_t = mat<std::ptrdiff_t, 3>;
+    using ptrdiff4x4_t = mat<std::ptrdiff_t, 4>;
 }
 
 namespace vmath_hpp
@@ -97,6 +97,6 @@ namespace vmath_hpp
     template < typename T >
     class qua;
 
-    using fqua = qua<float>;
-    using dqua = qua<double>;
+    using qfloat = qua<float>;
+    using qdouble = qua<double>;
 }

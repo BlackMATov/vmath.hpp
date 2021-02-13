@@ -126,8 +126,8 @@ TEST_CASE("vmath/ext/hash") {
     }
 
     SUBCASE("quaternion") {
-        REQUIRE(std::hash<fqua>{}({1,2,3,4}) == std::hash<fqua>{}({1,2,3,4}));
-        REQUIRE_FALSE(std::hash<fqua>{}({1,2,3,4}) == std::hash<fqua>{}({3,2,1,4}));
+        REQUIRE(std::hash<qfloat>{}({1,2,3,4}) == std::hash<qfloat>{}({1,2,3,4}));
+        REQUIRE_FALSE(std::hash<qfloat>{}({1,2,3,4}) == std::hash<qfloat>{}({3,2,1,4}));
 
         {
             std::set<qua<int>> s;
@@ -172,7 +172,7 @@ TEST_CASE("vmath/ext/cast") {
         STATIC_REQUIRE(m == int2x2(1));
         STATIC_REQUIRE(std::is_same_v<decltype(m)::row_type, int2>);
 
-        constexpr auto q = cast_to<int>(fqua(1.5f, 2.2f, 3.6f, 4.5f));
+        constexpr auto q = cast_to<int>(qfloat(1.5f, 2.2f, 3.6f, 4.5f));
         STATIC_REQUIRE(q == qua(1,2,3,4));
         STATIC_REQUIRE(std::is_same_v<decltype(q)::component_type, int>);
     }

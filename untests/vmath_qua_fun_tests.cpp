@@ -54,13 +54,13 @@ TEST_CASE("vmath/qua_fun") {
 
         {
             float3 v{1,0,0};
-            REQUIRE(&v == &(v *= fqua{0,0,0.7071067812f,0.7071067812f}));
+            REQUIRE(&v == &(v *= qfloat{0,0,0.7071067812f,0.7071067812f}));
             REQUIRE(v == uapprox3(0.f,1.f,0.f));
         }
 
-        STATIC_REQUIRE(fqua{} * fqua{} == fqua{});
-        STATIC_REQUIRE(float3{1,2,3} * fqua{} == uapprox3(1.f,2.f,3.f));
-        STATIC_REQUIRE(float3{1,0,0} * fqua{0,0,0.7071067812f,0.7071067812f} == uapprox3(0.f,1.f,0.f));
+        STATIC_REQUIRE(qfloat{} * qfloat{} == qfloat{});
+        STATIC_REQUIRE(float3{1,2,3} * qfloat{} == uapprox3(1.f,2.f,3.f));
+        STATIC_REQUIRE(float3{1,0,0} * qfloat{0,0,0.7071067812f,0.7071067812f} == uapprox3(0.f,1.f,0.f));
     }
 
     SUBCASE("Common Functions") {
@@ -130,20 +130,20 @@ TEST_CASE("vmath/qua_fun") {
         }
 
         {
-            REQUIRE_FALSE(any(isnan(fqua(1,1,1,1))));
-            REQUIRE_FALSE(any(isinf(fqua(1,1,1,1))));
-            REQUIRE(all(isfinite(fqua(1,1,1,1))));
+            REQUIRE_FALSE(any(isnan(qfloat(1,1,1,1))));
+            REQUIRE_FALSE(any(isinf(qfloat(1,1,1,1))));
+            REQUIRE(all(isfinite(qfloat(1,1,1,1))));
         }
     }
 
     SUBCASE("Geometric Functions") {
         STATIC_REQUIRE(dot(qua(1,2,3,4),qua(3,4,5,6)) == 50);
 
-        REQUIRE(length(fqua(10.f,0.f,0.f,0.f)) == uapprox(10.f));
-        REQUIRE(length(fqua(-10.f,0.f,0.f,0.f)) == uapprox(10.f));
+        REQUIRE(length(qfloat(10.f,0.f,0.f,0.f)) == uapprox(10.f));
+        REQUIRE(length(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(10.f));
 
-        STATIC_REQUIRE(length2(fqua(10.f,0.f,0.f,0.f)) == uapprox(100.f));
-        STATIC_REQUIRE(length2(fqua(-10.f,0.f,0.f,0.f)) == uapprox(100.f));
+        STATIC_REQUIRE(length2(qfloat(10.f,0.f,0.f,0.f)) == uapprox(100.f));
+        STATIC_REQUIRE(length2(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(100.f));
 
         REQUIRE(distance(qrotate_z(radians(0.f)) * 2.f, qrotate_z(radians(0.f)) * 1.5f) == uapprox(radians(0.f)));
         REQUIRE(distance(qrotate_z(radians(0.f)) * 3.f, qrotate_z(radians(360.f)) * 2.5f) == uapprox(radians(0.f)));
@@ -152,7 +152,7 @@ TEST_CASE("vmath/qua_fun") {
         REQUIRE(distance(qrotate_z(radians(15.f)) * 6.f, qrotate_z(radians(350.f)) * 5.5f) == uapprox(radians(25.f)));
         REQUIRE(distance(qrotate_z(radians(350.f)) * 7.f, qrotate_z(radians(15.f)) * 6.5f) == uapprox(radians(25.f)));
 
-        REQUIRE(normalize(fqua(0.5f,0.f,0.f,0.f)).v == uapprox3(1.f,0.f,0.f));
+        REQUIRE(normalize(qfloat(0.5f,0.f,0.f,0.f)).v == uapprox3(1.f,0.f,0.f));
     }
 
     SUBCASE("Relational Functions") {
