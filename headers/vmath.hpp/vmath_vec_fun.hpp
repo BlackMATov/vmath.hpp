@@ -591,6 +591,11 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> min(T x, const vec<T, Size>& ys) {
+        return map_join([x](T y) { return min(x, y); }, ys);
+    }
+
+    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> min(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return map_join([](T x, T y) { return min(x, y); }, xs, ys);
     }
@@ -603,6 +608,11 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> max(const vec<T, Size>& xs, T y) {
         return map_join([y](T x) { return max(x, y); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> max(T x, const vec<T, Size>& ys) {
+        return map_join([x](T y) { return max(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >

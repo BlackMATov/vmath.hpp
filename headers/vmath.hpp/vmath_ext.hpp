@@ -866,7 +866,7 @@ namespace vmath_hpp
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
 
-        auto xyzw = T(0.5) * sqrt(max(zero4<T>, {
+        auto xyzw = T(0.5) * sqrt(max(T(0), vec{
             T(1) + m[0][0] - m[1][1] - m[2][2],
             T(1) - m[0][0] + m[1][1] - m[2][2],
             T(1) - m[0][0] - m[1][1] + m[2][2],

@@ -209,10 +209,12 @@ TEST_CASE("vmath/vec_fun") {
 
         STATIC_REQUIRE(min(int2(1,2)) == 1);
         STATIC_REQUIRE(min(int2(1,2), 1) == int2(1,1));
+        STATIC_REQUIRE(min(1, int2(1,2)) == int2(1,1));
         STATIC_REQUIRE(min(int2(1,1), int2(0,2)) == int2(0,1));
 
         STATIC_REQUIRE(max(int2(1,2)) == 2);
         STATIC_REQUIRE(max(int2(1,2), 1) == int2(1,2));
+        STATIC_REQUIRE(max(1, int2(1,2)) == int2(1,2));
         STATIC_REQUIRE(max(int2(1,1), int2(0,2)) == int2(1,2));
 
         STATIC_REQUIRE(clamp(int2(1,2), 0, 1) == int2(1,1));
