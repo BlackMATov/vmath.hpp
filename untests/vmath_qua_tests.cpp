@@ -14,49 +14,49 @@ namespace
 
 TEST_CASE("vmath/qua") {
     SUBCASE("size/sizeof") {
-        STATIC_REQUIRE(qfloat{}.size == 4);
-        STATIC_REQUIRE(qdouble{}.size == 4);
+        STATIC_CHECK(qfloat{}.size == 4);
+        STATIC_CHECK(qdouble{}.size == 4);
 
-        STATIC_REQUIRE(sizeof(qfloat{}) == sizeof(float) * 4);
-        STATIC_REQUIRE(sizeof(qdouble{}) == sizeof(double) * 4);
+        STATIC_CHECK(sizeof(qfloat{}) == sizeof(float) * 4);
+        STATIC_CHECK(sizeof(qdouble{}) == sizeof(double) * 4);
     }
 
     SUBCASE("guides") {
-        STATIC_REQUIRE(qua{1,2,3,4}.size == 4);
-        STATIC_REQUIRE(qua{{1,2,3},4}.size == 4);
-        STATIC_REQUIRE(qua{vec{1,2,3},4}.size == 4);
-        STATIC_REQUIRE(qua{{1,2,3,4}}.size == 4);
-        STATIC_REQUIRE(qua(vec{1,2,3,4}).size == 4);
+        STATIC_CHECK(qua{1,2,3,4}.size == 4);
+        STATIC_CHECK(qua{{1,2,3},4}.size == 4);
+        STATIC_CHECK(qua{vec{1,2,3},4}.size == 4);
+        STATIC_CHECK(qua{{1,2,3,4}}.size == 4);
+        STATIC_CHECK(qua(vec{1,2,3,4}).size == 4);
     }
 
     SUBCASE("ctors") {
         {
-            STATIC_REQUIRE(qfloat{}.v == uapprox3(0.f));
-            STATIC_REQUIRE(qfloat{}.s == uapprox(1.f));
+            STATIC_CHECK(qfloat{}.v == uapprox3(0.f));
+            STATIC_CHECK(qfloat{}.s == uapprox(1.f));
 
-            STATIC_REQUIRE(qfloat{1,2,3,4}.v == uapprox3(1.f,2.f,3.f));
-            STATIC_REQUIRE(qfloat{1,2,3,4}.s == uapprox(4.f));
+            STATIC_CHECK(qfloat{1,2,3,4}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_CHECK(qfloat{1,2,3,4}.s == uapprox(4.f));
 
-            STATIC_REQUIRE(qfloat{{1,2,3},4}.v == uapprox3(1.f,2.f,3.f));
-            STATIC_REQUIRE(qfloat{{1,2,3},4}.s == uapprox(4.f));
+            STATIC_CHECK(qfloat{{1,2,3},4}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_CHECK(qfloat{{1,2,3},4}.s == uapprox(4.f));
 
-            STATIC_REQUIRE(qfloat{{1,2,3,4}}.v == uapprox3(1.f,2.f,3.f));
-            STATIC_REQUIRE(qfloat{{1,2,3,4}}.s == uapprox(4.f));
+            STATIC_CHECK(qfloat{{1,2,3,4}}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_CHECK(qfloat{{1,2,3,4}}.s == uapprox(4.f));
         }
         {
             constexpr qfloat q(1,2,3,4);
             constexpr qfloat q2 = q;
-            STATIC_REQUIRE(q2 == qfloat(1,2,3,4));
+            STATIC_CHECK(q2 == qfloat(1,2,3,4));
         }
         {
             constexpr qfloat q(1,2,3,4);
             constexpr qfloat q2 = std::move(q);
-            STATIC_REQUIRE(q2 == qfloat(1,2,3,4));
+            STATIC_CHECK(q2 == qfloat(1,2,3,4));
         }
         {
-            STATIC_REQUIRE(qfloat(1,2,3,4) == qfloat(1,2,3,4));
-            STATIC_REQUIRE(qfloat(float3(1,2,3),4) == qfloat(1,2,3,4));
-            STATIC_REQUIRE(qfloat(float4(1,2,3,4)) == qfloat(1,2,3,4));
+            STATIC_CHECK(qfloat(1,2,3,4) == qfloat(1,2,3,4));
+            STATIC_CHECK(qfloat(float3(1,2,3),4) == qfloat(1,2,3,4));
+            STATIC_CHECK(qfloat(float4(1,2,3,4)) == qfloat(1,2,3,4));
         }
     }
 
@@ -65,13 +65,13 @@ TEST_CASE("vmath/qua") {
             qfloat v(1,2,3,4);
             qfloat v2;
             v2 = v;
-            REQUIRE(v2 == qfloat(1,2,3,4));
+            CHECK(v2 == qfloat(1,2,3,4));
         }
         {
             qfloat v(1,2,3,4);
             qfloat v2;
             v2 = std::move(v);
-            REQUIRE(v2 == qfloat(1,2,3,4));
+            CHECK(v2 == qfloat(1,2,3,4));
         }
     }
 
@@ -80,15 +80,15 @@ TEST_CASE("vmath/qua") {
             qfloat v1(1,2,3,4);
             qfloat v2(4,5,6,7);
             v1.swap(v2);
-            REQUIRE(v1 == qfloat(4,5,6,7));
-            REQUIRE(v2 == qfloat(1,2,3,4));
+            CHECK(v1 == qfloat(4,5,6,7));
+            CHECK(v2 == qfloat(1,2,3,4));
         }
         {
             qfloat v1(1,2,3,4);
             qfloat v2(4,5,6,7);
             swap(v1, v2);
-            REQUIRE(v1 == qfloat(4,5,6,7));
-            REQUIRE(v2 == qfloat(1,2,3,4));
+            CHECK(v1 == qfloat(4,5,6,7));
+            CHECK(v2 == qfloat(1,2,3,4));
         }
     }
 
@@ -96,134 +96,136 @@ TEST_CASE("vmath/qua") {
         {
             qfloat v{1,2,3,4};
 
-            REQUIRE(*v.begin() == 1);
-            REQUIRE(*(v.begin() + 1) == 2);
-            REQUIRE(*(v.end() - 1) == 4);
-            REQUIRE(*(v.end() - 2) == 3);
-            REQUIRE(v.begin() + 4 == v.end());
-            REQUIRE(v.end() - 4 == v.begin());
+            CHECK(*v.begin() == 1);
+            CHECK(*(v.begin() + 1) == 2);
+            CHECK(*(v.end() - 1) == 4);
+            CHECK(*(v.end() - 2) == 3);
+            CHECK(v.begin() + 4 == v.end());
+            CHECK(v.end() - 4 == v.begin());
 
-            REQUIRE(*v.cbegin() == 1);
-            REQUIRE(*(v.cbegin() + 1) == 2);
-            REQUIRE(*(v.cend() - 1) == 4);
-            REQUIRE(*(v.cend() - 2) == 3);
-            REQUIRE(v.cbegin() + 4 == v.cend());
-            REQUIRE(v.cend() - 4 == v.cbegin());
+            CHECK(*v.cbegin() == 1);
+            CHECK(*(v.cbegin() + 1) == 2);
+            CHECK(*(v.cend() - 1) == 4);
+            CHECK(*(v.cend() - 2) == 3);
+            CHECK(v.cbegin() + 4 == v.cend());
+            CHECK(v.cend() - 4 == v.cbegin());
 
-            REQUIRE(*v.rbegin() == 4);
-            REQUIRE(*(v.rbegin() + 1) == 3);
-            REQUIRE(*(v.rend() - 1) == 1);
-            REQUIRE(*(v.rend() - 2) == 2);
-            REQUIRE(v.rbegin() + 4 == v.rend());
-            REQUIRE(v.rend() - 4 == v.rbegin());
+            CHECK(*v.rbegin() == 4);
+            CHECK(*(v.rbegin() + 1) == 3);
+            CHECK(*(v.rend() - 1) == 1);
+            CHECK(*(v.rend() - 2) == 2);
+            CHECK(v.rbegin() + 4 == v.rend());
+            CHECK(v.rend() - 4 == v.rbegin());
 
-            REQUIRE(*v.crbegin() == 4);
-            REQUIRE(*(v.crbegin() + 1) == 3);
-            REQUIRE(*(v.crend() - 1) == 1);
-            REQUIRE(*(v.crend() - 2) == 2);
-            REQUIRE(v.crbegin() + 4 == v.crend());
-            REQUIRE(v.crend() - 4 == v.crbegin());
+            CHECK(*v.crbegin() == 4);
+            CHECK(*(v.crbegin() + 1) == 3);
+            CHECK(*(v.crend() - 1) == 1);
+            CHECK(*(v.crend() - 2) == 2);
+            CHECK(v.crbegin() + 4 == v.crend());
+            CHECK(v.crend() - 4 == v.crbegin());
 
             *v.begin() = 3;
-            REQUIRE(v == qfloat{3,2,3,4});
+            CHECK(v == qfloat{3,2,3,4});
             *v.rbegin() = 5;
-            REQUIRE(v == qfloat{3,2,3,5});
+            CHECK(v == qfloat{3,2,3,5});
         }
         {
             const qfloat v{1,2,3,4};
 
-            REQUIRE(*v.begin() == 1);
-            REQUIRE(*(v.begin() + 1) == 2);
-            REQUIRE(*(v.end() - 1) == 4);
-            REQUIRE(*(v.end() - 2) == 3);
-            REQUIRE(v.begin() + 4 == v.end());
-            REQUIRE(v.end() - 4 == v.begin());
+            CHECK(*v.begin() == 1);
+            CHECK(*(v.begin() + 1) == 2);
+            CHECK(*(v.end() - 1) == 4);
+            CHECK(*(v.end() - 2) == 3);
+            CHECK(v.begin() + 4 == v.end());
+            CHECK(v.end() - 4 == v.begin());
 
-            REQUIRE(*v.cbegin() == 1);
-            REQUIRE(*(v.cbegin() + 1) == 2);
-            REQUIRE(*(v.cend() - 1) == 4);
-            REQUIRE(*(v.cend() - 2) == 3);
-            REQUIRE(v.cbegin() + 4 == v.cend());
-            REQUIRE(v.cend() - 4 == v.cbegin());
+            CHECK(*v.cbegin() == 1);
+            CHECK(*(v.cbegin() + 1) == 2);
+            CHECK(*(v.cend() - 1) == 4);
+            CHECK(*(v.cend() - 2) == 3);
+            CHECK(v.cbegin() + 4 == v.cend());
+            CHECK(v.cend() - 4 == v.cbegin());
 
-            REQUIRE(*v.rbegin() == 4);
-            REQUIRE(*(v.rbegin() + 1) == 3);
-            REQUIRE(*(v.rend() - 1) == 1);
-            REQUIRE(*(v.rend() - 2) == 2);
-            REQUIRE(v.rbegin() + 4 == v.rend());
-            REQUIRE(v.rend() - 4 == v.rbegin());
+            CHECK(*v.rbegin() == 4);
+            CHECK(*(v.rbegin() + 1) == 3);
+            CHECK(*(v.rend() - 1) == 1);
+            CHECK(*(v.rend() - 2) == 2);
+            CHECK(v.rbegin() + 4 == v.rend());
+            CHECK(v.rend() - 4 == v.rbegin());
 
-            REQUIRE(*v.crbegin() == 4);
-            REQUIRE(*(v.crbegin() + 1) == 3);
-            REQUIRE(*(v.crend() - 1) == 1);
-            REQUIRE(*(v.crend() - 2) == 2);
-            REQUIRE(v.crbegin() + 4 == v.crend());
-            REQUIRE(v.crend() - 4 == v.crbegin());
+            CHECK(*v.crbegin() == 4);
+            CHECK(*(v.crbegin() + 1) == 3);
+            CHECK(*(v.crend() - 1) == 1);
+            CHECK(*(v.crend() - 2) == 2);
+            CHECK(v.crbegin() + 4 == v.crend());
+            CHECK(v.crend() - 4 == v.crbegin());
         }
     }
 
     SUBCASE("data") {
         {
             qfloat i2;
-            REQUIRE(i2.data() == &i2[0]);
+            CHECK(i2.data() == &i2[0]);
         }
         {
             const qfloat i2;
-            REQUIRE(i2.data() == &i2[0]);
+            CHECK(i2.data() == &i2[0]);
         }
     }
 
     SUBCASE("operator[]") {
         {
-            STATIC_REQUIRE(qua(1,2,3,4).v == vec(1,2,3));
-            STATIC_REQUIRE(qua(1,2,3,4).s == 4);
+            STATIC_CHECK(qua(1,2,3,4).v == vec(1,2,3));
+            STATIC_CHECK(qua(1,2,3,4).s == 4);
         }
         {
-            STATIC_REQUIRE(qua(1,2,3,4)[0] == 1);
-            STATIC_REQUIRE(qua(1,2,3,4)[1] == 2);
-            STATIC_REQUIRE(qua(1,2,3,4)[2] == 3);
-            STATIC_REQUIRE(qua(1,2,3,4)[3] == 4);
+            STATIC_CHECK(qua(1,2,3,4)[0] == 1);
+            STATIC_CHECK(qua(1,2,3,4)[1] == 2);
+            STATIC_CHECK(qua(1,2,3,4)[2] == 3);
+            STATIC_CHECK(qua(1,2,3,4)[3] == 4);
         }
         {
             qua<int> v;
             v.v = vec(1,2,3);
             v.s = 4;
-            REQUIRE(v == qua(1,2,3,4));
+            CHECK(v == qua(1,2,3,4));
         }
     }
 
     SUBCASE("at") {
-        STATIC_REQUIRE(qfloat(1,2,3,4).at(0) == 1);
-        STATIC_REQUIRE(qfloat(1,2,3,4).at(1) == 2);
-        STATIC_REQUIRE(qfloat(1,2,3,4).at(2) == 3);
-        STATIC_REQUIRE(qfloat(1,2,3,4).at(3) == 4);
-        REQUIRE_THROWS_AS((void)qfloat(1,2,3,4).at(4), std::out_of_range);
+        STATIC_CHECK(qfloat(1,2,3,4).at(0) == 1);
+        STATIC_CHECK(qfloat(1,2,3,4).at(1) == 2);
+        STATIC_CHECK(qfloat(1,2,3,4).at(2) == 3);
+        STATIC_CHECK(qfloat(1,2,3,4).at(3) == 4);
+    #ifndef VMATH_HPP_NO_EXCEPTIONS
+        CHECK_THROWS_AS((void)qfloat(1,2,3,4).at(4), std::out_of_range);
+    #endif
     }
 
     SUBCASE("operator==/operator!=") {
-        STATIC_REQUIRE(qfloat(1,2,3,4) == qfloat(1,2,3,4));
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) == qfloat(2,2,3,4));
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) == qfloat(1,3,3,4));
+        STATIC_CHECK(qfloat(1,2,3,4) == qfloat(1,2,3,4));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) == qfloat(2,2,3,4));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) == qfloat(1,3,3,4));
 
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) != qfloat(1,2,3,4));
-        STATIC_REQUIRE(qfloat(1,2,3,4) != qfloat(2,2,3,4));
-        STATIC_REQUIRE(qfloat(1,2,3,4) != qfloat(1,3,3,4));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) != qfloat(1,2,3,4));
+        STATIC_CHECK(qfloat(1,2,3,4) != qfloat(2,2,3,4));
+        STATIC_CHECK(qfloat(1,2,3,4) != qfloat(1,3,3,4));
     }
 
     SUBCASE("operator<") {
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) < qfloat(1,2,3,4));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(1,2,3,4));
 
-        STATIC_REQUIRE(qfloat(0,2,3,4) < qfloat(1,2,3,4));
-        STATIC_REQUIRE(qfloat(1,1,3,4) < qfloat(1,2,3,4));
-        STATIC_REQUIRE(qfloat(1,2,2,4) < qfloat(1,2,3,4));
-        STATIC_REQUIRE(qfloat(1,2,3,3) < qfloat(1,2,3,4));
+        STATIC_CHECK(qfloat(0,2,3,4) < qfloat(1,2,3,4));
+        STATIC_CHECK(qfloat(1,1,3,4) < qfloat(1,2,3,4));
+        STATIC_CHECK(qfloat(1,2,2,4) < qfloat(1,2,3,4));
+        STATIC_CHECK(qfloat(1,2,3,3) < qfloat(1,2,3,4));
 
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) < qfloat(0,2,3,4));
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) < qfloat(1,1,3,4));
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) < qfloat(1,2,2,4));
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) < qfloat(1,2,3,3));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(0,2,3,4));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(1,1,3,4));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(1,2,2,4));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(1,2,3,3));
 
-        STATIC_REQUIRE(qfloat(0,3,3,4) < qfloat(1,2,3,4));
-        STATIC_REQUIRE_FALSE(qfloat(1,2,3,4) < qfloat(0,3,3,4));
+        STATIC_CHECK(qfloat(0,3,3,4) < qfloat(1,2,3,4));
+        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(0,3,3,4));
     }
 }

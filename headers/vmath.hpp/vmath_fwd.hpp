@@ -8,6 +8,7 @@
 
 #include <cmath>
 #include <cstddef>
+#include <cstdlib>
 
 #include <initializer_list>
 #include <iterator>
@@ -23,6 +24,19 @@
 #else
 #  define VMATH_HPP_FORCE_INLINE inline
 #endif
+
+#if !defined(__cpp_exceptions) && !defined(__EXCEPTIONS) && !defined(_CPPUNWIND)
+#  define VMATH_HPP_NO_EXCEPTIONS
+#endif
+
+#ifdef VMATH_HPP_NO_EXCEPTIONS
+#  define VMATH_HPP_THROW(...) std::abort()
+#else
+#  define VMATH_HPP_THROW(...) throw __VA_ARGS__
+#endif
+
+#define VMATH_HPP_THROW_IF(pred, ...)\
+    ( (pred) ? VMATH_HPP_THROW(__VA_ARGS__) : (void)0 )
 
 namespace vmath_hpp
 {
