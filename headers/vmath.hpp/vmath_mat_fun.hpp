@@ -501,21 +501,15 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    // any
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool any(const mat<T, Size>& xs) {
         return fold_join([](bool acc, const vec<T, Size>& x){ return acc || any(x); }, false, xs);
     }
 
-    // all
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool all(const mat<T, Size>& xs) {
         return fold_join([](bool acc, const vec<T, Size>& x){ return acc && all(x); }, true, xs);
     }
-
-    // approx
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys) {
@@ -527,42 +521,30 @@ namespace vmath_hpp
         return map_join([epsilon](const vec<T, Size>& x, const vec<T, Size>& y){ return approx(x, y, epsilon); }, xs, ys);
     }
 
-    // less
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> less(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return less(x, y); }, xs, ys);
     }
-
-    // less_equal
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> less_equal(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return less_equal(x, y); }, xs, ys);
     }
 
-    // greater
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> greater(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return greater(x, y); }, xs, ys);
     }
-
-    // greater_equal
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> greater_equal(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return greater_equal(x, y); }, xs, ys);
     }
 
-    // equal_to
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return equal_to(x, y); }, xs, ys);
     }
-
-    // not_equal_to
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> not_equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys) {

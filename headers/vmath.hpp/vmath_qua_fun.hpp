@@ -241,7 +241,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> normalize(const qua<T>& xs) {
+    [[nodiscard]] qua<T> normalize(const qua<T>& xs) {
         return qua(normalize(vec{xs}));
     }
 }
@@ -252,8 +252,6 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    // approx
-
     template < typename T >
     [[nodiscard]] constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys) {
         return approx(vec{xs}, vec{ys});
@@ -264,42 +262,30 @@ namespace vmath_hpp
         return approx(vec{xs}, vec{ys}, epsilon);
     }
 
-    // less
-
     template < typename T >
     [[nodiscard]] constexpr vec<bool, 4> less(const qua<T>& xs, const qua<T>& ys) {
         return less(vec{xs}, vec{ys});
     }
-
-    // less_equal
 
     template < typename T >
     [[nodiscard]] constexpr vec<bool, 4> less_equal(const qua<T>& xs, const qua<T>& ys) {
         return less_equal(vec{xs}, vec{ys});
     }
 
-    // greater
-
     template < typename T >
     [[nodiscard]] constexpr vec<bool, 4> greater(const qua<T>& xs, const qua<T>& ys) {
         return greater(vec{xs}, vec{ys});
     }
-
-    // greater_equal
 
     template < typename T >
     [[nodiscard]] constexpr vec<bool, 4> greater_equal(const qua<T>& xs, const qua<T>& ys) {
         return greater_equal(vec{xs}, vec{ys});
     }
 
-    // equal_to
-
     template < typename T >
     [[nodiscard]] constexpr vec<bool, 4> equal_to(const qua<T>& xs, const qua<T>& ys) {
         return equal_to(vec{xs}, vec{ys});
     }
-
-    // not_equal_to
 
     template < typename T >
     [[nodiscard]] constexpr vec<bool, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys) {
@@ -324,6 +310,6 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr qua<T> inverse(const qua<T>& q) {
-        return conjugate(q) * rcp(dot(q, q));
+        return conjugate(q) * rcp(length2(q));
     }
 }

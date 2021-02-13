@@ -242,13 +242,13 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> translate(const vec<T, 3>& v) {
-        return translate(v.x, v.y, v.z);
+    [[nodiscard]] constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z) {
+        return m * translate(x, y, z);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z) {
-        return m * translate(x, y, z);
+    [[nodiscard]] constexpr mat<T, 4> translate(const vec<T, 3>& v) {
+        return translate(v.x, v.y, v.z);
     }
 
     template < typename T >
@@ -289,6 +289,11 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] mat<T, 4> rotate(const mat<T, 4>& m, const qua<T>& q) {
+        return m * rotate(q);
+    }
+
+    template < typename T >
     [[nodiscard]] mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
@@ -324,11 +329,6 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
         return m * rotate(angle, axis);
-    }
-
-    template < typename T >
-    [[nodiscard]] mat<T, 4> rotate(const mat<T, 4>& m, const qua<T>& q) {
-        return m * rotate(q);
     }
 
     template < typename T >
@@ -403,13 +403,13 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> scale(const vec<T, 3>& v) {
-        return scale(v.x, v.y, v.z);
+    [[nodiscard]] constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z) {
+        return m * scale(x, y, z);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z) {
-        return m * scale(x, y, z);
+    [[nodiscard]] constexpr mat<T, 4> scale(const vec<T, 3>& v) {
+        return scale(v.x, v.y, v.z);
     }
 
     template < typename T >
@@ -480,13 +480,13 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> translate(const vec<T, 2>& v) {
-        return translate(v.x, v.y);
+    [[nodiscard]] constexpr mat<T, 3> translate(const mat<T, 3>& m, T x, T y) {
+        return m * translate(x, y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> translate(const mat<T, 3>& m, T x, T y) {
-        return m * translate(x, y);
+    [[nodiscard]] constexpr mat<T, 3> translate(const vec<T, 2>& v) {
+        return translate(v.x, v.y);
     }
 
     template < typename T >
@@ -528,13 +528,13 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 2>& v) {
-        return scale(v.x, v.y);
+    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y) {
+        return m * scale(x, y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y) {
-        return m * scale(x, y);
+    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 2>& v) {
+        return scale(v.x, v.y);
     }
 
     template < typename T >
@@ -556,13 +556,13 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear(const vec<T, 2>& v) {
-        return shear(v.x, v.y);
+    [[nodiscard]] constexpr mat<T, 3> shear(const mat<T, 3>& m, T x, T y) {
+        return m * shear(x, y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear(const mat<T, 3>& m, T x, T y) {
-        return m * shear(x, y);
+    [[nodiscard]] constexpr mat<T, 3> shear(const vec<T, 2>& v) {
+        return shear(v.x, v.y);
     }
 
     template < typename T >
@@ -842,7 +842,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal) {
-        return dot(v, normal) / dot(normal, normal) * normal;
+        return dot(v, normal) * rcp(length2(normal)) * normal;
     }
 
     // perpendicular

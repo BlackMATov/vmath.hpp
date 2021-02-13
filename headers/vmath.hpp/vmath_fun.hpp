@@ -137,7 +137,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr smoothstep(T edge0, T edge1, T x) noexcept {
-        const T t = clamp((x - edge0) / (edge1 - edge0), T(0), T(1));
+        const T t = clamp((x - edge0) * rcp(edge1 - edge0), T(0), T(1));
         return t * t * (T(3) - T(2) * t);
     }
 
@@ -376,7 +376,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     normalize(T x) noexcept {
-        return x * rsqrt(dot(x, x));
+        return x * rsqrt(length2(x));
     }
 
     template < typename T >
