@@ -14,5 +14,8 @@
 #include "vmath_mat.hpp"
 #include "vmath_mat_fun.hpp"
 
+#include "vmath_qua.hpp"
+#include "vmath_qua_fun.hpp"
+
 #include "vmath_vec.hpp"
 #include "vmath_vec_fun.hpp"

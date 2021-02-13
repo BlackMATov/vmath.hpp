@@ -15,15 +15,21 @@
 namespace vmath_hpp
 {
     template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_signed_v<T>, T>
+    constexpr abs(T x) noexcept {
+        return x >= T(0) ? x : -x;
+    }
+
+    template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_unsigned_v<T>, T>
     constexpr abs(T x) noexcept {
         return x;
     }
 
     template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_signed_v<T>, T>
-    constexpr abs(T x) noexcept {
-        return x >= T(0) ? x : -x;
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr sqr(T x) noexcept {
+        return x * x;
     }
 
     template < typename T >
@@ -81,31 +87,21 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    copysign(T x, T s) noexcept {
+        return std::copysign(x, s);
+    }
+
+    template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr min(T x, T y) noexcept {
         return x < y ? x : y;
-    }
-
-    template < typename T, typename... Ts >
-    [[nodiscard]] std::enable_if_t<
-        std::is_arithmetic_v<T>,
-        std::common_type_t<T, Ts...>>
-    constexpr min(T x, T y, Ts... ts) noexcept {
-        return min(min(x, y), ts...);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr max(T x, T y) noexcept {
         return x < y ? y : x;
-    }
-
-    template < typename T, typename... Ts >
-    [[nodiscard]] std::enable_if_t<
-        std::is_arithmetic_v<T>,
-        std::common_type_t<T, Ts...>>
-    constexpr max(T x, T y, Ts... ts) noexcept {
-        return max(max(x, y), ts...);
     }
 
     template < typename T >
@@ -128,6 +124,12 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr lerp(T x, T y, T x_a, T y_a) noexcept {
+        return x * x_a + y * y_a;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr step(T edge, T x) noexcept {
         return x < edge ? T(0) : T(1);
     }
@@ -135,7 +137,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr smoothstep(T edge0, T edge1, T x) noexcept {
-        const T t = clamp((x - edge0) / (edge1 - edge0), T(0), T(1));
+        const T t = clamp((x - edge0) * rcp(edge1 - edge0), T(0), T(1));
         return t * t * (T(3) - T(2) * t);
     }
 
@@ -177,7 +179,7 @@ namespace vmath_hpp
 }
 
 //
-// Angle and Trigonometry Functions
+// Angle and Trigonometric Functions
 //
 
 namespace vmath_hpp
@@ -275,11 +277,11 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, std::pair<T, T>>
     sincos(T x) noexcept {
-        return {sin(x), cos(x)};
+        return { sin(x), cos(x) };
     }
 
     template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, void>
+    std::enable_if_t<std::is_floating_point_v<T>, void>
     sincos(T x, T* s, T* c) noexcept {
         *s = sin(x);
         *c = cos(x);
@@ -374,7 +376,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     normalize(T x) noexcept {
-        return x * rsqrt(dot(x, x));
+        return x * rsqrt(length2(x));
     }
 
     template < typename T >
@@ -420,9 +422,10 @@ namespace vmath_hpp
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
     constexpr approx(T x, T y) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
-            // http://www.realtimecollisiondetection.net/pubs/Tolerances
+            /// REFERENCE:
+            /// http://www.realtimecollisiondetection.net/pubs/Tolerances
             const T epsilon = std::numeric_limits<T>::epsilon();
-            return abs(x - y) <= epsilon * max(T(1), abs(x), abs(y));
+            return abs(x - y) <= epsilon * max(max(T(1), abs(x)), abs(y));
         } else {
             return x == y;
         }
@@ -432,8 +435,9 @@ namespace vmath_hpp
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
     constexpr approx(T x, T y, T epsilon) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
-            // http://www.realtimecollisiondetection.net/pubs/Tolerances
-            return abs(x - y) <= epsilon * max(T(1), abs(x), abs(y));
+            /// REFERENCE:
+            /// http://www.realtimecollisiondetection.net/pubs/Tolerances
+            return abs(x - y) <= epsilon * max(max(T(1), abs(x)), abs(y));
         } else {
             return abs(x - y) <= epsilon;
         }

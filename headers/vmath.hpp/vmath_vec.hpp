@@ -204,16 +204,12 @@ namespace vmath_hpp
         }
 
         [[nodiscard]] constexpr reference at(std::size_t index) {
-            if ( index >= Size ) {
-                throw std::out_of_range("vec::at");
-            }
+            VMATH_HPP_THROW_IF(index >= size, std::out_of_range("vec::at"));
             return (*this)[index];
         }
 
         [[nodiscard]] constexpr const_reference at(std::size_t index) const {
-            if ( index >= Size ) {
-                throw std::out_of_range("vec::at");
-            }
+            VMATH_HPP_THROW_IF(index >= size, std::out_of_range("vec::at"));
             return (*this)[index];
         }
     };

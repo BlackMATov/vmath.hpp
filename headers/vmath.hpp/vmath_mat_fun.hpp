@@ -192,6 +192,13 @@ namespace vmath_hpp::detail
 
 namespace vmath_hpp
 {
+    // +operator
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> operator+(const mat<T, Size>& xs) {
+        return xs;
+    }
+
     // -operator
 
     template < typename T, std::size_t Size >
@@ -494,30 +501,14 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    // any
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool any(const mat<T, Size>& xs) {
         return fold_join([](bool acc, const vec<T, Size>& x){ return acc || any(x); }, false, xs);
     }
 
-    // all
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool all(const mat<T, Size>& xs) {
         return fold_join([](bool acc, const vec<T, Size>& x){ return acc && all(x); }, true, xs);
-    }
-
-    // approx
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, T y) {
-        return map_join([y](const vec<T, Size>& x){ return approx(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approx(T x, const mat<T, Size>& ys) {
-        return map_join([x](const vec<T, Size>& y){ return approx(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -526,30 +517,8 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, T y, T epsilon) {
-        return map_join([y, epsilon](const vec<T, Size>& x){ return approx(x, y, epsilon); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approx(T x, const mat<T, Size>& ys, T epsilon) {
-        return map_join([x, epsilon](const vec<T, Size>& y){ return approx(x, y, epsilon); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon) {
         return map_join([epsilon](const vec<T, Size>& x, const vec<T, Size>& y){ return approx(x, y, epsilon); }, xs, ys);
-    }
-
-    // less
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> less(const mat<T, Size>& xs, T y) {
-        return map_join([y](const vec<T, Size>& x){ return less(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> less(T x, const mat<T, Size>& ys) {
-        return map_join([x](const vec<T, Size>& y){ return less(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -557,33 +526,9 @@ namespace vmath_hpp
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return less(x, y); }, xs, ys);
     }
 
-    // less_equal
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> less_equal(const mat<T, Size>& xs, T y) {
-        return map_join([y](const vec<T, Size>& x){ return less_equal(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> less_equal(T x, const mat<T, Size>& ys) {
-        return map_join([x](const vec<T, Size>& y){ return less_equal(x, y); }, ys);
-    }
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> less_equal(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return less_equal(x, y); }, xs, ys);
-    }
-
-    // greater
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> greater(const mat<T, Size>& xs, T y) {
-        return map_join([y](const vec<T, Size>& x){ return greater(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> greater(T x, const mat<T, Size>& ys) {
-        return map_join([x](const vec<T, Size>& y){ return greater(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -591,50 +536,14 @@ namespace vmath_hpp
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return greater(x, y); }, xs, ys);
     }
 
-    // greater_equal
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> greater_equal(const mat<T, Size>& xs, T y) {
-        return map_join([y](const vec<T, Size>& x){ return greater_equal(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> greater_equal(T x, const mat<T, Size>& ys) {
-        return map_join([x](const vec<T, Size>& y){ return greater_equal(x, y); }, ys);
-    }
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> greater_equal(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return greater_equal(x, y); }, xs, ys);
     }
 
-    // equal_to
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> equal_to(const mat<T, Size>& xs, T y) {
-        return map_join([y](const vec<T, Size>& x){ return equal_to(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> equal_to(T x, const mat<T, Size>& ys) {
-        return map_join([x](const vec<T, Size>& y){ return equal_to(x, y); }, ys);
-    }
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<bool, Size> equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return equal_to(x, y); }, xs, ys);
-    }
-
-    // not_equal_to
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> not_equal_to(const mat<T, Size>& xs, T y) {
-        return map_join([y](const vec<T, Size>& x){ return not_equal_to(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> not_equal_to(T x, const mat<T, Size>& ys) {
-        return map_join([x](const vec<T, Size>& y){ return not_equal_to(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -723,6 +632,9 @@ namespace vmath_hpp
             T a, T b,
             T c, T d)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/twoD/
+
             return
                 + a * d
                 - b * c;
@@ -735,6 +647,9 @@ namespace vmath_hpp
             T d, T e, T f,
             T g, T h, T i)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
+
             return
                 + a * determinant_2x2_impl(e, f, h, i)
                 - b * determinant_2x2_impl(d, f, g, i)
@@ -750,6 +665,9 @@ namespace vmath_hpp
             T i, T j, T k, T l,
             T m, T n, T o, T p)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/fourD/
+
             return
                 + a * determinant_3x3_impl(f, g, h, j, k, l, n, o, p)
                 - b * determinant_3x3_impl(e, g, h, i, k, l, m, o, p)
@@ -790,13 +708,16 @@ namespace vmath_hpp
             T a, T b,
             T c, T d)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/twoD/
+
             const T inv_det = rcp(determinant_2x2_impl(
                 a, b,
                 c, d));
 
-            const mat<T, 2> inv_m(
+            const mat inv_m{
                 d, -b,
-                -c, a);
+                -c, a};
 
             return inv_m * inv_det;
         }
@@ -808,12 +729,15 @@ namespace vmath_hpp
             T d, T e, T f,
             T g, T h, T i)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/
+
             const T inv_det = rcp(determinant_3x3_impl(
                 a, b, c,
                 d, e, f,
                 g, h, i));
 
-            const mat<T, 3> inv_m(
+            const mat inv_m{
                 e * i - f * h,
                 c * h - b * i,
                 b * f - c * e,
@@ -822,7 +746,7 @@ namespace vmath_hpp
                 c * d - a * f,
                 d * h - e * g,
                 b * g - a * h,
-                a * e - b * d);
+                a * e - b * d};
 
             return inv_m * inv_det;
         }
@@ -835,13 +759,16 @@ namespace vmath_hpp
             T i, T j, T k, T l,
             T m, T n, T o, T p)
         {
+            /// REFERENCE:
+            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/
+
             const T inv_det = rcp(determinant_4x4_impl(
                 a, b, c, d,
                 e, f, g, h,
                 i, j, k, l,
                 m, n, o, p));
 
-            const mat<T, 4> inv_m(
+            const mat inv_m{
                 (f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n)),
                 (j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n)),
                 (n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f)),
@@ -857,7 +784,7 @@ namespace vmath_hpp
                 (e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n)),
                 (i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n)),
                 (m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f)),
-                (a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i)));
+                (a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i))};
 
             return inv_m * inv_det;
         }

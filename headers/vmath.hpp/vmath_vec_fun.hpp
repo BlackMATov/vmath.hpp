@@ -55,6 +55,24 @@ namespace vmath_hpp::detail::impl
         return { f(a[Is], b[Is], c[Is])... };
     }
 
+    template < typename A, typename B, typename C, typename D, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join_impl(
+        F&& f,
+        const vec<A, Size>& a,
+        const vec<B, Size>& b,
+        const vec<C, Size>& c,
+        const vec<D, Size>& d,
+        std::index_sequence<Is...>
+    ) -> vec<decltype(f(
+        std::declval<A>(),
+        std::declval<B>(),
+        std::declval<C>(),
+        std::declval<D>())), Size>
+    {
+        return { f(a[Is], b[Is], c[Is], d[Is])... };
+    }
+
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold_join_impl(
@@ -125,6 +143,19 @@ namespace vmath_hpp::detail
             std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
     }
 
+    template < typename A, typename B, typename C, typename D, std::size_t Size, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(
+        F&& f,
+        const vec<A, Size>& a,
+        const vec<B, Size>& b,
+        const vec<C, Size>& c,
+        const vec<D, Size>& d
+    ) {
+        return impl::map_join_impl(
+            std::forward<F>(f), a, b, c, d, std::make_index_sequence<Size>{});
+    }
+
     template < typename A, typename B, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold_join(
@@ -165,6 +196,13 @@ namespace vmath_hpp::detail
 
 namespace vmath_hpp
 {
+    // +operator
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> operator+(const vec<T, Size>& xs) {
+        return xs;
+    }
+
     // -operator
 
     template < typename T, std::size_t Size >
@@ -458,7 +496,236 @@ namespace vmath_hpp
 }
 
 //
-// Angle and Trigonometry Functions
+// Common Functions
+//
+
+namespace vmath_hpp
+{
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> abs(const vec<T, Size>& xs) {
+        return map_join([](T x) { return abs(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> sqr(const vec<T, Size>& xs) {
+        return map_join([](T x) { return sqr(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> sign(const vec<T, Size>& xs) {
+        return map_join([](T x) { return sign(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> rcp(const vec<T, Size>& xs) {
+        return map_join([](T x) { return rcp(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> floor(const vec<T, Size>& xs) {
+        return map_join([](T x) { return floor(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> trunc(const vec<T, Size>& xs) {
+        return map_join([](T x) { return trunc(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> round(const vec<T, Size>& xs) {
+        return map_join([](T x) { return round(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> ceil(const vec<T, Size>& xs) {
+        return map_join([](T x) { return ceil(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> fract(const vec<T, Size>& xs) {
+        return map_join([](T x) { return fract(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> fmod(const vec<T, Size>& xs, T y) {
+        return map_join([y](T x) { return fmod(x, y); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> fmod(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return map_join([](T x, T y) { return fmod(x, y); }, xs, ys);
+    }
+
+    namespace impl
+    {
+        template < typename T, std::size_t Size, std::size_t... Is >
+        VMATH_HPP_FORCE_INLINE
+        vec<T, Size> modf_impl(const vec<T, Size>& xs, vec<T, Size>* is, std::index_sequence<Is...>) {
+            return { modf(xs[Is], &(*is)[Is])... };
+        }
+    }
+
+    template < typename T, std::size_t Size >
+    vec<T, Size> modf(const vec<T, Size>& xs, vec<T, Size>* is) {
+        return impl::modf_impl(xs, is, std::make_index_sequence<Size>{});
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> copysign(const vec<T, Size>& xs, T s) {
+        return map_join([s](T x) { return copysign(x, s); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> copysign(const vec<T, Size>& xs, const vec<T, Size>& ss) {
+        return map_join([](T x, T s) { return copysign(x, s); }, xs, ss);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr T min(const vec<T, Size>& xs) {
+        return fold1_join([](T acc, T x){ return min(acc, x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> min(const vec<T, Size>& xs, T y) {
+        return map_join([y](T x) { return min(x, y); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> min(T x, const vec<T, Size>& ys) {
+        return map_join([x](T y) { return min(x, y); }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> min(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return map_join([](T x, T y) { return min(x, y); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr T max(const vec<T, Size>& xs) {
+        return fold1_join([](T acc, T x){ return max(acc, x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> max(const vec<T, Size>& xs, T y) {
+        return map_join([y](T x) { return max(x, y); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> max(T x, const vec<T, Size>& ys) {
+        return map_join([x](T y) { return max(x, y); }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> max(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return map_join([](T x, T y) { return max(x, y); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> clamp(const vec<T, Size>& xs, T min_x, T max_x) {
+        return map_join([min_x, max_x](T x) { return clamp(x, min_x, max_x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> clamp(const vec<T, Size>& xs, const vec<T, Size>& min_xs, const vec<T, Size>& max_xs) {
+        return map_join([](T x, T min_x, T max_x) { return clamp(x, min_x, max_x); }, xs, min_xs, max_xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> saturate(const vec<T, Size>& xs) {
+        return map_join([](T x) { return saturate(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, T a) {
+        return map_join([a](T x, T y) { return lerp(x, y, a); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, T x_a, T y_a) {
+        return map_join([x_a, y_a](T x, T y) { return lerp(x, y, x_a, y_a); }, xs, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> lerp(
+        const vec<T, Size>& xs,
+        const vec<T, Size>& ys,
+        const vec<T, Size>& as)
+    {
+        return map_join([](T x, T y, T a) { return lerp(x, y, a); }, xs, ys, as);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> lerp(
+        const vec<T, Size>& xs,
+        const vec<T, Size>& ys,
+        const vec<T, Size>& xs_a,
+        const vec<T, Size>& ys_a)
+    {
+        return map_join([](T x, T y, T x_a, T y_a) { return lerp(x, y, x_a, y_a); }, xs, ys, xs_a, ys_a);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> step(T edge, const vec<T, Size>& xs) {
+        return map_join([edge](T x) { return step(edge, x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> step(const vec<T, Size>& edges, const vec<T, Size>& xs) {
+        return map_join([](T edge, T x) { return step(edge, x); }, edges, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> smoothstep(T edge0, T edge1, const vec<T, Size>& xs) {
+        return map_join([edge0, edge1](T x) { return smoothstep(edge0, edge1, x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> smoothstep(const vec<T, Size>& edges0, const vec<T, Size>& edges1, const vec<T, Size>& xs) {
+        return map_join([](T edge0, T edge1, T x) { return smoothstep(edge0, edge1, x); }, edges0, edges1, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<bool, Size> isnan(const vec<T, Size>& xs) {
+        return map_join([](T x) { return isnan(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<bool, Size> isinf(const vec<T, Size>& xs) {
+        return map_join([](T x) { return isinf(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<bool, Size> isfinite(const vec<T, Size>& xs) {
+        return map_join([](T x) { return isfinite(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs) {
+        return map_join([](T a, T b, T c) { return fma(a, b, c); }, as, bs, cs);
+    }
+
+    namespace impl
+    {
+        template < typename T, std::size_t Size, std::size_t... Is >
+        VMATH_HPP_FORCE_INLINE
+        vec<T, Size> frexp_impl(const vec<T, Size>& xs, vec<int, Size>* exps, std::index_sequence<Is...>) {
+            return { frexp(xs[Is], &(*exps)[Is])... };
+        }
+    }
+
+    template < typename T, std::size_t Size >
+    vec<T, Size> frexp(const vec<T, Size>& xs, vec<int, Size>* exps) {
+        return impl::frexp_impl(xs, exps, std::make_index_sequence<Size>{});
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> ldexp(const vec<T, Size>& xs, const vec<int, Size>& exps) {
+        return map_join([](T x, int exp) { return ldexp(x, exp); }, xs, exps);
+    }
+}
+
+//
+// Angle and Trigonometric Functions
 //
 
 namespace vmath_hpp
@@ -538,10 +805,15 @@ namespace vmath_hpp
         return map_join([](T x) { return atanh(x); }, xs);
     }
 
-    template < typename T, size_t Size >
+    template < typename T, std::size_t Size >
+    [[nodiscard]] std::pair<vec<T, Size>, vec<T, Size>> sincos(const vec<T, Size>& xs) {
+        return { sin(xs), cos(xs) };
+    }
+
+    template < typename T, std::size_t Size >
     void sincos(const vec<T, Size>& xs, vec<T, Size>* ss, vec<T, Size>* cs) {
-        *ss = map_join([](T x){ return sin(x); }, xs);
-        *cs = map_join([](T x){ return cos(x); }, xs);
+        *ss = sin(xs);
+        *cs = cos(xs);
     }
 }
 
@@ -584,191 +856,6 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     [[nodiscard]] vec<T, Size> rsqrt(const vec<T, Size>& xs) {
         return map_join([](T x) { return rsqrt(x); }, xs);
-    }
-}
-
-//
-// Common Functions
-//
-
-namespace vmath_hpp
-{
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> abs(const vec<T, Size>& xs) {
-        return map_join([](T x) { return abs(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> sign(const vec<T, Size>& xs) {
-        return map_join([](T x) { return sign(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> rcp(const vec<T, Size>& xs) {
-        return map_join([](T x) { return rcp(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> floor(const vec<T, Size>& xs) {
-        return map_join([](T x) { return floor(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> trunc(const vec<T, Size>& xs) {
-        return map_join([](T x) { return trunc(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> round(const vec<T, Size>& xs) {
-        return map_join([](T x) { return round(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> ceil(const vec<T, Size>& xs) {
-        return map_join([](T x) { return ceil(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> fract(const vec<T, Size>& xs) {
-        return map_join([](T x) { return fract(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> fmod(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x) { return fmod(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> fmod(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y) { return fmod(x, y); }, xs, ys);
-    }
-
-    namespace impl
-    {
-        template < typename T, std::size_t Size, std::size_t... Is >
-        VMATH_HPP_FORCE_INLINE
-        vec<T, Size> modf_impl(const vec<T, Size>& xs, vec<T, Size>* is, std::index_sequence<Is...>) {
-            return { modf(xs[Is], &(*is)[Is])... };
-        }
-    }
-
-    template < typename T, std::size_t Size >
-    vec<T, Size> modf(const vec<T, Size>& xs, vec<T, Size>* is) {
-        return impl::modf_impl(xs, is, std::make_index_sequence<Size>{});
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr T min(const vec<T, Size>& xs) {
-        return fold1_join([](T acc, T x){ return min(acc, x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> min(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x) { return min(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> min(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y) { return min(x, y); }, xs, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr T max(const vec<T, Size>& xs) {
-        return fold1_join([](T acc, T x){ return max(acc, x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> max(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x) { return max(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> max(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y) { return max(x, y); }, xs, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> clamp(const vec<T, Size>& xs, T min_x, T max_x) {
-        return map_join([min_x, max_x](T x) { return clamp(x, min_x, max_x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> clamp(const vec<T, Size>& xs, const vec<T, Size>& min_xs, const vec<T, Size>& max_xs) {
-        return map_join([](T x, T min_x, T max_x) { return clamp(x, min_x, max_x); }, xs, min_xs, max_xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> saturate(const vec<T, Size>& xs) {
-        return map_join([](T x) { return saturate(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, T a) {
-        return map_join([a](T x, T y) { return lerp(x, y, a); }, xs, ys);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, const vec<T, Size>& as) {
-        return map_join([](T x, T y, T a) { return lerp(x, y, a); }, xs, ys, as);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> step(T edge, const vec<T, Size>& xs) {
-        return map_join([edge](T x) { return step(edge, x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> step(const vec<T, Size>& edges, const vec<T, Size>& xs) {
-        return map_join([](T edge, T x) { return step(edge, x); }, edges, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> smoothstep(T edge0, T edge1, const vec<T, Size>& xs) {
-        return map_join([edge0, edge1](T x) { return smoothstep(edge0, edge1, x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> smoothstep(const vec<T, Size>& edges0, const vec<T, Size>& edges1, const vec<T, Size>& xs) {
-        return map_join([](T edge0, T edge1, T x) { return smoothstep(edge0, edge1, x); }, edges0, edges1, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<bool, Size> isnan(const vec<T, Size>& xs) {
-        return map_join([](T x) { return isnan(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<bool, Size> isinf(const vec<T, Size>& xs) {
-        return map_join([](T x) { return isinf(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<bool, Size> isfinite(const vec<T, Size>& xs) {
-        return map_join([](T x) { return isfinite(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs) {
-        return map_join([](T a, T b, T c) { return fma(a, b, c); }, as, bs, cs);
-    }
-
-    namespace impl
-    {
-        template < typename T, std::size_t Size, std::size_t... Is >
-        VMATH_HPP_FORCE_INLINE
-        vec<T, Size> frexp_impl(const vec<T, Size>& xs, vec<int, Size>* exps, std::index_sequence<Is...>) {
-            return { frexp(xs[Is], &(*exps)[Is])... };
-        }
-    }
-
-    template < typename T, std::size_t Size >
-    vec<T, Size> frexp(const vec<T, Size>& xs, vec<int, Size>* exps) {
-        return impl::frexp_impl(xs, exps, std::make_index_sequence<Size>{});
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> ldexp(const vec<T, Size>& xs, const vec<int, Size>& exps) {
-        return map_join([](T x, int exp) { return ldexp(x, exp); }, xs, exps);
     }
 }
 
@@ -820,7 +907,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] vec<T, Size> normalize(const vec<T, Size>& xs) {
-        return xs * rsqrt(dot(xs, xs));
+        return xs * rsqrt(length2(xs));
     }
 
     template < typename T, std::size_t Size >
@@ -847,30 +934,14 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    // any
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool any(const vec<T, Size>& xs) {
         return fold_join([](bool acc, T x){ return acc || any(x); }, false, xs);
     }
 
-    // all
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool all(const vec<T, Size>& xs) {
         return fold_join([](bool acc, T x){ return acc && all(x); }, true, xs);
-    }
-
-    // approx
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> approx(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return approx(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> approx(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return approx(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -879,30 +950,8 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> approx(const vec<T, Size>& xs, T y, T epsilon) {
-        return map_join([y, epsilon](T x){ return approx(x, y, epsilon); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> approx(T x, const vec<T, Size>& ys, T epsilon) {
-        return map_join([x, epsilon](T y){ return approx(x, y, epsilon); }, ys);
-    }
-
-    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon) {
         return map_join([epsilon](T x, T y){ return approx(x, y, epsilon); }, xs, ys);
-    }
-
-    // less
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> less(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return less(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> less(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return less(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -910,33 +959,9 @@ namespace vmath_hpp
         return map_join([](T x, T y){ return less(x, y); }, xs, ys);
     }
 
-    // less_equal
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return less_equal(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> less_equal(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return less_equal(x, y); }, ys);
-    }
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return map_join([](T x, T y){ return less_equal(x, y); }, xs, ys);
-    }
-
-    // greater
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> greater(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return greater(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> greater(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return greater(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -944,50 +969,14 @@ namespace vmath_hpp
         return map_join([](T x, T y){ return greater(x, y); }, xs, ys);
     }
 
-    // greater_equal
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return greater_equal(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> greater_equal(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return greater_equal(x, y); }, ys);
-    }
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return map_join([](T x, T y){ return greater_equal(x, y); }, xs, ys);
     }
 
-    // equal_to
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return equal_to(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> equal_to(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return equal_to(x, y); }, ys);
-    }
-
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys) {
         return map_join([](T x, T y){ return equal_to(x, y); }, xs, ys);
-    }
-
-    // not_equal_to
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, T y) {
-        return map_join([y](T x){ return not_equal_to(x, y); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<bool, Size> not_equal_to(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return not_equal_to(x, y); }, ys);
     }
 
     template < typename T, std::size_t Size >
