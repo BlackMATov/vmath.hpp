@@ -866,55 +866,17 @@ namespace vmath_hpp
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
 
-        const T wv = m[0][0] + m[1][1] + m[2][2];
-        const T xv = m[0][0] - m[1][1] - m[2][2];
-        const T yv = m[1][1] - m[0][0] - m[2][2];
-        const T zv = m[2][2] - m[0][0] - m[1][1];
+        auto xyzw = T(0.5) * sqrt(max(zero4<T>, {
+            T(1) + m[0][0] - m[1][1] - m[2][2],
+            T(1) - m[0][0] + m[1][1] - m[2][2],
+            T(1) - m[0][0] - m[1][1] + m[2][2],
+            T(1) + m[0][0] + m[1][1] + m[2][2]}));
 
-        struct pmv {
-            const T v{};
-            const int i{};
-        };
-
-        const auto [mv,mi] = max<pmv>({
-            {wv, 0},
-            {xv, 1},
-            {yv, 2},
-            {zv, 3},
-        }, [](auto&& l, auto&& r){
-            return l.v < r.v;
-        });
-
-        const T qv = T(0.5) * sqrt(T(1) + mv);
-        const T rqv = T(0.25) * rcp(qv);
-
-        switch ( mi ) {
-        default:
-        case 0:
-            return {
-                (m[1][2] - m[2][1]) * rqv,
-                (m[2][0] - m[0][2]) * rqv,
-                (m[0][1] - m[1][0]) * rqv,
-                qv};
-        case 1:
-            return {
-                qv,
-                (m[1][0] + m[0][1]) * rqv,
-                (m[2][0] + m[0][2]) * rqv,
-                (m[1][2] - m[2][1]) * rqv};
-        case 2:
-            return {
-                (m[1][0] + m[0][1]) * rqv,
-                qv,
-                (m[2][1] + m[1][2]) * rqv,
-                (m[2][0] - m[0][2]) * rqv};
-        case 3:
-            return {
-                (m[2][0] + m[0][2]) * rqv,
-                (m[2][1] + m[1][2]) * rqv,
-                qv,
-                (m[0][1] - m[1][0]) * rqv};
-        }
+        return qua(copysign(xyzw, {
+            m[1][2] - m[2][1],
+            m[2][0] - m[0][2],
+            m[0][1] - m[1][0],
+            T(1)}));
     }
 
     template < typename T >

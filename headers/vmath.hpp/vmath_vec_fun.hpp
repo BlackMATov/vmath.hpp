@@ -642,6 +642,11 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> sqr(const vec<T, Size>& xs) {
+        return map_join([](T x) { return sqr(x); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> sign(const vec<T, Size>& xs) {
         return map_join([](T x) { return sign(x); }, xs);
     }
@@ -698,6 +703,16 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     vec<T, Size> modf(const vec<T, Size>& xs, vec<T, Size>* is) {
         return impl::modf_impl(xs, is, std::make_index_sequence<Size>{});
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> copysign(const vec<T, Size>& xs, T s) {
+        return map_join([s](T x) { return copysign(x, s); }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> copysign(const vec<T, Size>& xs, const vec<T, Size>& ss) {
+        return map_join([](T x, T s) { return copysign(x, s); }, xs, ss);
     }
 
     template < typename T, std::size_t Size >

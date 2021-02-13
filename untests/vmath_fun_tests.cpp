@@ -86,31 +86,6 @@ TEST_CASE("vmath/fun") {
         STATIC_REQUIRE(min(0.f, 1.f) == uapprox(0.f));
         STATIC_REQUIRE(max(0.f, 1.f) == uapprox(1.f));
 
-        STATIC_REQUIRE(min({0.f}) == uapprox(0.f));
-        STATIC_REQUIRE(min({0.f, 1.f}) == uapprox(0.f));
-        STATIC_REQUIRE(min({3.f, 2.f, 1.f}) == uapprox(1.f));
-        STATIC_REQUIRE(min({4.f, 3.f, 2.f, 1.f}) == uapprox(1.f));
-
-        STATIC_REQUIRE(min({0.f}, [](auto x, auto y){return x < y;}) == uapprox(0.f));
-        STATIC_REQUIRE(min({0.f, 1.f}, [](auto x, auto y){return x < y;}) == uapprox(0.f));
-        STATIC_REQUIRE(min({3.f, 2.f, 1.f}, [](auto x, auto y){return x < y;}) == uapprox(1.f));
-        STATIC_REQUIRE(min({4.f, 3.f, 2.f, 1.f}, [](auto x, auto y){return x < y;}) == uapprox(1.f));
-
-        STATIC_REQUIRE(min({0.f}, [](auto x, auto y){return x > y;}) == uapprox(0.f));
-        STATIC_REQUIRE(min({0.f, 1.f}, [](auto x, auto y){return x > y;}) == uapprox(1.f));
-        STATIC_REQUIRE(min({3.f, 2.f, 1.f}, [](auto x, auto y){return x > y;}) == uapprox(3.f));
-        STATIC_REQUIRE(min({4.f, 3.f, 2.f, 1.f}, [](auto x, auto y){return x > y;}) == uapprox(4.f));
-
-        STATIC_REQUIRE(max({0.f}, [](auto x, auto y){return x < y;}) == uapprox(0.f));
-        STATIC_REQUIRE(max({0.f, 1.f}, [](auto x, auto y){return x < y;}) == uapprox(1.f));
-        STATIC_REQUIRE(max({3.f, 2.f, 1.f}, [](auto x, auto y){return x < y;}) == uapprox(3.f));
-        STATIC_REQUIRE(max({4.f, 3.f, 2.f, 1.f}, [](auto x, auto y){return x < y;}) == uapprox(4.f));
-
-        STATIC_REQUIRE(max({0.f}, [](auto x, auto y){return x > y;}) == uapprox(0.f));
-        STATIC_REQUIRE(max({0.f, 1.f}, [](auto x, auto y){return x > y;}) == uapprox(0.f));
-        STATIC_REQUIRE(max({3.f, 2.f, 1.f}, [](auto x, auto y){return x > y;}) == uapprox(1.f));
-        STATIC_REQUIRE(max({4.f, 3.f, 2.f, 1.f}, [](auto x, auto y){return x > y;}) == uapprox(1.f));
-
         STATIC_REQUIRE(clamp(1.0f, 2.f, 3.f) == uapprox(2.0f));
         STATIC_REQUIRE(clamp(2.5f, 2.f, 3.f) == uapprox(2.5f));
         STATIC_REQUIRE(clamp(3.5f, 2.f, 3.f) == uapprox(3.0f));

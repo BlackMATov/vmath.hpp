@@ -15,15 +15,15 @@
 namespace vmath_hpp
 {
     template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_unsigned_v<T>, T>
-    constexpr abs(T x) noexcept {
-        return x;
-    }
-
-    template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_signed_v<T>, T>
     constexpr abs(T x) noexcept {
         return x >= T(0) ? x : -x;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_unsigned_v<T>, T>
+    constexpr abs(T x) noexcept {
+        return x;
     }
 
     template < typename T >
@@ -87,63 +87,21 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    copysign(T x, T s) noexcept {
+        return std::copysign(x, s);
+    }
+
+    template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr min(T x, T y) noexcept {
         return x < y ? x : y;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr T min(std::initializer_list<T> xs) {
-        auto iter = xs.begin();
-        auto smallest = iter++;
-        for ( auto last = xs.end(); iter != last; ++iter ) {
-            if ( *iter < *smallest ) {
-                smallest = iter;
-            }
-        }
-        return *smallest;
-    }
-
-    template < typename T, class Compare >
-    [[nodiscard]] constexpr T min(std::initializer_list<T> xs, Compare comp) {
-        auto iter = xs.begin();
-        auto smallest = iter++;
-        for ( auto last = xs.end(); iter != last; ++iter ) {
-            if ( comp(*iter, *smallest) ) {
-                smallest = iter;
-            }
-        }
-        return *smallest;
-    }
-
-    template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr max(T x, T y) noexcept {
         return x < y ? y : x;
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr T max(std::initializer_list<T> xs) {
-        auto iter = xs.begin();
-        auto largest = iter++;
-        for ( auto last = xs.end(); iter != last; ++iter ) {
-            if ( *largest < *iter ) {
-                largest = iter;
-            }
-        }
-        return *largest;
-    }
-
-    template < typename T, class Compare >
-    [[nodiscard]] constexpr T max(std::initializer_list<T> xs, Compare comp) {
-        auto iter = xs.begin();
-        auto largest = iter++;
-        for ( auto last = xs.end(); iter != last; ++iter ) {
-            if ( comp(*largest, *iter) ) {
-                largest = iter;
-            }
-        }
-        return *largest;
     }
 
     template < typename T >
@@ -240,63 +198,94 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    sin(T x) noexcept { return std::sin(x); }
+    sin(T x) noexcept {
+        return std::sin(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    cos(T x) noexcept { return std::cos(x); }
+    cos(T x) noexcept {
+        return std::cos(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    tan(T x) noexcept { return std::tan(x); }
+    tan(T x) noexcept {
+        return std::tan(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    asin(T x) noexcept { return std::asin(x); }
+    asin(T x) noexcept {
+        return std::asin(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    acos(T x) noexcept { return std::acos(x); }
+    acos(T x) noexcept {
+        return std::acos(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atan(T x) noexcept { return std::atan(x); }
+    atan(T x) noexcept {
+        return std::atan(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atan2(T y, T x) noexcept { return std::atan2(y, x); }
+    atan2(T y, T x) noexcept {
+        return std::atan2(y, x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    sinh(T x) noexcept { return std::sinh(x); }
+    sinh(T x) noexcept {
+        return std::sinh(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    cosh(T x) noexcept { return std::cosh(x); }
+    cosh(T x) noexcept {
+        return std::cosh(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    tanh(T x) noexcept { return std::tanh(x); }
+    tanh(T x) noexcept {
+        return std::tanh(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    asinh(T x) noexcept { return std::asinh(x); }
+    asinh(T x) noexcept {
+        return std::asinh(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    acosh(T x) noexcept { return std::acosh(x); }
+    acosh(T x) noexcept {
+        return std::acosh(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atanh(T x) noexcept { return std::atanh(x); }
+    atanh(T x) noexcept {
+        return std::atanh(x);
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, std::pair<T, T>>
-    sincos(T x) noexcept { return {sin(x), cos(x)}; }
+    sincos(T x) noexcept {
+        return { sin(x), cos(x) };
+    }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, void>
-    sincos(T x, T* s, T* c) noexcept { *s = sin(x); *c = cos(x); }
+    sincos(T x, T* s, T* c) noexcept {
+        *s = sin(x);
+        *c = cos(x);
+    }
 }
 
 //
@@ -436,7 +425,7 @@ namespace vmath_hpp
             /// REFERENCE:
             /// http://www.realtimecollisiondetection.net/pubs/Tolerances
             const T epsilon = std::numeric_limits<T>::epsilon();
-            return abs(x - y) <= epsilon * max({T(1), abs(x), abs(y)});
+            return abs(x - y) <= epsilon * max(max(T(1), abs(x)), abs(y));
         } else {
             return x == y;
         }
@@ -448,7 +437,7 @@ namespace vmath_hpp
         if constexpr ( std::is_floating_point_v<T> ) {
             /// REFERENCE:
             /// http://www.realtimecollisiondetection.net/pubs/Tolerances
-            return abs(x - y) <= epsilon * max({T(1), abs(x), abs(y)});
+            return abs(x - y) <= epsilon * max(max(T(1), abs(x)), abs(y));
         } else {
             return abs(x - y) <= epsilon;
         }
