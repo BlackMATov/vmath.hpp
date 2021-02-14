@@ -82,12 +82,6 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    modf(T x, T* y) noexcept {
-        return std::modf(x, y);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     copysign(T x, T s) noexcept {
         return std::copysign(x, s);
     }
@@ -142,39 +136,9 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    isnan(T x) noexcept {
-        return std::isnan(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    isinf(T x) noexcept {
-        return std::isinf(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    isfinite(T x) noexcept {
-        return std::isfinite(x);
-    }
-
-    template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     fma(T x, T y, T z) noexcept {
         return std::fma(x, y, z);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    frexp(T x, int* exp) noexcept {
-        return std::frexp(x, exp);
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    ldexp(T x, int exp) noexcept {
-        return std::ldexp(x, exp);
     }
 }
 

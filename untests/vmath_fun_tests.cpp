@@ -77,12 +77,6 @@ TEST_CASE("vmath/fun") {
 
         CHECK(fmod(1.7f, 1.2f) == uapprox(0.5f));
 
-        {
-            float out_i{};
-            CHECK(modf(1.7f, &out_i) == uapprox(0.7f));
-            CHECK(out_i == uapprox(1.f));
-        }
-
         STATIC_CHECK(min(0.f, 1.f) == uapprox(0.f));
         STATIC_CHECK(max(0.f, 1.f) == uapprox(1.f));
 
@@ -106,19 +100,7 @@ TEST_CASE("vmath/fun") {
         STATIC_CHECK(step(0.5f, 0.6f) == uapprox(1.f));
         STATIC_CHECK(smoothstep(0.f, 1.f, 0.1f) == uapprox(0.028f));
 
-        CHECK_FALSE(vmath_hpp::isnan(1.f));
-        CHECK_FALSE(vmath_hpp::isinf(1.f));
-        CHECK(vmath_hpp::isfinite(1.f));
-
         CHECK(fma(2.f, 3.f, 4.f) == uapprox(10.f));
-
-        {
-            int out_exp{};
-            CHECK(frexp(1.7f, &out_exp) == uapprox(0.85f));
-            CHECK(out_exp == 1);
-        }
-
-        CHECK(ldexp(0.85f, 1) == uapprox(1.7f));
     }
 
     SUBCASE("Geometric Functions") {

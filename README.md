@@ -948,9 +948,6 @@ template < floating_point T >
 T fmod(T x, T y) noexcept;
 
 template < floating_point T >
-T modf(T x, T* y) noexcept;
-
-template < floating_point T >
 T copysign(T x, T s) noexcept;
 
 template < arithmetic T >
@@ -977,23 +974,8 @@ constexpr T step(T edge, T x) noexcept;
 template < floating_point T >
 constexpr T smoothstep(T edge0, T edge1, T x) noexcept;
 
-template < arithmetic T >
-bool isnan(T x) noexcept;
-
-template < arithmetic T >
-bool isinf(T x) noexcept;
-
-template < arithmetic T >
-bool isfinite(T x) noexcept;
-
 template < floating_point T >
 T fma(T x, T y, T z) noexcept;
-
-template < floating_point T >
-T frexp(T x, int* exp) noexcept;
-
-template < floating_point T >
-T ldexp(T x, int exp) noexcept;
 ```
 
 #### Vector
@@ -1031,9 +1013,6 @@ vec<T, Size> fmod(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
 vec<T, Size> fmod(const vec<T, Size>& xs, const vec<T, Size>& ys);
-
-template < typename T, size_t Size >
-vec<T, Size> modf(const vec<T, Size>& xs, vec<T, Size>* is);
 
 template < typename T, size_t Size >
 vec<T, Size> copysign(const vec<T, Size>& xs, T s);
@@ -1099,22 +1078,7 @@ template < typename T, size_t Size >
 constexpr vec<T, Size> smoothstep(const vec<T, Size>& edges0, const vec<T, Size>& edges1, const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-vec<bool, Size> isnan(const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
-vec<bool, Size> isinf(const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
-vec<bool, Size> isfinite(const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
 vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs);
-
-template < typename T, size_t Size >
-vec<T, Size> frexp(const vec<T, Size>& xs, vec<int, Size>* exps);
-
-template < typename T, size_t Size >
-vec<T, Size> ldexp(const vec<T, Size>& xs, const vec<int, Size>& exps);
 ```
 
 #### Quaternion
@@ -1131,15 +1095,6 @@ qua<T> nlerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a);
 
 template < typename T >
 qua<T> slerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a);
-
-template < typename T >
-vec<bool, 4> isnan(const qua<T>& xs);
-
-template < typename T >
-vec<bool, 4> isinf(const qua<T>& xs);
-
-template < typename T >
-vec<bool, 4> isfinite(const qua<T>& xs);
 ```
 
 ### Angle and Trigonometric Functions

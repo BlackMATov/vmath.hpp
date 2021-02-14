@@ -556,20 +556,6 @@ namespace vmath_hpp
         return map_join([](T x, T y) { return fmod(x, y); }, xs, ys);
     }
 
-    namespace impl
-    {
-        template < typename T, std::size_t Size, std::size_t... Is >
-        VMATH_HPP_FORCE_INLINE
-        vec<T, Size> modf_impl(const vec<T, Size>& xs, vec<T, Size>* is, std::index_sequence<Is...>) {
-            return { modf(xs[Is], &(*is)[Is])... };
-        }
-    }
-
-    template < typename T, std::size_t Size >
-    vec<T, Size> modf(const vec<T, Size>& xs, vec<T, Size>* is) {
-        return impl::modf_impl(xs, is, std::make_index_sequence<Size>{});
-    }
-
     template < typename T, std::size_t Size >
     [[nodiscard]] vec<T, Size> copysign(const vec<T, Size>& xs, T s) {
         return map_join([s](T x) { return copysign(x, s); }, xs);
@@ -685,42 +671,8 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] vec<bool, Size> isnan(const vec<T, Size>& xs) {
-        return map_join([](T x) { return isnan(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<bool, Size> isinf(const vec<T, Size>& xs) {
-        return map_join([](T x) { return isinf(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<bool, Size> isfinite(const vec<T, Size>& xs) {
-        return map_join([](T x) { return isfinite(x); }, xs);
-    }
-
-    template < typename T, std::size_t Size >
     [[nodiscard]] vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs) {
         return map_join([](T a, T b, T c) { return fma(a, b, c); }, as, bs, cs);
-    }
-
-    namespace impl
-    {
-        template < typename T, std::size_t Size, std::size_t... Is >
-        VMATH_HPP_FORCE_INLINE
-        vec<T, Size> frexp_impl(const vec<T, Size>& xs, vec<int, Size>* exps, std::index_sequence<Is...>) {
-            return { frexp(xs[Is], &(*exps)[Is])... };
-        }
-    }
-
-    template < typename T, std::size_t Size >
-    vec<T, Size> frexp(const vec<T, Size>& xs, vec<int, Size>* exps) {
-        return impl::frexp_impl(xs, exps, std::make_index_sequence<Size>{});
-    }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] vec<T, Size> ldexp(const vec<T, Size>& xs, const vec<int, Size>& exps) {
-        return map_join([](T x, int exp) { return ldexp(x, exp); }, xs, exps);
     }
 }
 

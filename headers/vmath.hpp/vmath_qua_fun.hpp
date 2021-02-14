@@ -196,21 +196,6 @@ namespace vmath_hpp
             return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
         }
     }
-
-    template < typename T >
-    [[nodiscard]] vec<bool, 4> isnan(const qua<T>& xs) {
-        return isnan(vec{xs});
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<bool, 4> isinf(const qua<T>& xs) {
-        return isinf(vec{xs});
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<bool, 4> isfinite(const qua<T>& xs) {
-        return isfinite(vec{xs});
-    }
 }
 
 //

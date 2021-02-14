@@ -128,12 +128,6 @@ TEST_CASE("vmath/qua_fun") {
                 qrotate_z(radians(290.f)),
                 slerp(qrotate_z(radians(220.f)), qrotate_z(radians(0.f)), 0.5f))));
         }
-
-        {
-            CHECK_FALSE(any(isnan(qfloat(1,1,1,1))));
-            CHECK_FALSE(any(isinf(qfloat(1,1,1,1))));
-            CHECK(all(isfinite(qfloat(1,1,1,1))));
-        }
     }
 
     SUBCASE("Geometric Functions") {

@@ -201,12 +201,6 @@ TEST_CASE("vmath/vec_fun") {
         CHECK(fmod(float2(1.7f), 1.2f) == uapprox2(0.5f));
         CHECK(fmod(float2(1.7f), float2(1.2f)) == uapprox2(0.5f));
 
-        {
-            float2 out_i{};
-            CHECK(modf(float2(1.7f), &out_i) == uapprox2(0.7f));
-            CHECK(out_i.x == uapprox(1.f));
-        }
-
         STATIC_CHECK(min(int2(1,2)) == 1);
         STATIC_CHECK(min(int2(1,2), 1) == int2(1,1));
         STATIC_CHECK(min(1, int2(1,2)) == int2(1,1));
@@ -246,19 +240,7 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK(smoothstep(0.f, 1.f, float2(0.1f)) == uapprox2(0.028f));
         STATIC_CHECK(smoothstep(float2(0.f), float2(1.f), float2(0.1f)) == uapprox2(0.028f));
 
-        CHECK_FALSE(isnan(float2(1.f)).x);
-        CHECK_FALSE(isinf(float2(1.f)).x);
-        CHECK(isfinite(float2(1.f)).x);
-
         CHECK_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == uapprox(12.f));
-
-        {
-            int2 out_exp{};
-            CHECK(frexp(float2(1.7f), &out_exp).x == uapprox(0.85f));
-            CHECK(out_exp == int2(1));
-        }
-
-        CHECK(ldexp(float2(0.85f), int2(1)).x == uapprox(1.7f));
     }
 
     SUBCASE("Geometric Functions") {
