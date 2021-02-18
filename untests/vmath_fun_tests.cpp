@@ -118,10 +118,6 @@ TEST_CASE("vmath/fun") {
 
         STATIC_CHECK(dot(2.f, 5.f) == uapprox(10.f));
         CHECK(normalize(0.5f) == uapprox(1.f));
-
-        STATIC_CHECK(faceforward(1.f, 2.f, 3.f) == uapprox(-1.f));
-        STATIC_CHECK(reflect(1.f, 2.f) == uapprox(-7.f));
-        CHECK(refract(1.f, 2.f, 1.f) == uapprox(-7.f));
     }
 
     SUBCASE("Relational Functions") {

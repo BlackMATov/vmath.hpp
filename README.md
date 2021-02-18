@@ -1283,15 +1283,6 @@ constexpr T distance2(T x, T y) noexcept;
 
 template < floating_point T >
 T normalize(T x) noexcept;
-
-template < floating_point T >
-constexpr T faceforward(T n, T i, T nref) noexcept;
-
-template < floating_point T >
-constexpr T reflect(T i, T n) noexcept;
-
-template < floating_point T >
-T refract(T i, T n, T eta) noexcept;
 ```
 
 #### Vector
@@ -1320,15 +1311,6 @@ constexpr vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys);
 
 template < typename T, size_t Size >
 vec<T, Size> normalize(const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
-constexpr vec<T, Size> faceforward(const vec<T, Size>& n, const vec<T, Size>& i, const vec<T, Size>& nref);
-
-template < typename T, size_t Size >
-constexpr vec<T, Size> reflect(const vec<T, Size>& i, const vec<T, Size>& n);
-
-template < typename T, size_t Size >
-vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta);
 ```
 
 #### Quaternion
