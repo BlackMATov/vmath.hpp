@@ -1556,6 +1556,8 @@ template < typename T > inline constexpr mat<T, 4> unit4x4;
 template < typename T > inline constexpr mat<T, 2> identity2x2;
 template < typename T > inline constexpr mat<T, 3> identity3x3;
 template < typename T > inline constexpr mat<T, 4> identity4x4;
+
+template < typename T > inline constexpr qua<T> qidentity;
 ```
 
 ### Cast

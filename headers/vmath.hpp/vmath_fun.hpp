@@ -17,7 +17,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_signed_v<T>, T>
     constexpr abs(T x) noexcept {
-        return x >= T(0) ? x : -x;
+        return x < T{0} ? -x : x;
     }
 
     template < typename T >
@@ -35,13 +35,13 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr sign(T x) noexcept {
-        return static_cast<T>((T(0) < x) - (x < T(0)));
+        return static_cast<T>((T{0} < x) - (x < T{0}));
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr rcp(T x) noexcept {
-        return T(1) / x;
+        return T{1} / x;
     }
 
     template < typename T >
@@ -107,13 +107,13 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr saturate(T x) noexcept {
-        return clamp(x, T(0), T(1));
+        return clamp(x, T{0}, T{1});
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr lerp(T x, T y, T a) noexcept {
-        return x * (T(1) - a) + y * a;
+        return x * (T{1} - a) + y * a;
     }
 
     template < typename T >
@@ -125,14 +125,14 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr step(T edge, T x) noexcept {
-        return x < edge ? T(0) : T(1);
+        return x < edge ? T{0} : T{1};
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr smoothstep(T edge0, T edge1, T x) noexcept {
-        const T t = clamp((x - edge0) * rcp(edge1 - edge0), T(0), T(1));
-        return t * t * (T(3) - T(2) * t);
+        const T t = clamp((x - edge0) * rcp(edge1 - edge0), T{0}, T{1});
+        return t * t * (T{3} - T{2} * t);
     }
 
     template < typename T >
@@ -151,13 +151,13 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr radians(T degrees) noexcept {
-        return degrees * T(0.01745329251994329576923690768489);
+        return degrees * T{0.01745329251994329576923690768489};
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr degrees(T radians) noexcept {
-        return radians * T(57.295779513082320876798154814105);
+        return radians * T{57.295779513082320876798154814105};
     }
 
     template < typename T >
@@ -369,7 +369,7 @@ namespace vmath_hpp
             /// REFERENCE:
             /// http://www.realtimecollisiondetection.net/pubs/Tolerances
             const T epsilon = std::numeric_limits<T>::epsilon();
-            return abs(x - y) <= epsilon * max(max(T(1), abs(x)), abs(y));
+            return abs(x - y) <= epsilon * max(max(T{1}, abs(x)), abs(y));
         } else {
             return x == y;
         }
@@ -381,7 +381,7 @@ namespace vmath_hpp
         if constexpr ( std::is_floating_point_v<T> ) {
             /// REFERENCE:
             /// http://www.realtimecollisiondetection.net/pubs/Tolerances
-            return abs(x - y) <= epsilon * max(max(T(1), abs(x)), abs(y));
+            return abs(x - y) <= epsilon * max(max(T{1}, abs(x)), abs(y));
         } else {
             return abs(x - y) <= epsilon;
         }

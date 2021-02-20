@@ -52,6 +52,8 @@ TEST_CASE("vmath/ext/units") {
     STATIC_CHECK(identity2x2<int> == int2x2());
     STATIC_CHECK(identity3x3<int> == int3x3());
     STATIC_CHECK(identity4x4<int> == int4x4());
+
+    STATIC_CHECK(qidentity<float> == qfloat());
 }
 
 TEST_CASE("vmath/ext/hash") {

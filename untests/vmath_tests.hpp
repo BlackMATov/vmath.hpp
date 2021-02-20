@@ -13,7 +13,7 @@ namespace vmath_tests
 
     template < typename T >
     struct uapprox_base {
-        T epsilon = T(10) * std::numeric_limits<T>::epsilon();
+        T epsilon = T{10} * std::numeric_limits<T>::epsilon();
     };
 
     template < typename T >
