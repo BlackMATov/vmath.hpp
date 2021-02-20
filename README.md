@@ -460,33 +460,33 @@ using qdouble = qua<double>;
 // +operator
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator+(const vec<T, Size>& xs);
+constexpr auto operator+(const vec<T, Size>& xs);
 
 // -operator
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator-(const vec<T, Size>& xs);
+constexpr auto operator-(const vec<T, Size>& xs);
 
 // ~operator
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator~(const vec<T, Size>& xs);
+constexpr auto operator~(const vec<T, Size>& xs);
 
 // !operator
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator!(const vec<T, Size>& xs);
+constexpr auto operator!(const vec<T, Size>& xs);
 
 // operator+
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator+(const vec<T, Size>& xs, T y);
+constexpr auto operator+(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator+(T x, const vec<T, Size>& ys);
+constexpr auto operator+(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator+(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator+(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator+=
 
@@ -499,13 +499,13 @@ constexpr vec<T, Size>& operator+=(vec<T, Size>& xs, const vec<T, Size>& ys);
 // operator-
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator-(const vec<T, Size>& xs, T y);
+constexpr auto operator-(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator-(T x, const vec<T, Size>& ys);
+constexpr auto operator-(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator-(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator-(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator-=
 
@@ -518,13 +518,13 @@ constexpr vec<T, Size>& operator-=(vec<T, Size>& xs, const vec<T, Size>& ys);
 // operator*
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator*(const vec<T, Size>& xs, T y);
+constexpr auto operator*(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator*(T x, const vec<T, Size>& ys);
+constexpr auto operator*(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator*(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator*(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator*=
 
@@ -537,13 +537,13 @@ constexpr vec<T, Size>& operator*=(vec<T, Size>& xs, const vec<T, Size>& ys);
 // operator/
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator/(const vec<T, Size>& xs, T y);
+constexpr auto operator/(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator/(T x, const vec<T, Size>& ys);
+constexpr auto operator/(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator/(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator/(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator/=
 
@@ -556,13 +556,13 @@ constexpr vec<T, Size>& operator/=(vec<T, Size>& xs, const vec<T, Size>& ys);
 // operator&
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator&(const vec<T, Size>& xs, T y);
+constexpr auto operator&(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator&(T x, const vec<T, Size>& ys);
+constexpr auto operator&(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator&(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator&(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator&=
 
@@ -575,13 +575,13 @@ constexpr vec<T, Size>& operator&=(vec<T, Size>& xs, const vec<T, Size>& ys);
 // operator|
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator|(const vec<T, Size>& xs, T y);
+constexpr auto operator|(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator|(T x, const vec<T, Size>& ys);
+constexpr auto operator|(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator|(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator|(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator|=
 
@@ -594,13 +594,13 @@ constexpr vec<T, Size>& operator|=(vec<T, Size>& xs, const vec<T, Size>& ys);
 // operator^
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator^(const vec<T, Size>& xs, T y);
+constexpr auto operator^(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator^(T x, const vec<T, Size>& ys);
+constexpr auto operator^(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator^(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator^(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator^=
 
@@ -613,24 +613,24 @@ constexpr vec<T, Size>& operator^=(vec<T, Size>& xs, const vec<T, Size>& ys);
 // operator&&
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator&&(const vec<T, Size>& xs, T y);
+constexpr auto operator&&(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator&&(T x, const vec<T, Size>& ys);
+constexpr auto operator&&(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator&&(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator&&(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator||
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator||(const vec<T, Size>& xs, T y);
+constexpr auto operator||(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator||(T x, const vec<T, Size>& ys);
+constexpr auto operator||(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator||(const vec<T, Size>& xs, const vec<T, Size>& ys);
+constexpr auto operator||(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator==
 
@@ -654,33 +654,33 @@ constexpr bool operator<(const vec<T, Size>& xs, const vec<T, Size>& ys);
 // +operator
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator+(const mat<T, Size>& xs);
+constexpr auto operator+(const mat<T, Size>& xs);
 
 // -operator
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator-(const mat<T, Size>& xs);
+constexpr auto operator-(const mat<T, Size>& xs);
 
 // ~operator
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator~(const mat<T, Size>& xs);
+constexpr auto operator~(const mat<T, Size>& xs);
 
 // !operator
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator!(const mat<T, Size>& xs);
+constexpr auto operator!(const mat<T, Size>& xs);
 
 // operator+
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator+(const mat<T, Size>& xs, T y);
+constexpr auto operator+(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator+(T x, const mat<T, Size>& ys);
+constexpr auto operator+(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator+(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator+(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator+=
 
@@ -693,13 +693,13 @@ constexpr mat<T, Size>& operator+=(mat<T, Size>& xs, const mat<T, Size>& ys);
 // operator-
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator-(const mat<T, Size>& xs, T y);
+constexpr auto operator-(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator-(T x, const mat<T, Size>& ys);
+constexpr auto operator-(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator-(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator-=
 
@@ -712,16 +712,16 @@ constexpr mat<T, Size>& operator-=(mat<T, Size>& xs, const mat<T, Size>& ys);
 // operator*
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator*(const mat<T, Size>& xs, T y);
+constexpr auto operator*(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator*(T x, const mat<T, Size>& ys);
+constexpr auto operator*(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator*(const vec<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator*(const vec<T, Size>& xs, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator*(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator*(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator*=
 
@@ -737,10 +737,10 @@ constexpr mat<T, Size>& operator*=(mat<T, Size>& xs, const mat<T, Size>& ys);
 // operator/
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator/(const mat<T, Size>& xs, T y);
+constexpr auto operator/(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator/(T x, const mat<T, Size>& ys);
+constexpr auto operator/(T x, const mat<T, Size>& ys);
 
 // operator/=
 
@@ -750,13 +750,13 @@ constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, T y);
 // operator&
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator&(const mat<T, Size>& xs, T y);
+constexpr auto operator&(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator&(T x, const mat<T, Size>& ys);
+constexpr auto operator&(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator&(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator&(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator&=
 
@@ -769,13 +769,13 @@ constexpr mat<T, Size>& operator&=(mat<T, Size>& xs, const mat<T, Size>& ys);
 // operator|
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator|(const mat<T, Size>& xs, T y);
+constexpr auto operator|(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator|(T x, const mat<T, Size>& ys);
+constexpr auto operator|(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator|(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator|(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator|=
 
@@ -788,13 +788,13 @@ constexpr mat<T, Size>& operator|=(mat<T, Size>& xs, const mat<T, Size>& ys);
 // operator^
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator^(const mat<T, Size>& xs, T y);
+constexpr auto operator^(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator^(T x, const mat<T, Size>& ys);
+constexpr auto operator^(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator^(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator^(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator^=
 
@@ -807,24 +807,24 @@ constexpr mat<T, Size>& operator^=(mat<T, Size>& xs, const mat<T, Size>& ys);
 // operator&&
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator&&(const mat<T, Size>& xs, T y);
+constexpr auto operator&&(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator&&(T x, const mat<T, Size>& ys);
+constexpr auto operator&&(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator&&(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator&&(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator||
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator||(const mat<T, Size>& xs, T y);
+constexpr auto operator||(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator||(T x, const mat<T, Size>& ys);
+constexpr auto operator||(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator||(const mat<T, Size>& xs, const mat<T, Size>& ys);
+constexpr auto operator||(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator==
 
@@ -848,17 +848,17 @@ constexpr bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys);
 // +operator
 
 template < typename T >
-constexpr qua<T> operator+(const qua<T>& xs);
+constexpr auto operator+(const qua<T>& xs);
 
 // -operator
 
 template < typename T >
-constexpr qua<T> operator-(const qua<T>& xs);
+constexpr auto operator-(const qua<T>& xs);
 
 // operator+
 
 template < typename T >
-constexpr qua<T> operator+(const qua<T>& xs, const qua<T>& ys);
+constexpr auto operator+(const qua<T>& xs, const qua<T>& ys);
 
 // operator+=
 
@@ -868,7 +868,7 @@ constexpr qua<T>& operator+=(qua<T>& xs, const qua<T>& ys);
 // operator-
 
 template < typename T >
-constexpr qua<T> operator-(const qua<T>& xs, const qua<T>& ys);
+constexpr auto operator-(const qua<T>& xs, const qua<T>& ys);
 
 // operator-=
 
@@ -878,16 +878,16 @@ constexpr qua<T>& operator-=(qua<T>& xs, const qua<T>& ys);
 // operator*
 
 template < typename T >
-constexpr qua<T> operator*(const qua<T>& xs, T y);
+constexpr auto operator*(const qua<T>& xs, T y);
 
 template < typename T >
-constexpr qua<T> operator*(T x, const qua<T>& ys);
+constexpr auto operator*(T x, const qua<T>& ys);
 
 template < typename T >
-constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const qua<T>& ys);
+constexpr auto operator*(const vec<T, 3>& xs, const qua<T>& ys);
 
 template < typename T >
-constexpr qua<T> operator*(const qua<T>& xs, const qua<T>& ys);
+constexpr auto operator*(const qua<T>& xs, const qua<T>& ys);
 
 // operator*=
 
@@ -903,10 +903,10 @@ constexpr qua<T>& operator*=(qua<T>& xs, const qua<T>& ys);
 // operator/
 
 template < typename T >
-constexpr qua<T> operator/(const qua<T>& xs, T y);
+constexpr auto operator/(const qua<T>& xs, T y);
 
 template < typename T >
-constexpr qua<T> operator/(T x, const qua<T>& ys);
+constexpr auto operator/(T x, const qua<T>& ys);
 
 // operator/=
 
