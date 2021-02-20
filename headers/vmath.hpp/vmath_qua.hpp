@@ -16,8 +16,11 @@ namespace vmath_hpp
     template < typename T >
     class qua final {
     public:
-        vec<T, 3> v{0};
-        T s{1};
+        using imag_type = vec<T, 3>;
+        using real_type = T;
+
+        imag_type v = imag_type{T{0}};
+        real_type s = real_type{T{1}};
     public:
         using self_type = qua;
         using component_type = T;
@@ -85,6 +88,16 @@ namespace vmath_hpp
             return &(*this)[0];
         }
 
+        [[nodiscard]] constexpr reference at(std::size_t index) {
+            VMATH_HPP_THROW_IF(index >= size, std::out_of_range("qua::at"));
+            return (*this)[index];
+        }
+
+        [[nodiscard]] constexpr const_reference at(std::size_t index) const {
+            VMATH_HPP_THROW_IF(index >= size, std::out_of_range("qua::at"));
+            return (*this)[index];
+        }
+
         [[nodiscard]] constexpr reference operator[](std::size_t index) noexcept {
             switch ( index ) {
             default:
@@ -103,16 +116,6 @@ namespace vmath_hpp
             case 2: return v.z;
             case 3: return s;
             }
-        }
-
-        [[nodiscard]] constexpr reference at(std::size_t index) {
-            VMATH_HPP_THROW_IF(index >= size, std::out_of_range("qua::at"));
-            return (*this)[index];
-        }
-
-        [[nodiscard]] constexpr const_reference at(std::size_t index) const {
-            VMATH_HPP_THROW_IF(index >= size, std::out_of_range("qua::at"));
-            return (*this)[index];
         }
     };
 }

@@ -85,7 +85,8 @@ class vec_base;
 template < typename T >
 class vec_base<T, 2> {
 public:
-    T x{}, y{};
+    T x = T{0};
+    T y = T{0};
 
     constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
@@ -97,7 +98,9 @@ public:
 template < typename T >
 class vec_base<T, 3> {
 public:
-    T x{}, y{}, z{};
+    T x = T{0};
+    T y = T{0};
+    T z = T{0};
 
     constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
@@ -110,7 +113,10 @@ public:
 template < typename T >
 class vec_base<T, 4> {
 public:
-    T x{}, y{}, z{}, w{};
+    T x = T{0};
+    T y = T{0};
+    T z = T{0};
+    T w = T{0};
 
     constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
@@ -141,6 +147,10 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static constexpr size_t size = Size;
+
+    constexpr vec() = default;
+    constexpr vec(const vec&) = default;
+    constexpr vec& operator=(const vec&) = default;
 
     void swap(vec& other) noexcept(is_nothrow_swappable_v<T>);
 
@@ -210,8 +220,8 @@ public:
     using row_type = vec<T, 2>;
 
     row_type rows[2] = {
-        {1, 0},
-        {0, 1}};
+        row_type{T{1}, T{0}},
+        row_type{T{0}, T{1}}};
 
     constexpr mat_base() = default;
     constexpr explicit mat_base(T d);
@@ -235,9 +245,9 @@ public:
     using row_type = vec<T, 3>;
 
     row_type rows[3] = {
-        {1, 0, 0},
-        {0, 1, 0},
-        {0, 0, 1}};
+        row_type{T{1}, T{0}, T{0}},
+        row_type{T{0}, T{1}, T{0}},
+        row_type{T{0}, T{0}, T{1}}};
 
     constexpr mat_base() = default;
     constexpr explicit mat_base(T d);
@@ -267,10 +277,10 @@ public:
     using row_type = vec<T, 4>;
 
     row_type rows[4] = {
-        {1, 0, 0, 0},
-        {0, 1, 0, 0},
-        {0, 0, 1, 0},
-        {0, 0, 0, 1}};
+        row_type{T{1}, T{0}, T{0}, T{0}},
+        row_type{T{0}, T{1}, T{0}, T{0}},
+        row_type{T{0}, T{0}, T{1}, T{0}},
+        row_type{T{0}, T{0}, T{0}, T{1}}};
 
     constexpr mat_base() = default;
     constexpr explicit mat_base(T d);
@@ -314,6 +324,10 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static constexpr size_t size = Size;
+
+    constexpr mat() = default;
+    constexpr mat(const mat&) = default;
+    constexpr mat& operator=(const mat&) = default;
 
     void swap(mat& other) noexcept(is_nothrow_swappable_v<T>);
 
@@ -377,8 +391,11 @@ using ptrdiff4x4_t = mat<ptrdiff_t, 4>;
 template < typename T >
 class qua final {
 public:
-    vec<T, 3> v{0};
-    T s{1};
+    using imag_type = vec<T, 3>;
+    using real_type = T;
+
+    imag_type v = imag_type{T{0}};
+    real_type s = real_type{T{1}};
 public:
     using self_type = qua;
     using component_type = T;

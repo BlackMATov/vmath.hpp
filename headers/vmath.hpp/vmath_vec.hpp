@@ -16,7 +16,8 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 2> {
     public:
-        T x{}, y{};
+        T x = T{0};
+        T y = T{0};
     public:
         constexpr vec_base() = default;
 
@@ -52,7 +53,9 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 3> {
     public:
-        T x{}, y{}, z{};
+        T x = T{0};
+        T y = T{0};
+        T z = T{0};
     public:
         constexpr vec_base() = default;
 
@@ -93,7 +96,10 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 4> {
     public:
-        T x{}, y{}, z{}, w{};
+        T x = T{0};
+        T y = T{0};
+        T z = T{0};
+        T w = T{0};
     public:
         constexpr vec_base() = default;
 
