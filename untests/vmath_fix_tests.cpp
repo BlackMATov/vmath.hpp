@@ -8,9 +8,6 @@
 
 namespace
 {
-    using namespace vmath_hpp;
-    using namespace vmath_tests;
-
     template < typename T >
     class fix {
     public:
@@ -25,76 +22,76 @@ namespace
         constexpr explicit fix(T underlying): underlying_(underlying) {}
         constexpr T underlying() const noexcept { return underlying_; }
 
-        constexpr friend fix abs(const fix& l) { return { fix{abs(l.underlying())} }; }
-        constexpr friend fix sqr(const fix& l) { return { fix{sqr(l.underlying())} }; }
-        constexpr friend fix sign(const fix& l) { return { fix{sign(l.underlying())} }; }
+        constexpr friend fix abs(const fix& l) { using vmath_hpp::abs; return { fix{abs(l.underlying())} }; }
+        constexpr friend fix sqr(const fix& l) { using vmath_hpp::sqr; return { fix{sqr(l.underlying())} }; }
+        constexpr friend fix sign(const fix& l) { using vmath_hpp::sign; return { fix{sign(l.underlying())} }; }
 
-        constexpr friend fix rcp(const fix& l) { return { fix{rcp(l.underlying())} }; }
-        constexpr friend fix floor(const fix& l) { return { fix{floor(l.underlying())} }; }
-        constexpr friend fix trunc(const fix& l) { return { fix{trunc(l.underlying())} }; }
-        constexpr friend fix round(const fix& l) { return { fix{round(l.underlying())} }; }
-        constexpr friend fix ceil(const fix& l) { return { fix{ceil(l.underlying())} }; }
-        constexpr friend fix fract(const fix& l) { return { fix{fract(l.underlying())} }; }
+        constexpr friend fix rcp(const fix& l) { using vmath_hpp::rcp; return { fix{rcp(l.underlying())} }; }
+        constexpr friend fix floor(const fix& l) { using vmath_hpp::floor; return { fix{floor(l.underlying())} }; }
+        constexpr friend fix trunc(const fix& l) { using vmath_hpp::trunc; return { fix{trunc(l.underlying())} }; }
+        constexpr friend fix round(const fix& l) { using vmath_hpp::round; return { fix{round(l.underlying())} }; }
+        constexpr friend fix ceil(const fix& l) { using vmath_hpp::ceil; return { fix{ceil(l.underlying())} }; }
+        constexpr friend fix fract(const fix& l) { using vmath_hpp::fract; return { fix{fract(l.underlying())} }; }
 
-        constexpr friend fix fmod(const fix& l, const fix& r) { return { fix{fmod(l.underlying(), r.underlying())} }; }
-        constexpr friend fix copysign(const fix& l, const fix& r) { return { fix{copysign(l.underlying(), r.underlying())} }; }
+        constexpr friend fix fmod(const fix& l, const fix& r) { using vmath_hpp::fmod; return { fix{fmod(l.underlying(), r.underlying())} }; }
+        constexpr friend fix copysign(const fix& l, const fix& r) { using vmath_hpp::copysign; return { fix{copysign(l.underlying(), r.underlying())} }; }
 
-        constexpr friend fix min(const fix& l, const fix& r) { return fix{min(l.underlying(), r.underlying())}; }
-        constexpr friend fix max(const fix& l, const fix& r) { return fix{max(l.underlying(), r.underlying())}; }
-        constexpr friend fix clamp(const fix& l, const fix& min_l, const fix& max_l) { return fix{clamp(l.underlying(), min_l.underlying(), max_l.underlying())}; }
-        constexpr friend fix saturate(const fix& l) { return fix{saturate(l.underlying())}; }
-        constexpr friend fix lerp(const fix& l, const fix& r, const fix& a) { return fix{lerp(l.underlying(), r.underlying(), a.underlying())}; }
-        constexpr friend fix lerp(const fix& l, const fix& r, const fix& a, const fix& b) { return fix{lerp(l.underlying(), r.underlying(), a.underlying(), b.underlying())}; }
+        constexpr friend fix min(const fix& l, const fix& r) { using vmath_hpp::min; return fix{min(l.underlying(), r.underlying())}; }
+        constexpr friend fix max(const fix& l, const fix& r) { using vmath_hpp::max; return fix{max(l.underlying(), r.underlying())}; }
+        constexpr friend fix clamp(const fix& l, const fix& min_l, const fix& max_l) { using vmath_hpp::clamp; return fix{clamp(l.underlying(), min_l.underlying(), max_l.underlying())}; }
+        constexpr friend fix saturate(const fix& l) { using vmath_hpp::saturate; return fix{saturate(l.underlying())}; }
+        constexpr friend fix lerp(const fix& l, const fix& r, const fix& a) { using vmath_hpp::lerp; return fix{lerp(l.underlying(), r.underlying(), a.underlying())}; }
+        constexpr friend fix lerp(const fix& l, const fix& r, const fix& a, const fix& b) { using vmath_hpp::lerp; return fix{lerp(l.underlying(), r.underlying(), a.underlying(), b.underlying())}; }
 
-        constexpr friend fix step(const fix& e, const fix& l) { return fix{step(e.underlying(), l.underlying())}; }
-        constexpr friend fix smoothstep(const fix& e0, const fix& e1, const fix& l) { return fix{smoothstep(e0.underlying(), e1.underlying(), l.underlying())}; }
+        constexpr friend fix step(const fix& e, const fix& l) { using vmath_hpp::step; return fix{step(e.underlying(), l.underlying())}; }
+        constexpr friend fix smoothstep(const fix& e0, const fix& e1, const fix& l) { using vmath_hpp::smoothstep; return fix{smoothstep(e0.underlying(), e1.underlying(), l.underlying())}; }
 
-        constexpr friend fix fma(const fix& x, const fix& y, const fix& z) { return fix{fma(x.underlying(), y.underlying(), z.underlying())}; }
-
-        //
-
-        constexpr friend fix<bool> any(const fix& l) { return fix<bool>{any(l.underlying())}; }
-        constexpr friend fix<bool> all(const fix& l) { return fix<bool>{all(l.underlying())}; }
-
-        constexpr friend fix<bool> approx(const fix& l, const fix& r) { return fix<bool>{approx(l.underlying(), r.underlying())}; }
-        constexpr friend fix<bool> approx(const fix& l, const fix& r, const fix& e) { return fix<bool>{approx(l.underlying(), r.underlying(), e.underlying())}; }
-
-        constexpr friend fix<bool> less(const fix& l, const fix& r) { return fix<bool>{less(l.underlying(), r.underlying())}; }
-        constexpr friend fix<bool> less_equal(const fix& l, const fix& r) { return fix<bool>{less_equal(l.underlying(), r.underlying())}; }
-        constexpr friend fix<bool> greater(const fix& l, const fix& r) { return fix<bool>{greater(l.underlying(), r.underlying())}; }
-        constexpr friend fix<bool> greater_equal(const fix& l, const fix& r) { return fix<bool>{greater_equal(l.underlying(), r.underlying())}; }
-        constexpr friend fix<bool> equal_to(const fix& l, const fix& r) { return fix<bool>{equal_to(l.underlying(), r.underlying())}; }
-        constexpr friend fix<bool> not_equal_to(const fix& l, const fix& r) { return fix<bool>{not_equal_to(l.underlying(), r.underlying())}; }
+        constexpr friend fix fma(const fix& x, const fix& y, const fix& z) { using vmath_hpp::fma; return fix{fma(x.underlying(), y.underlying(), z.underlying())}; }
 
         //
 
-        constexpr friend fix radians(const fix& l) { return fix{radians(l.underlying())}; }
-        constexpr friend fix degrees(const fix& l) { return fix{degrees(l.underlying())}; }
-        friend fix sin(const fix& l) { return fix{sin(l.underlying())}; }
-        friend fix cos(const fix& l) { return fix{cos(l.underlying())}; }
-        friend fix tan(const fix& l) { return fix{tan(l.underlying())}; }
-        friend fix asin(const fix& l) { return fix{asin(l.underlying())}; }
-        friend fix acos(const fix& l) { return fix{acos(l.underlying())}; }
-        friend fix atan(const fix& l) { return fix{atan(l.underlying())}; }
-        friend fix atan2(const fix& l, const fix& r) { return fix{atan2(l.underlying(), r.underlying())}; }
-        friend fix sinh(const fix& l) { return fix{sinh(l.underlying())}; }
-        friend fix cosh(const fix& l) { return fix{cosh(l.underlying())}; }
-        friend fix tanh(const fix& l) { return fix{tanh(l.underlying())}; }
-        friend fix asinh(const fix& l) { return fix{asinh(l.underlying())}; }
-        friend fix acosh(const fix& l) { return fix{acosh(l.underlying())}; }
-        friend fix atanh(const fix& l) { return fix{atanh(l.underlying())}; }
+        constexpr friend fix<bool> any(const fix& l) { using vmath_hpp::any; return fix<bool>{any(l.underlying())}; }
+        constexpr friend fix<bool> all(const fix& l) { using vmath_hpp::all; return fix<bool>{all(l.underlying())}; }
+
+        constexpr friend fix<bool> approx(const fix& l, const fix& r) { using vmath_hpp::approx; return fix<bool>{approx(l.underlying(), r.underlying())}; }
+        constexpr friend fix<bool> approx(const fix& l, const fix& r, const fix& e) { using vmath_hpp::approx; return fix<bool>{approx(l.underlying(), r.underlying(), e.underlying())}; }
+
+        constexpr friend fix<bool> less(const fix& l, const fix& r) { using vmath_hpp::less; return fix<bool>{less(l.underlying(), r.underlying())}; }
+        constexpr friend fix<bool> less_equal(const fix& l, const fix& r) { using vmath_hpp::less_equal; return fix<bool>{less_equal(l.underlying(), r.underlying())}; }
+        constexpr friend fix<bool> greater(const fix& l, const fix& r) { using vmath_hpp::greater; return fix<bool>{greater(l.underlying(), r.underlying())}; }
+        constexpr friend fix<bool> greater_equal(const fix& l, const fix& r) { using vmath_hpp::greater_equal; return fix<bool>{greater_equal(l.underlying(), r.underlying())}; }
+        constexpr friend fix<bool> equal_to(const fix& l, const fix& r) { using vmath_hpp::equal_to; return fix<bool>{equal_to(l.underlying(), r.underlying())}; }
+        constexpr friend fix<bool> not_equal_to(const fix& l, const fix& r) { using vmath_hpp::not_equal_to; return fix<bool>{not_equal_to(l.underlying(), r.underlying())}; }
+
+        //
+
+        constexpr friend fix radians(const fix& l) { using vmath_hpp::radians; return fix{radians(l.underlying())}; }
+        constexpr friend fix degrees(const fix& l) { using vmath_hpp::degrees; return fix{degrees(l.underlying())}; }
+        friend fix sin(const fix& l) { using vmath_hpp::sin; return fix{sin(l.underlying())}; }
+        friend fix cos(const fix& l) { using vmath_hpp::cos; return fix{cos(l.underlying())}; }
+        friend fix tan(const fix& l) { using vmath_hpp::tan; return fix{tan(l.underlying())}; }
+        friend fix asin(const fix& l) { using vmath_hpp::asin; return fix{asin(l.underlying())}; }
+        friend fix acos(const fix& l) { using vmath_hpp::acos; return fix{acos(l.underlying())}; }
+        friend fix atan(const fix& l) { using vmath_hpp::atan; return fix{atan(l.underlying())}; }
+        friend fix atan2(const fix& l, const fix& r) { using vmath_hpp::atan2; return fix{atan2(l.underlying(), r.underlying())}; }
+        friend fix sinh(const fix& l) { using vmath_hpp::sinh; return fix{sinh(l.underlying())}; }
+        friend fix cosh(const fix& l) { using vmath_hpp::cosh; return fix{cosh(l.underlying())}; }
+        friend fix tanh(const fix& l) { using vmath_hpp::tanh; return fix{tanh(l.underlying())}; }
+        friend fix asinh(const fix& l) { using vmath_hpp::asinh; return fix{asinh(l.underlying())}; }
+        friend fix acosh(const fix& l) { using vmath_hpp::acosh; return fix{acosh(l.underlying())}; }
+        friend fix atanh(const fix& l) { using vmath_hpp::atanh; return fix{atanh(l.underlying())}; }
         friend std::pair<fix,fix> sincos(const fix& l) { return { sin(l), cos(l) }; }
         friend void sincos(const fix& l, fix* s, fix* c) { *s = sin(l); *c = cos(l); }
 
         //
 
-        friend fix pow(const fix& l, const fix& r) { return fix{pow(l.underlying(), r.underlying())}; }
-        friend fix exp(const fix& l) { return fix{exp(l.underlying())}; }
-        friend fix log(const fix& l) { return fix{log(l.underlying())}; }
-        friend fix exp2(const fix& l) { return fix{exp2(l.underlying())}; }
-        friend fix log2(const fix& l) { return fix{log2(l.underlying())}; }
-        friend fix sqrt(const fix& l) { return fix{sqrt(l.underlying())}; }
-        friend fix rsqrt(const fix& l) { return fix{rsqrt(l.underlying())}; }
+        friend fix pow(const fix& l, const fix& r) { using vmath_hpp::pow; return fix{pow(l.underlying(), r.underlying())}; }
+        friend fix exp(const fix& l) { using vmath_hpp::exp; return fix{exp(l.underlying())}; }
+        friend fix log(const fix& l) { using vmath_hpp::log; return fix{log(l.underlying())}; }
+        friend fix exp2(const fix& l) { using vmath_hpp::exp2; return fix{exp2(l.underlying())}; }
+        friend fix log2(const fix& l) { using vmath_hpp::log2; return fix{log2(l.underlying())}; }
+        friend fix sqrt(const fix& l) { using vmath_hpp::sqrt; return fix{sqrt(l.underlying())}; }
+        friend fix rsqrt(const fix& l) { using vmath_hpp::rsqrt; return fix{rsqrt(l.underlying())}; }
 
         //
 
@@ -121,6 +118,9 @@ namespace
     private:
         T underlying_{};
     };
+
+    using namespace vmath_hpp;
+    using namespace vmath_tests;
 
     using qfix = qua<fix<float>>;
 
@@ -629,27 +629,27 @@ TEST_CASE("vmath/fix_vec") {
         vb = {fix{3} || fix2i{fix(1),fix(2)}};
         vb = {fix2i{fix(1),fix(2)} || fix2i{fix(1),fix(2)}};
 
-        b = {fix2i{fix(1),fix(2)} == fix2i{fix(3),fix(4)}};
-        b = {fix2i{fix(1),fix(2)} != fix2i{fix(3),fix(4)}};
-        b = {fix2i{fix(1),fix(2)} < fix2i{fix(3),fix(4)}};
+        b = {fix2i{fix(1),fix(2)} == fix2i{fix(1),fix(2)}};
+        b = {fix2i{fix(1),fix(2)} != fix2i{fix(1),fix(2)}};
+        b = {fix2i{fix(1),fix(2)} < fix2i{fix(1),fix(2)}};
+
+        CHECK_FALSE(b);
 
         {
-            fix2i v{};
-            fix2i vi{};
-            vi = {v += fix{3}};
-            vi = {v += fix2i{fix(4),fix(5)}};
-            vi = {v -= fix{3}};
-            vi = {v -= fix2i{fix(4),fix(5)}};
-            vi = {v *= fix{3}};
-            vi = {v *= fix2i{fix(4),fix(5)}};
-            vi = {v /= fix{3}};
-            vi = {v /= fix2i{fix(4),fix(5)}};
-            vi = {v &= fix{3}};
-            vi = {v &= fix2i{fix(4),fix(5)}};
-            vi = {v |= fix{3}};
-            vi = {v |= fix2i{fix(4),fix(5)}};
-            vi = {v ^= fix{3}};
-            vi = {v ^= fix2i{fix(4),fix(5)}};
+            vi = {vi += fix{3}};
+            vi = {vi += fix2i{fix(4),fix(5)}};
+            vi = {vi -= fix{3}};
+            vi = {vi -= fix2i{fix(4),fix(5)}};
+            vi = {vi *= fix{3}};
+            vi = {vi *= fix2i{fix(4),fix(5)}};
+            vi = {vi /= fix{3}};
+            vi = {vi /= fix2i{fix(4),fix(5)}};
+            vi = {vi &= fix{3}};
+            vi = {vi &= fix2i{fix(4),fix(5)}};
+            vi = {vi |= fix{3}};
+            vi = {vi |= fix2i{fix(4),fix(5)}};
+            vi = {vi ^= fix{3}};
+            vi = {vi ^= fix2i{fix(4),fix(5)}};
         }
     }
 }
@@ -789,9 +789,11 @@ TEST_CASE("vmath/fix_mat") {
         mb = {fix{3} || fix2x2i{fix(1),fix(2),fix(3),fix(4)}};
         mb = {fix2x2i{fix(1),fix(2),fix(3),fix(4)} || fix2x2i{fix(1),fix(2),fix(3),fix(4)}};
 
-        b = {fix2x2i{fix(1),fix(2),fix(3),fix(4)} == fix2x2i{fix(3),fix(4),fix(5),fix(6)}};
-        b = {fix2x2i{fix(1),fix(2),fix(3),fix(4)} != fix2x2i{fix(3),fix(4),fix(5),fix(6)}};
-        b = {fix2x2i{fix(1),fix(2),fix(3),fix(4)} < fix2x2i{fix(3),fix(4),fix(5),fix(6)}};
+        b = {fix2x2i{fix(1),fix(2),fix(3),fix(4)} == fix2x2i{fix(1),fix(2),fix(3),fix(4)}};
+        b = {fix2x2i{fix(1),fix(2),fix(3),fix(4)} != fix2x2i{fix(1),fix(2),fix(3),fix(4)}};
+        b = {fix2x2i{fix(1),fix(2),fix(3),fix(4)} < fix2x2i{fix(1),fix(2),fix(3),fix(4)}};
+
+        CHECK_FALSE(b);
 
         {
             mi = {mi += fix{3}};
@@ -865,6 +867,8 @@ TEST_CASE("vmath/fix_qua") {
         b = {qfix{fix(1.f),fix(2.f),fix(3.f),fix(4.f)} == qfix{fix(1.f),fix(2.f),fix(3.f),fix(4.f)}};
         b = {qfix{fix(1.f),fix(2.f),fix(3.f),fix(4.f)} != qfix{fix(1.f),fix(2.f),fix(3.f),fix(4.f)}};
         b = {qfix{fix(1.f),fix(2.f),fix(3.f),fix(4.f)} < qfix{fix(1.f),fix(2.f),fix(3.f),fix(4.f)}};
+
+        CHECK_FALSE(b);
     }
 }
 

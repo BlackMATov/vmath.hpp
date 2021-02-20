@@ -183,7 +183,7 @@ namespace vmath_hpp
         const T raw_cos_theta_sign = sign(raw_cos_theta);
 
         // half degree linear threshold: cos((pi / 180) * 0.25)
-        if ( const T cos_theta = raw_cos_theta * raw_cos_theta_sign; cos_theta < T{0.99999} ) {
+        if ( const T cos_theta = raw_cos_theta * raw_cos_theta_sign; cos_theta < T{0.99999f} ) {
             const T theta = acos(cos_theta);
             const T rsin_theta = rsqrt(T{1} - sqr(cos_theta));
             const T xs_scale = sin((T{1} - a) * theta) * rsin_theta;

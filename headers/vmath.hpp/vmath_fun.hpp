@@ -151,13 +151,13 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr radians(T degrees) noexcept {
-        return degrees * T{0.01745329251994329576923690768489};
+        return degrees * T(0.01745329251994329576923690768489);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     constexpr degrees(T radians) noexcept {
-        return radians * T{57.295779513082320876798154814105};
+        return radians * T(57.295779513082320876798154814105);
     }
 
     template < typename T >

@@ -795,7 +795,7 @@ namespace vmath_hpp
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivefovlh
 
-        const T sy = rcp(tan(fovy * T{0.5}));
+        const T sy = rcp(tan(fovy * T{0.5f}));
         const T sx = sy * rcp(aspect);
         const T sz = zfar * rcp(zfar - znear);
         const T tz = (znear * zfar) * rcp(znear - zfar);
@@ -812,7 +812,7 @@ namespace vmath_hpp
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivefovrh
 
-        const T sy = rcp(tan(fovy * T{0.5}));
+        const T sy = rcp(tan(fovy * T{0.5f}));
         const T sx = sy * rcp(aspect);
         const T sz = zfar * rcp(znear - zfar);
         const T tz = (znear * zfar) * rcp(znear - zfar);
@@ -901,7 +901,7 @@ namespace vmath_hpp
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
 
-        auto xyzw = T{0.5} * sqrt(max(T{0}, vec{
+        auto xyzw = T{0.5f} * sqrt(max(T{0}, vec{
             T{1} + m[0][0] - m[1][1] - m[2][2],
             T{1} - m[0][0] + m[1][1] - m[2][2],
             T{1} - m[0][0] - m[1][1] + m[2][2],
@@ -927,7 +927,7 @@ namespace vmath_hpp
         const T n = sqrt(length2(from) * length2(to));
         const T s = dot(from, to) + n;
 
-        if ( s < T{0.000001} * n ) {
+        if ( s < T{0.000001f} * n ) {
             return abs(from.z) < abs(from.x)
                 ? normalize(qua{vec{-from.y, from.x, T{0}}, T{0}})
                 : normalize(qua{vec{T{0}, -from.z, from.y}, T{0}});
@@ -946,7 +946,7 @@ namespace vmath_hpp
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 
-        const auto [s, c] = sincos(angle * T{0.5});
+        const auto [s, c] = sincos(angle * T{0.5f});
         const auto [x, y, z] = normalize(axis);
 
         return {vec{x, y, z} * s, c};
@@ -962,7 +962,7 @@ namespace vmath_hpp
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 
-        const auto [s, c] = sincos(angle * T{0.5});
+        const auto [s, c] = sincos(angle * T{0.5f});
 
         return {vec{s, T{0}, T{0}}, c};
     }
@@ -977,7 +977,7 @@ namespace vmath_hpp
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 
-        const auto [s, c] = sincos(angle * T{0.5});
+        const auto [s, c] = sincos(angle * T{0.5f});
 
         return {vec{T{0}, s, T{0}}, c};
     }
@@ -992,7 +992,7 @@ namespace vmath_hpp
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 
-        const auto [s, c] = sincos(angle * T{0.5});
+        const auto [s, c] = sincos(angle * T{0.5f});
 
         return {vec{T{0}, T{0}, s}, c};
     }
