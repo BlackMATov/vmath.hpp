@@ -501,53 +501,80 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr bool any(const mat<T, Size>& xs) {
-        return fold_join([](bool acc, const vec<T, Size>& x){ return acc || any(x); }, false, xs);
+    template < typename T, std::size_t Size
+             , typename U = decltype(any(std::declval<vec<T, Size>>())) >
+    [[nodiscard]] constexpr U any(const mat<T, Size>& xs) {
+        return fold_join([](U acc, const vec<T, Size>& x){ return acc || any(x); }, U{false}, xs);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr bool all(const mat<T, Size>& xs) {
-        return fold_join([](bool acc, const vec<T, Size>& x){ return acc && all(x); }, true, xs);
+    template < typename T, std::size_t Size
+             , typename U = decltype(all(std::declval<vec<T, Size>>())) >
+    [[nodiscard]] constexpr U all(const mat<T, Size>& xs) {
+        return fold_join([](U acc, const vec<T, Size>& x){ return acc && all(x); }, U{true}, xs);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    template < typename T, std::size_t Size
+             , typename U = typename decltype(approx(
+                 std::declval<vec<T, Size>>(),
+                 std::declval<vec<T, Size>>()))::component_type >
+    [[nodiscard]] constexpr mat<U, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return approx(x, y); }, xs, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon) {
+    template < typename T, std::size_t Size
+             , typename U = typename decltype(approx(
+                 std::declval<vec<T, Size>>(),
+                 std::declval<vec<T, Size>>(),
+                 std::declval<T>()))::component_type >
+    [[nodiscard]] constexpr mat<U, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon) {
         return map_join([epsilon](const vec<T, Size>& x, const vec<T, Size>& y){ return approx(x, y, epsilon); }, xs, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> less(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    template < typename T, std::size_t Size
+             , typename U = typename decltype(less(
+                 std::declval<vec<T, Size>>(),
+                 std::declval<vec<T, Size>>()))::component_type >
+    [[nodiscard]] constexpr mat<U, Size> less(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return less(x, y); }, xs, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> less_equal(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    template < typename T, std::size_t Size
+             , typename U = typename decltype(less_equal(
+                 std::declval<vec<T, Size>>(),
+                 std::declval<vec<T, Size>>()))::component_type >
+    [[nodiscard]] constexpr mat<U, Size> less_equal(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return less_equal(x, y); }, xs, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> greater(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    template < typename T, std::size_t Size
+             , typename U = typename decltype(greater(
+                 std::declval<vec<T, Size>>(),
+                 std::declval<vec<T, Size>>()))::component_type >
+    [[nodiscard]] constexpr mat<U, Size> greater(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return greater(x, y); }, xs, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> greater_equal(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    template < typename T, std::size_t Size
+             , typename U = typename decltype(greater_equal(
+                 std::declval<vec<T, Size>>(),
+                 std::declval<vec<T, Size>>()))::component_type >
+    [[nodiscard]] constexpr mat<U, Size> greater_equal(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return greater_equal(x, y); }, xs, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    template < typename T, std::size_t Size
+             , typename U = typename decltype(equal_to(
+                 std::declval<vec<T, Size>>(),
+                 std::declval<vec<T, Size>>()))::component_type >
+    [[nodiscard]] constexpr mat<U, Size> equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return equal_to(x, y); }, xs, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<bool, Size> not_equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+    template < typename T, std::size_t Size
+             , typename U = typename decltype(not_equal_to(
+                 std::declval<vec<T, Size>>(),
+                 std::declval<vec<T, Size>>()))::component_type >
+    [[nodiscard]] constexpr mat<U, Size> not_equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys) {
         return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return not_equal_to(x, y); }, xs, ys);
     }
 }

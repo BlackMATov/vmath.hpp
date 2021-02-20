@@ -169,7 +169,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] qua<T> nlerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
-        const T xs_scale = T(1) - a;
+        const T xs_scale = T{1} - a;
         const T ys_scale = a * sign(dot(unit_xs, unit_ys));
         return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
     }
@@ -183,15 +183,15 @@ namespace vmath_hpp
         const T raw_cos_theta_sign = sign(raw_cos_theta);
 
         // half degree linear threshold: cos((pi / 180) * 0.25)
-        if ( const T cos_theta = raw_cos_theta * raw_cos_theta_sign; cos_theta < T(0.99999) ) {
+        if ( const T cos_theta = raw_cos_theta * raw_cos_theta_sign; cos_theta < T{0.99999} ) {
             const T theta = acos(cos_theta);
-            const T rsin_theta = rsqrt(T(1) - sqr(cos_theta));
-            const T xs_scale = sin((T(1) - a) * theta) * rsin_theta;
+            const T rsin_theta = rsqrt(T{1} - sqr(cos_theta));
+            const T xs_scale = sin((T{1} - a) * theta) * rsin_theta;
             const T ys_scale = sin(a * theta) * raw_cos_theta_sign * rsin_theta;
             return lerp(unit_xs, unit_ys, xs_scale, ys_scale);
         } else {
             // use linear interpolation for small angles
-            const T xs_scale = T(1) - a;
+            const T xs_scale = T{1} - a;
             const T ys_scale = a * raw_cos_theta_sign;
             return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
         }
@@ -222,7 +222,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] T distance(const qua<T>& xs, const qua<T>& ys) {
         const qua zs = xs * conjugate(ys);
-        return T(2) * atan2(length(zs.v), abs(zs.s));
+        return T{2} * atan2(length(zs.v), abs(zs.s));
     }
 
     template < typename T >
@@ -237,43 +237,80 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = decltype(any(std::declval<vec<T, 4>>())) >
+    [[nodiscard]] constexpr U any(const qua<T>& xs) {
+        return any(vec{xs});
+    }
+
+    template < typename T
+             , typename U = decltype(all(std::declval<vec<T, 4>>())) >
+    [[nodiscard]] constexpr U all(const qua<T>& xs) {
+        return all(vec{xs});
+    }
+
+    template < typename T
+             , typename U = typename decltype(approx(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> approx(const qua<T>& xs, const qua<T>& ys) {
         return approx(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon) {
+    template < typename T
+             , typename U = typename decltype(approx(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>(),
+                 std::declval<T>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon) {
         return approx(vec{xs}, vec{ys}, epsilon);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> less(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(less(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> less(const qua<T>& xs, const qua<T>& ys) {
         return less(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> less_equal(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(less_equal(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> less_equal(const qua<T>& xs, const qua<T>& ys) {
         return less_equal(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> greater(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(greater(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> greater(const qua<T>& xs, const qua<T>& ys) {
         return greater(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> greater_equal(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(greater_equal(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> greater_equal(const qua<T>& xs, const qua<T>& ys) {
         return greater_equal(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> equal_to(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(equal_to(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> equal_to(const qua<T>& xs, const qua<T>& ys) {
         return equal_to(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(not_equal_to(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys) {
         return not_equal_to(vec{xs}, vec{ys});
     }
 }

@@ -1388,97 +1388,184 @@ constexpr bool not_equal_to(T x, T y) noexcept;
 #### Vector
 
 ```cpp
-template < typename T, size_t Size >
-constexpr bool any(const vec<T, Size>& xs);
+template < typename T, std::size_t Size
+         , typename U = decltype(any(std::declval<T>())) >
+constexpr U any(const vec<T, Size>& xs);
 
-template < typename T, size_t Size >
-constexpr bool all(const vec<T, Size>& xs);
+template < typename T, std::size_t Size
+         , typename U = decltype(all(std::declval<T>())) >
+constexpr U all(const vec<T, Size>& xs);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = decltype(approx(
+             std::declval<T>(),
+             std::declval<T>())) >
+constexpr vec<U, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
+template < typename T, std::size_t Size
+         , typename U = decltype(approx(
+             std::declval<T>(),
+             std::declval<T>(),
+             std::declval<T>())) >
+constexpr vec<U, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = decltype(less(
+             std::declval<T>(),
+             std::declval<T>())) >
+constexpr vec<U, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = decltype(less_equal(
+             std::declval<T>(),
+             std::declval<T>())) >
+constexpr vec<U, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = decltype(greater(
+             std::declval<T>(),
+             std::declval<T>())) >
+constexpr vec<U, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = decltype(greater_equal(
+             std::declval<T>(),
+             std::declval<T>())) >
+constexpr vec<U, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = decltype(equal_to(
+             std::declval<T>(),
+             std::declval<T>())) >
+constexpr vec<U, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = decltype(not_equal_to(
+             std::declval<T>(),
+             std::declval<T>())) >
+constexpr vec<U, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
 ```
 
 #### Matrix
 
 ```cpp
-template < typename T, size_t Size >
-constexpr bool any(const mat<T, Size>& xs);
+template < typename T, std::size_t Size
+         , typename U = decltype(any(std::declval<vec<T, Size>>())) >
+constexpr U any(const mat<T, Size>& xs);
 
-template < typename T, size_t Size >
-constexpr bool all(const mat<T, Size>& xs);
+template < typename T, std::size_t Size
+         , typename U = decltype(all(std::declval<vec<T, Size>>())) >
+constexpr U all(const mat<T, Size>& xs);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = typename decltype(approx(
+             std::declval<vec<T, Size>>(),
+             std::declval<vec<T, Size>>()))::component_type >
+constexpr mat<U, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon);
+template < typename T, std::size_t Size
+         , typename U = typename decltype(approx(
+             std::declval<vec<T, Size>>(),
+             std::declval<vec<T, Size>>(),
+             std::declval<T>()))::component_type >
+constexpr mat<U, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> less(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = typename decltype(less(
+             std::declval<vec<T, Size>>(),
+             std::declval<vec<T, Size>>()))::component_type >
+constexpr mat<U, Size> less(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> less_equal(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = typename decltype(less_equal(
+             std::declval<vec<T, Size>>(),
+             std::declval<vec<T, Size>>()))::component_type >
+constexpr mat<U, Size> less_equal(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> greater(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = typename decltype(greater(
+             std::declval<vec<T, Size>>(),
+             std::declval<vec<T, Size>>()))::component_type >
+constexpr mat<U, Size> greater(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> greater_equal(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = typename decltype(greater_equal(
+             std::declval<vec<T, Size>>(),
+             std::declval<vec<T, Size>>()))::component_type >
+constexpr mat<U, Size> greater_equal(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = typename decltype(equal_to(
+             std::declval<vec<T, Size>>(),
+             std::declval<vec<T, Size>>()))::component_type >
+constexpr mat<U, Size> equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> not_equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, std::size_t Size
+         , typename U = typename decltype(not_equal_to(
+             std::declval<vec<T, Size>>(),
+             std::declval<vec<T, Size>>()))::component_type >
+constexpr mat<U, Size> not_equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys);
 ```
 
 #### Quaternion
 
 ```cpp
-template < typename T >
-constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = decltype(any(std::declval<vec<T, 4>>())) >
+constexpr U any(const qua<T>& xs);
 
-template < typename T >
-constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon);
+template < typename T
+         , typename U = decltype(all(std::declval<vec<T, 4>>())) >
+constexpr U all(const qua<T>& xs);
 
-template < typename T >
-constexpr vec<bool, 4> less(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(approx(
+             std::declval<vec<T, 4>>(),
+             std::declval<vec<T, 4>>()))::component_type >
+constexpr vec<U, 4> approx(const qua<T>& xs, const qua<T>& ys);
 
-template < typename T >
-constexpr vec<bool, 4> less_equal(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(approx(
+             std::declval<vec<T, 4>>(),
+             std::declval<vec<T, 4>>(),
+             std::declval<T>()))::component_type >
+constexpr vec<U, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon);
 
-template < typename T >
-constexpr vec<bool, 4> greater(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(less(
+             std::declval<vec<T, 4>>(),
+             std::declval<vec<T, 4>>()))::component_type >
+constexpr vec<U, 4> less(const qua<T>& xs, const qua<T>& ys);
 
-template < typename T >
-constexpr vec<bool, 4> greater_equal(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(less_equal(
+             std::declval<vec<T, 4>>(),
+             std::declval<vec<T, 4>>()))::component_type >
+constexpr vec<U, 4> less_equal(const qua<T>& xs, const qua<T>& ys);
 
-template < typename T >
-constexpr vec<bool, 4> equal_to(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(greater(
+             std::declval<vec<T, 4>>(),
+             std::declval<vec<T, 4>>()))::component_type >
+constexpr vec<U, 4> greater(const qua<T>& xs, const qua<T>& ys);
 
-template < typename T >
-constexpr vec<bool, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(greater_equal(
+             std::declval<vec<T, 4>>(),
+             std::declval<vec<T, 4>>()))::component_type >
+constexpr vec<U, 4> greater_equal(const qua<T>& xs, const qua<T>& ys);
+
+template < typename T
+         , typename U = typename decltype(equal_to(
+             std::declval<vec<T, 4>>(),
+             std::declval<vec<T, 4>>()))::component_type >
+constexpr vec<U, 4> equal_to(const qua<T>& xs, const qua<T>& ys);
+
+template < typename T
+         , typename U = typename decltype(not_equal_to(
+             std::declval<vec<T, 4>>(),
+             std::declval<vec<T, 4>>()))::component_type >
+constexpr vec<U, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys);
 ```
 
 ### Matrix Functions

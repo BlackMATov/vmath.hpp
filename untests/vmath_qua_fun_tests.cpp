@@ -150,6 +150,19 @@ TEST_CASE("vmath/qua_fun") {
     }
 
     SUBCASE("Relational Functions") {
+        STATIC_CHECK(any(qua(1,0,0,0)));
+        STATIC_CHECK(any(qua(0,1,0,0)));
+        STATIC_CHECK(any(qua(0,0,1,0)));
+        STATIC_CHECK(any(qua(0,0,0,1)));
+        STATIC_CHECK(any(qua(1,1,1,1)));
+        STATIC_CHECK_FALSE(any(qua(0,0,0,0)));
+
+        STATIC_CHECK_FALSE(all(qua(1,0,0,0)));
+        STATIC_CHECK_FALSE(all(qua(0,1,0,0)));
+        STATIC_CHECK_FALSE(all(qua(0,0,1,0)));
+        STATIC_CHECK(all(qua(1,1,1,1)));
+        STATIC_CHECK_FALSE(all(qua(0,0,0,0)));
+
         STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
         STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 0) == bool4(false, true, false, false));
         STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 1) == bool4(true, true, true, false));
