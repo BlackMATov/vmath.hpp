@@ -1006,9 +1006,6 @@ T step(T edge, T x);
 
 template < floating_point T >
 T smoothstep(T edge0, T edge1, T x);
-
-template < floating_point T >
-T fma(T x, T y, T z);
 ```
 
 #### Vector
@@ -1112,9 +1109,6 @@ vec<T, Size> smoothstep(T edge0, T edge1, const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
 vec<T, Size> smoothstep(const vec<T, Size>& edges0, const vec<T, Size>& edges1, const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
-vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs);
 ```
 
 #### Quaternion

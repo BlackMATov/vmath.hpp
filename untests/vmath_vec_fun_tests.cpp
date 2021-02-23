@@ -249,8 +249,6 @@ TEST_CASE("vmath/vec_fun") {
 
         STATIC_CHECK(smoothstep(0.f, 1.f, float2(0.1f)) == uapprox2(0.028f));
         STATIC_CHECK(smoothstep(float2(0.f), float2(1.f), float2(0.1f)) == uapprox2(0.028f));
-
-        CHECK_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == uapprox(12.f));
     }
 
     SUBCASE("Geometric Functions") {

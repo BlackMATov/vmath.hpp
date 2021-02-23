@@ -632,11 +632,6 @@ namespace vmath_hpp
     [[nodiscard]] constexpr vec<T, Size> smoothstep(const vec<T, Size>& edges0, const vec<T, Size>& edges1, const vec<T, Size>& xs) {
         return map_join([](T edge0, T edge1, T x) { return smoothstep(edge0, edge1, x); }, edges0, edges1, xs);
     }
-
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs) {
-        return map_join([](T a, T b, T c) { return fma(a, b, c); }, as, bs, cs);
-    }
 }
 
 //

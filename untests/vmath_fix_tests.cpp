@@ -47,8 +47,6 @@ namespace
         constexpr friend fix step(const fix& e, const fix& l) { using vmath_hpp::step; return fix{step(e.underlying(), l.underlying())}; }
         constexpr friend fix smoothstep(const fix& e0, const fix& e1, const fix& l) { using vmath_hpp::smoothstep; return fix{smoothstep(e0.underlying(), e1.underlying(), l.underlying())}; }
 
-        constexpr friend fix fma(const fix& x, const fix& y, const fix& z) { using vmath_hpp::fma; return fix{fma(x.underlying(), y.underlying(), z.underlying())}; }
-
         //
 
         constexpr friend fix<bool> any(const fix& l) { using vmath_hpp::any; return fix<bool>{any(l.underlying())}; }
@@ -199,8 +197,6 @@ namespace vmath_hpp
     template fix2f step(const fix2f&, const fix2f&);
     template fix2f smoothstep(fix<float>, fix<float>, const fix2f&);
     template fix2f smoothstep(const fix2f&, const fix2f&, const fix2f&);
-
-    template fix2f fma(const fix2f&, const fix2f&, const fix2f&);
 }
 
 namespace vmath_hpp

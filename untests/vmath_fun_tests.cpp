@@ -105,8 +105,6 @@ TEST_CASE("vmath/fun") {
         STATIC_CHECK(step(0.5f, 0.4f) == uapprox(0.f));
         STATIC_CHECK(step(0.5f, 0.6f) == uapprox(1.f));
         STATIC_CHECK(smoothstep(0.f, 1.f, 0.1f) == uapprox(0.028f));
-
-        CHECK(fma(2.f, 3.f, 4.f) == uapprox(10.f));
     }
 
     SUBCASE("Geometric Functions") {

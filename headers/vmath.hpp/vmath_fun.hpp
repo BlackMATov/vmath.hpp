@@ -138,12 +138,6 @@ namespace vmath_hpp
         const T t = clamp((x - edge0) * rcp(edge1 - edge0), T{0}, T{1});
         return t * t * (T{3} - T{2} * t);
     }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    fma(T x, T y, T z) noexcept {
-        return std::fma(x, y, z);
-    }
 }
 
 //
