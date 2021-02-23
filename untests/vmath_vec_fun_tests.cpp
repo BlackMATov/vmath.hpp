@@ -16,27 +16,31 @@ TEST_CASE("vmath/vec_fun") {
     SUBCASE("Detail") {
         STATIC_CHECK(map_join([](const int& x){
             return x * 2;
-        }, int2{1}) == int2{2});
+        }, vec{1,2,3,4}) == vec{2,4,6,8});
 
         STATIC_CHECK(map_join([](const int& x, const int& y){
             return x + y;
-        }, int2{1}, int2{1}) == int2{2});
+        }, vec{1,2,3,4}, vec{2,3,4,5}) == vec{3,5,7,9});
 
         STATIC_CHECK(map_join([](const int& x, const int& y, const int& z){
             return x + y + z;
-        }, int2{1}, int2{1}, int2{1}) == int2(3));
+        }, vec{1,2,3,4}, vec{2,3,4,5}, vec{3,4,5,6}) == vec{6,9,12,15});
+
+        STATIC_CHECK(map_join([](const int& x, const int& y, const int& z, const int& w){
+            return x + y + z + w;
+        }, vec{1,2,3,4}, vec{2,3,4,5}, vec{3,4,5,6}, vec{4,5,6,7}) == vec{10,14,18,22});
 
         STATIC_CHECK(fold_join([](int acc, const int& x){
-            return acc + x;
-        }, 0, int2{1}) == 2);
+            return acc - x;
+        }, 0, vec{1,2,3,4}) == -10);
 
         STATIC_CHECK(fold_join([](int acc, const int& x, const int& y){
-            return acc + x + y;
-        }, 0, int2{1}, int2{1}) == 4);
+            return acc - x - y;
+        }, 0, vec{1,2,3,4}, vec{2,3,4,5}) == -24);
 
         STATIC_CHECK(fold1_join([](const int& acc, const int& x){
-            return acc + x;
-        }, int2{1}) == 2);
+            return acc - x;
+        }, vec{1,2,3,4}) == -8);
     }
 
     SUBCASE("Operators") {
@@ -245,28 +249,20 @@ TEST_CASE("vmath/vec_fun") {
 
         STATIC_CHECK(smoothstep(0.f, 1.f, float2(0.1f)) == uapprox2(0.028f));
         STATIC_CHECK(smoothstep(float2(0.f), float2(1.f), float2(0.1f)) == uapprox2(0.028f));
-
-        CHECK_FALSE(isnan(float2(1.f)).x);
-        CHECK_FALSE(isinf(float2(1.f)).x);
-        CHECK(isfinite(float2(1.f)).x);
-
-        CHECK_FALSE(fma(float2(2.f), float2(3.f), float2(4.f)).x == uapprox(12.f));
-
-        {
-            int2 out_exp{};
-            CHECK(frexp(float2(1.7f), &out_exp).x == uapprox(0.85f));
-            CHECK(out_exp == int2(1));
-        }
-
-        CHECK(ldexp(float2(0.85f), int2(1)).x == uapprox(1.7f));
     }
 
     SUBCASE("Geometric Functions") {
         CHECK(length(float2(10.f,0.f)) == uapprox(10.f));
         CHECK(length(float2(-10.f,0.f)) == uapprox(10.f));
 
+        CHECK(rlength(float2(10.f,0.f)) == uapprox(0.1f));
+        CHECK(rlength(float2(-10.f,0.f)) == uapprox(0.1f));
+
         STATIC_CHECK(length2(float2(10.f,0.f)) == uapprox(100.f));
         STATIC_CHECK(length2(float2(-10.f,0.f)) == uapprox(100.f));
+
+        STATIC_CHECK(rlength2(float2(10.f,0.f)) == uapprox(0.01f));
+        STATIC_CHECK(rlength2(float2(-10.f,0.f)) == uapprox(0.01f));
 
         CHECK(distance(float2(5.f,0.f), float2(10.f,0.f)) == uapprox(5.f));
         CHECK(distance(float2(-5.f,0.f), float2(-10.f,0.f)) == uapprox(5.f));

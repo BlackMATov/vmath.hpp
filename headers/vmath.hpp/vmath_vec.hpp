@@ -16,7 +16,8 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 2> {
     public:
-        T x{}, y{};
+        T x = T{0};
+        T y = T{0};
     public:
         constexpr vec_base() = default;
 
@@ -25,12 +26,6 @@ namespace vmath_hpp::detail
 
         constexpr vec_base(T x, T y)
         : x{x}, y{y} {}
-
-        constexpr explicit vec_base(const vec_base<T, 3>& xy)
-        : x{xy[0]}, y{xy[1]} {}
-
-        constexpr explicit vec_base(const vec_base<T, 4>& xy)
-        : x{xy[0]}, y{xy[1]} {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -52,7 +47,9 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 3> {
     public:
-        T x{}, y{}, z{};
+        T x = T{0};
+        T y = T{0};
+        T z = T{0};
     public:
         constexpr vec_base() = default;
 
@@ -68,8 +65,9 @@ namespace vmath_hpp::detail
         constexpr vec_base(T x, const vec_base<T, 2>& yz)
         : x{x}, y{yz[0]}, z{yz[1]} {}
 
-        constexpr explicit vec_base(const vec_base<T, 4>& xyz)
-        : x{xyz[0]}, y{xyz[1]}, z{xyz[2]} {}
+        constexpr explicit operator vec<T, 2>() const {
+            return {x, y};
+        }
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -93,7 +91,10 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 4> {
     public:
-        T x{}, y{}, z{}, w{};
+        T x = T{0};
+        T y = T{0};
+        T z = T{0};
+        T w = T{0};
     public:
         constexpr vec_base() = default;
 
@@ -120,6 +121,14 @@ namespace vmath_hpp::detail
 
         constexpr vec_base(T x, const vec_base<T, 3>& yzw)
         : x{x}, y{yzw[0]}, z{yzw[1]}, w{yzw[2]} {}
+
+        constexpr explicit operator vec<T, 2>() const {
+            return {x, y};
+        }
+
+        constexpr explicit operator vec<T, 3>() const {
+            return {x, y, z};
+        }
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -150,7 +159,6 @@ namespace vmath_hpp
     public:
         using self_type = vec;
         using base_type = detail::vec_base<T, Size>;
-    public:
         using component_type = T;
 
         using pointer = component_type*;
@@ -164,7 +172,7 @@ namespace vmath_hpp
         using reverse_iterator = std::reverse_iterator<iterator>;
         using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-        static constexpr std::size_t size = Size;
+        static inline constexpr std::size_t size = Size;
     public:
         using base_type::vec_base;
         using base_type::operator[];

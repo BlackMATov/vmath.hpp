@@ -14,7 +14,7 @@ jobs:
         - { os: "windows-2016", vs: "Visual Studio 2017", arch: "x64" }
         - { os: "windows-2019", vs: "Visual Studio 2019", arch: "x86" }
         - { os: "windows-2019", vs: "Visual Studio 2019", arch: "x64" }
-    name: "${{matrix.config.vs}}"
+    name: "${{matrix.config.vs}} ${{matrix.config.arch}}"
     steps:
     - uses: actions/checkout@v2
     - name: Build && Test

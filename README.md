@@ -85,48 +85,57 @@ class vec_base;
 template < typename T >
 class vec_base<T, 2> {
 public:
-    T x{}, y{};
+    T x = T{0};
+    T y = T{0};
 
-    constexpr vec_base() = default;
-    constexpr explicit vec_base(T v);
-    constexpr vec_base(T x, T y);
-    constexpr explicit vec_base(const vec_base<T, 3>& xy);
-    constexpr explicit vec_base(const vec_base<T, 4>& xy);
+    vec_base() = default;
+    explicit vec_base(T v);
+    vec_base(T x, T y);
 };
 
 template < typename T >
 class vec_base<T, 3> {
 public:
-    T x{}, y{}, z{};
+    T x = T{0};
+    T y = T{0};
+    T z = T{0};
 
-    constexpr vec_base() = default;
-    constexpr explicit vec_base(T v);
-    constexpr vec_base(T x, T y, T z);
-    constexpr vec_base(const vec_base<T, 2>& xy, T z);
-    constexpr vec_base(T x, const vec_base<T, 2>& yz);
-    constexpr explicit vec_base(const vec_base<T, 4>& xyz);
+    vec_base() = default;
+    explicit vec_base(T v);
+    vec_base(T x, T y, T z);
+    vec_base(const vec_base<T, 2>& xy, T z);
+    vec_base(T x, const vec_base<T, 2>& yz);
+
+    explicit operator vec<T, 2>() const;
 };
 
 template < typename T >
 class vec_base<T, 4> {
 public:
-    T x{}, y{}, z{}, w{};
+    T x = T{0};
+    T y = T{0};
+    T z = T{0};
+    T w = T{0};
 
-    constexpr vec_base() = default;
-    constexpr explicit vec_base(T v);
-    constexpr vec_base(T x, T y, T z, T w);
-    constexpr vec_base(const vec_base<T, 2>& xy, T z, T w);
-    constexpr vec_base(T x, const vec_base<T, 2>& yz, T w);
-    constexpr vec_base(T x, T y, const vec_base<T, 2>& zw);
-    constexpr vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw);
-    constexpr vec_base(const vec_base<T, 3>& xyz, T w);
-    constexpr vec_base(T x, const vec_base<T, 3>& yzw);
+    vec_base() = default;
+    explicit vec_base(T v);
+    vec_base(T x, T y, T z, T w);
+    vec_base(const vec_base<T, 2>& xy, T z, T w);
+    vec_base(T x, const vec_base<T, 2>& yz, T w);
+    vec_base(T x, T y, const vec_base<T, 2>& zw);
+    vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw);
+    vec_base(const vec_base<T, 3>& xyz, T w);
+    vec_base(T x, const vec_base<T, 3>& yzw);
+
+    explicit operator vec<T, 2>() const;
+    explicit operator vec<T, 3>() const;
 };
 
 template < typename T, size_t Size >
 class vec final : public vec_base<T, Size> {
 public:
     using self_type = vec;
+    using base_type = vec_base<T, Size>;
     using component_type = T;
 
     using pointer = component_type*;
@@ -140,33 +149,37 @@ public:
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-    static constexpr size_t size = Size;
+    static inline size_t size = Size;
 
-    void swap(vec& other) noexcept(is_nothrow_swappable_v<T>);
+    vec() = default;
+    vec(const vec&) = default;
+    vec& operator=(const vec&) = default;
 
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
+    void swap(vec& other);
 
-    reverse_iterator rbegin() noexcept;
-    const_reverse_iterator rbegin() const noexcept;
-    reverse_iterator rend() noexcept;
-    const_reverse_iterator rend() const noexcept;
+    iterator begin();
+    const_iterator begin() const;
+    iterator end();
+    const_iterator end() const;
 
-    const_iterator cbegin() const noexcept;
-    const_iterator cend() const noexcept;
-    const_reverse_iterator crbegin() const noexcept;
-    const_reverse_iterator crend() const noexcept;
+    reverse_iterator rbegin();
+    const_reverse_iterator rbegin() const;
+    reverse_iterator rend();
+    const_reverse_iterator rend() const;
 
-    pointer data() noexcept;
-    const_pointer data() const noexcept;
+    const_iterator cbegin() const;
+    const_iterator cend() const;
+    const_reverse_iterator crbegin() const;
+    const_reverse_iterator crend() const;
 
-    constexpr reference at(size_t index);
-    constexpr const_reference at(size_t index) const;
+    pointer data();
+    const_pointer data() const;
 
-    constexpr reference operator[](size_t index) noexcept;
-    constexpr const_reference operator[](size_t index) const noexcept;
+    reference at(size_t index);
+    const_reference at(size_t index) const;
+
+    reference operator[](size_t index);
+    const_reference operator[](size_t index) const;
 };
 
 using bool2 = vec<bool, 2>;
@@ -210,23 +223,20 @@ public:
     using row_type = vec<T, 2>;
 
     row_type rows[2] = {
-        {1, 0},
-        {0, 1}};
+        row_type{T{1}, T{0}},
+        row_type{T{0}, T{1}}};
 
-    constexpr mat_base() = default;
-    constexpr explicit mat_base(T d);
-    constexpr explicit mat_base(const row_type& d);
+    mat_base() = default;
+    explicit mat_base(T d);
+    explicit mat_base(const row_type& d);
 
-    constexpr mat_base(
+    mat_base(
         T m11, T m12,
         T m21, T m22);
 
-    constexpr mat_base(
+    mat_base(
         const row_type& row0,
         const row_type& row1);
-
-    constexpr explicit mat_base(const mat_base<T, 3>& other);
-    constexpr explicit mat_base(const mat_base<T, 4>& other);
 };
 
 template < typename T >
@@ -235,30 +245,31 @@ public:
     using row_type = vec<T, 3>;
 
     row_type rows[3] = {
-        {1, 0, 0},
-        {0, 1, 0},
-        {0, 0, 1}};
+        row_type{T{1}, T{0}, T{0}},
+        row_type{T{0}, T{1}, T{0}},
+        row_type{T{0}, T{0}, T{1}}};
 
-    constexpr mat_base() = default;
-    constexpr explicit mat_base(T d);
-    constexpr explicit mat_base(const row_type& d);
+    mat_base() = default;
+    explicit mat_base(T d);
+    explicit mat_base(const row_type& d);
 
-    constexpr mat_base(
+    mat_base(
         T m11, T m12, T m13,
         T m21, T m22, T m23,
         T m31, T m32, T m33);
 
-    constexpr mat_base(
+    mat_base(
         const row_type& row0,
         const row_type& row1,
         const row_type& row2);
 
-    constexpr mat_base(
+    mat_base(
         const mat_base<T, 2>& m,
         const vec_base<T, 2>& v);
 
-    constexpr explicit mat_base(const mat_base<T, 2>& other);
-    constexpr explicit mat_base(const mat_base<T, 4>& other);
+    explicit mat_base(const mat_base<T, 2>& other);
+
+    explicit operator mat<T, 2>() const;
 };
 
 template < typename T >
@@ -267,39 +278,45 @@ public:
     using row_type = vec<T, 4>;
 
     row_type rows[4] = {
-        {1, 0, 0, 0},
-        {0, 1, 0, 0},
-        {0, 0, 1, 0},
-        {0, 0, 0, 1}};
+        row_type{T{1}, T{0}, T{0}, T{0}},
+        row_type{T{0}, T{1}, T{0}, T{0}},
+        row_type{T{0}, T{0}, T{1}, T{0}},
+        row_type{T{0}, T{0}, T{0}, T{1}}};
 
-    constexpr mat_base() = default;
-    constexpr explicit mat_base(T d);
-    constexpr explicit mat_base(const row_type& d);
+    mat_base() = default;
+    explicit mat_base(T d);
+    explicit mat_base(const row_type& d);
 
-    constexpr mat_base(
+    mat_base(
         T m11, T m12, T m13, T m14,
         T m21, T m22, T m23, T m24,
         T m31, T m32, T m33, T m34,
         T m41, T m42, T m43, T m44);
 
-    constexpr mat_base(
+    mat_base(
         const row_type& row0,
         const row_type& row1,
         const row_type& row2,
         const row_type& row3);
 
-    constexpr mat_base(
+    mat_base(
         const mat_base<T, 3>& m,
         const vec_base<T, 3>& v);
 
-    constexpr explicit mat_base(const mat_base<T, 2>& other);
-    constexpr explicit mat_base(const mat_base<T, 3>& other);
+    explicit mat_base(const mat_base<T, 2>& other);
+    explicit mat_base(const mat_base<T, 3>& other);
+
+    explicit operator mat<T, 2>() const;
+    explicit operator mat<T, 3>() const;
 };
 
 template < typename T, size_t Size >
 class mat final : public mat_base<T, Size> {
 public:
     using self_type = mat;
+    using base_type = mat_base<T, Size>;
+    using component_type = T;
+
     using row_type = vec<T, Size>;
 
     using pointer = row_type*;
@@ -313,33 +330,37 @@ public:
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-    static constexpr size_t size = Size;
+    static inline size_t size = Size;
 
-    void swap(mat& other) noexcept(is_nothrow_swappable_v<T>);
+    mat() = default;
+    mat(const mat&) = default;
+    mat& operator=(const mat&) = default;
 
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
+    void swap(mat& other);
 
-    reverse_iterator rbegin() noexcept;
-    const_reverse_iterator rbegin() const noexcept;
-    reverse_iterator rend() noexcept;
-    const_reverse_iterator rend() const noexcept;
+    iterator begin();
+    const_iterator begin() const;
+    iterator end();
+    const_iterator end() const;
 
-    const_iterator cbegin() const noexcept;
-    const_iterator cend() const noexcept;
-    const_reverse_iterator crbegin() const noexcept;
-    const_reverse_iterator crend() const noexcept;
+    reverse_iterator rbegin();
+    const_reverse_iterator rbegin() const;
+    reverse_iterator rend();
+    const_reverse_iterator rend() const;
 
-    pointer data() noexcept;
-    const_pointer data() const noexcept;
+    const_iterator cbegin() const;
+    const_iterator cend() const;
+    const_reverse_iterator crbegin() const;
+    const_reverse_iterator crend() const;
 
-    constexpr reference at(size_t index);
-    constexpr const_reference at(size_t index) const;
+    pointer data();
+    const_pointer data() const;
 
-    constexpr reference operator[](size_t index) noexcept;
-    constexpr const_reference operator[](size_t index) const noexcept;
+    reference at(size_t index);
+    const_reference at(size_t index) const;
+
+    reference operator[](size_t index);
+    const_reference operator[](size_t index) const;
 };
 
 using bool2x2 = mat<bool, 2>;
@@ -375,13 +396,28 @@ using ptrdiff4x4_t = mat<ptrdiff_t, 4>;
 
 ```cpp
 template < typename T >
+class qua_base {
+public:
+    vec<T, 3> v = vec<T, 3>{T{0}};
+    T s = T{1};
+
+    qua_base();
+    qua_base(T vx, T vy, T vz, T s);
+    qua_base(const vec<T, 3>& v, T s);
+
+    explicit qua_base(const vec<T, 4>& vs);
+    explicit operator vec<T, 4>() const;
+};
+
+template < typename T >
 class qua final {
 public:
-    vec<T, 3> v{0};
-    T s{1};
-public:
     using self_type = qua;
+    using base_type = qua_base<T>;
     using component_type = T;
+
+    using imag_type = vec<T, 3>;
+    using real_type = T;
 
     using pointer = component_type*;
     using const_pointer = const component_type*;
@@ -394,43 +430,37 @@ public:
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-    static constexpr size_t size = 4;
-public:
-    constexpr qua() = default;
-    constexpr qua(const qua&) = default;
-    constexpr qua& operator=(const qua&) = default;
+    static inline size_t size = 4;
 
-    constexpr qua(T vx, T vy, T vz, T s);
-    constexpr qua(const vec<T, 3>& v, T s);
-    constexpr explicit qua(const vec<T, 4>& vs);
+    qua() = default;
+    qua(const qua&) = default;
+    qua& operator=(const qua&) = default;
 
-    constexpr explicit operator vec<T, 4>() const;
+    void swap(qua& other);
 
-    void swap(qua& other) noexcept(is_nothrow_swappable_v<T>);
+    iterator begin();
+    const_iterator begin() const;
+    iterator end();
+    const_iterator end() const;
 
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
+    reverse_iterator rbegin();
+    const_reverse_iterator rbegin() const;
+    reverse_iterator rend();
+    const_reverse_iterator rend() const;
 
-    reverse_iterator rbegin() noexcept;
-    const_reverse_iterator rbegin() const noexcept;
-    reverse_iterator rend() noexcept;
-    const_reverse_iterator rend() const noexcept;
+    const_iterator cbegin() const;
+    const_iterator cend() const;
+    const_reverse_iterator crbegin() const;
+    const_reverse_iterator crend() const;
 
-    const_iterator cbegin() const noexcept;
-    const_iterator cend() const noexcept;
-    const_reverse_iterator crbegin() const noexcept;
-    const_reverse_iterator crend() const noexcept;
+    pointer data();
+    const_pointer data() const;
 
-    pointer data() noexcept;
-    const_pointer data() const noexcept;
+    reference at(size_t index);
+    const_reference at(size_t index) const;
 
-    constexpr reference at(size_t index);
-    constexpr const_reference at(size_t index) const;
-
-    constexpr reference operator[](size_t index) noexcept;
-    constexpr const_reference operator[](size_t index) const noexcept;
+    reference operator[](size_t index);
+    const_reference operator[](size_t index) const;
 };
 
 using qfloat = qua<float>;
@@ -443,192 +473,192 @@ using qdouble = qua<double>;
 // +operator
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator+(const vec<T, Size>& xs);
+auto operator+(const vec<T, Size>& xs);
 
 // -operator
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator-(const vec<T, Size>& xs);
+auto operator-(const vec<T, Size>& xs);
 
 // ~operator
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator~(const vec<T, Size>& xs);
+auto operator~(const vec<T, Size>& xs);
 
 // !operator
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator!(const vec<T, Size>& xs);
+auto operator!(const vec<T, Size>& xs);
 
 // operator+
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator+(const vec<T, Size>& xs, T y);
+auto operator+(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator+(T x, const vec<T, Size>& ys);
+auto operator+(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator+(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator+(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator+=
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator+=(vec<T, Size>& xs, T y);
+vec<T, Size>& operator+=(vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator+=(vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size>& operator+=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator-
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator-(const vec<T, Size>& xs, T y);
+auto operator-(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator-(T x, const vec<T, Size>& ys);
+auto operator-(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator-(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator-(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator-=
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator-=(vec<T, Size>& xs, T y);
+vec<T, Size>& operator-=(vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator-=(vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size>& operator-=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator*
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator*(const vec<T, Size>& xs, T y);
+auto operator*(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator*(T x, const vec<T, Size>& ys);
+auto operator*(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator*(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator*(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator*=
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator*=(vec<T, Size>& xs, T y);
+vec<T, Size>& operator*=(vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator*=(vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size>& operator*=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator/
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator/(const vec<T, Size>& xs, T y);
+auto operator/(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator/(T x, const vec<T, Size>& ys);
+auto operator/(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator/(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator/(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator/=
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator/=(vec<T, Size>& xs, T y);
+vec<T, Size>& operator/=(vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator/=(vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size>& operator/=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator&
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator&(const vec<T, Size>& xs, T y);
+auto operator&(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator&(T x, const vec<T, Size>& ys);
+auto operator&(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator&(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator&(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator&=
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator&=(vec<T, Size>& xs, T y);
+vec<T, Size>& operator&=(vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator&=(vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size>& operator&=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator|
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator|(const vec<T, Size>& xs, T y);
+auto operator|(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator|(T x, const vec<T, Size>& ys);
+auto operator|(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator|(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator|(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator|=
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator|=(vec<T, Size>& xs, T y);
+vec<T, Size>& operator|=(vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator|=(vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size>& operator|=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator^
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator^(const vec<T, Size>& xs, T y);
+auto operator^(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator^(T x, const vec<T, Size>& ys);
+auto operator^(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator^(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator^(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator^=
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator^=(vec<T, Size>& xs, T y);
+vec<T, Size>& operator^=(vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator^=(vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size>& operator^=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator&&
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator&&(const vec<T, Size>& xs, T y);
+auto operator&&(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator&&(T x, const vec<T, Size>& ys);
+auto operator&&(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator&&(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator&&(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator||
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator||(const vec<T, Size>& xs, T y);
+auto operator||(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator||(T x, const vec<T, Size>& ys);
+auto operator||(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<bool, Size> operator||(const vec<T, Size>& xs, const vec<T, Size>& ys);
+auto operator||(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator==
 
 template < typename T, size_t Size >
-constexpr bool operator==(const vec<T, Size>& xs, const vec<T, Size>& ys);
+bool operator==(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator!=
 
 template < typename T, size_t Size >
-constexpr bool operator!=(const vec<T, Size>& xs, const vec<T, Size>& ys);
+bool operator!=(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator<
 
 template < typename T, size_t Size >
-constexpr bool operator<(const vec<T, Size>& xs, const vec<T, Size>& ys);
+bool operator<(const vec<T, Size>& xs, const vec<T, Size>& ys);
 ```
 
 ### Matrix Operators
@@ -637,192 +667,192 @@ constexpr bool operator<(const vec<T, Size>& xs, const vec<T, Size>& ys);
 // +operator
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator+(const mat<T, Size>& xs);
+auto operator+(const mat<T, Size>& xs);
 
 // -operator
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator-(const mat<T, Size>& xs);
+auto operator-(const mat<T, Size>& xs);
 
 // ~operator
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator~(const mat<T, Size>& xs);
+auto operator~(const mat<T, Size>& xs);
 
 // !operator
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator!(const mat<T, Size>& xs);
+auto operator!(const mat<T, Size>& xs);
 
 // operator+
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator+(const mat<T, Size>& xs, T y);
+auto operator+(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator+(T x, const mat<T, Size>& ys);
+auto operator+(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator+(const mat<T, Size>& xs, const mat<T, Size>& ys);
+auto operator+(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator+=
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator+=(mat<T, Size>& xs, T y);
+mat<T, Size>& operator+=(mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator+=(mat<T, Size>& xs, const mat<T, Size>& ys);
+mat<T, Size>& operator+=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator-
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator-(const mat<T, Size>& xs, T y);
+auto operator-(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator-(T x, const mat<T, Size>& ys);
+auto operator-(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator-(const mat<T, Size>& xs, const mat<T, Size>& ys);
+auto operator-(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator-=
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator-=(mat<T, Size>& xs, T y);
+mat<T, Size>& operator-=(mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator-=(mat<T, Size>& xs, const mat<T, Size>& ys);
+mat<T, Size>& operator-=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator*
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator*(const mat<T, Size>& xs, T y);
+auto operator*(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator*(T x, const mat<T, Size>& ys);
+auto operator*(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> operator*(const vec<T, Size>& xs, const mat<T, Size>& ys);
+auto operator*(const vec<T, Size>& xs, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator*(const mat<T, Size>& xs, const mat<T, Size>& ys);
+auto operator*(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator*=
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator*=(mat<T, Size>& xs, T y);
+mat<T, Size>& operator*=(mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size>& operator*=(vec<T, Size>& xs, const mat<T, Size>& ys);
+vec<T, Size>& operator*=(vec<T, Size>& xs, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator*=(mat<T, Size>& xs, const mat<T, Size>& ys);
+mat<T, Size>& operator*=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator/
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator/(const mat<T, Size>& xs, T y);
+auto operator/(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator/(T x, const mat<T, Size>& ys);
+auto operator/(T x, const mat<T, Size>& ys);
 
 // operator/=
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator/=(mat<T, Size>& xs, T y);
+mat<T, Size>& operator/=(mat<T, Size>& xs, T y);
 
 // operator&
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator&(const mat<T, Size>& xs, T y);
+auto operator&(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator&(T x, const mat<T, Size>& ys);
+auto operator&(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator&(const mat<T, Size>& xs, const mat<T, Size>& ys);
+auto operator&(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator&=
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator&=(mat<T, Size>& xs, T y);
+mat<T, Size>& operator&=(mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator&=(mat<T, Size>& xs, const mat<T, Size>& ys);
+mat<T, Size>& operator&=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator|
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator|(const mat<T, Size>& xs, T y);
+auto operator|(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator|(T x, const mat<T, Size>& ys);
+auto operator|(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator|(const mat<T, Size>& xs, const mat<T, Size>& ys);
+auto operator|(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator|=
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator|=(mat<T, Size>& xs, T y);
+mat<T, Size>& operator|=(mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator|=(mat<T, Size>& xs, const mat<T, Size>& ys);
+mat<T, Size>& operator|=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator^
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator^(const mat<T, Size>& xs, T y);
+auto operator^(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator^(T x, const mat<T, Size>& ys);
+auto operator^(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> operator^(const mat<T, Size>& xs, const mat<T, Size>& ys);
+auto operator^(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator^=
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator^=(mat<T, Size>& xs, T y);
+mat<T, Size>& operator^=(mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size>& operator^=(mat<T, Size>& xs, const mat<T, Size>& ys);
+mat<T, Size>& operator^=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator&&
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator&&(const mat<T, Size>& xs, T y);
+auto operator&&(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator&&(T x, const mat<T, Size>& ys);
+auto operator&&(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator&&(const mat<T, Size>& xs, const mat<T, Size>& ys);
+auto operator&&(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator||
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator||(const mat<T, Size>& xs, T y);
+auto operator||(const mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator||(T x, const mat<T, Size>& ys);
+auto operator||(T x, const mat<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr mat<bool, Size> operator||(const mat<T, Size>& xs, const mat<T, Size>& ys);
+auto operator||(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator==
 
 template < typename T, size_t Size >
-constexpr bool operator==(const mat<T, Size>& xs, const mat<T, Size>& ys);
+bool operator==(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator!=
 
 template < typename T, size_t Size >
-constexpr bool operator!=(const mat<T, Size>& xs, const mat<T, Size>& ys);
+bool operator!=(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator<
 
 template < typename T, size_t Size >
-constexpr bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys);
+bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys);
 ```
 
 ### Quaternion Operators
@@ -831,85 +861,85 @@ constexpr bool operator<(const mat<T, Size>& xs, const mat<T, Size>& ys);
 // +operator
 
 template < typename T >
-constexpr qua<T> operator+(const qua<T>& xs);
+auto operator+(const qua<T>& xs);
 
 // -operator
 
 template < typename T >
-constexpr qua<T> operator-(const qua<T>& xs);
+auto operator-(const qua<T>& xs);
 
 // operator+
 
 template < typename T >
-constexpr qua<T> operator+(const qua<T>& xs, const qua<T>& ys);
+auto operator+(const qua<T>& xs, const qua<T>& ys);
 
 // operator+=
 
 template < typename T >
-constexpr qua<T>& operator+=(qua<T>& xs, const qua<T>& ys);
+qua<T>& operator+=(qua<T>& xs, const qua<T>& ys);
 
 // operator-
 
 template < typename T >
-constexpr qua<T> operator-(const qua<T>& xs, const qua<T>& ys);
+auto operator-(const qua<T>& xs, const qua<T>& ys);
 
 // operator-=
 
 template < typename T >
-constexpr qua<T>& operator-=(qua<T>& xs, const qua<T>& ys);
+qua<T>& operator-=(qua<T>& xs, const qua<T>& ys);
 
 // operator*
 
 template < typename T >
-constexpr qua<T> operator*(const qua<T>& xs, T y);
+auto operator*(const qua<T>& xs, T y);
 
 template < typename T >
-constexpr qua<T> operator*(T x, const qua<T>& ys);
+auto operator*(T x, const qua<T>& ys);
 
 template < typename T >
-constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const qua<T>& ys);
+auto operator*(const vec<T, 3>& xs, const qua<T>& ys);
 
 template < typename T >
-constexpr qua<T> operator*(const qua<T>& xs, const qua<T>& ys);
+auto operator*(const qua<T>& xs, const qua<T>& ys);
 
 // operator*=
 
 template < typename T >
-constexpr qua<T>& operator*=(qua<T>& xs, T y);
+qua<T>& operator*=(qua<T>& xs, T y);
 
 template < typename T >
-constexpr vec<T, 3>& operator*=(vec<T, 3>& xs, const qua<T>& ys);
+vec<T, 3>& operator*=(vec<T, 3>& xs, const qua<T>& ys);
 
 template < typename T >
-constexpr qua<T>& operator*=(qua<T>& xs, const qua<T>& ys);
+qua<T>& operator*=(qua<T>& xs, const qua<T>& ys);
 
 // operator/
 
 template < typename T >
-constexpr qua<T> operator/(const qua<T>& xs, T y);
+auto operator/(const qua<T>& xs, T y);
 
 template < typename T >
-constexpr qua<T> operator/(T x, const qua<T>& ys);
+auto operator/(T x, const qua<T>& ys);
 
 // operator/=
 
 template < typename T >
-constexpr qua<T>& operator/=(qua<T>& xs, T y);
+qua<T>& operator/=(qua<T>& xs, T y);
 
 // operator==
 
 template < typename T >
-constexpr bool operator==(const qua<T>& xs, const qua<T>& ys);
+bool operator==(const qua<T>& xs, const qua<T>& ys);
 
 // operator!=
 
 template < typename T >
-constexpr bool operator!=(const qua<T>& xs, const qua<T>& ys);
+bool operator!=(const qua<T>& xs, const qua<T>& ys);
 
 // operator<
 
 template < typename T >
-constexpr bool operator<(const qua<T>& xs, const qua<T>& ys);
+bool operator<(const qua<T>& xs, const qua<T>& ys);
 ```
 
 ### Common Functions
@@ -918,98 +948,80 @@ constexpr bool operator<(const qua<T>& xs, const qua<T>& ys);
 
 ```cpp
 template < arithmetic T >
-constexpr T abs(T x) noexcept;
+T abs(T x);
 
 template < arithmetic T >
-constexpr T sqr(T x) noexcept;
+T sqr(T x);
 
 template < arithmetic T >
-constexpr T sign(T x) noexcept;
+T sign(T x);
 
 template < floating_point T >
-constexpr T rcp(T x) noexcept;
+T rcp(T x);
 
 template < floating_point T >
-T floor(T x) noexcept;
+T floor(T x);
 
 template < floating_point T >
-T trunc(T x) noexcept;
+T trunc(T x);
 
 template < floating_point T >
-T round(T x) noexcept;
+T round(T x);
 
 template < floating_point T >
-T ceil(T x) noexcept;
+T ceil(T x);
 
 template < floating_point T >
-T fract(T x) noexcept;
+T fract(T x);
 
 template < floating_point T >
-T fmod(T x, T y) noexcept;
+T fmod(T x, T y);
 
 template < floating_point T >
-T modf(T x, T* y) noexcept;
+T modf(T x, T* y);
 
 template < floating_point T >
-T copysign(T x, T s) noexcept;
+T copysign(T x, T s);
 
 template < arithmetic T >
-constexpr T min(T x, T y) noexcept;
+T min(T x, T y);
 
 template < arithmetic T >
-constexpr T max(T x, T y) noexcept;
+T max(T x, T y);
 
 template < arithmetic T >
-constexpr T clamp(T x, T min_x, T max_x) noexcept;
+T clamp(T x, T min_x, T max_x);
 
 template < arithmetic T >
-constexpr T saturate(T x) noexcept;
+T saturate(T x);
 
 template < floating_point T >
-constexpr T lerp(T x, T y, T a) noexcept;
+T lerp(T x, T y, T a);
 
 template < floating_point T >
-constexpr T lerp(T x, T y, T x_a, T y_a) noexcept;
+T lerp(T x, T y, T x_a, T y_a);
 
 template < floating_point T >
-constexpr T step(T edge, T x) noexcept;
+T step(T edge, T x);
 
 template < floating_point T >
-constexpr T smoothstep(T edge0, T edge1, T x) noexcept;
-
-template < arithmetic T >
-bool isnan(T x) noexcept;
-
-template < arithmetic T >
-bool isinf(T x) noexcept;
-
-template < arithmetic T >
-bool isfinite(T x) noexcept;
-
-template < floating_point T >
-T fma(T x, T y, T z) noexcept;
-
-template < floating_point T >
-T frexp(T x, int* exp) noexcept;
-
-template < floating_point T >
-T ldexp(T x, int exp) noexcept;
+T smoothstep(T edge0, T edge1, T x);
 ```
 
 #### Vector
 
 ```cpp
 template < typename T, size_t Size >
-constexpr vec<T, Size> abs(const vec<T, Size>& xs);
+vec<T, Size> abs(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> sqr(const vec<T, Size>& xs);
+vec<T, Size> sqr(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> sign(const vec<T, Size>& xs);
+vec<T, Size> sign(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> rcp(const vec<T, Size>& xs);
+vec<T, Size> rcp(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
 vec<T, Size> floor(const vec<T, Size>& xs);
@@ -1042,79 +1054,61 @@ template < typename T, size_t Size >
 vec<T, Size> copysign(const vec<T, Size>& xs, const vec<T, Size>& ss);
 
 template < typename T, size_t Size >
-constexpr T min(const vec<T, Size>& xs);
+T min(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> min(const vec<T, Size>& xs, T y);
+vec<T, Size> min(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> min(T x, const vec<T, Size>& ys);
+vec<T, Size> min(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> min(const vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size> min(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr T max(const vec<T, Size>& xs);
+T max(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> max(const vec<T, Size>& xs, T y);
+vec<T, Size> max(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> max(T x, const vec<T, Size>& ys);
+vec<T, Size> max(T x, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> max(const vec<T, Size>& xs, const vec<T, Size>& ys);
+vec<T, Size> max(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> clamp(const vec<T, Size>& xs, T min_x, T max_x);
+vec<T, Size> clamp(const vec<T, Size>& xs, T min_x, T max_x);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> clamp(const vec<T, Size>& xs, const vec<T, Size>& min_xs, const vec<T, Size>& max_xs);
+vec<T, Size> clamp(const vec<T, Size>& xs, const vec<T, Size>& min_xs, const vec<T, Size>& max_xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> saturate(const vec<T, Size>& xs);
+vec<T, Size> saturate(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, T a);
+vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, T a);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, T x_a, T y_a);
+vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, T x_a, T y_a);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, const vec<T, Size>& as);
+vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, const vec<T, Size>& as);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, const vec<T, Size>& xs_a, const vec<T, Size>& ys_a);
+vec<T, Size> lerp(const vec<T, Size>& xs, const vec<T, Size>& ys, const vec<T, Size>& xs_a, const vec<T, Size>& ys_a);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> step(T edge, const vec<T, Size>& xs);
+vec<T, Size> step(T edge, const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> step(const vec<T, Size>& edges, const vec<T, Size>& xs);
+vec<T, Size> step(const vec<T, Size>& edges, const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> smoothstep(T edge0, T edge1, const vec<T, Size>& xs);
+vec<T, Size> smoothstep(T edge0, T edge1, const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> smoothstep(const vec<T, Size>& edges0, const vec<T, Size>& edges1, const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
-vec<bool, Size> isnan(const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
-vec<bool, Size> isinf(const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
-vec<bool, Size> isfinite(const vec<T, Size>& xs);
-
-template < typename T, size_t Size >
-vec<T, Size> fma(const vec<T, Size>& as, const vec<T, Size>& bs, const vec<T, Size>& cs);
-
-template < typename T, size_t Size >
-vec<T, Size> frexp(const vec<T, Size>& xs, vec<int, Size>* exps);
-
-template < typename T, size_t Size >
-vec<T, Size> ldexp(const vec<T, Size>& xs, const vec<int, Size>& exps);
+vec<T, Size> smoothstep(const vec<T, Size>& edges0, const vec<T, Size>& edges1, const vec<T, Size>& xs);
 ```
 
 #### Quaternion
@@ -1131,15 +1125,6 @@ qua<T> nlerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a);
 
 template < typename T >
 qua<T> slerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a);
-
-template < typename T >
-vec<bool, 4> isnan(const qua<T>& xs);
-
-template < typename T >
-vec<bool, 4> isinf(const qua<T>& xs);
-
-template < typename T >
-vec<bool, 4> isfinite(const qua<T>& xs);
 ```
 
 ### Angle and Trigonometric Functions
@@ -1148,65 +1133,65 @@ vec<bool, 4> isfinite(const qua<T>& xs);
 
 ```cpp
 template < floating_point T >
-constexpr T radians(T degrees) noexcept;
+T radians(T degrees);
 
 template < floating_point T >
-constexpr T degrees(T radians) noexcept;
+T degrees(T radians);
 
 template < floating_point T >
-T sin(T x) noexcept;
+T sin(T x);
 
 template < floating_point T >
-T cos(T x) noexcept;
+T cos(T x);
 
 template < floating_point T >
-T tan(T x) noexcept;
+T tan(T x);
 
 template < floating_point T >
-T asin(T x) noexcept;
+T asin(T x);
 
 template < floating_point T >
-T acos(T x) noexcept;
+T acos(T x);
 
 template < floating_point T >
-T atan(T x) noexcept;
+T atan(T x);
 
 template < floating_point T >
-T atan2(T y, T x) noexcept;
+T atan2(T y, T x);
 
 template < floating_point T >
-T sinh(T x) noexcept;
+T sinh(T x);
 
 template < floating_point T >
-T cosh(T x) noexcept;
+T cosh(T x);
 
 template < floating_point T >
-T tanh(T x) noexcept;
+T tanh(T x);
 
 template < floating_point T >
-T asinh(T x) noexcept;
+T asinh(T x);
 
 template < floating_point T >
-T acosh(T x) noexcept;
+T acosh(T x);
 
 template < floating_point T >
-T atanh(T x) noexcept;
+T atanh(T x);
 
 template < floating_point T >
-pair<T, T> sincos(T x) noexcept;
+pair<T, T> sincos(T x);
 
 template < floating_point T >
-void sincos(T x, T* s, T* c) noexcept;
+void sincos(T x, T* s, T* c);
 ```
 
 #### Vector
 
 ```cpp
 template < typename T, size_t Size >
-constexpr vec<T, Size> radians(const vec<T, Size>& degrees);
+vec<T, Size> radians(const vec<T, Size>& degrees);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> degrees(const vec<T, Size>& radians);
+vec<T, Size> degrees(const vec<T, Size>& radians);
 
 template < typename T, size_t Size >
 vec<T, Size> sin(const vec<T, Size>& xs);
@@ -1260,25 +1245,25 @@ void sincos(const vec<T, Size>& xs, vec<T, Size>* ss, vec<T, Size>* cs);
 
 ```cpp
 template < floating_point T >
-T pow(T x, T y) noexcept;
+T pow(T x, T y);
 
 template < floating_point T >
-T exp(T x) noexcept;
+T exp(T x);
 
 template < floating_point T >
-T log(T x) noexcept;
+T log(T x);
 
 template < floating_point T >
-T exp2(T x) noexcept;
+T exp2(T x);
 
 template < floating_point T >
-T log2(T x) noexcept;
+T log2(T x);
 
 template < floating_point T >
-T sqrt(T x) noexcept;
+T sqrt(T x);
 
 template < floating_point T >
-T rsqrt(T x) noexcept;
+T rsqrt(T x);
 ```
 
 #### Vector
@@ -1312,65 +1297,77 @@ vec<T, Size> rsqrt(const vec<T, Size>& xs);
 
 ```cpp
 template < arithmetic T >
-constexpr T dot(T x, T y) noexcept;
+T dot(T x, T y);
 
 template < arithmetic T >
-constexpr T length(T x) noexcept;
+T length(T x);
 
 template < arithmetic T >
-constexpr T length2(T x) noexcept;
+T rlength(T x);
 
 template < arithmetic T >
-constexpr T distance(T x, T y) noexcept;
+T length2(T x);
 
 template < arithmetic T >
-constexpr T distance2(T x, T y) noexcept;
+T rlength2(T x);
+
+template < arithmetic T >
+T distance(T x, T y);
+
+template < arithmetic T >
+T distance2(T x, T y);
 
 template < floating_point T >
-T normalize(T x) noexcept;
+T normalize(T x);
 
 template < floating_point T >
-constexpr T faceforward(T n, T i, T nref) noexcept;
+T faceforward(T n, T i, T nref);
 
 template < floating_point T >
-constexpr T reflect(T i, T n) noexcept;
+T reflect(T i, T n);
 
 template < floating_point T >
-T refract(T i, T n, T eta) noexcept;
+T refract(T i, T n, T eta);
 ```
 
 #### Vector
 
 ```cpp
 template < typename T, size_t Size >
-constexpr T dot(const vec<T, Size>& xs, const vec<T, Size>& ys);
+T dot(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
 T length(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr T length2(const vec<T, Size>& xs);
+T rlength(const vec<T, Size>& xs);
+
+template < typename T, size_t Size >
+T length2(const vec<T, Size>& xs);
+
+template < typename T, size_t Size >
+T rlength2(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
 T distance(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 template < typename T, size_t Size >
-constexpr T distance2(const vec<T, Size>& xs, const vec<T, Size>& ys);
+T distance2(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
 template < typename T >
-constexpr T cross(const vec<T, 2>& xs, const vec<T, 2>& ys);
+T cross(const vec<T, 2>& xs, const vec<T, 2>& ys);
 
 template < typename T >
-constexpr vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys);
+vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys);
 
 template < typename T, size_t Size >
 vec<T, Size> normalize(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> faceforward(const vec<T, Size>& n, const vec<T, Size>& i, const vec<T, Size>& nref);
+vec<T, Size> faceforward(const vec<T, Size>& n, const vec<T, Size>& i, const vec<T, Size>& nref);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> reflect(const vec<T, Size>& i, const vec<T, Size>& n);
+vec<T, Size> reflect(const vec<T, Size>& i, const vec<T, Size>& n);
 
 template < typename T, size_t Size >
 vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta);
@@ -1380,13 +1377,19 @@ vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta);
 
 ```cpp
 template < typename T >
-constexpr T dot(const qua<T>& xs, const qua<T>& ys);
+T dot(const qua<T>& xs, const qua<T>& ys);
 
 template < typename T >
 T length(const qua<T>& xs);
 
 template < typename T >
-constexpr T length2(const qua<T>& xs);
+T rlength(const qua<T>& xs);
+
+template < typename T >
+T length2(const qua<T>& xs);
+
+template < typename T >
+T rlength2(const qua<T>& xs);
 
 template < typename T >
 T distance(const qua<T>& xs, const qua<T>& ys);
@@ -1401,273 +1404,362 @@ qua<T> normalize(const qua<T>& xs);
 
 ```cpp
 template < arithmetic T >
-constexpr bool any(T x) noexcept;
+bool any(T x);
 
 template < arithmetic T >
-constexpr bool all(T x) noexcept;
+bool all(T x);
 
 template < arithmetic T >
-constexpr bool approx(T x, T y) noexcept;
+bool approx(T x, T y);
 
 template < arithmetic T >
-constexpr bool approx(T x, T y, T epsilon) noexcept;
+bool approx(T x, T y, T epsilon);
 
 template < arithmetic T >
-constexpr bool less(T x, T y) noexcept;
+bool less(T x, T y);
 
 template < arithmetic T >
-constexpr bool less_equal(T x, T y) noexcept;
+bool less_equal(T x, T y);
 
 template < arithmetic T >
-constexpr bool greater(T x, T y) noexcept;
+bool greater(T x, T y);
 
 template < arithmetic T >
-constexpr bool greater_equal(T x, T y) noexcept;
+bool greater_equal(T x, T y);
 
 template < arithmetic T >
-constexpr bool equal_to(T x, T y) noexcept;
+bool equal_to(T x, T y);
 
 template < arithmetic T >
-constexpr bool not_equal_to(T x, T y) noexcept;
+bool not_equal_to(T x, T y);
 ```
 
 #### Vector
 
 ```cpp
-template < typename T, size_t Size >
-constexpr bool any(const vec<T, Size>& xs);
+template < typename T, size_t Size
+         , typename U = decltype(any(declval<T>())) >
+U any(const vec<T, Size>& xs);
 
-template < typename T, size_t Size >
-constexpr bool all(const vec<T, Size>& xs);
+template < typename T, size_t Size
+         , typename U = decltype(all(declval<T>())) >
+U all(const vec<T, Size>& xs);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = decltype(approx(
+             declval<T>(),
+             declval<T>())) >
+vec<U, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
+template < typename T, size_t Size
+         , typename U = decltype(approx(
+             declval<T>(),
+             declval<T>(),
+             declval<T>())) >
+vec<U, Size> approx(const vec<T, Size>& xs, const vec<T, Size>& ys, T epsilon);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = decltype(less(
+             declval<T>(),
+             declval<T>())) >
+vec<U, Size> less(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = decltype(less_equal(
+             declval<T>(),
+             declval<T>())) >
+vec<U, Size> less_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = decltype(greater(
+             declval<T>(),
+             declval<T>())) >
+vec<U, Size> greater(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = decltype(greater_equal(
+             declval<T>(),
+             declval<T>())) >
+vec<U, Size> greater_equal(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = decltype(equal_to(
+             declval<T>(),
+             declval<T>())) >
+vec<U, Size> equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr vec<bool, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = decltype(not_equal_to(
+             declval<T>(),
+             declval<T>())) >
+vec<U, Size> not_equal_to(const vec<T, Size>& xs, const vec<T, Size>& ys);
 ```
 
 #### Matrix
 
 ```cpp
-template < typename T, size_t Size >
-constexpr bool any(const mat<T, Size>& xs);
+template < typename T, size_t Size
+         , typename U = decltype(any(declval<vec<T, Size>>())) >
+U any(const mat<T, Size>& xs);
 
-template < typename T, size_t Size >
-constexpr bool all(const mat<T, Size>& xs);
+template < typename T, size_t Size
+         , typename U = decltype(all(declval<vec<T, Size>>())) >
+U all(const mat<T, Size>& xs);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = typename decltype(approx(
+             declval<vec<T, Size>>(),
+             declval<vec<T, Size>>()))::component_type >
+mat<U, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon);
+template < typename T, size_t Size
+         , typename U = typename decltype(approx(
+             declval<vec<T, Size>>(),
+             declval<vec<T, Size>>(),
+             declval<T>()))::component_type >
+mat<U, Size> approx(const mat<T, Size>& xs, const mat<T, Size>& ys, T epsilon);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> less(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = typename decltype(less(
+             declval<vec<T, Size>>(),
+             declval<vec<T, Size>>()))::component_type >
+mat<U, Size> less(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> less_equal(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = typename decltype(less_equal(
+             declval<vec<T, Size>>(),
+             declval<vec<T, Size>>()))::component_type >
+mat<U, Size> less_equal(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> greater(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = typename decltype(greater(
+             declval<vec<T, Size>>(),
+             declval<vec<T, Size>>()))::component_type >
+mat<U, Size> greater(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> greater_equal(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = typename decltype(greater_equal(
+             declval<vec<T, Size>>(),
+             declval<vec<T, Size>>()))::component_type >
+mat<U, Size> greater_equal(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = typename decltype(equal_to(
+             declval<vec<T, Size>>(),
+             declval<vec<T, Size>>()))::component_type >
+mat<U, Size> equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys);
 
-template < typename T, size_t Size >
-constexpr mat<bool, Size> not_equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, size_t Size
+         , typename U = typename decltype(not_equal_to(
+             declval<vec<T, Size>>(),
+             declval<vec<T, Size>>()))::component_type >
+mat<U, Size> not_equal_to(const mat<T, Size>& xs, const mat<T, Size>& ys);
 ```
 
 #### Quaternion
 
 ```cpp
-template < typename T >
-constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = decltype(any(declval<vec<T, 4>>())) >
+U any(const qua<T>& xs);
 
-template < typename T >
-constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon);
+template < typename T
+         , typename U = decltype(all(declval<vec<T, 4>>())) >
+U all(const qua<T>& xs);
 
-template < typename T >
-constexpr vec<bool, 4> less(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(approx(
+             declval<vec<T, 4>>(),
+             declval<vec<T, 4>>()))::component_type >
+vec<U, 4> approx(const qua<T>& xs, const qua<T>& ys);
 
-template < typename T >
-constexpr vec<bool, 4> less_equal(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(approx(
+             declval<vec<T, 4>>(),
+             declval<vec<T, 4>>(),
+             declval<T>()))::component_type >
+vec<U, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon);
 
-template < typename T >
-constexpr vec<bool, 4> greater(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(less(
+             declval<vec<T, 4>>(),
+             declval<vec<T, 4>>()))::component_type >
+vec<U, 4> less(const qua<T>& xs, const qua<T>& ys);
 
-template < typename T >
-constexpr vec<bool, 4> greater_equal(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(less_equal(
+             declval<vec<T, 4>>(),
+             declval<vec<T, 4>>()))::component_type >
+vec<U, 4> less_equal(const qua<T>& xs, const qua<T>& ys);
 
-template < typename T >
-constexpr vec<bool, 4> equal_to(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(greater(
+             declval<vec<T, 4>>(),
+             declval<vec<T, 4>>()))::component_type >
+vec<U, 4> greater(const qua<T>& xs, const qua<T>& ys);
 
-template < typename T >
-constexpr vec<bool, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys);
+template < typename T
+         , typename U = typename decltype(greater_equal(
+             declval<vec<T, 4>>(),
+             declval<vec<T, 4>>()))::component_type >
+vec<U, 4> greater_equal(const qua<T>& xs, const qua<T>& ys);
+
+template < typename T
+         , typename U = typename decltype(equal_to(
+             declval<vec<T, 4>>(),
+             declval<vec<T, 4>>()))::component_type >
+vec<U, 4> equal_to(const qua<T>& xs, const qua<T>& ys);
+
+template < typename T
+         , typename U = typename decltype(not_equal_to(
+             declval<vec<T, 4>>(),
+             declval<vec<T, 4>>()))::component_type >
+vec<U, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys);
 ```
 
 ### Matrix Functions
 
 ```cpp
 template < typename T >
-constexpr mat<T, 2> transpose(const mat<T, 2>& m);
+mat<T, 2> transpose(const mat<T, 2>& m);
 
 template < typename T >
-constexpr mat<T, 3> transpose(const mat<T, 3>& m);
+mat<T, 3> transpose(const mat<T, 3>& m);
 
 template < typename T >
-constexpr mat<T, 4> transpose(const mat<T, 4>& m);
+mat<T, 4> transpose(const mat<T, 4>& m);
 
 template < typename T >
-constexpr T determinant(const mat<T, 2>& m);
+T determinant(const mat<T, 2>& m);
 
 template < typename T >
-constexpr T determinant(const mat<T, 3>& m);
+T determinant(const mat<T, 3>& m);
 
 template < typename T >
-constexpr T determinant(const mat<T, 4>& m);
+T determinant(const mat<T, 4>& m);
 
 template < typename T >
-constexpr mat<T, 2> inverse(const mat<T, 2>& m);
+mat<T, 2> inverse(const mat<T, 2>& m);
 
 template < typename T >
-constexpr mat<T, 3> inverse(const mat<T, 3>& m);
+mat<T, 3> inverse(const mat<T, 3>& m);
 
 template < typename T >
-constexpr mat<T, 4> inverse(const mat<T, 4>& m);
+mat<T, 4> inverse(const mat<T, 4>& m);
 ```
 
 ### Quaternion Functions
 
 ```cpp
 template < typename T >
-constexpr qua<T> conjugate(const qua<T>& q);
+qua<T> conjugate(const qua<T>& q);
 
 template < typename T >
-constexpr qua<T> inverse(const qua<T>& q);
+qua<T> inverse(const qua<T>& q);
 ```
 
 ### Units
 
 ```cpp
-template < typename T > inline constexpr vec<T, 2> zero2;
-template < typename T > inline constexpr vec<T, 3> zero3;
-template < typename T > inline constexpr vec<T, 4> zero4;
+template < typename T > inline vec<T, 2> zero2;
+template < typename T > inline vec<T, 3> zero3;
+template < typename T > inline vec<T, 4> zero4;
 
-template < typename T > inline constexpr vec<T, 2> unit2;
-template < typename T > inline constexpr vec<T, 3> unit3;
-template < typename T > inline constexpr vec<T, 4> unit4;
+template < typename T > inline vec<T, 2> unit2;
+template < typename T > inline vec<T, 3> unit3;
+template < typename T > inline vec<T, 4> unit4;
 
-template < typename T > inline constexpr vec<T, 2> unit2_x;
-template < typename T > inline constexpr vec<T, 2> unit2_y;
+template < typename T > inline vec<T, 2> unit2_x;
+template < typename T > inline vec<T, 2> unit2_y;
 
-template < typename T > inline constexpr vec<T, 3> unit3_x;
-template < typename T > inline constexpr vec<T, 3> unit3_y;
-template < typename T > inline constexpr vec<T, 3> unit3_z;
+template < typename T > inline vec<T, 3> unit3_x;
+template < typename T > inline vec<T, 3> unit3_y;
+template < typename T > inline vec<T, 3> unit3_z;
 
-template < typename T > inline constexpr vec<T, 4> unit4_x;
-template < typename T > inline constexpr vec<T, 4> unit4_y;
-template < typename T > inline constexpr vec<T, 4> unit4_z;
-template < typename T > inline constexpr vec<T, 4> unit4_w;
+template < typename T > inline vec<T, 4> unit4_x;
+template < typename T > inline vec<T, 4> unit4_y;
+template < typename T > inline vec<T, 4> unit4_z;
+template < typename T > inline vec<T, 4> unit4_w;
 
-template < typename T > inline constexpr mat<T, 2> zero2x2;
-template < typename T > inline constexpr mat<T, 3> zero3x3;
-template < typename T > inline constexpr mat<T, 4> zero4x4;
+template < typename T > inline mat<T, 2> zero2x2;
+template < typename T > inline mat<T, 3> zero3x3;
+template < typename T > inline mat<T, 4> zero4x4;
 
-template < typename T > inline constexpr mat<T, 2> unit2x2;
-template < typename T > inline constexpr mat<T, 3> unit3x3;
-template < typename T > inline constexpr mat<T, 4> unit4x4;
+template < typename T > inline mat<T, 2> unit2x2;
+template < typename T > inline mat<T, 3> unit3x3;
+template < typename T > inline mat<T, 4> unit4x4;
 
-template < typename T > inline constexpr mat<T, 2> identity2x2;
-template < typename T > inline constexpr mat<T, 3> identity3x3;
-template < typename T > inline constexpr mat<T, 4> identity4x4;
+template < typename T > inline mat<T, 2> identity2x2;
+template < typename T > inline mat<T, 3> identity3x3;
+template < typename T > inline mat<T, 4> identity4x4;
+
+template < typename T > inline qua<T> qidentity;
 ```
 
 ### Cast
 
 ```cpp
 template < arithmetic To, arithmetic From >
-constexpr To cast_to(From x) noexcept;
+To cast_to(From x);
 
 template < typename To, typename From, size_t Size >
-constexpr vec<To, Size> cast_to(const vec<From, Size>& v);
+vec<To, Size> cast_to(const vec<From, Size>& v);
 
 template < typename To, typename From, size_t Size >
-constexpr mat<To, Size> cast_to(const mat<From, Size>& m);
+mat<To, Size> cast_to(const mat<From, Size>& m);
 
 template < typename To, typename From >
-constexpr qua<To> cast_to(const qua<From>& q);
+qua<To> cast_to(const qua<From>& q);
 ```
 
 ### Access
 
 ```cpp
 template < typename T, size_t Size >
-constexpr T component(const vec<T, Size>& v, size_t index);
+T component(const vec<T, Size>& v, size_t index);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> component(vec<T, Size> v, size_t index, T x);
+vec<T, Size> component(vec<T, Size> v, size_t index, T x);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> row(const mat<T, Size>& m, size_t index);
+vec<T, Size> row(const mat<T, Size>& m, size_t index);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> row(mat<T, Size> m, size_t index, const vec<T, Size>& v);
+mat<T, Size> row(mat<T, Size> m, size_t index, const vec<T, Size>& v);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> column(const mat<T, Size>& m, size_t index);
+vec<T, Size> column(const mat<T, Size>& m, size_t index);
 
 template < typename T, size_t Size >
-constexpr mat<T, Size> column(const mat<T, Size>& m, size_t index, const vec<T, Size>& v);
+mat<T, Size> column(const mat<T, Size>& m, size_t index, const vec<T, Size>& v);
 
 template < typename T >
-constexpr T real(const qua<T>& q);
+T real(const qua<T>& q);
 
 template < typename T >
-constexpr qua<T> real(qua<T> q, T real);
+qua<T> real(qua<T> q, T real);
 
 template < typename T >
-constexpr vec<T, 3> imag(const qua<T>& q);
+vec<T, 3> imag(const qua<T>& q);
 
 template < typename T >
-constexpr qua<T> imag(qua<T> q, const vec<T, 3>& imag);
+qua<T> imag(qua<T> q, const vec<T, 3>& imag);
 ```
 
 ### Matrix Transform 3D
 
 ```cpp
 template < typename T >
-constexpr mat<T, 4> translate(T x, T y, T z);
+mat<T, 4> translate(T x, T y, T z);
 
 template < typename T >
-constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z);
+mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z);
 
 template < typename T >
-constexpr mat<T, 4> translate(const vec<T, 3>& v);
+mat<T, 4> translate(const vec<T, 3>& v);
 
 template < typename T >
-constexpr mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v);
+mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v);
 
 template < typename T >
 mat<T, 4> rotate(const qua<T>& q);
@@ -1700,16 +1792,16 @@ template < typename T >
 mat<T, 4> rotate_z(const mat<T, 4>& m, T angle);
 
 template < typename T >
-constexpr mat<T, 4> scale(T x, T y, T z);
+mat<T, 4> scale(T x, T y, T z);
 
 template < typename T >
-constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z);
+mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z);
 
 template < typename T >
-constexpr mat<T, 4> scale(const vec<T, 3>& v);
+mat<T, 4> scale(const vec<T, 3>& v);
 
 template < typename T >
-constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v);
+mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v);
 
 template < typename T >
 mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up);
@@ -1722,16 +1814,16 @@ mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>&
 
 ```cpp
 template < typename T >
-constexpr mat<T, 3> translate(T x, T y);
+mat<T, 3> translate(T x, T y);
 
 template < typename T >
-constexpr mat<T, 3> translate(const mat<T, 3>& m, T x, T y);
+mat<T, 3> translate(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
-constexpr mat<T, 3> translate(const vec<T, 2>& v);
+mat<T, 3> translate(const vec<T, 2>& v);
 
 template < typename T >
-constexpr mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v);
+mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v);
 
 template < typename T >
 mat<T, 3> rotate(T angle);
@@ -1740,40 +1832,40 @@ template < typename T >
 mat<T, 3> rotate(const mat<T, 3>& m, T angle);
 
 template < typename T >
-constexpr mat<T, 3> scale(T x, T y);
+mat<T, 3> scale(T x, T y);
 
 template < typename T >
-constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y);
+mat<T, 3> scale(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
-constexpr mat<T, 3> scale(const vec<T, 2>& v);
+mat<T, 3> scale(const vec<T, 2>& v);
 
 template < typename T >
-constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v);
+mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v);
 
 template < typename T >
-constexpr mat<T, 3> shear(T x, T y);
+mat<T, 3> shear(T x, T y);
 
 template < typename T >
-constexpr mat<T, 3> shear(const mat<T, 3>& m, T x, T y);
+mat<T, 3> shear(const mat<T, 3>& m, T x, T y);
 
 template < typename T >
-constexpr mat<T, 3> shear(const vec<T, 2>& v);
+mat<T, 3> shear(const vec<T, 2>& v);
 
 template < typename T >
-constexpr mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v);
+mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v);
 
 template < typename T >
-constexpr mat<T, 3> shear_x(T y);
+mat<T, 3> shear_x(T y);
 
 template < typename T >
-constexpr mat<T, 3> shear_x(const mat<T, 3>& m, T y);
+mat<T, 3> shear_x(const mat<T, 3>& m, T y);
 
 template < typename T >
-constexpr mat<T, 3> shear_y(T x);
+mat<T, 3> shear_y(T x);
 
 template < typename T >
-constexpr mat<T, 3> shear_y(const mat<T, 3>& m, T x);
+mat<T, 3> shear_y(const mat<T, 3>& m, T x);
 ```
 
 ### Matrix Projections
@@ -1835,10 +1927,10 @@ template < typename T >
 vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& axis);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal);
+vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal);
 
 template < typename T, size_t Size >
-constexpr vec<T, Size> perpendicular(const vec<T, Size>& v, const vec<T, Size>& normal);
+vec<T, Size> perpendicular(const vec<T, Size>& v, const vec<T, Size>& normal);
 ```
 
 ### Quaternion Transform

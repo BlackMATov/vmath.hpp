@@ -128,12 +128,6 @@ TEST_CASE("vmath/qua_fun") {
                 qrotate_z(radians(290.f)),
                 slerp(qrotate_z(radians(220.f)), qrotate_z(radians(0.f)), 0.5f))));
         }
-
-        {
-            CHECK_FALSE(any(isnan(qfloat(1,1,1,1))));
-            CHECK_FALSE(any(isinf(qfloat(1,1,1,1))));
-            CHECK(all(isfinite(qfloat(1,1,1,1))));
-        }
     }
 
     SUBCASE("Geometric Functions") {
@@ -142,8 +136,14 @@ TEST_CASE("vmath/qua_fun") {
         CHECK(length(qfloat(10.f,0.f,0.f,0.f)) == uapprox(10.f));
         CHECK(length(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(10.f));
 
+        CHECK(rlength(qfloat(10.f,0.f,0.f,0.f)) == uapprox(0.1f));
+        CHECK(rlength(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(0.1f));
+
         STATIC_CHECK(length2(qfloat(10.f,0.f,0.f,0.f)) == uapprox(100.f));
         STATIC_CHECK(length2(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(100.f));
+
+        STATIC_CHECK(rlength2(qfloat(10.f,0.f,0.f,0.f)) == uapprox(0.01f));
+        STATIC_CHECK(rlength2(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(0.01f));
 
         CHECK(distance(qrotate_z(radians(0.f)) * 2.f, qrotate_z(radians(0.f)) * 1.5f) == uapprox(radians(0.f)));
         CHECK(distance(qrotate_z(radians(0.f)) * 3.f, qrotate_z(radians(360.f)) * 2.5f) == uapprox(radians(0.f)));
@@ -156,6 +156,19 @@ TEST_CASE("vmath/qua_fun") {
     }
 
     SUBCASE("Relational Functions") {
+        STATIC_CHECK(any(qua(1,0,0,0)));
+        STATIC_CHECK(any(qua(0,1,0,0)));
+        STATIC_CHECK(any(qua(0,0,1,0)));
+        STATIC_CHECK(any(qua(0,0,0,1)));
+        STATIC_CHECK(any(qua(1,1,1,1)));
+        STATIC_CHECK_FALSE(any(qua(0,0,0,0)));
+
+        STATIC_CHECK_FALSE(all(qua(1,0,0,0)));
+        STATIC_CHECK_FALSE(all(qua(0,1,0,0)));
+        STATIC_CHECK_FALSE(all(qua(0,0,1,0)));
+        STATIC_CHECK(all(qua(1,1,1,1)));
+        STATIC_CHECK_FALSE(all(qua(0,0,0,0)));
+
         STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
         STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 0) == bool4(false, true, false, false));
         STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 1) == bool4(true, true, true, false));

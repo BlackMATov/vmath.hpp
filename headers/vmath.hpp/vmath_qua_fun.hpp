@@ -14,6 +14,51 @@
 #include "vmath_vec.hpp"
 #include "vmath_vec_fun.hpp"
 
+namespace vmath_hpp::detail
+{
+    template < typename A, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(F&& f, const qua<A>& a) {
+        return qua(map_join(std::forward<F>(f), vec{a}));
+    }
+
+    template < typename A, typename B, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(F&& f, const qua<A>& a, const qua<B>& b) {
+        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}));
+    }
+
+    template < typename A, typename B, typename C, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(F&& f, const qua<A>& a, const qua<B>& b, const qua<C>& c) {
+        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}, vec{c}));
+    }
+
+    template < typename A, typename B, typename C, typename D, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(F&& f, const qua<A>& a, const qua<B>& b, const qua<C>& c, const qua<D>& d) {
+        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}, vec{c}, vec{d}));
+    }
+
+    template < typename A, typename B, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold_join(F&& f, A init, const qua<B>& b) {
+        return fold_join(std::forward<F>(f), std::move(init), vec{b});
+    }
+
+    template < typename A, typename B, typename C, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold_join(F&& f, A init, const qua<B>& b, const qua<C>& c) {
+        return fold_join(std::forward<F>(f), std::move(init), vec{b}, vec{c});
+    }
+
+    template < typename A, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_join(F&& f, const qua<A>& a) {
+        return fold1_join(std::forward<F>(f), vec{a});
+    }
+}
+
 //
 // Operators
 //
@@ -23,21 +68,21 @@ namespace vmath_hpp
     // +operator
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator+(const qua<T>& xs) {
-        return xs;
+    [[nodiscard]] constexpr auto operator+(const qua<T>& xs) {
+        return qua(+vec<T, 4>{xs});
     }
 
     // -operator
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator-(const qua<T>& xs) {
+    [[nodiscard]] constexpr auto operator-(const qua<T>& xs) {
         return qua(-vec<T, 4>{xs});
     }
 
     // operator+
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator+(const qua<T>& xs, const qua<T>& ys) {
+    [[nodiscard]] constexpr auto operator+(const qua<T>& xs, const qua<T>& ys) {
         return qua(vec{xs} + vec{ys});
     }
 
@@ -51,7 +96,7 @@ namespace vmath_hpp
     // operator-
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator-(const qua<T>& xs, const qua<T>& ys) {
+    [[nodiscard]] constexpr auto operator-(const qua<T>& xs, const qua<T>& ys) {
         return qua(vec{xs} - vec{ys});
     }
 
@@ -65,30 +110,30 @@ namespace vmath_hpp
     // operator*
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator*(const qua<T>& xs, T y) {
+    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, T y) {
         return qua(vec{xs} * y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator*(T x, const qua<T>& ys) {
+    [[nodiscard]] constexpr auto operator*(T x, const qua<T>& ys) {
         return qua(x * vec{ys});
     }
 
     template < typename T >
-    [[nodiscard]] constexpr vec<T, 3> operator*(const vec<T, 3>& xs, const qua<T>& ys) {
+    [[nodiscard]] constexpr auto operator*(const vec<T, 3>& xs, const qua<T>& ys) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/
 
-        const vec qv2 = cross(ys.v, xs) * T(2);
+        const vec qv2 = cross(ys.v, xs) * T{2};
         return xs + qv2 * ys.s + cross(ys.v, qv2);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator*(const qua<T>& xs, const qua<T>& ys) {
+    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, const qua<T>& ys) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/arithmetic/
 
-        return {
+        return qua{
             cross(ys.v, xs.v) + ys.s * xs.v + xs.s * ys.v,
             ys.s * xs.s - dot(ys.v, xs.v)};
     }
@@ -113,12 +158,12 @@ namespace vmath_hpp
     // operator/
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator/(const qua<T>& xs, T y) {
+    [[nodiscard]] constexpr auto operator/(const qua<T>& xs, T y) {
         return qua(vec{xs} / y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr qua<T> operator/(T x, const qua<T>& ys) {
+    [[nodiscard]] constexpr auto operator/(T x, const qua<T>& ys) {
         return qua(x / vec{ys});
     }
 
@@ -158,24 +203,24 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T >
-    [[nodiscard]] qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T a) {
+    [[nodiscard]] constexpr qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T a) {
         return qua(lerp(vec{xs}, vec{ys}, a));
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T xs_a, T ys_a) {
-        return qua(lerp(vec{xs}, vec{ys}, xs_a, ys_a));
+    [[nodiscard]] constexpr qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T x_a, T y_a) {
+        return qua(lerp(vec{xs}, vec{ys}, x_a, y_a));
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> nlerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
-        const T xs_scale = T(1) - a;
+    [[nodiscard]] constexpr qua<T> nlerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
+        const T xs_scale = T{1} - a;
         const T ys_scale = a * sign(dot(unit_xs, unit_ys));
         return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> slerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
+    [[nodiscard]] constexpr qua<T> slerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
 
@@ -183,33 +228,18 @@ namespace vmath_hpp
         const T raw_cos_theta_sign = sign(raw_cos_theta);
 
         // half degree linear threshold: cos((pi / 180) * 0.25)
-        if ( const T cos_theta = raw_cos_theta * raw_cos_theta_sign; cos_theta < T(0.99999) ) {
+        if ( const T cos_theta = raw_cos_theta * raw_cos_theta_sign; cos_theta < T{0.99999f} ) {
             const T theta = acos(cos_theta);
-            const T rsin_theta = rsqrt(T(1) - sqr(cos_theta));
-            const T xs_scale = sin((T(1) - a) * theta) * rsin_theta;
+            const T rsin_theta = rsqrt(T{1} - sqr(cos_theta));
+            const T xs_scale = sin((T{1} - a) * theta) * rsin_theta;
             const T ys_scale = sin(a * theta) * raw_cos_theta_sign * rsin_theta;
             return lerp(unit_xs, unit_ys, xs_scale, ys_scale);
         } else {
             // use linear interpolation for small angles
-            const T xs_scale = T(1) - a;
+            const T xs_scale = T{1} - a;
             const T ys_scale = a * raw_cos_theta_sign;
             return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
         }
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<bool, 4> isnan(const qua<T>& xs) {
-        return isnan(vec{xs});
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<bool, 4> isinf(const qua<T>& xs) {
-        return isinf(vec{xs});
-    }
-
-    template < typename T >
-    [[nodiscard]] vec<bool, 4> isfinite(const qua<T>& xs) {
-        return isfinite(vec{xs});
     }
 }
 
@@ -225,8 +255,13 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] T length(const qua<T>& xs) {
+    [[nodiscard]] constexpr T length(const qua<T>& xs) {
         return length(vec{xs});
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr T rlength(const qua<T>& xs) {
+        return rlength(vec{xs});
     }
 
     template < typename T >
@@ -235,13 +270,18 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] T distance(const qua<T>& xs, const qua<T>& ys) {
-        const qua zs = xs * conjugate(ys);
-        return T(2) * atan2(length(zs.v), abs(zs.s));
+    [[nodiscard]] constexpr T rlength2(const qua<T>& xs) {
+        return rlength2(vec{xs});
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> normalize(const qua<T>& xs) {
+    [[nodiscard]] constexpr T distance(const qua<T>& xs, const qua<T>& ys) {
+        const qua zs = xs * conjugate(ys);
+        return T{2} * atan2(length(zs.v), abs(zs.s));
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr qua<T> normalize(const qua<T>& xs) {
         return qua(normalize(vec{xs}));
     }
 }
@@ -252,43 +292,80 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = decltype(any(std::declval<vec<T, 4>>())) >
+    [[nodiscard]] constexpr U any(const qua<T>& xs) {
+        return any(vec{xs});
+    }
+
+    template < typename T
+             , typename U = decltype(all(std::declval<vec<T, 4>>())) >
+    [[nodiscard]] constexpr U all(const qua<T>& xs) {
+        return all(vec{xs});
+    }
+
+    template < typename T
+             , typename U = typename decltype(approx(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> approx(const qua<T>& xs, const qua<T>& ys) {
         return approx(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon) {
+    template < typename T
+             , typename U = typename decltype(approx(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>(),
+                 std::declval<T>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> approx(const qua<T>& xs, const qua<T>& ys, T epsilon) {
         return approx(vec{xs}, vec{ys}, epsilon);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> less(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(less(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> less(const qua<T>& xs, const qua<T>& ys) {
         return less(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> less_equal(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(less_equal(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> less_equal(const qua<T>& xs, const qua<T>& ys) {
         return less_equal(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> greater(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(greater(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> greater(const qua<T>& xs, const qua<T>& ys) {
         return greater(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> greater_equal(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(greater_equal(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> greater_equal(const qua<T>& xs, const qua<T>& ys) {
         return greater_equal(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> equal_to(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(equal_to(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> equal_to(const qua<T>& xs, const qua<T>& ys) {
         return equal_to(vec{xs}, vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<bool, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T
+             , typename U = typename decltype(not_equal_to(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<T, 4>>()))::component_type >
+    [[nodiscard]] constexpr vec<U, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys) {
         return not_equal_to(vec{xs}, vec{ys});
     }
 }
@@ -310,6 +387,6 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr qua<T> inverse(const qua<T>& q) {
-        return conjugate(q) * rcp(length2(q));
+        return conjugate(q) * rlength2(q);
     }
 }

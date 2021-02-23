@@ -13,7 +13,7 @@ namespace vmath_tests
 
     template < typename T >
     struct uapprox_base {
-        T epsilon = T(10) * std::numeric_limits<T>::epsilon();
+        T epsilon = T{10} * std::numeric_limits<T>::epsilon();
     };
 
     template < typename T >
@@ -57,7 +57,7 @@ namespace vmath_tests
 
     template < typename T >
     constexpr bool operator==(const vec<T, 2>& l, const uapprox2<T>& r) {
-        return all(approx(l, r.value,r.epsilon));
+        return all(approx(l, r.value, r.epsilon));
     }
 
     template < typename T >
