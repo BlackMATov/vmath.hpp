@@ -91,8 +91,6 @@ public:
     constexpr vec_base() = default;
     constexpr explicit vec_base(T v);
     constexpr vec_base(T x, T y);
-    constexpr explicit vec_base(const vec_base<T, 3>& xy);
-    constexpr explicit vec_base(const vec_base<T, 4>& xy);
 };
 
 template < typename T >
@@ -107,7 +105,8 @@ public:
     constexpr vec_base(T x, T y, T z);
     constexpr vec_base(const vec_base<T, 2>& xy, T z);
     constexpr vec_base(T x, const vec_base<T, 2>& yz);
-    constexpr explicit vec_base(const vec_base<T, 4>& xyz);
+
+    constexpr explicit operator vec<T, 2>() const;
 };
 
 template < typename T >
@@ -127,12 +126,16 @@ public:
     constexpr vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw);
     constexpr vec_base(const vec_base<T, 3>& xyz, T w);
     constexpr vec_base(T x, const vec_base<T, 3>& yzw);
+
+    constexpr explicit operator vec<T, 2>() const;
+    constexpr explicit operator vec<T, 3>() const;
 };
 
 template < typename T, size_t Size >
 class vec final : public vec_base<T, Size> {
 public:
     using self_type = vec;
+    using base_type = vec_base<T, Size>;
     using component_type = T;
 
     using pointer = component_type*;
@@ -234,9 +237,6 @@ public:
     constexpr mat_base(
         const row_type& row0,
         const row_type& row1);
-
-    constexpr explicit mat_base(const mat_base<T, 3>& other);
-    constexpr explicit mat_base(const mat_base<T, 4>& other);
 };
 
 template < typename T >
@@ -268,7 +268,8 @@ public:
         const vec_base<T, 2>& v);
 
     constexpr explicit mat_base(const mat_base<T, 2>& other);
-    constexpr explicit mat_base(const mat_base<T, 4>& other);
+
+    constexpr explicit operator mat<T, 2>() const;
 };
 
 template < typename T >
@@ -304,12 +305,18 @@ public:
 
     constexpr explicit mat_base(const mat_base<T, 2>& other);
     constexpr explicit mat_base(const mat_base<T, 3>& other);
+
+    constexpr explicit operator mat<T, 2>() const;
+    constexpr explicit operator mat<T, 3>() const;
 };
 
 template < typename T, size_t Size >
 class mat final : public mat_base<T, Size> {
 public:
     using self_type = mat;
+    using base_type = mat_base<T, Size>;
+    using component_type = T;
+
     using row_type = vec<T, Size>;
 
     using pointer = row_type*;
@@ -389,16 +396,28 @@ using ptrdiff4x4_t = mat<ptrdiff_t, 4>;
 
 ```cpp
 template < typename T >
+class qua_base {
+public:
+    vec<T, 3> v = vec<T, 3>{T{0}};
+    T s = T{1};
+
+    constexpr qua_base();
+    constexpr qua_base(T vx, T vy, T vz, T s);
+    constexpr qua_base(const vec<T, 3>& v, T s);
+
+    constexpr explicit qua_base(const vec<T, 4>& vs);
+    constexpr explicit operator vec<T, 4>() const;
+};
+
+template < typename T >
 class qua final {
 public:
+    using self_type = qua;
+    using base_type = qua_base<T>;
+    using component_type = T;
+
     using imag_type = vec<T, 3>;
     using real_type = T;
-
-    imag_type v = imag_type{T{0}};
-    real_type s = real_type{T{1}};
-public:
-    using self_type = qua;
-    using component_type = T;
 
     using pointer = component_type*;
     using const_pointer = const component_type*;
@@ -416,12 +435,6 @@ public:
     constexpr qua() = default;
     constexpr qua(const qua&) = default;
     constexpr qua& operator=(const qua&) = default;
-
-    constexpr qua(T vx, T vy, T vz, T s);
-    constexpr qua(const vec<T, 3>& v, T s);
-    constexpr explicit qua(const vec<T, 4>& vs);
-
-    constexpr explicit operator vec<T, 4>() const;
 
     void swap(qua& other) noexcept(is_nothrow_swappable_v<T>);
 

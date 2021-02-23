@@ -18,88 +18,94 @@ namespace vmath_hpp::detail::impl
 {
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join_impl(
+    mat<typename std::invoke_result_t<
+        F,
+        vec<A, Size>
+    >::component_type, Size>
+    map_join_impl(
         F&& f,
         const mat<A, Size>& a,
-        std::index_sequence<Is...>
-    ) -> mat<typename decltype(f(
-        std::declval<vec<A, Size>>()))::component_type, Size>
+        std::index_sequence<Is...>)
     {
         return { f(a[Is])... };
     }
 
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join_impl(
+    mat<typename std::invoke_result_t<
+        F,
+        vec<A, Size>,
+        vec<B, Size>
+    >::component_type, Size>
+    map_join_impl(
         F&& f,
         const mat<A, Size>& a,
         const mat<B, Size>& b,
-        std::index_sequence<Is...>
-    ) -> mat<typename decltype(f(
-        std::declval<vec<A, Size>>(),
-        std::declval<vec<B, Size>>()))::component_type, Size>
+        std::index_sequence<Is...>)
     {
         return { f(a[Is], b[Is])... };
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join_impl(
+    mat<typename std::invoke_result_t<
+        F,
+        vec<A, Size>,
+        vec<B, Size>,
+        vec<C, Size>
+    >::component_type, Size>
+    map_join_impl(
         F&& f,
         const mat<A, Size>& a,
         const mat<B, Size>& b,
         const mat<C, Size>& c,
-        std::index_sequence<Is...>
-    ) -> mat<typename decltype(f(
-        std::declval<vec<A, Size>>(),
-        std::declval<vec<B, Size>>(),
-        std::declval<vec<C, Size>>()))::component_type, Size>
+        std::index_sequence<Is...>)
     {
         return { f(a[Is], b[Is], c[Is])... };
     }
 
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold_join_impl(
+    A fold_join_impl(
         F&& f,
         A init,
         const mat<B, Size>& b,
-        std::index_sequence<Is...>
-    ) -> A {
+        std::index_sequence<Is...>)
+    {
         return ((init = f(std::move(init), b[Is])), ...);
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold_join_impl(
+    A fold_join_impl(
         F&& f,
         A init,
         const vec<B, Size>& b,
         const mat<C, Size>& c,
-        std::index_sequence<Is...>
-    ) -> A {
+        std::index_sequence<Is...>)
+    {
         return ((init = f(std::move(init), b[Is], c[Is])), ...);
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold_join_impl(
+    A fold_join_impl(
         F&& f,
         A init,
         const mat<B, Size>& b,
         const mat<C, Size>& c,
-        std::index_sequence<Is...>
-    ) -> A {
+        std::index_sequence<Is...>)
+    {
         return ((init = f(std::move(init), b[Is], c[Is])), ...);
     }
 
     template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold1_join_impl(
+    vec<A, Size> fold1_join_impl(
         F&& f,
         const mat<A, Size>& a,
-        std::index_sequence<I, Is...>
-    ) -> vec<A, Size> {
+        std::index_sequence<I, Is...>)
+    {
         vec<A, Size> init = a[I];
         return ((init = f(std::move(init), a[Is])), ...);
     }
@@ -109,80 +115,44 @@ namespace vmath_hpp::detail
 {
     template < typename A, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join(
-        F&& f,
-        const mat<A, Size>& a
-    ) {
-        return impl::map_join_impl(
-            std::forward<F>(f), a, std::make_index_sequence<Size>{});
+    auto map_join(F&& f, const mat<A, Size>& a) {
+        return impl::map_join_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join(
-        F&& f,
-        const mat<A, Size>& a,
-        const mat<B, Size>& b
-    ) {
-        return impl::map_join_impl(
-            std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
+    auto map_join(F&& f, const mat<A, Size>& a, const mat<B, Size>& b) {
+        return impl::map_join_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join(
-        F&& f,
-        const mat<A, Size>& a,
-        const mat<B, Size>& b,
-        const mat<C, Size>& c
-    ) {
-        return impl::map_join_impl(
-            std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
+    auto map_join(F&& f, const mat<A, Size>& a, const mat<B, Size>& b, const mat<C, Size>& c) {
+        return impl::map_join_impl(std::forward<F>(f), a, b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold_join(
-        F&& f,
-        A init,
-        const mat<B, Size>& b
-    ) {
-        return impl::fold_join_impl(
-            std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
+    auto fold_join(F&& f, A init, const mat<B, Size>& b) {
+        return impl::fold_join_impl(std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold_join(
-        F&& f,
-        A init,
-        const vec<B, Size>& b,
-        const mat<C, Size>& c
-    ) {
-        return impl::fold_join_impl(
-            std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
+    auto fold_join(F&& f, A init, const vec<B, Size>& b, const mat<C, Size>& c) {
+        return impl::fold_join_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold_join(
-        F&& f,
-        A init,
-        const mat<B, Size>& b,
-        const mat<C, Size>& c
-    ) {
-        return impl::fold_join_impl(
-            std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
+    auto fold_join(F&& f, A init, const mat<B, Size>& b, const mat<C, Size>& c) {
+        return impl::fold_join_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
     }
 
     template < typename A, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold1_join(
-        F&& f,
-        const mat<A, Size>& a
-    ) {
-        return impl::fold1_join_impl(
-            std::forward<F>(f), a, std::make_index_sequence<Size>{});
+    auto fold1_join(F&& f, const mat<A, Size>& a) {
+        return impl::fold1_join_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
     }
 }
 
@@ -196,7 +166,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr auto operator+(const mat<T, Size>& xs) {
-        return xs;
+        return map_join([](const vec<T, Size>& x){ return +x; }, xs);
     }
 
     // -operator

@@ -11,19 +11,62 @@
 #include "vmath_vec.hpp"
 #include "vmath_vec_fun.hpp"
 
+namespace vmath_hpp::detail
+{
+    template < typename T >
+    class qua_base {
+    public:
+        vec<T, 3> v = vec<T, 3>{T{0}};
+        T s = T{1};
+    public:
+        constexpr qua_base() = default;
+
+        constexpr qua_base(T vx, T vy, T vz, T s)
+        : v{vx, vy, vz}, s{s} {}
+
+        constexpr qua_base(const vec<T, 3>& v, T s)
+        : v{v}, s{s} {}
+
+        constexpr explicit qua_base(const vec<T, 4>& vs)
+        : v{vs[0], vs[1], vs[2]}, s{vs[3]} {}
+
+        constexpr explicit operator vec<T, 4>() const {
+            return {v, s};
+        }
+
+        [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
+            switch ( index ) {
+            default:
+            case 0: return v.x;
+            case 1: return v.y;
+            case 2: return v.z;
+            case 3: return s;
+            }
+        }
+
+        [[nodiscard]] constexpr const T& operator[](std::size_t index) const noexcept {
+            switch ( index ) {
+            default:
+            case 0: return v.x;
+            case 1: return v.y;
+            case 2: return v.z;
+            case 3: return s;
+            }
+        }
+    };
+}
+
 namespace vmath_hpp
 {
     template < typename T >
-    class qua final {
-    public:
-        using imag_type = vec<T, 3>;
-        using real_type = T;
-
-        imag_type v = imag_type{T{0}};
-        real_type s = real_type{T{1}};
+    class qua final : public detail::qua_base<T> {
     public:
         using self_type = qua;
+        using base_type = detail::qua_base<T>;
         using component_type = T;
+
+        using imag_type = vec<T, 3>;
+        using real_type = T;
 
         using pointer = component_type*;
         using const_pointer = const component_type*;
@@ -38,25 +81,12 @@ namespace vmath_hpp
 
         static constexpr std::size_t size = 4;
     public:
+        using base_type::qua_base;
+        using base_type::operator[];
+
         constexpr qua() = default;
         constexpr qua(const qua&) = default;
         constexpr qua& operator=(const qua&) = default;
-
-        constexpr qua(T vx, T vy, T vz, T s)
-        : v{vx, vy, vz}
-        , s{s} {}
-
-        constexpr qua(const vec<T, 3>& v, T s)
-        : v{v}
-        , s{s} {}
-
-        constexpr explicit qua(const vec<T, 4>& vs)
-        : v{vs[0], vs[1], vs[2]}
-        , s{vs[3]} {}
-
-        constexpr explicit operator vec<T, 4>() const {
-            return {(*this).v, (*this).s};
-        }
 
         void swap(qua& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < size; ++i ) {
@@ -96,26 +126,6 @@ namespace vmath_hpp
         [[nodiscard]] constexpr const_reference at(std::size_t index) const {
             VMATH_HPP_THROW_IF(index >= size, std::out_of_range("qua::at"));
             return (*this)[index];
-        }
-
-        [[nodiscard]] constexpr reference operator[](std::size_t index) noexcept {
-            switch ( index ) {
-            default:
-            case 0: return v.x;
-            case 1: return v.y;
-            case 2: return v.z;
-            case 3: return s;
-            }
-        }
-
-        [[nodiscard]] constexpr const_reference operator[](std::size_t index) const noexcept {
-            switch ( index ) {
-            default:
-            case 0: return v.x;
-            case 1: return v.y;
-            case 2: return v.z;
-            case 3: return s;
-            }
         }
     };
 }

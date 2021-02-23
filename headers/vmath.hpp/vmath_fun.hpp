@@ -15,15 +15,13 @@
 namespace vmath_hpp
 {
     template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_signed_v<T>, T>
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr abs(T x) noexcept {
-        return x < T{0} ? -x : x;
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_unsigned_v<T>, T>
-    constexpr abs(T x) noexcept {
-        return x;
+        if constexpr ( std::is_signed_v<T> ) {
+            return x < T{0} ? -x : x;
+        } else {
+            return x;
+        }
     }
 
     template < typename T >

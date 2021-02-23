@@ -14,6 +14,51 @@
 #include "vmath_vec.hpp"
 #include "vmath_vec_fun.hpp"
 
+namespace vmath_hpp::detail
+{
+    template < typename A, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(F&& f, const qua<A>& a) {
+        return qua(map_join(std::forward<F>(f), vec{a}));
+    }
+
+    template < typename A, typename B, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(F&& f, const qua<A>& a, const qua<B>& b) {
+        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}));
+    }
+
+    template < typename A, typename B, typename C, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(F&& f, const qua<A>& a, const qua<B>& b, const qua<C>& c) {
+        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}, vec{c}));
+    }
+
+    template < typename A, typename B, typename C, typename D, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto map_join(F&& f, const qua<A>& a, const qua<B>& b, const qua<C>& c, const qua<D>& d) {
+        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}, vec{c}, vec{d}));
+    }
+
+    template < typename A, typename B, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold_join(F&& f, A init, const qua<B>& b) {
+        return fold_join(std::forward<F>(f), std::move(init), vec{b});
+    }
+
+    template < typename A, typename B, typename C, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold_join(F&& f, A init, const qua<B>& b, const qua<C>& c) {
+        return fold_join(std::forward<F>(f), std::move(init), vec{b}, vec{c});
+    }
+
+    template < typename A, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_join(F&& f, const qua<A>& a) {
+        return fold1_join(std::forward<F>(f), vec{a});
+    }
+}
+
 //
 // Operators
 //
@@ -24,7 +69,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr auto operator+(const qua<T>& xs) {
-        return xs;
+        return qua(+vec<T, 4>{xs});
     }
 
     // -operator
@@ -163,8 +208,8 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T xs_a, T ys_a) {
-        return qua(lerp(vec{xs}, vec{ys}, xs_a, ys_a));
+    [[nodiscard]] qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T x_a, T y_a) {
+        return qua(lerp(vec{xs}, vec{ys}, x_a, y_a));
     }
 
     template < typename T >

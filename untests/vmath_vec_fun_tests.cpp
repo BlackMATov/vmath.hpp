@@ -16,27 +16,31 @@ TEST_CASE("vmath/vec_fun") {
     SUBCASE("Detail") {
         STATIC_CHECK(map_join([](const int& x){
             return x * 2;
-        }, int2{1}) == int2{2});
+        }, vec{1,2,3,4}) == vec{2,4,6,8});
 
         STATIC_CHECK(map_join([](const int& x, const int& y){
             return x + y;
-        }, int2{1}, int2{1}) == int2{2});
+        }, vec{1,2,3,4}, vec{2,3,4,5}) == vec{3,5,7,9});
 
         STATIC_CHECK(map_join([](const int& x, const int& y, const int& z){
             return x + y + z;
-        }, int2{1}, int2{1}, int2{1}) == int2(3));
+        }, vec{1,2,3,4}, vec{2,3,4,5}, vec{3,4,5,6}) == vec{6,9,12,15});
+
+        STATIC_CHECK(map_join([](const int& x, const int& y, const int& z, const int& w){
+            return x + y + z + w;
+        }, vec{1,2,3,4}, vec{2,3,4,5}, vec{3,4,5,6}, vec{4,5,6,7}) == vec{10,14,18,22});
 
         STATIC_CHECK(fold_join([](int acc, const int& x){
-            return acc + x;
-        }, 0, int2{1}) == 2);
+            return acc - x;
+        }, 0, vec{1,2,3,4}) == -10);
 
         STATIC_CHECK(fold_join([](int acc, const int& x, const int& y){
-            return acc + x + y;
-        }, 0, int2{1}, int2{1}) == 4);
+            return acc - x - y;
+        }, 0, vec{1,2,3,4}, vec{2,3,4,5}) == -24);
 
         STATIC_CHECK(fold1_join([](const int& acc, const int& x){
-            return acc + x;
-        }, int2{1}) == 2);
+            return acc - x;
+        }, vec{1,2,3,4}) == -8);
     }
 
     SUBCASE("Operators") {

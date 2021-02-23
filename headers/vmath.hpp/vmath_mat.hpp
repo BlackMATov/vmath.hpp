@@ -48,18 +48,6 @@ namespace vmath_hpp::detail
             const row_type& row0,
             const row_type& row1)
         : rows{row0, row1} {}
-
-        constexpr explicit mat_base(
-            const mat_base<T, 3>& other)
-        : rows{
-            row_type{other.rows[0]},
-            row_type{other.rows[1]}} {}
-
-        constexpr explicit mat_base(
-            const mat_base<T, 4>& other)
-        : rows{
-            row_type{other.rows[0]},
-            row_type{other.rows[1]}} {}
     };
 
     template < typename T >
@@ -116,12 +104,11 @@ namespace vmath_hpp::detail
             row_type{other.rows[1], T{0}},
             row_type{T{0}, T{0}, T{1}}} {}
 
-        constexpr explicit mat_base(
-            const mat_base<T, 4>& other)
-        : rows{
-            row_type{other.rows[0]},
-            row_type{other.rows[1]},
-            row_type{other.rows[2]}} {}
+        constexpr explicit operator mat<T, 2>() const {
+            return {
+                vec<T, 2>{rows[0]},
+                vec<T, 2>{rows[1]}};
+        }
     };
 
     template < typename T >
@@ -193,6 +180,19 @@ namespace vmath_hpp::detail
             row_type{other.rows[1], T{0}},
             row_type{other.rows[2], T{0}},
             row_type{T{0}, T{0}, T{0}, T{1}}} {}
+
+        constexpr explicit operator mat<T, 2>() const {
+            return {
+                vec<T, 2>{rows[0]},
+                vec<T, 2>{rows[1]}};
+        }
+
+        constexpr explicit operator mat<T, 3>() const {
+            return {
+                vec<T, 3>{rows[0]},
+                vec<T, 3>{rows[1]},
+                vec<T, 3>{rows[2]}};
+        }
     };
 }
 
@@ -203,7 +203,8 @@ namespace vmath_hpp
     public:
         using self_type = mat;
         using base_type = detail::mat_base<T, Size>;
-    public:
+        using component_type = T;
+
         using row_type = vec<T, Size>;
 
         using pointer = row_type*;

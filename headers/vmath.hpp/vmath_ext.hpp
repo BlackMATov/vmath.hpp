@@ -112,7 +112,7 @@ namespace vmath_hpp::detail
 
     template < typename T >
     [[nodiscard]] std::size_t hash(const qua<T>& q) noexcept {
-        return hash(vec{q});
+        return fold_join(hash_combiner{}, std::size_t{}, q);
     }
 }
 
@@ -156,17 +156,17 @@ namespace vmath_hpp
 
     template < typename To, typename From, std::size_t Size >
     [[nodiscard]] constexpr vec<To, Size> cast_to(const vec<From, Size>& v) {
-        return detail::map_join([](From x){ return cast_to<To>(x); }, v);
+        return map_join([](From x){ return cast_to<To>(x); }, v);
     }
 
     template < typename To, typename From, std::size_t Size >
     [[nodiscard]] constexpr mat<To, Size> cast_to(const mat<From, Size>& m) {
-        return detail::map_join([](const vec<From, Size>& v){ return cast_to<To>(v); }, m);
+        return map_join([](const vec<From, Size>& v){ return cast_to<To>(v); }, m);
     }
 
     template < typename To, typename From >
     [[nodiscard]] constexpr qua<To> cast_to(const qua<From>& q) {
-        return qua(cast_to<To>(vec{q}));
+        return map_join([](From x){ return cast_to<To>(x); }, q);
     }
 }
 
