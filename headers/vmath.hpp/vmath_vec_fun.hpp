@@ -505,6 +505,20 @@ namespace vmath_hpp
         return map_join([](T x, T y) { return fmod(x, y); }, xs, ys);
     }
 
+    namespace impl
+    {
+        template < typename T, std::size_t Size, std::size_t... Is >
+        VMATH_HPP_FORCE_INLINE
+        vec<T, Size> modf_impl(const vec<T, Size>& xs, vec<T, Size>* is, std::index_sequence<Is...>) {
+            return { modf(xs[Is], &(*is)[Is])... };
+        }
+    }
+
+    template < typename T, std::size_t Size >
+    vec<T, Size> modf(const vec<T, Size>& xs, vec<T, Size>* is) {
+        return impl::modf_impl(xs, is, std::make_index_sequence<Size>{});
+    }
+
     template < typename T, std::size_t Size >
     [[nodiscard]] vec<T, Size> copysign(const vec<T, Size>& xs, T s) {
         return map_join([s](T x) { return copysign(x, s); }, xs);

@@ -34,6 +34,7 @@ namespace
         constexpr friend fix fract(const fix& l) { using vmath_hpp::fract; return { fix{fract(l.underlying())} }; }
 
         constexpr friend fix fmod(const fix& l, const fix& r) { using vmath_hpp::fmod; return { fix{fmod(l.underlying(), r.underlying())} }; }
+        constexpr friend fix modf(const fix& l, fix* r) { using vmath_hpp::modf; return { fix{modf(l.underlying(), &r->underlying_)} }; }
         constexpr friend fix copysign(const fix& l, const fix& r) { using vmath_hpp::copysign; return { fix{copysign(l.underlying(), r.underlying())} }; }
 
         constexpr friend fix min(const fix& l, const fix& r) { using vmath_hpp::min; return fix{min(l.underlying(), r.underlying())}; }
@@ -67,31 +68,31 @@ namespace
 
         constexpr friend fix radians(const fix& l) { using vmath_hpp::radians; return fix{radians(l.underlying())}; }
         constexpr friend fix degrees(const fix& l) { using vmath_hpp::degrees; return fix{degrees(l.underlying())}; }
-        friend fix sin(const fix& l) { using vmath_hpp::sin; return fix{sin(l.underlying())}; }
-        friend fix cos(const fix& l) { using vmath_hpp::cos; return fix{cos(l.underlying())}; }
-        friend fix tan(const fix& l) { using vmath_hpp::tan; return fix{tan(l.underlying())}; }
-        friend fix asin(const fix& l) { using vmath_hpp::asin; return fix{asin(l.underlying())}; }
-        friend fix acos(const fix& l) { using vmath_hpp::acos; return fix{acos(l.underlying())}; }
-        friend fix atan(const fix& l) { using vmath_hpp::atan; return fix{atan(l.underlying())}; }
-        friend fix atan2(const fix& l, const fix& r) { using vmath_hpp::atan2; return fix{atan2(l.underlying(), r.underlying())}; }
-        friend fix sinh(const fix& l) { using vmath_hpp::sinh; return fix{sinh(l.underlying())}; }
-        friend fix cosh(const fix& l) { using vmath_hpp::cosh; return fix{cosh(l.underlying())}; }
-        friend fix tanh(const fix& l) { using vmath_hpp::tanh; return fix{tanh(l.underlying())}; }
-        friend fix asinh(const fix& l) { using vmath_hpp::asinh; return fix{asinh(l.underlying())}; }
-        friend fix acosh(const fix& l) { using vmath_hpp::acosh; return fix{acosh(l.underlying())}; }
-        friend fix atanh(const fix& l) { using vmath_hpp::atanh; return fix{atanh(l.underlying())}; }
-        friend std::pair<fix,fix> sincos(const fix& l) { return { sin(l), cos(l) }; }
-        friend void sincos(const fix& l, fix* s, fix* c) { *s = sin(l); *c = cos(l); }
+        constexpr friend fix sin(const fix& l) { using vmath_hpp::sin; return fix{sin(l.underlying())}; }
+        constexpr friend fix cos(const fix& l) { using vmath_hpp::cos; return fix{cos(l.underlying())}; }
+        constexpr friend fix tan(const fix& l) { using vmath_hpp::tan; return fix{tan(l.underlying())}; }
+        constexpr friend fix asin(const fix& l) { using vmath_hpp::asin; return fix{asin(l.underlying())}; }
+        constexpr friend fix acos(const fix& l) { using vmath_hpp::acos; return fix{acos(l.underlying())}; }
+        constexpr friend fix atan(const fix& l) { using vmath_hpp::atan; return fix{atan(l.underlying())}; }
+        constexpr friend fix atan2(const fix& l, const fix& r) { using vmath_hpp::atan2; return fix{atan2(l.underlying(), r.underlying())}; }
+        constexpr friend fix sinh(const fix& l) { using vmath_hpp::sinh; return fix{sinh(l.underlying())}; }
+        constexpr friend fix cosh(const fix& l) { using vmath_hpp::cosh; return fix{cosh(l.underlying())}; }
+        constexpr friend fix tanh(const fix& l) { using vmath_hpp::tanh; return fix{tanh(l.underlying())}; }
+        constexpr friend fix asinh(const fix& l) { using vmath_hpp::asinh; return fix{asinh(l.underlying())}; }
+        constexpr friend fix acosh(const fix& l) { using vmath_hpp::acosh; return fix{acosh(l.underlying())}; }
+        constexpr friend fix atanh(const fix& l) { using vmath_hpp::atanh; return fix{atanh(l.underlying())}; }
+        constexpr friend std::pair<fix,fix> sincos(const fix& l) { return { sin(l), cos(l) }; }
+        constexpr friend void sincos(const fix& l, fix* s, fix* c) { *s = sin(l); *c = cos(l); }
 
         //
 
-        friend fix pow(const fix& l, const fix& r) { using vmath_hpp::pow; return fix{pow(l.underlying(), r.underlying())}; }
-        friend fix exp(const fix& l) { using vmath_hpp::exp; return fix{exp(l.underlying())}; }
-        friend fix log(const fix& l) { using vmath_hpp::log; return fix{log(l.underlying())}; }
-        friend fix exp2(const fix& l) { using vmath_hpp::exp2; return fix{exp2(l.underlying())}; }
-        friend fix log2(const fix& l) { using vmath_hpp::log2; return fix{log2(l.underlying())}; }
-        friend fix sqrt(const fix& l) { using vmath_hpp::sqrt; return fix{sqrt(l.underlying())}; }
-        friend fix rsqrt(const fix& l) { using vmath_hpp::rsqrt; return fix{rsqrt(l.underlying())}; }
+        constexpr friend fix pow(const fix& l, const fix& r) { using vmath_hpp::pow; return fix{pow(l.underlying(), r.underlying())}; }
+        constexpr friend fix exp(const fix& l) { using vmath_hpp::exp; return fix{exp(l.underlying())}; }
+        constexpr friend fix log(const fix& l) { using vmath_hpp::log; return fix{log(l.underlying())}; }
+        constexpr friend fix exp2(const fix& l) { using vmath_hpp::exp2; return fix{exp2(l.underlying())}; }
+        constexpr friend fix log2(const fix& l) { using vmath_hpp::log2; return fix{log2(l.underlying())}; }
+        constexpr friend fix sqrt(const fix& l) { using vmath_hpp::sqrt; return fix{sqrt(l.underlying())}; }
+        constexpr friend fix rsqrt(const fix& l) { using vmath_hpp::rsqrt; return fix{rsqrt(l.underlying())}; }
 
         //
 
@@ -168,6 +169,8 @@ namespace vmath_hpp
 
     template fix2f fmod(const fix2f&, fix<float>);
     template fix2f fmod(const fix2f&, const fix2f&);
+
+    template fix2f modf(const fix2f&, fix2f*);
 
     template fix2f copysign(const fix2f&, fix<float>);
     template fix2f copysign(const fix2f&, const fix2f&);

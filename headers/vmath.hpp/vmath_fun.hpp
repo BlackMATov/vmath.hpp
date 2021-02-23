@@ -80,6 +80,12 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    modf(T x, T* y) noexcept {
+        return std::modf(x, y);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     copysign(T x, T s) noexcept {
         return std::copysign(x, s);
     }

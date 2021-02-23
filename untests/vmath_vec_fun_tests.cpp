@@ -205,6 +205,12 @@ TEST_CASE("vmath/vec_fun") {
         CHECK(fmod(float2(1.7f), 1.2f) == uapprox2(0.5f));
         CHECK(fmod(float2(1.7f), float2(1.2f)) == uapprox2(0.5f));
 
+        {
+            float2 out_i{};
+            CHECK(modf(float2(1.7f), &out_i) == uapprox2(0.7f));
+            CHECK(out_i.x == uapprox(1.f));
+        }
+
         STATIC_CHECK(min(int2(1,2)) == 1);
         STATIC_CHECK(min(int2(1,2), 1) == int2(1,1));
         STATIC_CHECK(min(1, int2(1,2)) == int2(1,1));

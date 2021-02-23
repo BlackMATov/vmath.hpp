@@ -77,6 +77,12 @@ TEST_CASE("vmath/fun") {
 
         CHECK(fmod(1.7f, 1.2f) == uapprox(0.5f));
 
+        {
+            float out_i{};
+            CHECK(modf(1.7f, &out_i) == uapprox(0.7f));
+            CHECK(out_i == uapprox(1.f));
+        }
+
         STATIC_CHECK(min(0.f, 1.f) == uapprox(0.f));
         STATIC_CHECK(max(0.f, 1.f) == uapprox(1.f));
 

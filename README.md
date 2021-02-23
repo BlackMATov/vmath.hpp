@@ -978,6 +978,9 @@ template < floating_point T >
 T fmod(T x, T y) noexcept;
 
 template < floating_point T >
+T modf(T x, T* y) noexcept;
+
+template < floating_point T >
 T copysign(T x, T s) noexcept;
 
 template < arithmetic T >
@@ -1043,6 +1046,9 @@ vec<T, Size> fmod(const vec<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
 vec<T, Size> fmod(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+vec<T, Size> modf(const vec<T, Size>& xs, vec<T, Size>* is);
 
 template < typename T, size_t Size >
 vec<T, Size> copysign(const vec<T, Size>& xs, T s);
