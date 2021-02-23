@@ -358,6 +358,26 @@ namespace vmath_hpp
     normalize(T x) noexcept {
         return x * rlength(x);
     }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr faceforward(T n, T i, T nref) noexcept {
+        return dot(nref, i) < T{0} ? n : -n;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    constexpr reflect(T i, T n) noexcept {
+        return i - T{2} * dot(n, i) * n;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
+    refract(T i, T n, T eta) noexcept {
+        const T d = dot(n, i);
+        const T k = T{1} - sqr(eta) * (T{1} - sqr(d));
+        return k < T{0} ? T{0} : (eta * i - (eta * d + sqrt(k)) * n);
+    }
 }
 
 //

@@ -834,6 +834,23 @@ namespace vmath_hpp
     [[nodiscard]] vec<T, Size> normalize(const vec<T, Size>& xs) {
         return xs * rlength(xs);
     }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> faceforward(const vec<T, Size>& n, const vec<T, Size>& i, const vec<T, Size>& nref) {
+        return dot(nref, i) < T{0} ? n : -n;
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> reflect(const vec<T, Size>& i, const vec<T, Size>& n) {
+        return i - T{2} * dot(n, i) * n;
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta) {
+        const T d = dot(n, i);
+        const T k = T{1} - sqr(eta) * (T{1} - sqr(d));
+        return k < T{0} ? vec<T, Size>{T{0}} : (eta * i - (eta * d + sqrt(k)) * n);
+    }
 }
 
 //

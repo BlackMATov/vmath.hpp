@@ -276,6 +276,10 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK(cross(int2(1,0),int2(0,1)) == 1);
         STATIC_CHECK(cross(int3(1,0,0),int3(0,1,0)) == int3(0,0,1));
         CHECK(normalize(float2(0.5f,0.f)).x == uapprox(1.f));
+
+        STATIC_CHECK(faceforward(float2(1.f), float2(2.f), float2(3.f)).x == uapprox(-1.f));
+        STATIC_CHECK(reflect(float2(1.f), float2(2.f)).x == uapprox(-15.f));
+        CHECK(refract(float2(1.f), float2(2.f), 1.f).x == uapprox(-15.f));
     }
 
     SUBCASE("Relational Functions") {

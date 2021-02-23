@@ -267,6 +267,9 @@ namespace vmath_hpp
     template fix<float> cross(const fix2f&, const fix2f&);
     template fix3f cross(const fix3f&, const fix3f&);
     template fix2f normalize(const fix2f&);
+    template fix3f faceforward(const fix3f&, const fix3f&, const fix3f&);
+    template fix3f reflect(const fix3f&, const fix3f&);
+    template fix3f refract(const fix3f&, const fix3f&, fix<float>);
 }
 
 namespace vmath_hpp
