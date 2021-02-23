@@ -256,7 +256,9 @@ namespace vmath_hpp
 {
     template fix<float> dot(const fix2f&, const fix2f&);
     template fix<float> length(const fix2f&);
+    template fix<float> rlength(const fix2f&);
     template fix<float> length2(const fix2f&);
+    template fix<float> rlength2(const fix2f&);
     template fix<float> distance(const fix2f&, const fix2f&);
     template fix<float> distance2(const fix2f&, const fix2f&);
     template fix<float> cross(const fix2f&, const fix2f&);
@@ -268,7 +270,9 @@ namespace vmath_hpp
 {
     template fix<float> dot(const qfix&, const qfix&);
     template fix<float> length(const qfix&);
+    template fix<float> rlength(const qfix&);
     template fix<float> length2(const qfix&);
+    template fix<float> rlength2(const qfix&);
     template fix<float> distance(const qfix&, const qfix&);
     template qfix normalize(const qfix&);
 }

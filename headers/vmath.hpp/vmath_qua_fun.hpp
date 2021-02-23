@@ -260,8 +260,18 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] T rlength(const qua<T>& xs) {
+        return rlength(vec{xs});
+    }
+
+    template < typename T >
     [[nodiscard]] constexpr T length2(const qua<T>& xs) {
         return length2(vec{xs});
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr T rlength2(const qua<T>& xs) {
+        return rlength2(vec{xs});
     }
 
     template < typename T >
@@ -377,6 +387,6 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr qua<T> inverse(const qua<T>& q) {
-        return conjugate(q) * rcp(length2(q));
+        return conjugate(q) * rlength2(q);
     }
 }

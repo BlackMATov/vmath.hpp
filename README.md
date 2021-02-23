@@ -1303,7 +1303,13 @@ template < arithmetic T >
 constexpr T length(T x) noexcept;
 
 template < arithmetic T >
+constexpr T rlength(T x) noexcept;
+
+template < arithmetic T >
 constexpr T length2(T x) noexcept;
+
+template < arithmetic T >
+constexpr T rlength2(T x) noexcept;
 
 template < arithmetic T >
 constexpr T distance(T x, T y) noexcept;
@@ -1325,7 +1331,13 @@ template < typename T, size_t Size >
 T length(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
+T rlength(const vec<T, Size>& xs);
+
+template < typename T, size_t Size >
 constexpr T length2(const vec<T, Size>& xs);
+
+template < typename T, size_t Size >
+constexpr T rlength2(const vec<T, Size>& xs);
 
 template < typename T, size_t Size >
 T distance(const vec<T, Size>& xs, const vec<T, Size>& ys);
@@ -1353,7 +1365,13 @@ template < typename T >
 T length(const qua<T>& xs);
 
 template < typename T >
+T rlength(const qua<T>& xs);
+
+template < typename T >
 constexpr T length2(const qua<T>& xs);
+
+template < typename T >
+constexpr T rlength2(const qua<T>& xs);
 
 template < typename T >
 T distance(const qua<T>& xs, const qua<T>& ys);

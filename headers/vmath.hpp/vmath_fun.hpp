@@ -319,8 +319,20 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr rlength(T x) noexcept {
+        return rcp(abs(x));
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr length2(T x) noexcept {
         return dot(x, x);
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
+    constexpr rlength2(T x) noexcept {
+        return rcp(dot(x, x));
     }
 
     template < typename T >
@@ -338,7 +350,7 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
     normalize(T x) noexcept {
-        return x * rsqrt(length2(x));
+        return x * rlength(x);
     }
 }
 

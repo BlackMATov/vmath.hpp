@@ -877,7 +877,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr vec<T, Size> project(const vec<T, Size>& v, const vec<T, Size>& normal) {
-        return dot(v, normal) * rcp(length2(normal)) * normal;
+        return dot(v, normal) * rlength2(normal) * normal;
     }
 
     // perpendicular

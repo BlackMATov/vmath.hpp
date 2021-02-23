@@ -779,8 +779,18 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
+    [[nodiscard]] T rlength(const vec<T, Size>& xs) {
+        return rsqrt(dot(xs, xs));
+    }
+
+    template < typename T, std::size_t Size >
     [[nodiscard]] constexpr T length2(const vec<T, Size>& xs) {
         return dot(xs, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr T rlength2(const vec<T, Size>& xs) {
+        return rcp(dot(xs, xs));
     }
 
     template < typename T, std::size_t Size >
@@ -808,7 +818,7 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] vec<T, Size> normalize(const vec<T, Size>& xs) {
-        return xs * rsqrt(length2(xs));
+        return xs * rlength(xs);
     }
 }
 
