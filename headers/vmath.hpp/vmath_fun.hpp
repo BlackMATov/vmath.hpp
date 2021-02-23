@@ -355,7 +355,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    normalize(T x) noexcept {
+    constexpr normalize(T x) noexcept {
         return x * rlength(x);
     }
 

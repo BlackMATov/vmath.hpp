@@ -294,7 +294,7 @@ namespace vmath_hpp
     // rotate
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate(const qua<T>& q) {
+    [[nodiscard]] constexpr mat<T, 4> rotate(const qua<T>& q) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/
 
@@ -324,12 +324,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate(const mat<T, 4>& m, const qua<T>& q) {
+    [[nodiscard]] constexpr mat<T, 4> rotate(const mat<T, 4>& m, const qua<T>& q) {
         return m * rotate(q);
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] constexpr mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
 
@@ -362,12 +362,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] constexpr mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
         return m * rotate(angle, axis);
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate_x(T angle) {
+    [[nodiscard]] constexpr mat<T, 4> rotate_x(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
 
@@ -381,12 +381,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate_x(const mat<T, 4>& m, T angle) {
+    [[nodiscard]] constexpr mat<T, 4> rotate_x(const mat<T, 4>& m, T angle) {
         return m * rotate_x(angle);
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate_y(T angle) {
+    [[nodiscard]] constexpr mat<T, 4> rotate_y(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
 
@@ -400,12 +400,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate_y(const mat<T, 4>& m, T angle) {
+    [[nodiscard]] constexpr mat<T, 4> rotate_y(const mat<T, 4>& m, T angle) {
         return m * rotate_y(angle);
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate_z(T angle) {
+    [[nodiscard]] constexpr mat<T, 4> rotate_z(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
 
@@ -419,7 +419,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> rotate_z(const mat<T, 4>& m, T angle) {
+    [[nodiscard]] constexpr mat<T, 4> rotate_z(const mat<T, 4>& m, T angle) {
         return m * rotate_z(angle);
     }
 
@@ -455,7 +455,7 @@ namespace vmath_hpp
     // look_at
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+    [[nodiscard]] constexpr mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
         /// REFERENCE:
         /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
 
@@ -475,7 +475,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+    [[nodiscard]] constexpr mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
         /// REFERENCE:
         /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
 
@@ -532,7 +532,7 @@ namespace vmath_hpp
     // rotate
 
     template < typename T >
-    [[nodiscard]] mat<T, 3> rotate(T angle) {
+    [[nodiscard]] constexpr mat<T, 3> rotate(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
 
@@ -545,7 +545,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 3> rotate(const mat<T, 3>& m, T angle) {
+    [[nodiscard]] constexpr mat<T, 3> rotate(const mat<T, 3>& m, T angle) {
         return m * rotate(angle);
     }
 
@@ -647,7 +647,7 @@ namespace vmath_hpp
     // orthographic
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> orthographic_lh(T width, T height, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> orthographic_lh(T width, T height, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixortholh
 
@@ -668,7 +668,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> orthographic_rh(T width, T height, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> orthographic_rh(T width, T height, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixorthorh
 
@@ -689,7 +689,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> orthographic_lh(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> orthographic_lh(T left, T right, T bottom, T top, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixorthooffcenterlh
 
@@ -705,7 +705,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> orthographic_rh(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> orthographic_rh(T left, T right, T bottom, T top, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixorthooffcenterrh
 
@@ -723,7 +723,7 @@ namespace vmath_hpp
     // perspective
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_lh(T width, T height, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> perspective_lh(T width, T height, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivelh
 
@@ -740,7 +740,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_rh(T width, T height, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> perspective_rh(T width, T height, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectiverh
 
@@ -757,7 +757,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_lh(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> perspective_lh(T left, T right, T bottom, T top, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectiveoffcenterlh
 
@@ -774,7 +774,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_rh(T left, T right, T bottom, T top, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> perspective_rh(T left, T right, T bottom, T top, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectiveoffcenterrh
 
@@ -791,7 +791,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_fov_lh(T fovy, T aspect, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> perspective_fov_lh(T fovy, T aspect, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivefovlh
 
@@ -808,7 +808,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] mat<T, 4> perspective_fov_rh(T fovy, T aspect, T znear, T zfar) {
+    [[nodiscard]] constexpr mat<T, 4> perspective_fov_rh(T fovy, T aspect, T znear, T zfar) {
         /// REFERENCE:
         /// https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivefovrh
 
@@ -833,7 +833,7 @@ namespace vmath_hpp
     // angle
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] T angle(const vec<T, Size>& x, const vec<T, Size>& y) {
+    [[nodiscard]] constexpr T angle(const vec<T, Size>& x, const vec<T, Size>& y) {
         const T rs = rsqrt(length2(x) * length2(y));
         return acos(clamp(dot(x, y) * rs, -T{1}, T{1}));
     }
@@ -841,7 +841,7 @@ namespace vmath_hpp
     // rotate
 
     template < typename T >
-    [[nodiscard]] vec<T, 2> rotate(const vec<T, 2>& v, T angle) {
+    [[nodiscard]] constexpr vec<T, 2> rotate(const vec<T, 2>& v, T angle) {
         const auto [s, c] = sincos(angle);
         return {
             v.x * c - v.y * s,
@@ -849,27 +849,27 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] vec<T, 3> rotate_x(const vec<T, 3>& v, T angle) {
+    [[nodiscard]] constexpr vec<T, 3> rotate_x(const vec<T, 3>& v, T angle) {
         return v * qrotate(angle, unit3_x<T>);
     }
 
     template < typename T >
-    [[nodiscard]] vec<T, 3> rotate_y(const vec<T, 3>& v, T angle) {
+    [[nodiscard]] constexpr vec<T, 3> rotate_y(const vec<T, 3>& v, T angle) {
         return v * qrotate(angle, unit3_y<T>);
     }
 
     template < typename T >
-    [[nodiscard]] vec<T, 3> rotate_z(const vec<T, 3>& v, T angle) {
+    [[nodiscard]] constexpr vec<T, 3> rotate_z(const vec<T, 3>& v, T angle) {
         return v * qrotate(angle, unit3_z<T>);
     }
 
     template < typename T >
-    [[nodiscard]] vec<T, 3> rotate(const vec<T, 3>& v, const qua<T>& q) {
+    [[nodiscard]] constexpr vec<T, 3> rotate(const vec<T, 3>& v, const qua<T>& q) {
         return v * q;
     }
 
     template < typename T >
-    [[nodiscard]] vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] constexpr vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& axis) {
         return v * qrotate(angle, axis);
     }
 
@@ -897,7 +897,7 @@ namespace vmath_hpp
     // qrotate
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate(const mat<T, 3>& m) {
+    [[nodiscard]] constexpr qua<T> qrotate(const mat<T, 3>& m) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
 
@@ -915,12 +915,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate(const qua<T>& q, const mat<T, 3>& m) {
+    [[nodiscard]] constexpr qua<T> qrotate(const qua<T>& q, const mat<T, 3>& m) {
         return q * qrotate(m);
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate(const vec<T, 3>& from, const vec<T, 3>& to) {
+    [[nodiscard]] constexpr qua<T> qrotate(const vec<T, 3>& from, const vec<T, 3>& to) {
         /// REFERENCE:
         /// http://lolengine.net/blog/2014/02/24/quaternion-from-two-vectors-final
 
@@ -937,12 +937,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate(const qua<T>& q, const vec<T, 3>& from, const vec<T, 3>& to) {
+    [[nodiscard]] constexpr qua<T> qrotate(const qua<T>& q, const vec<T, 3>& from, const vec<T, 3>& to) {
         return q * qrotate(from, to);
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate(T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] constexpr qua<T> qrotate(T angle, const vec<T, 3>& axis) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 
@@ -953,12 +953,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate(const qua<T>& q, T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] constexpr qua<T> qrotate(const qua<T>& q, T angle, const vec<T, 3>& axis) {
         return q * qrotate(angle, axis);
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate_x(T angle) {
+    [[nodiscard]] constexpr qua<T> qrotate_x(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 
@@ -968,12 +968,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate_x(const qua<T>& q, T angle) {
+    [[nodiscard]] constexpr qua<T> qrotate_x(const qua<T>& q, T angle) {
         return qrotate(q, angle, unit3_x<T>);
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate_y(T angle) {
+    [[nodiscard]] constexpr qua<T> qrotate_y(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 
@@ -983,12 +983,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate_y(const qua<T>& q, T angle) {
+    [[nodiscard]] constexpr qua<T> qrotate_y(const qua<T>& q, T angle) {
         return qrotate(q, angle, unit3_y<T>);
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate_z(T angle) {
+    [[nodiscard]] constexpr qua<T> qrotate_z(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 
@@ -998,14 +998,14 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qrotate_z(const qua<T>& q, T angle) {
+    [[nodiscard]] constexpr qua<T> qrotate_z(const qua<T>& q, T angle) {
         return qrotate(q, angle, unit3_z<T>);
     }
 
     // look_at
 
     template < typename T >
-    [[nodiscard]] qua<T> qlook_at_lh(const vec<T, 3>& dir, const vec<T, 3>& up) {
+    [[nodiscard]] constexpr qua<T> qlook_at_lh(const vec<T, 3>& dir, const vec<T, 3>& up) {
         /// REFERENCE:
         /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
 
@@ -1020,7 +1020,7 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> qlook_at_rh(const vec<T, 3>& dir, const vec<T, 3>& up) {
+    [[nodiscard]] constexpr qua<T> qlook_at_rh(const vec<T, 3>& dir, const vec<T, 3>& up) {
         /// REFERENCE:
         /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
 

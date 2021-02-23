@@ -218,7 +218,7 @@ namespace vmath_hpp
         using reverse_iterator = std::reverse_iterator<iterator>;
         using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-        static constexpr std::size_t size = Size;
+        static inline constexpr std::size_t size = Size;
     public:
         using base_type::mat_base;
         using base_type::rows;

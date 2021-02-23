@@ -203,24 +203,24 @@ namespace vmath_hpp
 namespace vmath_hpp
 {
     template < typename T >
-    [[nodiscard]] qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T a) {
+    [[nodiscard]] constexpr qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T a) {
         return qua(lerp(vec{xs}, vec{ys}, a));
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T x_a, T y_a) {
+    [[nodiscard]] constexpr qua<T> lerp(const qua<T>& xs, const qua<T>& ys, T x_a, T y_a) {
         return qua(lerp(vec{xs}, vec{ys}, x_a, y_a));
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> nlerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
+    [[nodiscard]] constexpr qua<T> nlerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
         const T xs_scale = T{1} - a;
         const T ys_scale = a * sign(dot(unit_xs, unit_ys));
         return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> slerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
+    [[nodiscard]] constexpr qua<T> slerp(const qua<T>& unit_xs, const qua<T>& unit_ys, T a) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
 
@@ -255,12 +255,12 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] T length(const qua<T>& xs) {
+    [[nodiscard]] constexpr T length(const qua<T>& xs) {
         return length(vec{xs});
     }
 
     template < typename T >
-    [[nodiscard]] T rlength(const qua<T>& xs) {
+    [[nodiscard]] constexpr T rlength(const qua<T>& xs) {
         return rlength(vec{xs});
     }
 
@@ -275,13 +275,13 @@ namespace vmath_hpp
     }
 
     template < typename T >
-    [[nodiscard]] T distance(const qua<T>& xs, const qua<T>& ys) {
+    [[nodiscard]] constexpr T distance(const qua<T>& xs, const qua<T>& ys) {
         const qua zs = xs * conjugate(ys);
         return T{2} * atan2(length(zs.v), abs(zs.s));
     }
 
     template < typename T >
-    [[nodiscard]] qua<T> normalize(const qua<T>& xs) {
+    [[nodiscard]] constexpr qua<T> normalize(const qua<T>& xs) {
         return qua(normalize(vec{xs}));
     }
 }
