@@ -775,11 +775,12 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr T dot(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return fold_join([](T acc, T x, T y){
+    template < typename T, typename U, std::size_t Size
+             , typename V = decltype(std::declval<T>() * std::declval<U>()) >
+    [[nodiscard]] constexpr V dot(const vec<T, Size>& xs, const vec<U, Size>& ys) {
+        return fold_join([](V acc, T x, U y){
             return acc + (x * y);
-        }, T{0}, xs, ys);
+        }, V{0}, xs, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -812,13 +813,15 @@ namespace vmath_hpp
         return length2(ys - xs);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr T cross(const vec<T, 2>& xs, const vec<T, 2>& ys) {
-        return xs.x * ys.y - xs.y * ys.x;
+    template < typename T, typename U
+             , typename V = decltype(std::declval<T>() * std::declval<U>()) >
+    [[nodiscard]] constexpr V cross(const vec<T, 2>& xs, const vec<U, 2>& ys) {
+        return { xs.x * ys.y - xs.y * ys.x };
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys) {
+    template < typename T, typename U
+             , typename V = decltype(std::declval<T>() * std::declval<U>()) >
+    [[nodiscard]] constexpr vec<V, 3> cross(const vec<T, 3>& xs, const vec<U, 3>& ys) {
         return {
             xs.y * ys.z - xs.z * ys.y,
             xs.z * ys.x - xs.x * ys.z,

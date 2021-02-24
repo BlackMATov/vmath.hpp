@@ -249,8 +249,11 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template < typename T >
-    [[nodiscard]] constexpr T dot(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T, typename U
+             , typename V = decltype(dot(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<U, 4>>())) >
+    [[nodiscard]] constexpr V dot(const qua<T>& xs, const qua<U>& ys) {
         return dot(vec{xs}, vec{ys});
     }
 

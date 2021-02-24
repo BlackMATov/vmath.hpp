@@ -271,8 +271,17 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK(distance2(float2(-5.f,0.f), float2(-10.f,0.f)) == uapprox(25.f));
 
         STATIC_CHECK(dot(int2(1,2),int2(3,4)) == 11);
+        STATIC_CHECK(dot(int2(1,2),float2(3,4)) == uapprox(11.f));
+        STATIC_CHECK(dot(float2(3,4),int2(1,2)) == uapprox(11.f));
+
         STATIC_CHECK(cross(int2(1,0),int2(0,1)) == 1);
+        STATIC_CHECK(cross(int2(1,0),float2(0,1)) == uapprox(1.f));
+        STATIC_CHECK(cross(float2(0,1),int2(1,0)) == uapprox(-1.f));
+
         STATIC_CHECK(cross(int3(1,0,0),int3(0,1,0)) == int3(0,0,1));
+        STATIC_CHECK(cross(int3(1,0,0),float3(0,1,0)) == uapprox3(0.f,0.f,1.f));
+        STATIC_CHECK(cross(float3(0,1,0),int3(1,0,0)) == uapprox3(0.f,0.f,-1.f));
+
         CHECK(normalize(float2(0.5f,0.f)).x == uapprox(1.f));
 
         STATIC_CHECK(faceforward(float2(1.f), float2(2.f), float2(3.f)).x == uapprox(-1.f));

@@ -132,6 +132,7 @@ TEST_CASE("vmath/qua_fun") {
 
     SUBCASE("Geometric Functions") {
         STATIC_CHECK(dot(qua(1,2,3,4),qua(3,4,5,6)) == 50);
+        STATIC_CHECK(dot(qfloat(1,2,3,4),qdouble(3,4,5,6)) == uapprox(50.0));
 
         CHECK(length(qfloat(10.f,0.f,0.f,0.f)) == uapprox(10.f));
         CHECK(length(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(10.f));

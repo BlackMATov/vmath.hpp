@@ -1296,8 +1296,9 @@ vec<T, Size> rsqrt(const vec<T, Size>& xs);
 #### Scalar
 
 ```cpp
-template < arithmetic T >
-T dot(T x, T y);
+template < arithmetic T, arithmetic U
+         , arithmetic V = decltype(declval<T>() * declval<U>()) >
+V dot(T x, U y);
 
 template < arithmetic T >
 T length(T x);
@@ -1333,8 +1334,9 @@ T refract(T i, T n, T eta);
 #### Vector
 
 ```cpp
-template < typename T, size_t Size >
-T dot(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size
+         , typename V = decltype(declval<T>() * declval<U>()) >
+V dot(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 template < typename T, size_t Size >
 T length(const vec<T, Size>& xs);
@@ -1354,11 +1356,13 @@ T distance(const vec<T, Size>& xs, const vec<T, Size>& ys);
 template < typename T, size_t Size >
 T distance2(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T >
-T cross(const vec<T, 2>& xs, const vec<T, 2>& ys);
+template < typename T, typename U
+         , typename V = decltype(declval<T>() * declval<U>()) >
+V cross(const vec<T, 2>& xs, const vec<U, 2>& ys);
 
-template < typename T >
-vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys);
+template < typename T, typename U
+         , typename V = decltype(declval<T>() * declval<U>()) >
+vec<V, 3> cross(const vec<T, 3>& xs, const vec<U, 3>& ys);
 
 template < typename T, size_t Size >
 vec<T, Size> normalize(const vec<T, Size>& xs);
@@ -1376,8 +1380,11 @@ vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta);
 #### Quaternion
 
 ```cpp
-template < typename T >
-T dot(const qua<T>& xs, const qua<T>& ys);
+template < typename T, typename U
+         , typename V = decltype(dot(
+             declval<vec<T, 4>>(),
+             declval<vec<U, 4>>())) >
+V dot(const qua<T>& xs, const qua<U>& ys);
 
 template < typename T >
 T length(const qua<T>& xs);
