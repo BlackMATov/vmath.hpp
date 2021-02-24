@@ -81,8 +81,8 @@ namespace vmath_hpp
 
     // operator+
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator+(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator+(const qua<T>& xs, const qua<U>& ys) {
         return qua(vec{xs} + vec{ys});
     }
 
@@ -95,8 +95,8 @@ namespace vmath_hpp
 
     // operator-
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator-(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator-(const qua<T>& xs, const qua<U>& ys) {
         return qua(vec{xs} - vec{ys});
     }
 
@@ -109,18 +109,18 @@ namespace vmath_hpp
 
     // operator*
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, T y) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, U y) {
         return qua(vec{xs} * y);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator*(T x, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator*(T x, const qua<U>& ys) {
         return qua(x * vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator*(const vec<T, 3>& xs, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator*(const vec<T, 3>& xs, const qua<U>& ys) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/
 
@@ -128,8 +128,8 @@ namespace vmath_hpp
         return xs + qv2 * ys.s + cross(ys.v, qv2);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, const qua<U>& ys) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/arithmetic/
 
@@ -157,13 +157,13 @@ namespace vmath_hpp
 
     // operator/
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator/(const qua<T>& xs, T y) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator/(const qua<T>& xs, U y) {
         return qua(vec{xs} / y);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator/(T x, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator/(T x, const qua<U>& ys) {
         return qua(x / vec{ys});
     }
 

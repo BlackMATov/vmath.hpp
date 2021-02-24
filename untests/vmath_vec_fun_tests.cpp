@@ -133,6 +133,28 @@ TEST_CASE("vmath/vec_fun") {
         }
     }
 
+    SUBCASE("Operators2") {
+        STATIC_CHECK(int2{} + 0.f == float2{});
+        STATIC_CHECK(0.f + int2{} == float2{});
+        STATIC_CHECK(int2{} + float2{} == float2{});
+        STATIC_CHECK(float2{} + int2{} == float2{});
+
+        STATIC_CHECK(int2{} - 0.f == float2{});
+        STATIC_CHECK(0.f - int2{} == float2{});
+        STATIC_CHECK(int2{} - float2{} == float2{});
+        STATIC_CHECK(float2{} - int2{} == float2{});
+
+        STATIC_CHECK(int2{} * 1.f == float2{});
+        STATIC_CHECK(0.f * int2{1} == float2{});
+        STATIC_CHECK(int2{} * float2{1.f} == float2{});
+        STATIC_CHECK(float2{} * int2{1} == float2{});
+
+        STATIC_CHECK(int2{} / 1.f == float2{});
+        STATIC_CHECK(0.f / int2{1} == float2{});
+        STATIC_CHECK(int2{} / float2{1.f} == float2{});
+        STATIC_CHECK(float2{} / int2{1} == float2{});
+    }
+
     SUBCASE("Angle and Trigonometric Functions") {
         STATIC_CHECK(radians(degrees(float2(12.13f))) == uapprox2(12.13f));
         STATIC_CHECK(degrees(radians(float2(12.13f))) == uapprox2(12.13f));

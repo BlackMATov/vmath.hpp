@@ -63,6 +63,19 @@ TEST_CASE("vmath/qua_fun") {
         STATIC_CHECK(float3{1,0,0} * qfloat{0,0,0.7071067812f,0.7071067812f} == uapprox3(0.f,1.f,0.f));
     }
 
+    SUBCASE("Operators2") {
+        STATIC_CHECK(qfloat{} + qdouble{} == qdouble{0,0,0,2});
+        STATIC_CHECK(qfloat{} - qdouble{} == qdouble{0,0,0,0});
+
+        STATIC_CHECK(qfloat{} * 1.0 == qdouble{});
+        STATIC_CHECK(1.0 * qfloat{} == qdouble{});
+        STATIC_CHECK(float3{} * qdouble{} == double3{});
+        STATIC_CHECK(qfloat{} * qdouble{} == qdouble{});
+
+        STATIC_CHECK(qfloat{} / 1.0 == qdouble{});
+        STATIC_CHECK(1.0 / qfloat{1,1,1,1} == qdouble{1,1,1,1});
+    }
+
     SUBCASE("Common Functions") {
         {
             CHECK(all(approx(

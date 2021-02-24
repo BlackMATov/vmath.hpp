@@ -492,14 +492,14 @@ auto operator!(const vec<T, Size>& xs);
 
 // operator+
 
-template < typename T, size_t Size >
-auto operator+(const vec<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator+(const vec<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator+(T x, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator+(T x, const vec<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator+(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator+(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 // operator+=
 
@@ -511,14 +511,14 @@ vec<T, Size>& operator+=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator-
 
-template < typename T, size_t Size >
-auto operator-(const vec<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator-(const vec<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator-(T x, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator-(T x, const vec<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator-(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator-(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 // operator-=
 
@@ -530,14 +530,14 @@ vec<T, Size>& operator-=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator*
 
-template < typename T, size_t Size >
-auto operator*(const vec<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator*(const vec<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator*(T x, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(T x, const vec<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator*(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 // operator*=
 
@@ -549,14 +549,14 @@ vec<T, Size>& operator*=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator/
 
-template < typename T, size_t Size >
-auto operator/(const vec<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator/(const vec<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator/(T x, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator/(T x, const vec<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator/(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator/(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 // operator/=
 
@@ -686,14 +686,14 @@ auto operator!(const mat<T, Size>& xs);
 
 // operator+
 
-template < typename T, size_t Size >
-auto operator+(const mat<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator+(const mat<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator+(T x, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator+(T x, const mat<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator+(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator+(const mat<T, Size>& xs, const mat<U, Size>& ys);
 
 // operator+=
 
@@ -705,14 +705,14 @@ mat<T, Size>& operator+=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator-
 
-template < typename T, size_t Size >
-auto operator-(const mat<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator-(const mat<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator-(T x, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator-(T x, const mat<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator-(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator-(const mat<T, Size>& xs, const mat<U, Size>& ys);
 
 // operator-=
 
@@ -724,17 +724,17 @@ mat<T, Size>& operator-=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator*
 
-template < typename T, size_t Size >
-auto operator*(const mat<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator*(const mat<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator*(T x, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(T x, const mat<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator*(const vec<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(const vec<T, Size>& xs, const mat<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator*(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(const mat<T, Size>& xs, const mat<U, Size>& ys);
 
 // operator*=
 
@@ -749,11 +749,11 @@ mat<T, Size>& operator*=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator/
 
-template < typename T, size_t Size >
-auto operator/(const mat<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator/(const mat<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator/(T x, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator/(T x, const mat<U, Size>& ys);
 
 // operator/=
 
@@ -870,8 +870,8 @@ auto operator-(const qua<T>& xs);
 
 // operator+
 
-template < typename T >
-auto operator+(const qua<T>& xs, const qua<T>& ys);
+template < typename T, typename U >
+auto operator+(const qua<T>& xs, const qua<U>& ys);
 
 // operator+=
 
@@ -880,8 +880,8 @@ qua<T>& operator+=(qua<T>& xs, const qua<T>& ys);
 
 // operator-
 
-template < typename T >
-auto operator-(const qua<T>& xs, const qua<T>& ys);
+template < typename T, typename U >
+auto operator-(const qua<T>& xs, const qua<U>& ys);
 
 // operator-=
 
@@ -890,17 +890,17 @@ qua<T>& operator-=(qua<T>& xs, const qua<T>& ys);
 
 // operator*
 
-template < typename T >
-auto operator*(const qua<T>& xs, T y);
+template < typename T, typename U >
+auto operator*(const qua<T>& xs, U y);
 
-template < typename T >
-auto operator*(T x, const qua<T>& ys);
+template < typename T, typename U >
+auto operator*(T x, const qua<U>& ys);
 
-template < typename T >
-auto operator*(const vec<T, 3>& xs, const qua<T>& ys);
+template < typename T, typename U >
+auto operator*(const vec<T, 3>& xs, const qua<U>& ys);
 
-template < typename T >
-auto operator*(const qua<T>& xs, const qua<T>& ys);
+template < typename T, typename U >
+auto operator*(const qua<T>& xs, const qua<U>& ys);
 
 // operator*=
 
@@ -915,11 +915,11 @@ qua<T>& operator*=(qua<T>& xs, const qua<T>& ys);
 
 // operator/
 
-template < typename T >
-auto operator/(const qua<T>& xs, T y);
+template < typename T, typename U >
+auto operator/(const qua<T>& xs, U y);
 
-template < typename T >
-auto operator/(T x, const qua<T>& ys);
+template < typename T, typename U >
+auto operator/(T x, const qua<U>& ys);
 
 // operator/=
 

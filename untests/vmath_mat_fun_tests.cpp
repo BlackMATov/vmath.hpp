@@ -163,6 +163,27 @@ TEST_CASE("vmath/mat_fun") {
         }
     }
 
+    SUBCASE("Operators2") {
+        STATIC_CHECK(int2x2{} + 0.f == float2x2{});
+        STATIC_CHECK(0.f + int2x2{} == float2x2{});
+        STATIC_CHECK(int2x2{} + float2x2{} == float2x2{2.f});
+        STATIC_CHECK(float2x2{} + int2x2{} == float2x2{2.f});
+
+        STATIC_CHECK(int2x2{} - 0.f == float2x2{});
+        STATIC_CHECK(0.f - int2x2{} == float2x2{-1.f});
+        STATIC_CHECK(int2x2{} - float2x2{} == float2x2{0.f});
+        STATIC_CHECK(float2x2{} - int2x2{} == float2x2{0.f});
+
+        STATIC_CHECK(int2x2{} * 1.f == float2x2{});
+        STATIC_CHECK(0.f * int2x2{1} == float2x2{0.f});
+        STATIC_CHECK(int2{} * float2x2{} == float2{});
+        STATIC_CHECK(int2x2{} * float2x2{} == float2x2{});
+        STATIC_CHECK(float2x2{} * int2x2{1} == float2x2{});
+
+        STATIC_CHECK(int2x2{} / 1.f == float2x2{});
+        STATIC_CHECK(0.f / int2x2{1,1,1,1} == float2x2{0.f});
+    }
+
     SUBCASE("relational functions") {
         STATIC_CHECK_FALSE(any(bool2x2(false, false, false, false)));
         STATIC_CHECK(any(bool2x2(true, false, true, false)));
