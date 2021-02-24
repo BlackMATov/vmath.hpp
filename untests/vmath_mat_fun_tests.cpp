@@ -30,32 +30,6 @@ namespace
 }
 
 TEST_CASE("vmath/mat_fun") {
-    SUBCASE("detail") {
-        STATIC_CHECK(map_join([](const int2& x){
-            return x * 2;
-        }, int2x2{}) == int2x2(2,0,0,2));
-
-        STATIC_CHECK(map_join([](const int2& x, const int2& y){
-            return x + y;
-        }, int2x2{}, int2x2{}) == int2x2(2,0,0,2));
-
-        STATIC_CHECK(map_join([](const int2& x, const int2& y, const int2& z){
-            return x + y + z;
-        }, int2x2{}, int2x2{}, int2x2{}) == int2x2(3,0,0,3));
-
-        STATIC_CHECK(fold_join([](int acc, const int2& x){
-            return acc + x.x;
-        }, 0, int2x2{}) == 1);
-
-        STATIC_CHECK(fold_join([](int acc, const int2& x, const int2& y){
-            return acc + x.x + y.x;
-        }, 0, int2x2{}, int2x2{}) == 2);
-
-        STATIC_CHECK(fold1_join([](const int2& acc, const int2& x){
-            return acc + x;
-        }, int2x2{}) == int2(1,1));
-    }
-
     SUBCASE("operators") {
         STATIC_CHECK(+int2x2(1,-2,3,-4) == int2x2(1,-2,3,-4));
         STATIC_CHECK(-int2x2(1,-2,3,-4) == int2x2(-1,2,-3,4));
