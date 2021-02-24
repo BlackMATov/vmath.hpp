@@ -46,6 +46,9 @@ namespace vmath_hpp
     struct zero_init_t { explicit zero_init_t() = default; };
     inline constexpr zero_init_t zero_init{};
 
+    struct unit_init_t { explicit unit_init_t() = default; };
+    inline constexpr unit_init_t unit_init{};
+
     struct identity_init_t { explicit identity_init_t() = default; };
     inline constexpr identity_init_t identity_init{};
 }

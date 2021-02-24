@@ -519,12 +519,16 @@ TEST_CASE("vmath/fix_vec") {
         constexpr fix2i v2{fix(1), fix(2)};
         constexpr fix2i v3{fix3i{fix(1), fix(2), fix(3)}};
         constexpr fix2i v4{fix4i{fix(1), fix(2), fix(3), fix(4)}};
+        constexpr fix2i v5{zero_init};
+        constexpr fix2i v6{unit_init};
 
         STATIC_CHECK((v0[0] == fix(0)));
         STATIC_CHECK((v1[0] == fix(1) && v1[1] == fix(1)));
         STATIC_CHECK((v2[0] == fix(1) && v2[1] == fix(2)));
         STATIC_CHECK((v3[0] == fix(1) && v3[1] == fix(2)));
         STATIC_CHECK((v4[0] == fix(1) && v4[1] == fix(2)));
+        STATIC_CHECK((v5[0] == fix(0)));
+        STATIC_CHECK((v6[0] == fix(1)));
     }
 
     SUBCASE("fix3 ctors") {
@@ -534,6 +538,8 @@ TEST_CASE("vmath/fix_vec") {
         constexpr fix3i v3{fix2i{fix(1), fix(2)}, fix(3)};
         constexpr fix3i v4{fix(1), fix2i{fix(2), fix(3)}};
         constexpr fix3i v5{fix4i{fix(1), fix(2), fix(3), fix(4)}};
+        constexpr fix3i v6{zero_init};
+        constexpr fix3i v7{unit_init};
 
         STATIC_CHECK((v0[0] == fix(0)));
         STATIC_CHECK((v1[0] == fix(1) && v1[1] == fix(1) && v1[2] == fix(1)));
@@ -541,6 +547,8 @@ TEST_CASE("vmath/fix_vec") {
         STATIC_CHECK((v3[0] == fix(1) && v3[1] == fix(2) && v3[2] == fix(3)));
         STATIC_CHECK((v4[0] == fix(1) && v4[1] == fix(2) && v4[2] == fix(3)));
         STATIC_CHECK((v5[0] == fix(1) && v5[1] == fix(2) && v5[2] == fix(3)));
+        STATIC_CHECK((v6[0] == fix(0)));
+        STATIC_CHECK((v7[0] == fix(1)));
     }
 
     SUBCASE("fix4 ctors") {
@@ -553,6 +561,8 @@ TEST_CASE("vmath/fix_vec") {
         constexpr fix4i v6{fix2i{fix(1), fix(2)}, fix2i{fix(3), fix(4)}};
         constexpr fix4i v7{fix3i{fix(1), fix(2), fix(3)}, fix(4)};
         constexpr fix4i v8{fix(1), fix3i{fix(2), fix(3), fix(4)}};
+        constexpr fix3i v9{zero_init};
+        constexpr fix3i v10{unit_init};
 
         STATIC_CHECK((v0.at(0) == fix(0)));
         STATIC_CHECK((v1.at(0) == fix(1) && v1.at(1) == fix(1) && v1.at(2) == fix(1) && v1.at(3) == fix(1)));
@@ -563,6 +573,8 @@ TEST_CASE("vmath/fix_vec") {
         STATIC_CHECK((v6.at(0) == fix(1) && v6.at(1) == fix(2) && v6.at(2) == fix(3) && v6.at(3) == fix(4)));
         STATIC_CHECK((v7.at(0) == fix(1) && v7.at(1) == fix(2) && v7.at(2) == fix(3) && v7.at(3) == fix(4)));
         STATIC_CHECK((v8.at(0) == fix(1) && v8.at(1) == fix(2) && v8.at(2) == fix(3) && v8.at(3) == fix(4)));
+        STATIC_CHECK((v9[0] == fix(0)));
+        STATIC_CHECK((v10[0] == fix(1)));
     }
 
     SUBCASE("swap") {
@@ -673,6 +685,9 @@ TEST_CASE("vmath/fix_mat") {
         constexpr fix2x2i v4{{fix(1), fix(2)}, {fix(3), fix(4)}};
         constexpr fix2x2i v5{fix3x3i{fix(1)}};
         constexpr fix2x2i v6{fix4x4i{fix(1)}};
+        constexpr fix2x2i v7{zero_init};
+        constexpr fix2x2i v8{unit_init};
+        constexpr fix2x2i v9{identity_init};
 
         STATIC_CHECK((v0[0] == fix2i(fix(1),fix(0)) && v0[1] == fix2i(fix(0),fix(1))));
         STATIC_CHECK((v1[0] == fix2i(fix(2),fix(0)) && v1[1] == fix2i(fix(0),fix(2))));
@@ -681,6 +696,9 @@ TEST_CASE("vmath/fix_mat") {
         STATIC_CHECK((v4[0] == fix2i(fix(1),fix(2)) && v4[1] == fix2i(fix(3),fix(4))));
         STATIC_CHECK((v5[0] == fix2i(fix(1),fix(0)) && v5[1] == fix2i(fix(0),fix(1))));
         STATIC_CHECK((v6[0] == fix2i(fix(1),fix(0)) && v6[1] == fix2i(fix(0),fix(1))));
+        STATIC_CHECK((v7[0] == fix2i(fix(0),fix(0)) && v7[1] == fix2i(fix(0),fix(0))));
+        STATIC_CHECK((v8[0] == fix2i(fix(1),fix(1)) && v8[1] == fix2i(fix(1),fix(1))));
+        STATIC_CHECK((v9[0] == fix2i(fix(1),fix(0)) && v9[1] == fix2i(fix(0),fix(1))));
     }
 
     SUBCASE("fix3x3 ctors") {
@@ -692,6 +710,9 @@ TEST_CASE("vmath/fix_mat") {
         constexpr fix3x3i v5{fix2x2i{fix(1)},fix2i{fix(0)}};
         constexpr fix3x3i v6{fix2x2i{fix(1)}};
         constexpr fix3x3i v7{fix4x4i{fix(1)}};
+        constexpr fix3x3i v8{zero_init};
+        constexpr fix3x3i v9{unit_init};
+        constexpr fix3x3i v10{identity_init};
 
         STATIC_CHECK((v0[0] == fix3i(fix(1),fix(0),fix(0)) && v0[1] == fix3i(fix(0),fix(1),fix(0)) && v0[2] == fix3i(fix(0),fix(0),fix(1))));
         STATIC_CHECK((v1[0] == fix3i(fix(2),fix(0),fix(0)) && v1[1] == fix3i(fix(0),fix(2),fix(0)) && v1[2] == fix3i(fix(0),fix(0),fix(2))));
@@ -701,6 +722,9 @@ TEST_CASE("vmath/fix_mat") {
         STATIC_CHECK((v5[0] == fix3i(fix(1),fix(0),fix(0)) && v5[1] == fix3i(fix(0),fix(1),fix(0)) && v5[2] == fix3i(fix(0),fix(0),fix(1))));
         STATIC_CHECK((v6[0] == fix3i(fix(1),fix(0),fix(0)) && v6[1] == fix3i(fix(0),fix(1),fix(0)) && v6[2] == fix3i(fix(0),fix(0),fix(1))));
         STATIC_CHECK((v7[0] == fix3i(fix(1),fix(0),fix(0)) && v7[1] == fix3i(fix(0),fix(1),fix(0)) && v7[2] == fix3i(fix(0),fix(0),fix(1))));
+        STATIC_CHECK((v8[0] == fix3i(fix(0),fix(0),fix(0)) && v8[1] == fix3i(fix(0),fix(0),fix(0)) && v8[2] == fix3i(fix(0),fix(0),fix(0))));
+        STATIC_CHECK((v9[0] == fix3i(fix(1),fix(1),fix(1)) && v9[1] == fix3i(fix(1),fix(1),fix(1)) && v9[2] == fix3i(fix(1),fix(1),fix(1))));
+        STATIC_CHECK((v10[0] == fix3i(fix(1),fix(0),fix(0)) && v10[1] == fix3i(fix(0),fix(1),fix(0)) && v10[2] == fix3i(fix(0),fix(0),fix(1))));
     }
 
     SUBCASE("fix4x4 ctors") {
@@ -712,6 +736,9 @@ TEST_CASE("vmath/fix_mat") {
         constexpr fix4x4i v5{fix3x3i{fix(1)},fix3i{fix(0)}};
         constexpr fix4x4i v6{fix2x2i{fix(1)}};
         constexpr fix4x4i v7{fix3x3i{fix(1)}};
+        constexpr fix4x4i v8{zero_init};
+        constexpr fix4x4i v9{unit_init};
+        constexpr fix4x4i v10{identity_init};
 
         STATIC_CHECK((v0[0] == fix4i(fix(1),fix(0),fix(0),fix(0)) && v0[1] == fix4i(fix(0),fix(1),fix(0),fix(0)) && v0[2] == fix4i(fix(0),fix(0),fix(1),fix(0)) && v0[3] == fix4i(fix(0),fix(0),fix(0),fix(1))));
         STATIC_CHECK((v1[0] == fix4i(fix(2),fix(0),fix(0),fix(0)) && v1[1] == fix4i(fix(0),fix(2),fix(0),fix(0)) && v1[2] == fix4i(fix(0),fix(0),fix(2),fix(0)) && v1[3] == fix4i(fix(0),fix(0),fix(0),fix(2))));
@@ -721,6 +748,9 @@ TEST_CASE("vmath/fix_mat") {
         STATIC_CHECK((v5[0] == fix4i(fix(1),fix(0),fix(0),fix(0)) && v5[1] == fix4i(fix(0),fix(1),fix(0),fix(0)) && v5[2] == fix4i(fix(0),fix(0),fix(1),fix(0)) && v5[3] == fix4i(fix(0),fix(0),fix(0),fix(1))));
         STATIC_CHECK((v6[0] == fix4i(fix(1),fix(0),fix(0),fix(0)) && v6[1] == fix4i(fix(0),fix(1),fix(0),fix(0)) && v6[2] == fix4i(fix(0),fix(0),fix(1),fix(0)) && v6[3] == fix4i(fix(0),fix(0),fix(0),fix(1))));
         STATIC_CHECK((v7[0] == fix4i(fix(1),fix(0),fix(0),fix(0)) && v7[1] == fix4i(fix(0),fix(1),fix(0),fix(0)) && v7[2] == fix4i(fix(0),fix(0),fix(1),fix(0)) && v7[3] == fix4i(fix(0),fix(0),fix(0),fix(1))));
+        STATIC_CHECK((v8[0] == fix4i(fix(0),fix(0),fix(0),fix(0)) && v8[1] == fix4i(fix(0),fix(0),fix(0),fix(0)) && v8[2] == fix4i(fix(0),fix(0),fix(0),fix(0)) && v8[3] == fix4i(fix(0),fix(0),fix(0),fix(0))));
+        STATIC_CHECK((v9[0] == fix4i(fix(1),fix(1),fix(1),fix(1)) && v9[1] == fix4i(fix(1),fix(1),fix(1),fix(1)) && v9[2] == fix4i(fix(1),fix(1),fix(1),fix(1)) && v9[3] == fix4i(fix(1),fix(1),fix(1),fix(1))));
+        STATIC_CHECK((v10[0] == fix4i(fix(1),fix(0),fix(0),fix(0)) && v10[1] == fix4i(fix(0),fix(1),fix(0),fix(0)) && v10[2] == fix4i(fix(0),fix(0),fix(1),fix(0)) && v10[3] == fix4i(fix(0),fix(0),fix(0),fix(1))));
     }
 
     SUBCASE("swap") {
@@ -831,11 +861,15 @@ TEST_CASE("vmath/fix_qua") {
         constexpr qfix v1{fix(1.f), fix(2.f), fix(3.f), fix(4.f)};
         constexpr qfix v2{fix3f{fix(1.f), fix(2.f), fix(3.f)}, fix(4.f)};
         constexpr qfix v3{fix4f{fix(1.f), fix(2.f), fix(3.f), fix(4.f)}};
+        constexpr qfix v4{zero_init};
+        constexpr qfix v5{identity_init};
 
         STATIC_CHECK((v0.at(0) == fix(0.f)));
         STATIC_CHECK((v1.at(0) == fix(1.f) && v1.at(1) == fix(2.f) && v1.at(2) == fix(3.f) && v1.at(3) == fix(4.f)));
         STATIC_CHECK((v2.at(0) == fix(1.f) && v2.at(1) == fix(2.f) && v2.at(2) == fix(3.f) && v2.at(3) == fix(4.f)));
         STATIC_CHECK((v3.at(0) == fix(1.f) && v3.at(1) == fix(2.f) && v3.at(2) == fix(3.f) && v3.at(3) == fix(4.f)));
+        STATIC_CHECK((v4.at(0) == fix(0.f) && v4.at(1) == fix(0.f) && v4.at(2) == fix(0.f) && v4.at(3) == fix(0.f)));
+        STATIC_CHECK((v5.at(0) == fix(0.f) && v5.at(1) == fix(0.f) && v5.at(2) == fix(0.f) && v5.at(3) == fix(1.f)));
     }
 
     SUBCASE("swap") {

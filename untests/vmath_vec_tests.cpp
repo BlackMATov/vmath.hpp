@@ -67,6 +67,10 @@ TEST_CASE("vmath/vec") {
             STATIC_CHECK(int2(zero_init) == int2(0,0));
             STATIC_CHECK(int3(zero_init) == int3(0,0,0));
             STATIC_CHECK(int4(zero_init) == int4(0,0,0,0));
+
+            STATIC_CHECK(int2(unit_init) == int2(1,1));
+            STATIC_CHECK(int3(unit_init) == int3(1,1,1));
+            STATIC_CHECK(int4(unit_init) == int4(1,1,1,1));
         }
         {
             STATIC_CHECK(int2().x == 0);

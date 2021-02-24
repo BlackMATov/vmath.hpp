@@ -25,17 +25,10 @@ namespace vmath_hpp::detail
         constexpr mat_base()
         : mat_base(identity_init) {}
 
-        constexpr explicit mat_base(uninit_t) {}
-
-        constexpr explicit mat_base(zero_init_t)
-        : rows{
-            {T{0}, T{0}},
-            {T{0}, T{0}}} {}
-
-        constexpr explicit mat_base(identity_init_t)
-        : rows{
-            {T{1}, T{0}},
-            {T{0}, T{1}}} {}
+        constexpr mat_base(uninit_t) {}
+        constexpr mat_base(zero_init_t) : mat_base{zero_init, zero_init} {}
+        constexpr mat_base(unit_init_t) : mat_base{unit_init, unit_init} {}
+        constexpr mat_base(identity_init_t) : mat_base{T{1}} {}
 
         constexpr explicit mat_base(T d)
         : rows{
@@ -69,19 +62,10 @@ namespace vmath_hpp::detail
         constexpr mat_base()
         : mat_base(identity_init) {}
 
-        constexpr explicit mat_base(uninit_t) {}
-
-        constexpr explicit mat_base(zero_init_t)
-        : rows{
-            {T{0}, T{0}, T{0}},
-            {T{0}, T{0}, T{0}},
-            {T{0}, T{0}, T{0}}} {}
-
-        constexpr explicit mat_base(identity_init_t)
-        : rows{
-            {T{1}, T{0}, T{0}},
-            {T{0}, T{1}, T{0}},
-            {T{0}, T{0}, T{1}}} {}
+        constexpr mat_base(uninit_t) {}
+        constexpr mat_base(zero_init_t) : mat_base{zero_init, zero_init, zero_init} {}
+        constexpr mat_base(unit_init_t) : mat_base{unit_init, unit_init, unit_init} {}
+        constexpr mat_base(identity_init_t) : mat_base{T{1}} {}
 
         constexpr explicit mat_base(T d)
         : rows{
@@ -141,21 +125,10 @@ namespace vmath_hpp::detail
         constexpr mat_base()
         : mat_base(identity_init) {}
 
-        constexpr explicit mat_base(uninit_t) {}
-
-        constexpr explicit mat_base(zero_init_t)
-        : rows{
-            {T{0}, T{0}, T{0}, T{0}},
-            {T{0}, T{0}, T{0}, T{0}},
-            {T{0}, T{0}, T{0}, T{0}},
-            {T{0}, T{0}, T{0}, T{0}}} {}
-
-        constexpr explicit mat_base(identity_init_t)
-        : rows{
-            {T{1}, T{0}, T{0}, T{0}},
-            {T{0}, T{1}, T{0}, T{0}},
-            {T{0}, T{0}, T{1}, T{0}},
-            {T{0}, T{0}, T{0}, T{1}}} {}
+        constexpr mat_base(uninit_t) {}
+        constexpr mat_base(zero_init_t) : mat_base{zero_init, zero_init, zero_init, zero_init} {}
+        constexpr mat_base(unit_init_t) : mat_base{unit_init, unit_init, unit_init, unit_init} {}
+        constexpr mat_base(identity_init_t) : mat_base{T{1}} {}
 
         constexpr explicit mat_base(T d)
         : rows{
