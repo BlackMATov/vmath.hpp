@@ -41,6 +41,22 @@ TEST_CASE("vmath/mat") {
 
     SUBCASE("ctors") {
         {
+            mat<int, 2> m2;
+            CHECK(m2.rows[0] == int2(1,0));
+            CHECK(m2.rows[1] == int2(0,1));
+
+            mat<int, 3> m3;
+            CHECK(m3.rows[0] == int3(1,0,0));
+            CHECK(m3.rows[1] == int3(0,1,0));
+            CHECK(m3.rows[2] == int3(0,0,1));
+
+            mat<int, 4> m4;
+            CHECK(m4.rows[0] == int4(1,0,0,0));
+            CHECK(m4.rows[1] == int4(0,1,0,0));
+            CHECK(m4.rows[2] == int4(0,0,1,0));
+            CHECK(m4.rows[3] == int4(0,0,0,1));
+        }
+        {
             STATIC_CHECK(int2x2()[0] == int2(1,0));
             STATIC_CHECK(int2x2()[1] == int2(0,1));
 

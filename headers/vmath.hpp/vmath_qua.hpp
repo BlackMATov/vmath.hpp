@@ -16,10 +16,13 @@ namespace vmath_hpp::detail
     template < typename T >
     class qua_base {
     public:
-        vec<T, 3> v = vec<T, 3>{T{0}};
-        T s = T{1};
+        vec<T, 3> v;
+        T s;
     public:
-        constexpr qua_base() = default;
+        constexpr qua_base()
+        : v{T{0}}, s{1} {}
+
+        constexpr explicit qua_base(uninit_t) {}
 
         constexpr qua_base(T vx, T vy, T vz, T s)
         : v{vx, vy, vz}, s{s} {}
@@ -83,10 +86,6 @@ namespace vmath_hpp
     public:
         using base_type::qua_base;
         using base_type::operator[];
-
-        constexpr qua() = default;
-        constexpr qua(const qua&) = default;
-        constexpr qua& operator=(const qua&) = default;
 
         void swap(qua& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < size; ++i ) {

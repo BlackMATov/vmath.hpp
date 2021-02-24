@@ -85,10 +85,11 @@ class vec_base;
 template < typename T >
 class vec_base<T, 2> {
 public:
-    T x = T{0};
-    T y = T{0};
+    T x, y;
 
-    vec_base() = default;
+    vec_base();
+    explicit vec_base(uninit_t);
+
     explicit vec_base(T v);
     vec_base(T x, T y);
 };
@@ -96,11 +97,11 @@ public:
 template < typename T >
 class vec_base<T, 3> {
 public:
-    T x = T{0};
-    T y = T{0};
-    T z = T{0};
+    T x, y, z;
 
-    vec_base() = default;
+    vec_base();
+    explicit vec_base(uninit_t);
+
     explicit vec_base(T v);
     vec_base(T x, T y, T z);
     vec_base(const vec_base<T, 2>& xy, T z);
@@ -112,12 +113,11 @@ public:
 template < typename T >
 class vec_base<T, 4> {
 public:
-    T x = T{0};
-    T y = T{0};
-    T z = T{0};
-    T w = T{0};
+    T x, y, z, w;
 
-    vec_base() = default;
+    vec_base();
+    explicit vec_base(uninit_t);
+
     explicit vec_base(T v);
     vec_base(T x, T y, T z, T w);
     vec_base(const vec_base<T, 2>& xy, T z, T w);
@@ -150,10 +150,6 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static inline size_t size = Size;
-
-    vec() = default;
-    vec(const vec&) = default;
-    vec& operator=(const vec&) = default;
 
     void swap(vec& other);
 
@@ -221,12 +217,11 @@ template < typename T >
 class mat_base<T, 2> {
 public:
     using row_type = vec<T, 2>;
+    row_type rows[2];
 
-    row_type rows[2] = {
-        row_type{T{1}, T{0}},
-        row_type{T{0}, T{1}}};
+    mat_base();
+    explicit mat_base(uninit_t);
 
-    mat_base() = default;
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
 
@@ -243,13 +238,11 @@ template < typename T >
 class mat_base<T, 3> {
 public:
     using row_type = vec<T, 3>;
+    row_type rows[3];
 
-    row_type rows[3] = {
-        row_type{T{1}, T{0}, T{0}},
-        row_type{T{0}, T{1}, T{0}},
-        row_type{T{0}, T{0}, T{1}}};
+    mat_base();
+    explicit mat_base(uninit_t);
 
-    mat_base() = default;
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
 
@@ -276,14 +269,11 @@ template < typename T >
 class mat_base<T, 4> {
 public:
     using row_type = vec<T, 4>;
+    row_type rows[4];
 
-    row_type rows[4] = {
-        row_type{T{1}, T{0}, T{0}, T{0}},
-        row_type{T{0}, T{1}, T{0}, T{0}},
-        row_type{T{0}, T{0}, T{1}, T{0}},
-        row_type{T{0}, T{0}, T{0}, T{1}}};
+    mat_base();
+    explicit mat_base(uninit_t);
 
-    mat_base() = default;
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
 
@@ -331,10 +321,6 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static inline size_t size = Size;
-
-    mat() = default;
-    mat(const mat&) = default;
-    mat& operator=(const mat&) = default;
 
     void swap(mat& other);
 
@@ -398,10 +384,12 @@ using ptrdiff4x4_t = mat<ptrdiff_t, 4>;
 template < typename T >
 class qua_base {
 public:
-    vec<T, 3> v = vec<T, 3>{T{0}};
-    T s = T{1};
+    vec<T, 3> v;
+    T s;
 
     qua_base();
+    explicit qua_base(uninit_t);
+
     qua_base(T vx, T vy, T vz, T s);
     qua_base(const vec<T, 3>& v, T s);
 
@@ -431,10 +419,6 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static inline size_t size = 4;
-
-    qua() = default;
-    qua(const qua&) = default;
-    qua& operator=(const qua&) = default;
 
     void swap(qua& other);
 

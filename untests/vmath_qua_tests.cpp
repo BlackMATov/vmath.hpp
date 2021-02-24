@@ -31,6 +31,11 @@ TEST_CASE("vmath/qua") {
 
     SUBCASE("ctors") {
         {
+            qua<int> q;
+            CHECK(q.v == int3(0,0,0));
+            CHECK(q.s == 1);
+        }
+        {
             STATIC_CHECK(qfloat{}.v == uapprox3(0.f));
             STATIC_CHECK(qfloat{}.s == uapprox(1.f));
 

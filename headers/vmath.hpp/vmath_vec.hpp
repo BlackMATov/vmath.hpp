@@ -16,10 +16,12 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 2> {
     public:
-        T x = T{0};
-        T y = T{0};
+        T x, y;
     public:
-        constexpr vec_base() = default;
+        constexpr vec_base()
+        : x{0}, y{0} {}
+
+        constexpr explicit vec_base(uninit_t) {}
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v} {}
@@ -47,11 +49,12 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 3> {
     public:
-        T x = T{0};
-        T y = T{0};
-        T z = T{0};
+        T x, y, z;
     public:
-        constexpr vec_base() = default;
+        constexpr vec_base()
+        : x{0}, y{0}, z{0} {}
+
+        constexpr explicit vec_base(uninit_t) {}
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v}, z{v} {}
@@ -91,12 +94,12 @@ namespace vmath_hpp::detail
     template < typename T >
     class vec_base<T, 4> {
     public:
-        T x = T{0};
-        T y = T{0};
-        T z = T{0};
-        T w = T{0};
+        T x, y, z, w;
     public:
-        constexpr vec_base() = default;
+        constexpr vec_base()
+        : x{0}, y{0}, z{0}, w{0} {}
+
+        constexpr explicit vec_base(uninit_t) {}
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v}, z{v}, w{v} {}
@@ -176,10 +179,6 @@ namespace vmath_hpp
     public:
         using base_type::vec_base;
         using base_type::operator[];
-
-        constexpr vec() = default;
-        constexpr vec(const vec&) = default;
-        constexpr vec& operator=(const vec&) = default;
 
         void swap(vec& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < Size; ++i ) {

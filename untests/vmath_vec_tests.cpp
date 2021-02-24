@@ -41,6 +41,22 @@ TEST_CASE("vmath/vec") {
 
     SUBCASE("ctors") {
         {
+            vec<int, 2> i2;
+            CHECK(i2.x == 0);
+            CHECK(i2.y == 0);
+
+            vec<int, 3> i3;
+            CHECK(i3.x == 0);
+            CHECK(i3.y == 0);
+            CHECK(i3.z == 0);
+
+            vec<int, 4> i4;
+            CHECK(i4.x == 0);
+            CHECK(i4.y == 0);
+            CHECK(i4.z == 0);
+            CHECK(i4.w == 0);
+        }
+        {
             STATIC_CHECK(int2().x == 0);
             STATIC_CHECK(int2().y == 0);
 
