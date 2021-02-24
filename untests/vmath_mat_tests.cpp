@@ -55,6 +55,22 @@ TEST_CASE("vmath/mat") {
             CHECK(m4.rows[1] == int4(0,1,0,0));
             CHECK(m4.rows[2] == int4(0,0,1,0));
             CHECK(m4.rows[3] == int4(0,0,0,1));
+
+            STATIC_CHECK(int2x2() == int2x2({1,0},{0,1}));
+            STATIC_CHECK(int3x3() == int3x3({1,0,0},{0,1,0},{0,0,1}));
+            STATIC_CHECK(int4x4() == int4x4({1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}));
+
+            (void)int2x2(uninit);
+            (void)int3x3(uninit);
+            (void)int4x4(uninit);
+
+            STATIC_CHECK(int2x2(zero_init) == int2x2({0,0},{0,0}));
+            STATIC_CHECK(int3x3(zero_init) == int3x3({0,0,0},{0,0,0},{0,0,0}));
+            STATIC_CHECK(int4x4(zero_init) == int4x4({0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}));
+
+            STATIC_CHECK(int2x2(identity_init) == int2x2({1,0},{0,1}));
+            STATIC_CHECK(int3x3(identity_init) == int3x3({1,0,0},{0,1,0},{0,0,1}));
+            STATIC_CHECK(int4x4(identity_init) == int4x4({1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}));
         }
         {
             STATIC_CHECK(int2x2()[0] == int2(1,0));

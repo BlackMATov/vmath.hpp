@@ -23,11 +23,19 @@ namespace vmath_hpp::detail
         row_type rows[2];
     public:
         constexpr mat_base()
+        : mat_base(identity_init) {}
+
+        constexpr explicit mat_base(uninit_t) {}
+
+        constexpr explicit mat_base(zero_init_t)
+        : rows{
+            {T{0}, T{0}},
+            {T{0}, T{0}}} {}
+
+        constexpr explicit mat_base(identity_init_t)
         : rows{
             {T{1}, T{0}},
             {T{0}, T{1}}} {}
-
-        constexpr explicit mat_base(uninit_t) {}
 
         constexpr explicit mat_base(T d)
         : rows{
@@ -59,12 +67,21 @@ namespace vmath_hpp::detail
         row_type rows[3];
     public:
         constexpr mat_base()
+        : mat_base(identity_init) {}
+
+        constexpr explicit mat_base(uninit_t) {}
+
+        constexpr explicit mat_base(zero_init_t)
+        : rows{
+            {T{0}, T{0}, T{0}},
+            {T{0}, T{0}, T{0}},
+            {T{0}, T{0}, T{0}}} {}
+
+        constexpr explicit mat_base(identity_init_t)
         : rows{
             {T{1}, T{0}, T{0}},
             {T{0}, T{1}, T{0}},
             {T{0}, T{0}, T{1}}} {}
-
-        constexpr explicit mat_base(uninit_t) {}
 
         constexpr explicit mat_base(T d)
         : rows{
@@ -122,13 +139,23 @@ namespace vmath_hpp::detail
         row_type rows[4];
     public:
         constexpr mat_base()
+        : mat_base(identity_init) {}
+
+        constexpr explicit mat_base(uninit_t) {}
+
+        constexpr explicit mat_base(zero_init_t)
+        : rows{
+            {T{0}, T{0}, T{0}, T{0}},
+            {T{0}, T{0}, T{0}, T{0}},
+            {T{0}, T{0}, T{0}, T{0}},
+            {T{0}, T{0}, T{0}, T{0}}} {}
+
+        constexpr explicit mat_base(identity_init_t)
         : rows{
             {T{1}, T{0}, T{0}, T{0}},
             {T{0}, T{1}, T{0}, T{0}},
             {T{0}, T{0}, T{1}, T{0}},
             {T{0}, T{0}, T{0}, T{1}}} {}
-
-        constexpr explicit mat_base(uninit_t) {}
 
         constexpr explicit mat_base(T d)
         : rows{

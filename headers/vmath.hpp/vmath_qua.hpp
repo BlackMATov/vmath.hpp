@@ -20,9 +20,15 @@ namespace vmath_hpp::detail
         T s;
     public:
         constexpr qua_base()
-        : v{T{0}}, s{1} {}
+        : qua_base(identity_init) {}
 
         constexpr explicit qua_base(uninit_t) {}
+
+        constexpr explicit qua_base(zero_init_t)
+        : v{T{0}}, s{0} {}
+
+        constexpr explicit qua_base(identity_init_t)
+        : v{T{0}}, s{1} {}
 
         constexpr qua_base(T vx, T vy, T vz, T s)
         : v{vx, vy, vz}, s{s} {}

@@ -89,6 +89,7 @@ public:
 
     vec_base();
     explicit vec_base(uninit_t);
+    explicit vec_base(zero_init_t);
 
     explicit vec_base(T v);
     vec_base(T x, T y);
@@ -101,6 +102,7 @@ public:
 
     vec_base();
     explicit vec_base(uninit_t);
+    explicit vec_base(zero_init_t);
 
     explicit vec_base(T v);
     vec_base(T x, T y, T z);
@@ -117,6 +119,7 @@ public:
 
     vec_base();
     explicit vec_base(uninit_t);
+    explicit vec_base(zero_init_t);
 
     explicit vec_base(T v);
     vec_base(T x, T y, T z, T w);
@@ -221,6 +224,8 @@ public:
 
     mat_base();
     explicit mat_base(uninit_t);
+    explicit mat_base(zero_init_t);
+    explicit mat_base(identity_init_t);
 
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
@@ -242,6 +247,8 @@ public:
 
     mat_base();
     explicit mat_base(uninit_t);
+    explicit mat_base(zero_init_t);
+    explicit mat_base(identity_init_t);
 
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
@@ -273,6 +280,8 @@ public:
 
     mat_base();
     explicit mat_base(uninit_t);
+    explicit mat_base(zero_init_t);
+    explicit mat_base(identity_init_t);
 
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
@@ -389,6 +398,8 @@ public:
 
     qua_base();
     explicit qua_base(uninit_t);
+    explicit qua_base(zero_init_t);
+    explicit qua_base(identity_init_t);
 
     qua_base(T vx, T vy, T vz, T s);
     qua_base(const vec<T, 3>& v, T s);

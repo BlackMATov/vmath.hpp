@@ -55,6 +55,18 @@ TEST_CASE("vmath/vec") {
             CHECK(i4.y == 0);
             CHECK(i4.z == 0);
             CHECK(i4.w == 0);
+
+            STATIC_CHECK(int2() == int2(0,0));
+            STATIC_CHECK(int3() == int3(0,0,0));
+            STATIC_CHECK(int4() == int4(0,0,0,0));
+
+            (void)int2(uninit);
+            (void)int3(uninit);
+            (void)int4(uninit);
+
+            STATIC_CHECK(int2(zero_init) == int2(0,0));
+            STATIC_CHECK(int3(zero_init) == int3(0,0,0));
+            STATIC_CHECK(int4(zero_init) == int4(0,0,0,0));
         }
         {
             STATIC_CHECK(int2().x == 0);

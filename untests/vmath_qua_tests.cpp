@@ -34,6 +34,11 @@ TEST_CASE("vmath/qua") {
             qua<int> q;
             CHECK(q.v == int3(0,0,0));
             CHECK(q.s == 1);
+
+            STATIC_CHECK(qua<int>() == qua<int>({0,0,0},1));
+            (void)qua<int>(uninit);
+            STATIC_CHECK(qua<int>(zero_init) == qua<int>({0,0,0},0));
+            STATIC_CHECK(qua<int>(identity_init) == qua<int>({0,0,0},1));
         }
         {
             STATIC_CHECK(qfloat{}.v == uapprox3(0.f));

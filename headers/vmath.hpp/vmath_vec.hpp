@@ -19,9 +19,12 @@ namespace vmath_hpp::detail
         T x, y;
     public:
         constexpr vec_base()
-        : x{0}, y{0} {}
+        : vec_base(zero_init) {}
 
         constexpr explicit vec_base(uninit_t) {}
+
+        constexpr explicit vec_base(zero_init_t)
+        : x{0}, y{0} {}
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v} {}
@@ -52,9 +55,12 @@ namespace vmath_hpp::detail
         T x, y, z;
     public:
         constexpr vec_base()
-        : x{0}, y{0}, z{0} {}
+        : vec_base(zero_init) {}
 
         constexpr explicit vec_base(uninit_t) {}
+
+        constexpr explicit vec_base(zero_init_t)
+        : x{0}, y{0}, z{0} {}
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v}, z{v} {}
@@ -97,9 +103,12 @@ namespace vmath_hpp::detail
         T x, y, z, w;
     public:
         constexpr vec_base()
-        : x{0}, y{0}, z{0}, w{0} {}
+        : vec_base(zero_init) {}
 
         constexpr explicit vec_base(uninit_t) {}
+
+        constexpr explicit vec_base(zero_init_t)
+        : x{0}, y{0}, z{0}, w{0} {}
 
         constexpr explicit vec_base(T v)
         : x{v}, y{v}, z{v}, w{v} {}
