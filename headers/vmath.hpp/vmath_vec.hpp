@@ -22,14 +22,20 @@ namespace vmath_hpp::detail
         : vec_base{zero_init} {}
 
         constexpr vec_base(uninit_t) {}
-        constexpr vec_base(zero_init_t) : vec_base{T{0}} {}
-        constexpr vec_base(unit_init_t) : vec_base{T{1}} {}
+        constexpr vec_base(zero_init_t): vec_base{T{0}} {}
+        constexpr vec_base(unit_init_t): vec_base{T{1}} {}
 
-        constexpr explicit vec_base(T v)
-        : x{v}, y{v} {}
+        constexpr explicit vec_base(T v): x{v}, y{v} {}
+        constexpr vec_base(T x, T y): x{x}, y{y} {}
 
-        constexpr vec_base(T x, T y)
-        : x{x}, y{y} {}
+        template < typename A, std::enable_if_t<std::is_convertible_v<A, T>, int> = 0 >
+        constexpr vec_base(const vec_base<A, 2>& xy): vec_base(xy[0], xy[1]) {}
+
+        template < typename A, std::enable_if_t<std::is_convertible_v<A, T>, int> = 0 >
+        constexpr explicit vec_base(const vec_base<A, 3>& xy): vec_base(xy[0], xy[1]) {}
+
+        template < typename A, std::enable_if_t<std::is_convertible_v<A, T>, int> = 0 >
+        constexpr explicit vec_base(const vec_base<A, 4>& xy): vec_base(xy[0], xy[1]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -57,24 +63,20 @@ namespace vmath_hpp::detail
         : vec_base{zero_init} {}
 
         constexpr vec_base(uninit_t) {}
-        constexpr vec_base(zero_init_t) : vec_base{T{0}} {}
-        constexpr vec_base(unit_init_t) : vec_base{T{1}} {}
+        constexpr vec_base(zero_init_t): vec_base{T{0}} {}
+        constexpr vec_base(unit_init_t): vec_base{T{1}} {}
 
-        constexpr explicit vec_base(T v)
-        : x{v}, y{v}, z{v} {}
+        constexpr explicit vec_base(T v): x{v}, y{v}, z{v} {}
+        constexpr vec_base(T x, T y, T z): x{x}, y{y}, z{z} {}
 
-        constexpr vec_base(T x, T y, T z)
-        : x{x}, y{y}, z{z} {}
+        constexpr vec_base(const vec_base<T, 2>& xy, T z): vec_base(xy[0], xy[1], z) {}
+        constexpr vec_base(T x, const vec_base<T, 2>& yz): vec_base(x, yz[0], yz[1]) {}
 
-        constexpr vec_base(const vec_base<T, 2>& xy, T z)
-        : x{xy[0]}, y{xy[1]}, z{z} {}
+        template < typename A, std::enable_if_t<std::is_convertible_v<A, T>, int> = 0 >
+        constexpr vec_base(const vec_base<A, 3>& xyz): vec_base(xyz[0], xyz[1], xyz[2]) {}
 
-        constexpr vec_base(T x, const vec_base<T, 2>& yz)
-        : x{x}, y{yz[0]}, z{yz[1]} {}
-
-        constexpr explicit operator vec<T, 2>() const {
-            return {x, y};
-        }
+        template < typename A, std::enable_if_t<std::is_convertible_v<A, T>, int> = 0 >
+        constexpr explicit vec_base(const vec_base<A, 4>& xyz): vec_base(xyz[0], xyz[1], xyz[2]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -107,37 +109,19 @@ namespace vmath_hpp::detail
         constexpr vec_base(zero_init_t) : vec_base{T{0}} {}
         constexpr vec_base(unit_init_t) : vec_base{T{1}} {}
 
-        constexpr explicit vec_base(T v)
-        : x{v}, y{v}, z{v}, w{v} {}
+        constexpr explicit vec_base(T v): x{v}, y{v}, z{v}, w{v} {}
+        constexpr vec_base(T x, T y, T z, T w): x{x}, y{y}, z{z}, w{w} {}
 
-        constexpr vec_base(T x, T y, T z, T w)
-        : x{x}, y{y}, z{z}, w{w} {}
+        constexpr vec_base(const vec_base<T, 2>& xy, T z, T w): vec_base(xy[0], xy[1], z, w) {}
+        constexpr vec_base(T x, const vec_base<T, 2>& yz, T w): vec_base(x, yz[0], yz[1], w) {}
+        constexpr vec_base(T x, T y, const vec_base<T, 2>& zw): vec_base(x, y, zw[0], zw[1]) {}
+        constexpr vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw): vec_base(xy[0], xy[1], zw[0], zw[1]) {}
 
-        constexpr vec_base(const vec_base<T, 2>& xy, T z, T w)
-        : x{xy[0]}, y{xy[1]}, z{z}, w{w} {}
+        constexpr vec_base(const vec_base<T, 3>& xyz, T w): vec_base(xyz[0], xyz[1], xyz[2], w) {}
+        constexpr vec_base(T x, const vec_base<T, 3>& yzw): vec_base(x, yzw[0], yzw[1], yzw[2]) {}
 
-        constexpr vec_base(T x, const vec_base<T, 2>& yz, T w)
-        : x{x}, y{yz[0]}, z{yz[1]}, w{w} {}
-
-        constexpr vec_base(T x, T y, const vec_base<T, 2>& zw)
-        : x{x}, y{y}, z{zw[0]}, w{zw[1]} {}
-
-        constexpr vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw)
-        : x{xy[0]}, y{xy[1]}, z{zw[0]}, w{zw[1]} {}
-
-        constexpr vec_base(const vec_base<T, 3>& xyz, T w)
-        : x{xyz[0]}, y{xyz[1]}, z{xyz[2]}, w{w} {}
-
-        constexpr vec_base(T x, const vec_base<T, 3>& yzw)
-        : x{x}, y{yzw[0]}, z{yzw[1]}, w{yzw[2]} {}
-
-        constexpr explicit operator vec<T, 2>() const {
-            return {x, y};
-        }
-
-        constexpr explicit operator vec<T, 3>() const {
-            return {x, y, z};
-        }
+        template < typename A, std::enable_if_t<std::is_convertible_v<A, T>, int> = 0 >
+        constexpr vec_base(const vec_base<A, 4>& xyzw): vec_base(xyzw[0], xyzw[1], xyzw[2], xyzw[3]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {

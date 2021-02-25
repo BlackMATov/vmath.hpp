@@ -95,6 +95,10 @@ public:
 
     explicit vec_base(T v);
     vec_base(T x, T y);
+
+    template < typename A > vec_base(const vec_base<A, 2>& xy);
+    template < typename A > explicit vec_base(const vec_base<A, 3>& xy);
+    template < typename A > explicit vec_base(const vec_base<A, 4>& xy);
 };
 
 template < typename T >
@@ -114,7 +118,8 @@ public:
     vec_base(const vec_base<T, 2>& xy, T z);
     vec_base(T x, const vec_base<T, 2>& yz);
 
-    explicit operator vec<T, 2>() const;
+    template < typename A > vec_base(const vec_base<A, 3>& xyz);
+    template < typename A > explicit vec_base(const vec_base<A, 4>& xyz);
 };
 
 template < typename T >
@@ -133,15 +138,13 @@ public:
 
     vec_base(const vec_base<T, 2>& xy, T z, T w);
     vec_base(T x, const vec_base<T, 2>& yz, T w);
-
     vec_base(T x, T y, const vec_base<T, 2>& zw);
     vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw);
 
     vec_base(const vec_base<T, 3>& xyz, T w);
     vec_base(T x, const vec_base<T, 3>& yzw);
 
-    explicit operator vec<T, 2>() const;
-    explicit operator vec<T, 3>() const;
+    template < typename A > vec_base(const vec_base<A, 4>& xyzw);
 };
 
 template < typename T, size_t Size >

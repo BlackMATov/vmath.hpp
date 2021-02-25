@@ -125,6 +125,38 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK(float2{} / int2{1} == float2{});
     }
 
+    SUBCASE("Conversions2") {
+        {
+            STATIC_CHECK(float2(1) == float2(1,1));
+            STATIC_CHECK(float2(1,2.0) == float2(1,2));
+            STATIC_CHECK(float2(int2(1,2)) == float2(1,2));
+            STATIC_CHECK(float2(int3(1,2,3)) == float2(1,2));
+            STATIC_CHECK(float2(int4(1,2,3,4)) == float2(1,2));
+        }
+        {
+            STATIC_CHECK(float3(1) == float3(1,1,1));
+            STATIC_CHECK(float3(1,2.0,3u) == float3(1,2,3));
+            STATIC_CHECK(float3(int3(1,2,3)) == float3(1,2,3));
+            STATIC_CHECK(float3(int4(1,2,3,4)) == float3(1,2,3));
+
+            STATIC_CHECK(float3(int2(1,2),3.0) == float3(1,2,3));
+            STATIC_CHECK(float3(1.0,int2(2,3)) == float3(1,2,3));
+        }
+        {
+            STATIC_CHECK(float4(1) == float4(1,1,1,1));
+            STATIC_CHECK(float4(1,2.0,3u,4) == float4(1,2,3,4));
+            STATIC_CHECK(float4(int4(1,2,3,4)) == float4(1,2,3,4));
+
+            STATIC_CHECK(float4(int2{1,2},3u,4.0) == float4(1,2,3,4));
+            STATIC_CHECK(float4(1,int2{2,3},4.0) == float4(1,2,3,4));
+            STATIC_CHECK(float4(1,2.f,int2{3,4}) == float4(1,2,3,4));
+            STATIC_CHECK(float4(int2{1,2},float2{3,4}) == float4(1,2,3,4));
+
+            STATIC_CHECK(float4(int3{1,2,3},4.0) == float4(1,2,3,4));
+            STATIC_CHECK(float4(1.0,int3{2,3,4}) == float4(1,2,3,4));
+        }
+    }
+
     SUBCASE("Angle and Trigonometric Functions") {
         STATIC_CHECK(radians(degrees(float2(12.13f))) == uapprox2(12.13f));
         STATIC_CHECK(degrees(radians(float2(12.13f))) == uapprox2(12.13f));
