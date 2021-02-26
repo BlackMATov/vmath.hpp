@@ -17,11 +17,11 @@ namespace
         for ( int i = 1; i <= Size; ++i ) {
             for ( int j = 1; j <= Size; ++j ) {
                 if ( j < i - Size ) {
-                    m[i - 1][j - 1] = 0;
+                    m[unsigned(i - 1)][unsigned(j - 1)] = 0;
                 } else if ( j == (i - 1) ) {
-                    m[i - 1][j - 1] = Size + 1 - i;
+                    m[unsigned(i - 1)][unsigned(j - 1)] = Size + 1 - i;
                 } else {
-                    m[i - 1][j - 1] = Size + 1 - j;
+                    m[unsigned(i - 1)][unsigned(j - 1)] = Size + 1 - j;
                 }
             }
         }
@@ -138,24 +138,58 @@ TEST_CASE("vmath/mat_fun") {
     }
 
     SUBCASE("Operators2") {
-        STATIC_CHECK(int2x2{} + 0.f == float2x2{});
-        STATIC_CHECK(0.f + int2x2{} == float2x2{});
-        STATIC_CHECK(int2x2{} + float2x2{} == float2x2{2.f});
-        STATIC_CHECK(float2x2{} + int2x2{} == float2x2{2.f});
+        STATIC_CHECK(int2x2{} + 0.0 == double2x2{});
+        STATIC_CHECK(0.0 + int2x2{} == double2x2{});
+        STATIC_CHECK(int2x2{} + double2x2{} == double2x2{2.0});
+        STATIC_CHECK(double2x2{} + int2x2{} == double2x2{2.0});
 
-        STATIC_CHECK(int2x2{} - 0.f == float2x2{});
-        STATIC_CHECK(0.f - int2x2{} == float2x2{-1.f});
-        STATIC_CHECK(int2x2{} - float2x2{} == float2x2{0.f});
-        STATIC_CHECK(float2x2{} - int2x2{} == float2x2{0.f});
+        STATIC_CHECK(int2x2{} - 0.0 == double2x2{});
+        STATIC_CHECK(0.0 - int2x2{} == double2x2{-1.0});
+        STATIC_CHECK(int2x2{} - double2x2{} == double2x2{0.0});
+        STATIC_CHECK(double2x2{} - int2x2{} == double2x2{0.0});
 
-        STATIC_CHECK(int2x2{} * 1.f == float2x2{});
-        STATIC_CHECK(0.f * int2x2{1} == float2x2{0.f});
-        STATIC_CHECK(int2{} * float2x2{} == float2{});
-        STATIC_CHECK(int2x2{} * float2x2{} == float2x2{});
-        STATIC_CHECK(float2x2{} * int2x2{1} == float2x2{});
+        STATIC_CHECK(int2x2{} * 1.0 == double2x2{});
+        STATIC_CHECK(0.0 * int2x2{1} == double2x2{0.0});
+        STATIC_CHECK(int2{} * double2x2{} == double2{});
+        STATIC_CHECK(int2x2{} * double2x2{} == double2x2{});
+        STATIC_CHECK(double2x2{} * int2x2{1} == double2x2{});
 
-        STATIC_CHECK(int2x2{} / 1.f == float2x2{});
-        STATIC_CHECK(0.f / int2x2{1,1,1,1} == float2x2{0.f});
+        STATIC_CHECK(int2x2{} / 1.0 == double2x2{});
+        STATIC_CHECK(0.0 / int2x2{1,1,1,1} == double2x2{0.0});
+    }
+
+    SUBCASE("Conversions2") {
+        {
+            STATIC_CHECK(double2x2(1.0) == double2x2(1));
+            STATIC_CHECK(double2x2(int2(1,2)) == double2x2(double2(1,2)));
+            STATIC_CHECK(double2x2(int2(1,2),float2(3,4)) == double2x2(1,2,3,4));
+
+            STATIC_CHECK(double2x2(int2x2(1)) == double2x2(1));
+            STATIC_CHECK(double2x2(int3x3(1)) == double2x2(1));
+            STATIC_CHECK(double2x2(int4x4(1)) == double2x2(1));
+        }
+        {
+            STATIC_CHECK(double3x3(1.0) == double3x3(1));
+            STATIC_CHECK(double3x3(int3(1,2,3)) == double3x3(double3(1,2,3)));
+            STATIC_CHECK(double3x3(int3(1,2,3),float3(2,3,4),uint3(3,4,5)) == double3x3(1,2,3,2,3,4,3,4,5));
+
+            STATIC_CHECK(double3x3(int2x2(1),uint2(2)) == double3x3(double2x2(1),double2(2)));
+
+            STATIC_CHECK(double3x3(int2x2(1)) == double3x3(1));
+            STATIC_CHECK(double3x3(int3x3(1)) == double3x3(1));
+            STATIC_CHECK(double3x3(int4x4(1)) == double3x3(1));
+        }
+        {
+            STATIC_CHECK(double4x4(1.0) == double4x4(1));
+            STATIC_CHECK(double4x4(int4(1,2,3,4)) == double4x4(double4(1,2,3,4)));
+            STATIC_CHECK(double4x4(int4(1,2,3,4),float4(2,3,4,5),uint4(3,4,5,6),int4(4,5,6,7)) == double4x4(1,2,3,4,2,3,4,5,3,4,5,6,4,5,6,7));
+
+            STATIC_CHECK(double4x4(int3x3(1),uint3(2)) == double4x4(double3x3(1),double3(2)));
+
+            STATIC_CHECK(double4x4(int2x2(1)) == double4x4(1));
+            STATIC_CHECK(double4x4(int3x3(1)) == double4x4(1));
+            STATIC_CHECK(double4x4(int4x4(1)) == double4x4(1));
+        }
     }
 
     SUBCASE("relational functions") {

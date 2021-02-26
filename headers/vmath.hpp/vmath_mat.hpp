@@ -26,9 +26,9 @@ namespace vmath_hpp::detail
         : mat_base(identity_init) {}
 
         constexpr mat_base(uninit_t) {}
-        constexpr mat_base(zero_init_t) : mat_base{zero_init, zero_init} {}
-        constexpr mat_base(unit_init_t) : mat_base{unit_init, unit_init} {}
-        constexpr mat_base(identity_init_t) : mat_base{T{1}} {}
+        constexpr mat_base(zero_init_t): mat_base{zero_init, zero_init} {}
+        constexpr mat_base(unit_init_t): mat_base{unit_init, unit_init} {}
+        constexpr mat_base(identity_init_t): mat_base{T{1}} {}
 
         constexpr explicit mat_base(T d)
         : rows{
@@ -51,6 +51,21 @@ namespace vmath_hpp::detail
             const row_type& row0,
             const row_type& row1)
         : rows{row0, row1} {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr mat_base(const mat_base<U, 2>& other): mat_base(
+            row_type{other.rows[0]},
+            row_type{other.rows[1]}) {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const mat_base<U, 3>& other): mat_base(
+            row_type{other.rows[0]},
+            row_type{other.rows[1]}) {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const mat_base<U, 4>& other): mat_base(
+            row_type{other.rows[0]},
+            row_type{other.rows[1]}) {}
     };
 
     template < typename T >
@@ -63,9 +78,9 @@ namespace vmath_hpp::detail
         : mat_base(identity_init) {}
 
         constexpr mat_base(uninit_t) {}
-        constexpr mat_base(zero_init_t) : mat_base{zero_init, zero_init, zero_init} {}
-        constexpr mat_base(unit_init_t) : mat_base{unit_init, unit_init, unit_init} {}
-        constexpr mat_base(identity_init_t) : mat_base{T{1}} {}
+        constexpr mat_base(zero_init_t): mat_base{zero_init, zero_init, zero_init} {}
+        constexpr mat_base(unit_init_t): mat_base{unit_init, unit_init, unit_init} {}
+        constexpr mat_base(identity_init_t): mat_base{T{1}} {}
 
         constexpr explicit mat_base(T d)
         : rows{
@@ -102,18 +117,23 @@ namespace vmath_hpp::detail
             {m.rows[1], T{0}},
             {v, T{1}}} {}
 
-        constexpr explicit mat_base(
-            const mat_base<T, 2>& other)
-        : rows{
-            {other.rows[0], T{0}},
-            {other.rows[1], T{0}},
-            {T{0}, T{0}, T{1}}} {}
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr mat_base(const mat_base<U, 3>& other): mat_base(
+            row_type{other.rows[0]},
+            row_type{other.rows[1]},
+            row_type{other.rows[2]}) {}
 
-        constexpr explicit operator mat<T, 2>() const {
-            return {
-                vec<T, 2>{rows[0]},
-                vec<T, 2>{rows[1]}};
-        }
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const mat_base<U, 2>& other): mat_base(
+            row_type{other.rows[0], T{0}},
+            row_type{other.rows[1], T{0}},
+            row_type{T{0}, T{0}, T{1}}) {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const mat_base<U, 4>& other): mat_base(
+            row_type{other.rows[0]},
+            row_type{other.rows[1]},
+            row_type{other.rows[2]}) {}
     };
 
     template < typename T >
@@ -126,9 +146,9 @@ namespace vmath_hpp::detail
         : mat_base(identity_init) {}
 
         constexpr mat_base(uninit_t) {}
-        constexpr mat_base(zero_init_t) : mat_base{zero_init, zero_init, zero_init, zero_init} {}
-        constexpr mat_base(unit_init_t) : mat_base{unit_init, unit_init, unit_init, unit_init} {}
-        constexpr mat_base(identity_init_t) : mat_base{T{1}} {}
+        constexpr mat_base(zero_init_t): mat_base{zero_init, zero_init, zero_init, zero_init} {}
+        constexpr mat_base(unit_init_t): mat_base{unit_init, unit_init, unit_init, unit_init} {}
+        constexpr mat_base(identity_init_t): mat_base{T{1}} {}
 
         constexpr explicit mat_base(T d)
         : rows{
@@ -171,34 +191,26 @@ namespace vmath_hpp::detail
             {m.rows[2], T{0}},
             {v, T{1}}} {}
 
-        constexpr explicit mat_base(
-            const mat_base<T, 2>& other)
-        : rows{
-            {other.rows[0], T{0}, T{0}},
-            {other.rows[1], T{0}, T{0}},
-            {T{0}, T{0}, T{1}, T{0}},
-            {T{0}, T{0}, T{0}, T{1}}} {}
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr mat_base(const mat_base<U, 4>& other): mat_base(
+            row_type{other.rows[0]},
+            row_type{other.rows[1]},
+            row_type{other.rows[2]},
+            row_type{other.rows[3]}) {}
 
-        constexpr explicit mat_base(
-            const mat_base<T, 3>& other)
-        : rows{
-            {other.rows[0], T{0}},
-            {other.rows[1], T{0}},
-            {other.rows[2], T{0}},
-            {T{0}, T{0}, T{0}, T{1}}} {}
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const mat_base<U, 2>& other): mat_base(
+            row_type{other.rows[0], T{0}, T{0}},
+            row_type{other.rows[1], T{0}, T{0}},
+            row_type{T{0}, T{0}, T{1}, T{0}},
+            row_type{T{0}, T{0}, T{0}, T{1}}) {}
 
-        constexpr explicit operator mat<T, 2>() const {
-            return {
-                vec<T, 2>{rows[0]},
-                vec<T, 2>{rows[1]}};
-        }
-
-        constexpr explicit operator mat<T, 3>() const {
-            return {
-                vec<T, 3>{rows[0]},
-                vec<T, 3>{rows[1]},
-                vec<T, 3>{rows[2]}};
-        }
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const mat_base<U, 3>& other): mat_base(
+            row_type{other.rows[0], T{0}},
+            row_type{other.rows[1], T{0}},
+            row_type{other.rows[2], T{0}},
+            row_type{T{0}, T{0}, T{0}, T{1}}) {}
     };
 }
 

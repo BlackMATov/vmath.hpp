@@ -95,6 +95,10 @@ public:
 
     explicit vec_base(T v);
     vec_base(T x, T y);
+
+    template < typename U > vec_base(const vec_base<U, 2>& other);
+    template < typename U > explicit vec_base(const vec_base<U, 3>& other);
+    template < typename U > explicit vec_base(const vec_base<U, 4>& other);
 };
 
 template < typename T >
@@ -114,7 +118,8 @@ public:
     vec_base(const vec_base<T, 2>& xy, T z);
     vec_base(T x, const vec_base<T, 2>& yz);
 
-    explicit operator vec<T, 2>() const;
+    template < typename U > vec_base(const vec_base<U, 3>& other);
+    template < typename U > explicit vec_base(const vec_base<U, 4>& other);
 };
 
 template < typename T >
@@ -133,15 +138,13 @@ public:
 
     vec_base(const vec_base<T, 2>& xy, T z, T w);
     vec_base(T x, const vec_base<T, 2>& yz, T w);
-
     vec_base(T x, T y, const vec_base<T, 2>& zw);
     vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw);
 
     vec_base(const vec_base<T, 3>& xyz, T w);
     vec_base(T x, const vec_base<T, 3>& yzw);
 
-    explicit operator vec<T, 2>() const;
-    explicit operator vec<T, 3>() const;
+    template < typename U > vec_base(const vec_base<U, 4>& other);
 };
 
 template < typename T, size_t Size >
@@ -249,6 +252,10 @@ public:
     mat_base(
         const row_type& row0,
         const row_type& row1);
+
+    template < typename U > mat_base(const mat_base<U, 2>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 3>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 4>& other);
 };
 
 template < typename T >
@@ -281,9 +288,9 @@ public:
         const mat_base<T, 2>& m,
         const vec_base<T, 2>& v);
 
-    explicit mat_base(const mat_base<T, 2>& other);
-
-    explicit operator mat<T, 2>() const;
+    template < typename U > mat_base(const mat_base<U, 3>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 2>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 4>& other);
 };
 
 template < typename T >
@@ -318,11 +325,9 @@ public:
         const mat_base<T, 3>& m,
         const vec_base<T, 3>& v);
 
-    explicit mat_base(const mat_base<T, 2>& other);
-    explicit mat_base(const mat_base<T, 3>& other);
-
-    explicit operator mat<T, 2>() const;
-    explicit operator mat<T, 3>() const;
+    template < typename U > mat_base(const mat_base<U, 4>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 2>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 3>& other);
 };
 
 template < typename T, size_t Size >
@@ -420,9 +425,10 @@ public:
 
     qua_base(T vx, T vy, T vz, T s);
     qua_base(const vec<T, 3>& v, T s);
-
     explicit qua_base(const vec<T, 4>& vs);
-    explicit operator vec<T, 4>() const;
+
+    template < typename U > qua_base(const qua_base<U, 4>& other);
+    template < typename U > explicit operator vec<U, 4>() const;
 };
 
 template < typename T >
