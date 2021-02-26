@@ -14,13 +14,13 @@ namespace
 
 TEST_CASE("vmath/mat") {
     SUBCASE("size/sizeof") {
-        STATIC_CHECK(int2x2{}.size == 2);
-        STATIC_CHECK(int3x3{}.size == 3);
-        STATIC_CHECK(int4x4{}.size == 4);
+        STATIC_CHECK(imat2{}.size == 2);
+        STATIC_CHECK(imat3{}.size == 3);
+        STATIC_CHECK(imat4{}.size == 4);
 
-        STATIC_CHECK(sizeof(int2x2{}) == sizeof(int) * 2 * 2);
-        STATIC_CHECK(sizeof(int3x3{}) == sizeof(int) * 3 * 3);
-        STATIC_CHECK(sizeof(int4x4{}) == sizeof(int) * 4 * 4);
+        STATIC_CHECK(sizeof(imat2{}) == sizeof(int) * 2 * 2);
+        STATIC_CHECK(sizeof(imat3{}) == sizeof(int) * 3 * 3);
+        STATIC_CHECK(sizeof(imat4{}) == sizeof(int) * 4 * 4);
     }
 
     SUBCASE("guides") {
@@ -42,127 +42,127 @@ TEST_CASE("vmath/mat") {
     SUBCASE("ctors") {
         {
             mat<int, 2> m2;
-            CHECK(m2.rows[0] == int2(1,0));
-            CHECK(m2.rows[1] == int2(0,1));
+            CHECK(m2.rows[0] == ivec2(1,0));
+            CHECK(m2.rows[1] == ivec2(0,1));
 
             mat<int, 3> m3;
-            CHECK(m3.rows[0] == int3(1,0,0));
-            CHECK(m3.rows[1] == int3(0,1,0));
-            CHECK(m3.rows[2] == int3(0,0,1));
+            CHECK(m3.rows[0] == ivec3(1,0,0));
+            CHECK(m3.rows[1] == ivec3(0,1,0));
+            CHECK(m3.rows[2] == ivec3(0,0,1));
 
             mat<int, 4> m4;
-            CHECK(m4.rows[0] == int4(1,0,0,0));
-            CHECK(m4.rows[1] == int4(0,1,0,0));
-            CHECK(m4.rows[2] == int4(0,0,1,0));
-            CHECK(m4.rows[3] == int4(0,0,0,1));
+            CHECK(m4.rows[0] == ivec4(1,0,0,0));
+            CHECK(m4.rows[1] == ivec4(0,1,0,0));
+            CHECK(m4.rows[2] == ivec4(0,0,1,0));
+            CHECK(m4.rows[3] == ivec4(0,0,0,1));
 
-            STATIC_CHECK(int2x2() == int2x2({1,0},{0,1}));
-            STATIC_CHECK(int3x3() == int3x3({1,0,0},{0,1,0},{0,0,1}));
-            STATIC_CHECK(int4x4() == int4x4({1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}));
+            STATIC_CHECK(imat2() == imat2({1,0},{0,1}));
+            STATIC_CHECK(imat3() == imat3({1,0,0},{0,1,0},{0,0,1}));
+            STATIC_CHECK(imat4() == imat4({1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}));
 
-            (void)int2x2(uninit);
-            (void)int3x3(uninit);
-            (void)int4x4(uninit);
+            (void)imat2(uninit);
+            (void)imat3(uninit);
+            (void)imat4(uninit);
 
-            STATIC_CHECK(int2x2(zero_init) == int2x2({0,0},{0,0}));
-            STATIC_CHECK(int3x3(zero_init) == int3x3({0,0,0},{0,0,0},{0,0,0}));
-            STATIC_CHECK(int4x4(zero_init) == int4x4({0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}));
+            STATIC_CHECK(imat2(zero_init) == imat2({0,0},{0,0}));
+            STATIC_CHECK(imat3(zero_init) == imat3({0,0,0},{0,0,0},{0,0,0}));
+            STATIC_CHECK(imat4(zero_init) == imat4({0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}));
 
-            STATIC_CHECK(int2x2(unit_init) == int2x2({1,1},{1,1}));
-            STATIC_CHECK(int3x3(unit_init) == int3x3({1,1,1},{1,1,1},{1,1,1}));
-            STATIC_CHECK(int4x4(unit_init) == int4x4({1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}));
+            STATIC_CHECK(imat2(unit_init) == imat2({1,1},{1,1}));
+            STATIC_CHECK(imat3(unit_init) == imat3({1,1,1},{1,1,1},{1,1,1}));
+            STATIC_CHECK(imat4(unit_init) == imat4({1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}));
 
-            STATIC_CHECK(int2x2(identity_init) == int2x2({1,0},{0,1}));
-            STATIC_CHECK(int3x3(identity_init) == int3x3({1,0,0},{0,1,0},{0,0,1}));
-            STATIC_CHECK(int4x4(identity_init) == int4x4({1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}));
+            STATIC_CHECK(imat2(identity_init) == imat2({1,0},{0,1}));
+            STATIC_CHECK(imat3(identity_init) == imat3({1,0,0},{0,1,0},{0,0,1}));
+            STATIC_CHECK(imat4(identity_init) == imat4({1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}));
         }
         {
-            STATIC_CHECK(int2x2()[0] == int2(1,0));
-            STATIC_CHECK(int2x2()[1] == int2(0,1));
+            STATIC_CHECK(imat2()[0] == ivec2(1,0));
+            STATIC_CHECK(imat2()[1] == ivec2(0,1));
 
-            STATIC_CHECK(int2x2(1,2,3,4)[0] == int2(1,2));
-            STATIC_CHECK(int2x2(1,2,3,4)[1] == int2(3,4));
+            STATIC_CHECK(imat2(1,2,3,4)[0] == ivec2(1,2));
+            STATIC_CHECK(imat2(1,2,3,4)[1] == ivec2(3,4));
 
-            STATIC_CHECK(int2x2({1,2},{3,4})[0] == int2(1,2));
-            STATIC_CHECK(int2x2({1,2},{3,4})[1] == int2(3,4));
+            STATIC_CHECK(imat2({1,2},{3,4})[0] == ivec2(1,2));
+            STATIC_CHECK(imat2({1,2},{3,4})[1] == ivec2(3,4));
         }
         {
-            constexpr int2x2 v(1,2,3,4);
-            constexpr int2x2 v2 = v;
-            STATIC_CHECK(v2 == int2x2(1,2,3,4));
+            constexpr imat2 v(1,2,3,4);
+            constexpr imat2 v2 = v;
+            STATIC_CHECK(v2 == imat2(1,2,3,4));
         }
         {
-            constexpr int2x2 v(1,2,3,4);
-            constexpr int2x2 v2 = std::move(v);
-            STATIC_CHECK(v2 == int2x2(1,2,3,4));
+            constexpr imat2 v(1,2,3,4);
+            constexpr imat2 v2 = std::move(v);
+            STATIC_CHECK(v2 == imat2(1,2,3,4));
         }
         {
-            STATIC_CHECK(int2x2() == int2x2(1,0,0,1));
-            STATIC_CHECK(int2x2(2) == int2x2(2,0,0,2));
-            STATIC_CHECK(int2x2(int2{2,3}) == int2x2(2,0,0,3));
-            STATIC_CHECK(int2x2(1,2,3,4) == int2x2(1,2,3,4));
-            STATIC_CHECK(int2x2({1,2},{3,4}) == int2x2(1,2,3,4));
-            STATIC_CHECK(int2x2(int2x2({1,2},{3,4})) == int2x2(1,2,3,4));
-            STATIC_CHECK(int2x2(int3x3({1,2,3},{4,5,6},{7,8,9})) == int2x2(1,2,4,5));
-            STATIC_CHECK(int2x2(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == int2x2(1,2,5,6));
+            STATIC_CHECK(imat2() == imat2(1,0,0,1));
+            STATIC_CHECK(imat2(2) == imat2(2,0,0,2));
+            STATIC_CHECK(imat2(ivec2{2,3}) == imat2(2,0,0,3));
+            STATIC_CHECK(imat2(1,2,3,4) == imat2(1,2,3,4));
+            STATIC_CHECK(imat2({1,2},{3,4}) == imat2(1,2,3,4));
+            STATIC_CHECK(imat2(imat2({1,2},{3,4})) == imat2(1,2,3,4));
+            STATIC_CHECK(imat2(imat3({1,2,3},{4,5,6},{7,8,9})) == imat2(1,2,4,5));
+            STATIC_CHECK(imat2(imat4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == imat2(1,2,5,6));
 
-            STATIC_CHECK(int3x3() == int3x3(1,0,0,0,1,0,0,0,1));
-            STATIC_CHECK(int3x3(2) == int3x3(2,0,0,0,2,0,0,0,2));
-            STATIC_CHECK(int3x3(int3{2,3,4}) == int3x3(2,0,0,0,3,0,0,0,4));
-            STATIC_CHECK(int3x3(1,2,3,4,5,6,7,8,9) == int3x3(1,2,3,4,5,6,7,8,9));
-            STATIC_CHECK(int3x3({1,2,3},{4,5,6},{7,8,9}) == int3x3(1,2,3,4,5,6,7,8,9));
-            STATIC_CHECK(int3x3(int2x2({1,2},{3,4}),int2{5,6}) == int3x3(1,2,0,3,4,0,5,6,1));
-            STATIC_CHECK(int3x3(int3x3({1,2,3},{4,5,6},{7,8,9})) == int3x3(1,2,3,4,5,6,7,8,9));
-            STATIC_CHECK(int3x3(int2x2({1,2},{3,4})) == int3x3(1,2,0,3,4,0,0,0,1));
-            STATIC_CHECK(int3x3(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == int3x3(1,2,3,5,6,7,9,10,11));
+            STATIC_CHECK(imat3() == imat3(1,0,0,0,1,0,0,0,1));
+            STATIC_CHECK(imat3(2) == imat3(2,0,0,0,2,0,0,0,2));
+            STATIC_CHECK(imat3(ivec3{2,3,4}) == imat3(2,0,0,0,3,0,0,0,4));
+            STATIC_CHECK(imat3(1,2,3,4,5,6,7,8,9) == imat3(1,2,3,4,5,6,7,8,9));
+            STATIC_CHECK(imat3({1,2,3},{4,5,6},{7,8,9}) == imat3(1,2,3,4,5,6,7,8,9));
+            STATIC_CHECK(imat3(imat2({1,2},{3,4}),ivec2{5,6}) == imat3(1,2,0,3,4,0,5,6,1));
+            STATIC_CHECK(imat3(imat3({1,2,3},{4,5,6},{7,8,9})) == imat3(1,2,3,4,5,6,7,8,9));
+            STATIC_CHECK(imat3(imat2({1,2},{3,4})) == imat3(1,2,0,3,4,0,0,0,1));
+            STATIC_CHECK(imat3(imat4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == imat3(1,2,3,5,6,7,9,10,11));
 
-            STATIC_CHECK(int4x4() == int4x4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1));
-            STATIC_CHECK(int4x4(2) == int4x4(2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,2));
-            STATIC_CHECK(int4x4(int4{2,3,4,5}) == int4x4(2,0,0,0,0,3,0,0,0,0,4,0,0,0,0,5));
-            STATIC_CHECK(int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
-            STATIC_CHECK(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
-            STATIC_CHECK(int4x4(int3x3({1,2,3},{4,5,6},{7,8,9}),int3{10,11,12}) == int4x4(1,2,3,0,4,5,6,0,7,8,9,0,10,11,12,1));
-            STATIC_CHECK(int4x4(int4x4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
-            STATIC_CHECK(int4x4(int2x2({1,2},{3,4})) == int4x4(1,2,0,0,3,4,0,0,0,0,1,0,0,0,0,1));
-            STATIC_CHECK(int4x4(int3x3({1,2,3},{4,5,6},{7,8,9})) == int4x4(1,2,3,0,4,5,6,0,7,8,9,0,0,0,0,1));
+            STATIC_CHECK(imat4() == imat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1));
+            STATIC_CHECK(imat4(2) == imat4(2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,2));
+            STATIC_CHECK(imat4(ivec4{2,3,4,5}) == imat4(2,0,0,0,0,3,0,0,0,0,4,0,0,0,0,5));
+            STATIC_CHECK(imat4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) == imat4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            STATIC_CHECK(imat4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}) == imat4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            STATIC_CHECK(imat4(imat3({1,2,3},{4,5,6},{7,8,9}),ivec3{10,11,12}) == imat4(1,2,3,0,4,5,6,0,7,8,9,0,10,11,12,1));
+            STATIC_CHECK(imat4(imat4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16})) == imat4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            STATIC_CHECK(imat4(imat2({1,2},{3,4})) == imat4(1,2,0,0,3,4,0,0,0,0,1,0,0,0,0,1));
+            STATIC_CHECK(imat4(imat3({1,2,3},{4,5,6},{7,8,9})) == imat4(1,2,3,0,4,5,6,0,7,8,9,0,0,0,0,1));
         }
     }
 
     SUBCASE("operator=") {
         {
-            int2x2 v(1,2,3,4);
-            int2x2 v2;
+            imat2 v(1,2,3,4);
+            imat2 v2;
             v2 = v;
-            CHECK(v2 == int2x2(1,2,3,4));
+            CHECK(v2 == imat2(1,2,3,4));
         }
         {
-            int2x2 v(1,2,3,4);
-            int2x2 v2;
+            imat2 v(1,2,3,4);
+            imat2 v2;
             v2 = std::move(v);
-            CHECK(v2 == int2x2(1,2,3,4));
+            CHECK(v2 == imat2(1,2,3,4));
         }
     }
 
     SUBCASE("swap") {
         {
-            int2x2 v1(1,2,3,4);
-            int2x2 v2(4,5,6,7);
+            imat2 v1(1,2,3,4);
+            imat2 v2(4,5,6,7);
             v1.swap(v2);
-            CHECK(v1 == int2x2(4,5,6,7));
-            CHECK(v2 == int2x2(1,2,3,4));
+            CHECK(v1 == imat2(4,5,6,7));
+            CHECK(v2 == imat2(1,2,3,4));
         }
         {
-            int2x2 v1(1,2,3,4);
-            int2x2 v2(4,5,6,7);
+            imat2 v1(1,2,3,4);
+            imat2 v2(4,5,6,7);
             swap(v1, v2);
-            CHECK(v1 == int2x2(4,5,6,7));
-            CHECK(v2 == int2x2(1,2,3,4));
+            CHECK(v1 == imat2(4,5,6,7));
+            CHECK(v2 == imat2(1,2,3,4));
         }
     }
 
     SUBCASE("iter") {
         {
-            int2x2 m{1,2,3,4};
+            imat2 m{1,2,3,4};
 
             CHECK(*m.begin() == vec{1,2});
             CHECK(*(m.begin() + 1) == vec{3,4});
@@ -193,12 +193,12 @@ TEST_CASE("vmath/mat") {
             CHECK(m.crend() - 2 == m.crbegin());
 
             *m.begin() = {5,6};
-            CHECK(m == int2x2{5,6,3,4});
+            CHECK(m == imat2{5,6,3,4});
             *m.rbegin() = {7,8};
-            CHECK(m == int2x2{5,6,7,8});
+            CHECK(m == imat2{5,6,7,8});
         }
         {
-            const int2x2 m{1,2,3,4};
+            const imat2 m{1,2,3,4};
 
             CHECK(*m.begin() == vec{1,2});
             CHECK(*(m.begin() + 1) == vec{3,4});
@@ -232,98 +232,98 @@ TEST_CASE("vmath/mat") {
 
     SUBCASE("data") {
         {
-            int2x2 m2;
+            imat2 m2;
             CHECK(m2.data() == &m2[0]);
 
-            int3x3 m3;
+            imat3 m3;
             CHECK(m3.data() == &m3[0]);
 
-            int4x4 m4;
+            imat4 m4;
             CHECK(m4.data() == &m4[0]);
         }
         {
-            const int2x2 m2;
+            const imat2 m2;
             CHECK(m2.data() == &m2[0]);
 
-            const int3x3 m3;
+            const imat3 m3;
             CHECK(m3.data() == &m3[0]);
 
-            const int4x4 m4;
+            const imat4 m4;
             CHECK(m4.data() == &m4[0]);
         }
     }
 
     SUBCASE("operator[]") {
         {
-            STATIC_CHECK(int2x2()[0] == int2(1,0));
-            STATIC_CHECK(int2x2()[1] == int2(0,1));
+            STATIC_CHECK(imat2()[0] == ivec2(1,0));
+            STATIC_CHECK(imat2()[1] == ivec2(0,1));
 
-            STATIC_CHECK(int3x3()[0] == int3(1,0,0));
-            STATIC_CHECK(int3x3()[1] == int3(0,1,0));
-            STATIC_CHECK(int3x3()[2] == int3(0,0,1));
+            STATIC_CHECK(imat3()[0] == ivec3(1,0,0));
+            STATIC_CHECK(imat3()[1] == ivec3(0,1,0));
+            STATIC_CHECK(imat3()[2] == ivec3(0,0,1));
 
-            STATIC_CHECK(int4x4()[0] == int4(1,0,0,0));
-            STATIC_CHECK(int4x4()[1] == int4(0,1,0,0));
-            STATIC_CHECK(int4x4()[2] == int4(0,0,1,0));
-            STATIC_CHECK(int4x4()[3] == int4(0,0,0,1));
+            STATIC_CHECK(imat4()[0] == ivec4(1,0,0,0));
+            STATIC_CHECK(imat4()[1] == ivec4(0,1,0,0));
+            STATIC_CHECK(imat4()[2] == ivec4(0,0,1,0));
+            STATIC_CHECK(imat4()[3] == ivec4(0,0,0,1));
         }
         {
-            int2x2 v;
-            v[0] = int2(1,2);
-            v[1] = int2(3,4);
-            CHECK(v == int2x2(1,2,3,4));
-            CHECK(std::as_const(v).at(0) == int2(1,2));
-            CHECK(std::as_const(v).at(1) == int2(3,4));
+            imat2 v;
+            v[0] = ivec2(1,2);
+            v[1] = ivec2(3,4);
+            CHECK(v == imat2(1,2,3,4));
+            CHECK(std::as_const(v).at(0) == ivec2(1,2));
+            CHECK(std::as_const(v).at(1) == ivec2(3,4));
         }
         {
-            int3x3 v;
-            v[0] = int3(1,2,3);
-            v[1] = int3(4,5,6);
-            v[2] = int3(7,8,9);
-            CHECK(v == int3x3(1,2,3,4,5,6,7,8,9));
-            CHECK(std::as_const(v).at(0) == int3(1,2,3));
-            CHECK(std::as_const(v).at(1) == int3(4,5,6));
-            CHECK(std::as_const(v).at(2) == int3(7,8,9));
+            imat3 v;
+            v[0] = ivec3(1,2,3);
+            v[1] = ivec3(4,5,6);
+            v[2] = ivec3(7,8,9);
+            CHECK(v == imat3(1,2,3,4,5,6,7,8,9));
+            CHECK(std::as_const(v).at(0) == ivec3(1,2,3));
+            CHECK(std::as_const(v).at(1) == ivec3(4,5,6));
+            CHECK(std::as_const(v).at(2) == ivec3(7,8,9));
         }
         {
-            int4x4 v;
-            v[0] = int4(1,2,3,4);
-            v[1] = int4(5,6,7,8);
-            v[2] = int4(9,10,11,12);
-            v[3] = int4(13,14,15,16);
-            CHECK(v == int4x4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
-            CHECK(std::as_const(v).at(0) == int4(1,2,3,4));
-            CHECK(std::as_const(v).at(1) == int4(5,6,7,8));
-            CHECK(std::as_const(v).at(2) == int4(9,10,11,12));
-            CHECK(std::as_const(v).at(3) == int4(13,14,15,16));
+            imat4 v;
+            v[0] = ivec4(1,2,3,4);
+            v[1] = ivec4(5,6,7,8);
+            v[2] = ivec4(9,10,11,12);
+            v[3] = ivec4(13,14,15,16);
+            CHECK(v == imat4(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16));
+            CHECK(std::as_const(v).at(0) == ivec4(1,2,3,4));
+            CHECK(std::as_const(v).at(1) == ivec4(5,6,7,8));
+            CHECK(std::as_const(v).at(2) == ivec4(9,10,11,12));
+            CHECK(std::as_const(v).at(3) == ivec4(13,14,15,16));
         }
     }
 
     SUBCASE("at") {
-        STATIC_CHECK(int2x2(1,2,3,4).at(0) == int2(1,2));
-        STATIC_CHECK(int2x2(1,2,3,4).at(1) == int2(3,4));
+        STATIC_CHECK(imat2(1,2,3,4).at(0) == ivec2(1,2));
+        STATIC_CHECK(imat2(1,2,3,4).at(1) == ivec2(3,4));
     #ifndef VMATH_HPP_NO_EXCEPTIONS
-        CHECK_THROWS_AS((void)int2x2(1,2,3,4).at(2), std::out_of_range);
+        CHECK_THROWS_AS((void)imat2(1,2,3,4).at(2), std::out_of_range);
     #endif
     }
 
     SUBCASE("operator==/operator!=") {
-        STATIC_CHECK(int2x2(1,2,3,4) == int2x2(1,2,3,4));
-        STATIC_CHECK_FALSE(int2x2(1,2,3,4) == int2x2(2,2,3,4));
-        STATIC_CHECK_FALSE(int2x2(1,2,3,4) == int2x2(1,3,3,4));
+        STATIC_CHECK(imat2(1,2,3,4) == imat2(1,2,3,4));
+        STATIC_CHECK_FALSE(imat2(1,2,3,4) == imat2(2,2,3,4));
+        STATIC_CHECK_FALSE(imat2(1,2,3,4) == imat2(1,3,3,4));
 
-        STATIC_CHECK_FALSE(int2x2(1,2,3,4) != int2x2(1,2,3,4));
-        STATIC_CHECK(int2x2(1,2,3,4) != int2x2(2,2,3,4));
-        STATIC_CHECK(int2x2(1,2,3,4) != int2x2(1,3,3,4));
+        STATIC_CHECK_FALSE(imat2(1,2,3,4) != imat2(1,2,3,4));
+        STATIC_CHECK(imat2(1,2,3,4) != imat2(2,2,3,4));
+        STATIC_CHECK(imat2(1,2,3,4) != imat2(1,3,3,4));
     }
 
     SUBCASE("operator<") {
-        STATIC_CHECK_FALSE(int2x2(1,2,3,4) < int2x2(1,2,3,4));
+        STATIC_CHECK_FALSE(imat2(1,2,3,4) < imat2(1,2,3,4));
 
-        STATIC_CHECK(int2x2(1,1,3,4) < int2x2(1,2,3,4));
-        STATIC_CHECK_FALSE(int2x2(1,2,3,4) < int2x2(1,1,3,4));
+        STATIC_CHECK(imat2(1,1,3,4) < imat2(1,2,3,4));
+        STATIC_CHECK_FALSE(imat2(1,2,3,4) < imat2(1,1,3,4));
 
-        STATIC_CHECK(int2x2(0,3,3,4) < int2x2(1,2,3,4));
-        STATIC_CHECK_FALSE(int2x2(1,2,3,4) < int2x2(0,3,3,4));
+        STATIC_CHECK(imat2(0,3,3,4) < imat2(1,2,3,4));
+        STATIC_CHECK_FALSE(imat2(1,2,3,4) < imat2(0,3,3,4));
     }
 }
