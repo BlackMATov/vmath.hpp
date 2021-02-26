@@ -158,6 +158,40 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_CHECK(0.f / int2x2{1,1,1,1} == float2x2{0.f});
     }
 
+    SUBCASE("Conversions2") {
+        {
+            STATIC_CHECK(float2x2(1.0) == float2x2(1));
+            STATIC_CHECK(float2x2(int2(1,2)) == float2x2(float2(1,2)));
+            STATIC_CHECK(float2x2(int2(1,2),double2(3,4)) == float2x2(1,2,3,4));
+
+            STATIC_CHECK(float2x2(int2x2(1)) == float2x2(1));
+            STATIC_CHECK(float2x2(int3x3(1)) == float2x2(1));
+            STATIC_CHECK(float2x2(int4x4(1)) == float2x2(1));
+        }
+        {
+            STATIC_CHECK(float3x3(1.0) == float3x3(1));
+            STATIC_CHECK(float3x3(int3(1,2,3)) == float3x3(float3(1,2,3)));
+            STATIC_CHECK(float3x3(int3(1,2,3),double3(2,3,4),uint3(3,4,5)) == float3x3(1,2,3,2,3,4,3,4,5));
+
+            STATIC_CHECK(float3x3(int2x2(1),uint2(2)) == float3x3(float2x2(1),float2(2)));
+
+            STATIC_CHECK(float3x3(int2x2(1)) == float3x3(1));
+            STATIC_CHECK(float3x3(int3x3(1)) == float3x3(1));
+            STATIC_CHECK(float3x3(int4x4(1)) == float3x3(1));
+        }
+        {
+            STATIC_CHECK(float4x4(1.0) == float4x4(1));
+            STATIC_CHECK(float4x4(int4(1,2,3,4)) == float4x4(float4(1,2,3,4)));
+            STATIC_CHECK(float4x4(int4(1,2,3,4),double4(2,3,4,5),uint4(3,4,5,6),int4(4,5,6,7)) == float4x4(1,2,3,4,2,3,4,5,3,4,5,6,4,5,6,7));
+
+            STATIC_CHECK(float4x4(int3x3(1),uint3(2)) == float4x4(float3x3(1),float3(2)));
+
+            STATIC_CHECK(float4x4(int2x2(1)) == float4x4(1));
+            STATIC_CHECK(float4x4(int3x3(1)) == float4x4(1));
+            STATIC_CHECK(float4x4(int4x4(1)) == float4x4(1));
+        }
+    }
+
     SUBCASE("relational functions") {
         STATIC_CHECK_FALSE(any(bool2x2(false, false, false, false)));
         STATIC_CHECK(any(bool2x2(true, false, true, false)));
