@@ -24,38 +24,8 @@ namespace vmath_hpp::detail
 
     template < typename A, typename B, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join(F&& f, const qua<A>& a, const qua<B>& b) {
-        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}));
-    }
-
-    template < typename A, typename B, typename C, typename F >
-    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join(F&& f, const qua<A>& a, const qua<B>& b, const qua<C>& c) {
-        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}, vec{c}));
-    }
-
-    template < typename A, typename B, typename C, typename D, typename F >
-    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto map_join(F&& f, const qua<A>& a, const qua<B>& b, const qua<C>& c, const qua<D>& d) {
-        return qua(map_join(std::forward<F>(f), vec{a}, vec{b}, vec{c}, vec{d}));
-    }
-
-    template < typename A, typename B, typename F >
-    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold_join(F&& f, A init, const qua<B>& b) {
         return fold_join(std::forward<F>(f), std::move(init), vec{b});
-    }
-
-    template < typename A, typename B, typename C, typename F >
-    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold_join(F&& f, A init, const qua<B>& b, const qua<C>& c) {
-        return fold_join(std::forward<F>(f), std::move(init), vec{b}, vec{c});
-    }
-
-    template < typename A, typename F >
-    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold1_join(F&& f, const qua<A>& a) {
-        return fold1_join(std::forward<F>(f), vec{a});
     }
 }
 
@@ -81,8 +51,8 @@ namespace vmath_hpp
 
     // operator+
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator+(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator+(const qua<T>& xs, const qua<U>& ys) {
         return qua(vec{xs} + vec{ys});
     }
 
@@ -95,8 +65,8 @@ namespace vmath_hpp
 
     // operator-
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator-(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator-(const qua<T>& xs, const qua<U>& ys) {
         return qua(vec{xs} - vec{ys});
     }
 
@@ -109,18 +79,18 @@ namespace vmath_hpp
 
     // operator*
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, T y) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, U y) {
         return qua(vec{xs} * y);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator*(T x, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator*(T x, const qua<U>& ys) {
         return qua(x * vec{ys});
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator*(const vec<T, 3>& xs, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator*(const vec<T, 3>& xs, const qua<U>& ys) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/
 
@@ -128,8 +98,8 @@ namespace vmath_hpp
         return xs + qv2 * ys.s + cross(ys.v, qv2);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator*(const qua<T>& xs, const qua<U>& ys) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/arithmetic/
 
@@ -157,13 +127,13 @@ namespace vmath_hpp
 
     // operator/
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator/(const qua<T>& xs, T y) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator/(const qua<T>& xs, U y) {
         return qua(vec{xs} / y);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr auto operator/(T x, const qua<T>& ys) {
+    template < typename T, typename U >
+    [[nodiscard]] constexpr auto operator/(T x, const qua<U>& ys) {
         return qua(x / vec{ys});
     }
 
@@ -249,8 +219,11 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template < typename T >
-    [[nodiscard]] constexpr T dot(const qua<T>& xs, const qua<T>& ys) {
+    template < typename T, typename U
+             , typename V = decltype(dot(
+                 std::declval<vec<T, 4>>(),
+                 std::declval<vec<U, 4>>())) >
+    [[nodiscard]] constexpr V dot(const qua<T>& xs, const qua<U>& ys) {
         return dot(vec{xs}, vec{ys});
     }
 

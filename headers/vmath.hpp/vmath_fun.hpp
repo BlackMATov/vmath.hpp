@@ -305,10 +305,11 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
-    constexpr dot(T x, T y) noexcept {
-        return x * y;
+    template < typename T, typename U
+             , typename V = decltype(std::declval<T>() * std::declval<U>()) >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<V>, V>
+    constexpr dot(T x, U y) noexcept {
+        return { x * y };
     }
 
     template < typename T >

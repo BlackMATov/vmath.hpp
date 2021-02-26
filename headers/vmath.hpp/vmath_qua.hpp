@@ -16,23 +16,25 @@ namespace vmath_hpp::detail
     template < typename T >
     class qua_base {
     public:
-        vec<T, 3> v = vec<T, 3>{T{0}};
-        T s = T{1};
+        vec<T, 3> v;
+        T s;
     public:
-        constexpr qua_base() = default;
+        constexpr qua_base()
+        : qua_base(identity_init) {}
 
-        constexpr qua_base(T vx, T vy, T vz, T s)
-        : v{vx, vy, vz}, s{s} {}
+        constexpr qua_base(uninit_t) {}
+        constexpr qua_base(zero_init_t) : qua_base{zero_init, T{0}} {}
+        constexpr qua_base(identity_init_t) : qua_base{zero_init, T{1}} {}
 
-        constexpr qua_base(const vec<T, 3>& v, T s)
-        : v{v}, s{s} {}
+        constexpr qua_base(T vx, T vy, T vz, T s): v{vx, vy, vz}, s{s} {}
+        constexpr qua_base(const vec<T, 3>& v, T s): v{v}, s{s} {}
+        constexpr explicit qua_base(const vec<T, 4>& vs): v{vs[0], vs[1], vs[2]}, s{vs[3]} {}
 
-        constexpr explicit qua_base(const vec<T, 4>& vs)
-        : v{vs[0], vs[1], vs[2]}, s{vs[3]} {}
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr qua_base(const qua_base<U>& other): qua_base(other.v, other.s) {}
 
-        constexpr explicit operator vec<T, 4>() const {
-            return {v, s};
-        }
+        template < typename U, std::enable_if_t<std::is_convertible_v<T, U>, int> = 0 >
+        constexpr explicit operator vec<U, 4>() const { return vec<U, 4>(v, s); }
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -83,10 +85,6 @@ namespace vmath_hpp
     public:
         using base_type::qua_base;
         using base_type::operator[];
-
-        constexpr qua() = default;
-        constexpr qua(const qua&) = default;
-        constexpr qua& operator=(const qua&) = default;
 
         void swap(qua& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < size; ++i ) {

@@ -31,6 +31,16 @@ TEST_CASE("vmath/qua") {
 
     SUBCASE("ctors") {
         {
+            qua<int> q;
+            CHECK(q.v == int3(0,0,0));
+            CHECK(q.s == 1);
+
+            STATIC_CHECK(qua<int>() == qua<int>({0,0,0},1));
+            (void)qua<int>(uninit);
+            STATIC_CHECK(qua<int>(zero_init) == qua<int>({0,0,0},0));
+            STATIC_CHECK(qua<int>(identity_init) == qua<int>({0,0,0},1));
+        }
+        {
             STATIC_CHECK(qfloat{}.v == uapprox3(0.f));
             STATIC_CHECK(qfloat{}.s == uapprox(1.f));
 
@@ -94,7 +104,7 @@ TEST_CASE("vmath/qua") {
 
     SUBCASE("iter") {
         {
-            qfloat v{1,2,3,4};
+            qua v{1,2,3,4};
 
             CHECK(*v.begin() == 1);
             CHECK(*(v.begin() + 1) == 2);
@@ -125,12 +135,12 @@ TEST_CASE("vmath/qua") {
             CHECK(v.crend() - 4 == v.crbegin());
 
             *v.begin() = 3;
-            CHECK(v == qfloat{3,2,3,4});
+            CHECK(v == qua{3,2,3,4});
             *v.rbegin() = 5;
-            CHECK(v == qfloat{3,2,3,5});
+            CHECK(v == qua{3,2,3,5});
         }
         {
-            const qfloat v{1,2,3,4};
+            const qua v{1,2,3,4};
 
             CHECK(*v.begin() == 1);
             CHECK(*(v.begin() + 1) == 2);
@@ -220,12 +230,12 @@ TEST_CASE("vmath/qua") {
     }
 
     SUBCASE("at") {
-        STATIC_CHECK(qfloat(1,2,3,4).at(0) == 1);
-        STATIC_CHECK(qfloat(1,2,3,4).at(1) == 2);
-        STATIC_CHECK(qfloat(1,2,3,4).at(2) == 3);
-        STATIC_CHECK(qfloat(1,2,3,4).at(3) == 4);
+        STATIC_CHECK(qua(1,2,3,4).at(0) == 1);
+        STATIC_CHECK(qua(1,2,3,4).at(1) == 2);
+        STATIC_CHECK(qua(1,2,3,4).at(2) == 3);
+        STATIC_CHECK(qua(1,2,3,4).at(3) == 4);
     #ifndef VMATH_HPP_NO_EXCEPTIONS
-        CHECK_THROWS_AS((void)qfloat(1,2,3,4).at(4), std::out_of_range);
+        CHECK_THROWS_AS((void)qua(1,2,3,4).at(4), std::out_of_range);
     #endif
     }
 

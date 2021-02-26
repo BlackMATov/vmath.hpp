@@ -85,50 +85,66 @@ class vec_base;
 template < typename T >
 class vec_base<T, 2> {
 public:
-    T x = T{0};
-    T y = T{0};
+    T x, y;
 
-    vec_base() = default;
+    vec_base();
+
+    vec_base(uninit_t);
+    vec_base(zero_init_t);
+    vec_base(unit_init_t);
+
     explicit vec_base(T v);
     vec_base(T x, T y);
+
+    template < typename U > vec_base(const vec_base<U, 2>& other);
+    template < typename U > explicit vec_base(const vec_base<U, 3>& other);
+    template < typename U > explicit vec_base(const vec_base<U, 4>& other);
 };
 
 template < typename T >
 class vec_base<T, 3> {
 public:
-    T x = T{0};
-    T y = T{0};
-    T z = T{0};
+    T x, y, z;
 
-    vec_base() = default;
+    vec_base();
+
+    vec_base(uninit_t);
+    vec_base(zero_init_t);
+    vec_base(unit_init_t);
+
     explicit vec_base(T v);
     vec_base(T x, T y, T z);
+
     vec_base(const vec_base<T, 2>& xy, T z);
     vec_base(T x, const vec_base<T, 2>& yz);
 
-    explicit operator vec<T, 2>() const;
+    template < typename U > vec_base(const vec_base<U, 3>& other);
+    template < typename U > explicit vec_base(const vec_base<U, 4>& other);
 };
 
 template < typename T >
 class vec_base<T, 4> {
 public:
-    T x = T{0};
-    T y = T{0};
-    T z = T{0};
-    T w = T{0};
+    T x, y, z, w;
 
-    vec_base() = default;
+    vec_base();
+
+    vec_base(uninit_t);
+    vec_base(zero_init_t);
+    vec_base(unit_init_t);
+
     explicit vec_base(T v);
     vec_base(T x, T y, T z, T w);
+
     vec_base(const vec_base<T, 2>& xy, T z, T w);
     vec_base(T x, const vec_base<T, 2>& yz, T w);
     vec_base(T x, T y, const vec_base<T, 2>& zw);
     vec_base(const vec_base<T, 2>& xy, const vec_base<T, 2>& zw);
+
     vec_base(const vec_base<T, 3>& xyz, T w);
     vec_base(T x, const vec_base<T, 3>& yzw);
 
-    explicit operator vec<T, 2>() const;
-    explicit operator vec<T, 3>() const;
+    template < typename U > vec_base(const vec_base<U, 4>& other);
 };
 
 template < typename T, size_t Size >
@@ -150,10 +166,6 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static inline size_t size = Size;
-
-    vec() = default;
-    vec(const vec&) = default;
-    vec& operator=(const vec&) = default;
 
     void swap(vec& other);
 
@@ -221,12 +233,15 @@ template < typename T >
 class mat_base<T, 2> {
 public:
     using row_type = vec<T, 2>;
+    row_type rows[2];
 
-    row_type rows[2] = {
-        row_type{T{1}, T{0}},
-        row_type{T{0}, T{1}}};
+    mat_base();
 
-    mat_base() = default;
+    mat_base(uninit_t);
+    mat_base(zero_init_t);
+    mat_base(unit_init_t);
+    mat_base(identity_init_t);
+
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
 
@@ -237,19 +252,25 @@ public:
     mat_base(
         const row_type& row0,
         const row_type& row1);
+
+    template < typename U > mat_base(const mat_base<U, 2>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 3>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 4>& other);
 };
 
 template < typename T >
 class mat_base<T, 3> {
 public:
     using row_type = vec<T, 3>;
+    row_type rows[3];
 
-    row_type rows[3] = {
-        row_type{T{1}, T{0}, T{0}},
-        row_type{T{0}, T{1}, T{0}},
-        row_type{T{0}, T{0}, T{1}}};
+    mat_base();
 
-    mat_base() = default;
+    mat_base(uninit_t);
+    mat_base(zero_init_t);
+    mat_base(unit_init_t);
+    mat_base(identity_init_t);
+
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
 
@@ -267,23 +288,24 @@ public:
         const mat_base<T, 2>& m,
         const vec_base<T, 2>& v);
 
-    explicit mat_base(const mat_base<T, 2>& other);
-
-    explicit operator mat<T, 2>() const;
+    template < typename U > mat_base(const mat_base<U, 3>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 2>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 4>& other);
 };
 
 template < typename T >
 class mat_base<T, 4> {
 public:
     using row_type = vec<T, 4>;
+    row_type rows[4];
 
-    row_type rows[4] = {
-        row_type{T{1}, T{0}, T{0}, T{0}},
-        row_type{T{0}, T{1}, T{0}, T{0}},
-        row_type{T{0}, T{0}, T{1}, T{0}},
-        row_type{T{0}, T{0}, T{0}, T{1}}};
+    mat_base();
 
-    mat_base() = default;
+    mat_base(uninit_t);
+    mat_base(zero_init_t);
+    mat_base(unit_init_t);
+    mat_base(identity_init_t);
+
     explicit mat_base(T d);
     explicit mat_base(const row_type& d);
 
@@ -303,11 +325,9 @@ public:
         const mat_base<T, 3>& m,
         const vec_base<T, 3>& v);
 
-    explicit mat_base(const mat_base<T, 2>& other);
-    explicit mat_base(const mat_base<T, 3>& other);
-
-    explicit operator mat<T, 2>() const;
-    explicit operator mat<T, 3>() const;
+    template < typename U > mat_base(const mat_base<U, 4>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 2>& other);
+    template < typename U > explicit mat_base(const mat_base<U, 3>& other);
 };
 
 template < typename T, size_t Size >
@@ -331,10 +351,6 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static inline size_t size = Size;
-
-    mat() = default;
-    mat(const mat&) = default;
-    mat& operator=(const mat&) = default;
 
     void swap(mat& other);
 
@@ -398,15 +414,21 @@ using ptrdiff4x4_t = mat<ptrdiff_t, 4>;
 template < typename T >
 class qua_base {
 public:
-    vec<T, 3> v = vec<T, 3>{T{0}};
-    T s = T{1};
+    vec<T, 3> v;
+    T s;
 
     qua_base();
+
+    qua_base(uninit_t);
+    qua_base(zero_init_t);
+    qua_base(identity_init_t);
+
     qua_base(T vx, T vy, T vz, T s);
     qua_base(const vec<T, 3>& v, T s);
-
     explicit qua_base(const vec<T, 4>& vs);
-    explicit operator vec<T, 4>() const;
+
+    template < typename U > qua_base(const qua_base<U, 4>& other);
+    template < typename U > explicit operator vec<U, 4>() const;
 };
 
 template < typename T >
@@ -431,10 +453,6 @@ public:
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     static inline size_t size = 4;
-
-    qua() = default;
-    qua(const qua&) = default;
-    qua& operator=(const qua&) = default;
 
     void swap(qua& other);
 
@@ -490,16 +508,36 @@ auto operator~(const vec<T, Size>& xs);
 template < typename T, size_t Size >
 auto operator!(const vec<T, Size>& xs);
 
+// ++operator
+
+template < typename T, size_t Size >
+vec<T, Size>& operator++(vec<T, Size>& xs);
+
+// --operator
+
+template < typename T, size_t Size >
+vec<T, Size>& operator--(vec<T, Size>& xs);
+
+// operator++
+
+template < typename T, size_t Size >
+vec<T, Size> operator++(vec<T, Size>& xs, int);
+
+// operator--
+
+template < typename T, size_t Size >
+vec<T, Size> operator--(vec<T, Size>& xs, int);
+
 // operator+
 
-template < typename T, size_t Size >
-auto operator+(const vec<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator+(const vec<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator+(T x, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator+(T x, const vec<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator+(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator+(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 // operator+=
 
@@ -511,14 +549,14 @@ vec<T, Size>& operator+=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator-
 
-template < typename T, size_t Size >
-auto operator-(const vec<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator-(const vec<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator-(T x, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator-(T x, const vec<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator-(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator-(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 // operator-=
 
@@ -530,14 +568,14 @@ vec<T, Size>& operator-=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator*
 
-template < typename T, size_t Size >
-auto operator*(const vec<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator*(const vec<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator*(T x, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(T x, const vec<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator*(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 // operator*=
 
@@ -549,14 +587,14 @@ vec<T, Size>& operator*=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
 // operator/
 
-template < typename T, size_t Size >
-auto operator/(const vec<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator/(const vec<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator/(T x, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator/(T x, const vec<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator/(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator/(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 // operator/=
 
@@ -684,16 +722,36 @@ auto operator~(const mat<T, Size>& xs);
 template < typename T, size_t Size >
 auto operator!(const mat<T, Size>& xs);
 
+// ++operator
+
+template < typename T, size_t Size >
+mat<T, Size>& operator++(mat<T, Size>& xs);
+
+// --operator
+
+template < typename T, size_t Size >
+mat<T, Size>& operator--(mat<T, Size>& xs);
+
+// operator++
+
+template < typename T, size_t Size >
+mat<T, Size> operator++(mat<T, Size>& xs, int);
+
+// operator--
+
+template < typename T, size_t Size >
+mat<T, Size> operator--(mat<T, Size>& xs, int);
+
 // operator+
 
-template < typename T, size_t Size >
-auto operator+(const mat<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator+(const mat<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator+(T x, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator+(T x, const mat<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator+(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator+(const mat<T, Size>& xs, const mat<U, Size>& ys);
 
 // operator+=
 
@@ -705,14 +763,14 @@ mat<T, Size>& operator+=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator-
 
-template < typename T, size_t Size >
-auto operator-(const mat<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator-(const mat<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator-(T x, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator-(T x, const mat<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator-(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator-(const mat<T, Size>& xs, const mat<U, Size>& ys);
 
 // operator-=
 
@@ -724,17 +782,17 @@ mat<T, Size>& operator-=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator*
 
-template < typename T, size_t Size >
-auto operator*(const mat<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator*(const mat<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator*(T x, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(T x, const mat<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator*(const vec<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(const vec<T, Size>& xs, const mat<U, Size>& ys);
 
-template < typename T, size_t Size >
-auto operator*(const mat<T, Size>& xs, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator*(const mat<T, Size>& xs, const mat<U, Size>& ys);
 
 // operator*=
 
@@ -749,11 +807,11 @@ mat<T, Size>& operator*=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator/
 
-template < typename T, size_t Size >
-auto operator/(const mat<T, Size>& xs, T y);
+template < typename T, typename U, size_t Size >
+auto operator/(const mat<T, Size>& xs, U y);
 
-template < typename T, size_t Size >
-auto operator/(T x, const mat<T, Size>& ys);
+template < typename T, typename U, size_t Size >
+auto operator/(T x, const mat<U, Size>& ys);
 
 // operator/=
 
@@ -870,8 +928,8 @@ auto operator-(const qua<T>& xs);
 
 // operator+
 
-template < typename T >
-auto operator+(const qua<T>& xs, const qua<T>& ys);
+template < typename T, typename U >
+auto operator+(const qua<T>& xs, const qua<U>& ys);
 
 // operator+=
 
@@ -880,8 +938,8 @@ qua<T>& operator+=(qua<T>& xs, const qua<T>& ys);
 
 // operator-
 
-template < typename T >
-auto operator-(const qua<T>& xs, const qua<T>& ys);
+template < typename T, typename U >
+auto operator-(const qua<T>& xs, const qua<U>& ys);
 
 // operator-=
 
@@ -890,17 +948,17 @@ qua<T>& operator-=(qua<T>& xs, const qua<T>& ys);
 
 // operator*
 
-template < typename T >
-auto operator*(const qua<T>& xs, T y);
+template < typename T, typename U >
+auto operator*(const qua<T>& xs, U y);
 
-template < typename T >
-auto operator*(T x, const qua<T>& ys);
+template < typename T, typename U >
+auto operator*(T x, const qua<U>& ys);
 
-template < typename T >
-auto operator*(const vec<T, 3>& xs, const qua<T>& ys);
+template < typename T, typename U >
+auto operator*(const vec<T, 3>& xs, const qua<U>& ys);
 
-template < typename T >
-auto operator*(const qua<T>& xs, const qua<T>& ys);
+template < typename T, typename U >
+auto operator*(const qua<T>& xs, const qua<U>& ys);
 
 // operator*=
 
@@ -915,11 +973,11 @@ qua<T>& operator*=(qua<T>& xs, const qua<T>& ys);
 
 // operator/
 
-template < typename T >
-auto operator/(const qua<T>& xs, T y);
+template < typename T, typename U >
+auto operator/(const qua<T>& xs, U y);
 
-template < typename T >
-auto operator/(T x, const qua<T>& ys);
+template < typename T, typename U >
+auto operator/(T x, const qua<U>& ys);
 
 // operator/=
 
@@ -1296,8 +1354,9 @@ vec<T, Size> rsqrt(const vec<T, Size>& xs);
 #### Scalar
 
 ```cpp
-template < arithmetic T >
-T dot(T x, T y);
+template < arithmetic T, arithmetic U
+         , arithmetic V = decltype(declval<T>() * declval<U>()) >
+V dot(T x, U y);
 
 template < arithmetic T >
 T length(T x);
@@ -1333,8 +1392,9 @@ T refract(T i, T n, T eta);
 #### Vector
 
 ```cpp
-template < typename T, size_t Size >
-T dot(const vec<T, Size>& xs, const vec<T, Size>& ys);
+template < typename T, typename U, size_t Size
+         , typename V = decltype(declval<T>() * declval<U>()) >
+V dot(const vec<T, Size>& xs, const vec<U, Size>& ys);
 
 template < typename T, size_t Size >
 T length(const vec<T, Size>& xs);
@@ -1354,11 +1414,13 @@ T distance(const vec<T, Size>& xs, const vec<T, Size>& ys);
 template < typename T, size_t Size >
 T distance2(const vec<T, Size>& xs, const vec<T, Size>& ys);
 
-template < typename T >
-T cross(const vec<T, 2>& xs, const vec<T, 2>& ys);
+template < typename T, typename U
+         , typename V = decltype(declval<T>() * declval<U>()) >
+V cross(const vec<T, 2>& xs, const vec<U, 2>& ys);
 
-template < typename T >
-vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys);
+template < typename T, typename U
+         , typename V = decltype(declval<T>() * declval<U>()) >
+vec<V, 3> cross(const vec<T, 3>& xs, const vec<U, 3>& ys);
 
 template < typename T, size_t Size >
 vec<T, Size> normalize(const vec<T, Size>& xs);
@@ -1376,8 +1438,11 @@ vec<T, Size> refract(const vec<T, Size>& i, const vec<T, Size>& n, T eta);
 #### Quaternion
 
 ```cpp
-template < typename T >
-T dot(const qua<T>& xs, const qua<T>& ys);
+template < typename T, typename U
+         , typename V = decltype(dot(
+             declval<vec<T, 4>>(),
+             declval<vec<U, 4>>())) >
+V dot(const qua<T>& xs, const qua<U>& ys);
 
 template < typename T >
 T length(const qua<T>& xs);
@@ -1693,6 +1758,7 @@ template < typename T > inline mat<T, 2> identity2x2;
 template < typename T > inline mat<T, 3> identity3x3;
 template < typename T > inline mat<T, 4> identity4x4;
 
+template < typename T > inline qua<T> qzero;
 template < typename T > inline qua<T> qidentity;
 ```
 

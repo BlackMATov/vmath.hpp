@@ -15,40 +15,40 @@ namespace vmath_hpp::detail::impl
 {
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    vec<std::invoke_result_t<F, A>, Size> map_join_impl(
+    auto map_join_impl(
         F&& f,
         const vec<A, Size>& a,
         std::index_sequence<Is...>)
     {
-        return { f(a[Is])... };
+        return vec{ f(a[Is])... };
     }
 
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    vec<std::invoke_result_t<F, A, B>, Size> map_join_impl(
+    auto map_join_impl(
         F&& f,
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
     {
-        return { f(a[Is], b[Is])... };
+        return vec{ f(a[Is], b[Is])... };
     }
 
     template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    vec<std::invoke_result_t<F, A, B, C>, Size> map_join_impl(
+    auto map_join_impl(
         F&& f,
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         const vec<C, Size>& c,
         std::index_sequence<Is...>)
     {
-        return { f(a[Is], b[Is], c[Is])... };
+        return vec{ f(a[Is], b[Is], c[Is])... };
     }
 
     template < typename A, typename B, typename C, typename D, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    vec<std::invoke_result_t<F, A, B, C, D>, Size> map_join_impl(
+    auto map_join_impl(
         F&& f,
         const vec<A, Size>& a,
         const vec<B, Size>& b,
@@ -56,12 +56,12 @@ namespace vmath_hpp::detail::impl
         const vec<D, Size>& d,
         std::index_sequence<Is...>)
     {
-        return { f(a[Is], b[Is], c[Is], d[Is])... };
+        return vec{ f(a[Is], b[Is], c[Is], d[Is])... };
     }
 
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    A fold_join_impl(
+    auto fold_join_impl(
         F&& f,
         A init,
         const vec<B, Size>& b,
@@ -70,27 +70,68 @@ namespace vmath_hpp::detail::impl
         return ((init = f(std::move(init), b[Is])), ...);
     }
 
-    template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
-    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    A fold_join_impl(
-        F&& f,
-        A init,
-        const vec<B, Size>& b,
-        const vec<C, Size>& c,
-        std::index_sequence<Is...>)
-    {
-        return ((init = f(std::move(init), b[Is], c[Is])), ...);
-    }
-
     template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    A fold1_join_impl(
+    auto fold1_join_impl(
         F&& f,
         const vec<A, Size>& a,
         std::index_sequence<I, Is...>)
     {
         A init = a[I];
         return ((init = f(std::move(init), a[Is])), ...);
+    }
+
+    template < typename A, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_and_join_impl(
+        F&& f,
+        const vec<A, Size>& a,
+        std::index_sequence<Is...>)
+    {
+        return (... && f(a[Is]));
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_and_join_impl(
+        F&& f,
+        const vec<A, Size>& a,
+        const vec<B, Size>& b,
+        std::index_sequence<Is...>)
+    {
+        return (... && f(a[Is], b[Is]));
+    }
+
+    template < typename A, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_or_join_impl(
+        F&& f,
+        const vec<A, Size>& a,
+        std::index_sequence<Is...>)
+    {
+        return (... || f(a[Is]));
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_or_join_impl(
+        F&& f,
+        const vec<A, Size>& a,
+        const vec<B, Size>& b,
+        std::index_sequence<Is...>)
+    {
+        return (... || f(a[Is], b[Is]));
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_plus_join_impl(
+        F&& f,
+        const vec<A, Size>& a,
+        const vec<B, Size>& b,
+        std::index_sequence<Is...>)
+    {
+        return (... + f(a[Is], b[Is]));
     }
 }
 
@@ -126,16 +167,40 @@ namespace vmath_hpp::detail
         return impl::fold_join_impl(std::forward<F>(f), std::move(init), b, std::make_index_sequence<Size>{});
     }
 
-    template < typename A, typename B, typename C, std::size_t Size, typename F >
-    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-    auto fold_join(F&& f, A init, const vec<B, Size>& b, const vec<C, Size>& c) {
-        return impl::fold_join_impl(std::forward<F>(f), std::move(init), b, c, std::make_index_sequence<Size>{});
-    }
-
     template < typename A, std::size_t Size, typename F >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_join(F&& f, const vec<A, Size>& a) {
         return impl::fold1_join_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, std::size_t Size, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_and_join(F&& f, const vec<A, Size>& a) {
+        return impl::fold1_and_join_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_and_join(F&& f, const vec<A, Size>& a, const vec<B, Size>& b) {
+        return impl::fold1_and_join_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, std::size_t Size, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_or_join(F&& f, const vec<A, Size>& a) {
+        return impl::fold1_or_join_impl(std::forward<F>(f), a, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_or_join(F&& f, const vec<A, Size>& a, const vec<B, Size>& b) {
+        return impl::fold1_or_join_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
+    }
+
+    template < typename A, typename B, std::size_t Size, typename F >
+    [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+    auto fold1_plus_join(F&& f, const vec<A, Size>& a, const vec<B, Size>& b) {
+        return impl::fold1_plus_join_impl(std::forward<F>(f), a, b, std::make_index_sequence<Size>{});
     }
 }
 
@@ -173,21 +238,53 @@ namespace vmath_hpp
         return map_join([](T x){ return !x; }, xs);
     }
 
-    // operator+
+    // ++operator
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator+(const vec<T, Size>& xs, T y) {
+    constexpr vec<T, Size>& operator++(vec<T, Size>& xs) {
+        return (xs = xs + T{1});
+    }
+
+    // --operator
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator--(vec<T, Size>& xs) {
+        return (xs = xs - T{1});
+    }
+
+    // operator++
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size> operator++(vec<T, Size>& xs, int) {
+        vec<T, Size> ys = xs;
+        ++xs;
+        return ys;
+    }
+
+    // operator--
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size> operator--(vec<T, Size>& xs, int) {
+        vec<T, Size> ys = xs;
+        --xs;
+        return ys;
+    }
+
+    // operator+
+
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator+(const vec<T, Size>& xs, U y) {
         return map_join([y](T x){ return x + y; }, xs);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator+(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return x + y; }, ys);
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator+(T x, const vec<U, Size>& ys) {
+        return map_join([x](U y){ return x + y; }, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator+(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y){ return x + y; }, xs, ys);
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator+(const vec<T, Size>& xs, const vec<U, Size>& ys) {
+        return map_join([](T x, U y){ return x + y; }, xs, ys);
     }
 
     // operator+=
@@ -204,19 +301,19 @@ namespace vmath_hpp
 
     // operator-
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator-(const vec<T, Size>& xs, T y) {
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator-(const vec<T, Size>& xs, U y) {
         return map_join([y](T x){ return x - y; }, xs);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator-(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return x - y; }, ys);
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator-(T x, const vec<U, Size>& ys) {
+        return map_join([x](U y){ return x - y; }, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator-(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y){ return x - y; }, xs, ys);
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator-(const vec<T, Size>& xs, const vec<U, Size>& ys) {
+        return map_join([](T x, U y){ return x - y; }, xs, ys);
     }
 
     // operator-=
@@ -233,19 +330,19 @@ namespace vmath_hpp
 
     // operator*
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator*(const vec<T, Size>& xs, T y) {
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator*(const vec<T, Size>& xs, U y) {
         return map_join([y](T x){ return x * y; }, xs);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator*(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return x * y; }, ys);
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator*(T x, const vec<U, Size>& ys) {
+        return map_join([x](U y){ return x * y; }, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator*(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y){ return x * y; }, xs, ys);
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator*(const vec<T, Size>& xs, const vec<U, Size>& ys) {
+        return map_join([](T x, U y){ return x * y; }, xs, ys);
     }
 
     // operator*=
@@ -262,19 +359,19 @@ namespace vmath_hpp
 
     // operator/
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator/(const vec<T, Size>& xs, T y) {
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator/(const vec<T, Size>& xs, U y) {
         return map_join([y](T x){ return x / y; }, xs);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator/(T x, const vec<T, Size>& ys) {
-        return map_join([x](T y){ return x / y; }, ys);
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator/(T x, const vec<U, Size>& ys) {
+        return map_join([x](U y){ return x / y; }, ys);
     }
 
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr auto operator/(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return map_join([](T x, T y){ return x / y; }, xs, ys);
+    template < typename T, typename U, std::size_t Size >
+    [[nodiscard]] constexpr auto operator/(const vec<T, Size>& xs, const vec<U, Size>& ys) {
+        return map_join([](T x, U y){ return x / y; }, xs, ys);
     }
 
     // operator/=
@@ -414,18 +511,14 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator==(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return fold_join([](bool acc, T x, T y){
-            return acc && x == y;
-        }, true, xs, ys);
+        return fold1_and_join([](T x, T y){ return x == y; }, xs, ys);
     }
 
     // operator!=
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr bool operator!=(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return fold_join([](bool acc, T x, T y){
-            return acc || x != y;
-        }, false, xs, ys);
+        return fold1_or_join([](T x, T y){ return x != y; }, xs, ys);
     }
 
     // operator<
@@ -775,11 +868,10 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr T dot(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return fold_join([](T acc, T x, T y){
-            return acc + (x * y);
-        }, T{0}, xs, ys);
+    template < typename T, typename U, std::size_t Size
+             , typename V = decltype(std::declval<T>() * std::declval<U>()) >
+    [[nodiscard]] constexpr V dot(const vec<T, Size>& xs, const vec<U, Size>& ys) {
+        return fold1_plus_join([](T x, U y){ return x * y; }, xs, ys);
     }
 
     template < typename T, std::size_t Size >
@@ -812,13 +904,15 @@ namespace vmath_hpp
         return length2(ys - xs);
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr T cross(const vec<T, 2>& xs, const vec<T, 2>& ys) {
-        return xs.x * ys.y - xs.y * ys.x;
+    template < typename T, typename U
+             , typename V = decltype(std::declval<T>() * std::declval<U>()) >
+    [[nodiscard]] constexpr V cross(const vec<T, 2>& xs, const vec<U, 2>& ys) {
+        return { xs.x * ys.y - xs.y * ys.x };
     }
 
-    template < typename T >
-    [[nodiscard]] constexpr vec<T, 3> cross(const vec<T, 3>& xs, const vec<T, 3>& ys) {
+    template < typename T, typename U
+             , typename V = decltype(std::declval<T>() * std::declval<U>()) >
+    [[nodiscard]] constexpr vec<V, 3> cross(const vec<T, 3>& xs, const vec<U, 3>& ys) {
         return {
             xs.y * ys.z - xs.z * ys.y,
             xs.z * ys.x - xs.x * ys.z,
@@ -857,13 +951,13 @@ namespace vmath_hpp
     template < typename T, std::size_t Size
              , typename U = decltype(any(std::declval<T>())) >
     [[nodiscard]] constexpr U any(const vec<T, Size>& xs) {
-        return fold_join([](U acc, T x){ return acc || any(x); }, U{false}, xs);
+        return fold1_or_join([](T x){ return any(x); }, xs);
     }
 
     template < typename T, std::size_t Size
              , typename U = decltype(all(std::declval<T>())) >
     [[nodiscard]] constexpr U all(const vec<T, Size>& xs) {
-        return fold_join([](U acc, T x){ return acc && all(x); }, U{true}, xs);
+        return fold1_and_join([](T x){ return all(x); }, xs);
     }
 
     template < typename T, std::size_t Size

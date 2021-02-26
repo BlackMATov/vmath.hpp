@@ -19,13 +19,13 @@
 
 namespace vmath_hpp
 {
-    template < typename T > inline constexpr vec<T, 2> zero2{T{0}, T{0}};
-    template < typename T > inline constexpr vec<T, 3> zero3{T{0}, T{0}, T{0}};
-    template < typename T > inline constexpr vec<T, 4> zero4{T{0}, T{0}, T{0}, T{0}};
+    template < typename T > inline constexpr vec<T, 2> zero2{zero_init};
+    template < typename T > inline constexpr vec<T, 3> zero3{zero_init};
+    template < typename T > inline constexpr vec<T, 4> zero4{zero_init};
 
-    template < typename T > inline constexpr vec<T, 2> unit2{T{1}, T{1}};
-    template < typename T > inline constexpr vec<T, 3> unit3{T{1}, T{1}, T{1}};
-    template < typename T > inline constexpr vec<T, 4> unit4{T{1}, T{1}, T{1}, T{1}};
+    template < typename T > inline constexpr vec<T, 2> unit2{unit_init};
+    template < typename T > inline constexpr vec<T, 3> unit3{unit_init};
+    template < typename T > inline constexpr vec<T, 4> unit4{unit_init};
 
     template < typename T > inline constexpr vec<T, 2> unit2_x{T{1}, T{0}};
     template < typename T > inline constexpr vec<T, 2> unit2_y{T{0}, T{1}};
@@ -39,52 +39,20 @@ namespace vmath_hpp
     template < typename T > inline constexpr vec<T, 4> unit4_z{T{0}, T{0}, T{1}, T{0}};
     template < typename T > inline constexpr vec<T, 4> unit4_w{T{0}, T{0}, T{0}, T{1}};
 
-    template < typename T > inline constexpr mat<T, 2> zero2x2{
-        T{0}, T{0},
-        T{0}, T{0}};
+    template < typename T > inline constexpr mat<T, 2> zero2x2{zero_init};
+    template < typename T > inline constexpr mat<T, 3> zero3x3{zero_init};
+    template < typename T > inline constexpr mat<T, 4> zero4x4{zero_init};
 
-    template < typename T > inline constexpr mat<T, 3> zero3x3{
-        T{0}, T{0}, T{0},
-        T{0}, T{0}, T{0},
-        T{0}, T{0}, T{0}};
+    template < typename T > inline constexpr mat<T, 2> unit2x2{unit_init};
+    template < typename T > inline constexpr mat<T, 3> unit3x3{unit_init};
+    template < typename T > inline constexpr mat<T, 4> unit4x4{unit_init};
 
-    template < typename T > inline constexpr mat<T, 4> zero4x4{
-        T{0}, T{0}, T{0}, T{0},
-        T{0}, T{0}, T{0}, T{0},
-        T{0}, T{0}, T{0}, T{0},
-        T{0}, T{0}, T{0}, T{0}};
+    template < typename T > inline constexpr mat<T, 2> identity2x2{identity_init};
+    template < typename T > inline constexpr mat<T, 3> identity3x3{identity_init};
+    template < typename T > inline constexpr mat<T, 4> identity4x4{identity_init};
 
-    template < typename T > inline constexpr mat<T, 2> unit2x2{
-        T{1}, T{1},
-        T{1}, T{1}};
-
-    template < typename T > inline constexpr mat<T, 3> unit3x3{
-        T{1}, T{1}, T{1},
-        T{1}, T{1}, T{1},
-        T{1}, T{1}, T{1}};
-
-    template < typename T > inline constexpr mat<T, 4> unit4x4{
-        T{1}, T{1}, T{1}, T{1},
-        T{1}, T{1}, T{1}, T{1},
-        T{1}, T{1}, T{1}, T{1},
-        T{1}, T{1}, T{1}, T{1}};
-
-    template < typename T > inline constexpr mat<T, 2> identity2x2{
-        T{1}, T{0},
-        T{0}, T{1}};
-
-    template < typename T > inline constexpr mat<T, 3> identity3x3{
-        T{1}, T{0}, T{0},
-        T{0}, T{1}, T{0},
-        T{0}, T{0}, T{1}};
-
-    template < typename T > inline constexpr mat<T, 4> identity4x4{
-        T{1}, T{0}, T{0}, T{0},
-        T{0}, T{1}, T{0}, T{0},
-        T{0}, T{0}, T{1}, T{0},
-        T{0}, T{0}, T{0}, T{1}};
-
-    template < typename T > inline constexpr qua<T> qidentity{T{0}, T{0}, T{0}, T{1}};
+    template < typename T > inline constexpr qua<T> qzero{zero_init};
+    template < typename T > inline constexpr qua<T> qidentity{identity_init};
 }
 
 //
