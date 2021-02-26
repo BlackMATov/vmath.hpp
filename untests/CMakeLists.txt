@@ -25,7 +25,13 @@ target_compile_options(${PROJECT_NAME}
     $<$<CXX_COMPILER_ID:MSVC>:
         /W4>
     PRIVATE
-    $<$<OR:$<CXX_COMPILER_ID:GNU>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:
-        -Wall -Wextra -Wpedantic>)
+    $<$<CXX_COMPILER_ID:GNU>:
+        -Wall -Wextra -Wpedantic>
+    PRIVATE
+    $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:
+        -Weverything -Wno-unknown-warning-option
+        -Wconversion -Wimplicit-int-float-conversion
+        -Wno-c++98-compat-pedantic -Wno-ctad-maybe-unsupported
+        -Wno-float-equal -Wno-double-promotion -Wno-shadow-field-in-constructor>)
 
 add_test(${PROJECT_NAME} ${PROJECT_NAME})

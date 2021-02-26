@@ -122,6 +122,7 @@ namespace
     using namespace vmath_tests;
 
     using qfix = qua<fix<float>>;
+    using qfixi = qua<fix<int>>;
 
     using fix2b = vec<fix<bool>, 2>;
     using fix3b = vec<fix<bool>, 3>;
@@ -285,8 +286,8 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template fix<bool> any(const fix2f&);
-    template fix<bool> all(const fix2f&);
+    template fix<bool> any(const fix2i&);
+    template fix<bool> all(const fix2i&);
     template fix2b approx(const fix2f&, const fix2f&);
     template fix2b approx(const fix2f&, const fix2f&, fix<float>);
     template fix2b less(const fix2f&, const fix2f&);
@@ -299,8 +300,8 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template fix<bool> any(const fix2x2f&);
-    template fix<bool> all(const fix2x2f&);
+    template fix<bool> any(const fix2x2i&);
+    template fix<bool> all(const fix2x2i&);
     template fix2x2b approx(const fix2x2f&, const fix2x2f&);
     template fix2x2b approx(const fix2x2f&, const fix2x2f&, fix<float>);
     template fix2x2b less(const fix2x2f&, const fix2x2f&);
@@ -313,8 +314,8 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template fix<bool> any(const qfix&);
-    template fix<bool> all(const qfix&);
+    template fix<bool> any(const qfixi&);
+    template fix<bool> all(const qfixi&);
     template fix4b approx(const qfix&, const qfix&);
     template fix4b approx(const qfix&, const qfix&, fix<float>);
     template fix4b less(const qfix&, const qfix&);

@@ -77,13 +77,13 @@ TEST_CASE("vmath/qua_fun") {
     }
 
     SUBCASE("Conversions2") {
-        STATIC_CHECK(qfloat(1,2.f,3.0,4u) == qfloat(1,2,3,4));
-        STATIC_CHECK(qfloat(int3(1,2,3),4u) == qfloat(1,2,3,4));
-        STATIC_CHECK(qfloat(int4(1,2,3,4)) == qfloat(1,2,3,4));
-        STATIC_CHECK(qfloat(qdouble(1,2,3,4)) == qfloat(1,2,3,4));
+        STATIC_CHECK(qdouble(1,2.f,3.0,4u) == qdouble(1,2,3,4));
+        STATIC_CHECK(qdouble(int3(1,2,3),4u) == qdouble(1,2,3,4));
+        STATIC_CHECK(qdouble(int4(1,2,3,4)) == qdouble(1,2,3,4));
+        STATIC_CHECK(qdouble(qfloat(1,2,3,4)) == qdouble(1,2,3,4));
 
         STATIC_CHECK(float4(qfloat(1,2,3,4)) == float4(1,2,3,4));
-        STATIC_CHECK(float4(qdouble(1,2,3,4)) == float4(1,2,3,4));
+        STATIC_CHECK(double4(qfloat(1,2,3,4)) == double4(1,2,3,4));
     }
 
     SUBCASE("Common Functions") {

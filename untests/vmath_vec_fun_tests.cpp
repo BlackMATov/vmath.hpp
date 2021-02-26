@@ -104,56 +104,56 @@ TEST_CASE("vmath/vec_fun") {
     }
 
     SUBCASE("Operators2") {
-        STATIC_CHECK(int2{} + 0.f == float2{});
-        STATIC_CHECK(0.f + int2{} == float2{});
-        STATIC_CHECK(int2{} + float2{} == float2{});
-        STATIC_CHECK(float2{} + int2{} == float2{});
+        STATIC_CHECK(int2{} + 0.0 == double2{});
+        STATIC_CHECK(0.0 + int2{} == double2{});
+        STATIC_CHECK(int2{} + double2{} == double2{});
+        STATIC_CHECK(double2{} + int2{} == double2{});
 
-        STATIC_CHECK(int2{} - 0.f == float2{});
-        STATIC_CHECK(0.f - int2{} == float2{});
-        STATIC_CHECK(int2{} - float2{} == float2{});
-        STATIC_CHECK(float2{} - int2{} == float2{});
+        STATIC_CHECK(int2{} - 0.0 == double2{});
+        STATIC_CHECK(0.0 - int2{} == double2{});
+        STATIC_CHECK(int2{} - double2{} == double2{});
+        STATIC_CHECK(double2{} - int2{} == double2{});
 
-        STATIC_CHECK(int2{} * 1.f == float2{});
-        STATIC_CHECK(0.f * int2{1} == float2{});
-        STATIC_CHECK(int2{} * float2{1.f} == float2{});
-        STATIC_CHECK(float2{} * int2{1} == float2{});
+        STATIC_CHECK(int2{} * 1.0 == double2{});
+        STATIC_CHECK(0.0 * int2{1} == double2{});
+        STATIC_CHECK(int2{} * double2{1.0} == double2{});
+        STATIC_CHECK(double2{} * int2{1} == double2{});
 
-        STATIC_CHECK(int2{} / 1.f == float2{});
-        STATIC_CHECK(0.f / int2{1} == float2{});
-        STATIC_CHECK(int2{} / float2{1.f} == float2{});
-        STATIC_CHECK(float2{} / int2{1} == float2{});
+        STATIC_CHECK(int2{} / 1.0 == double2{});
+        STATIC_CHECK(0.0 / int2{1} == double2{});
+        STATIC_CHECK(int2{} / double2{1.0} == double2{});
+        STATIC_CHECK(double2{} / int2{1} == double2{});
     }
 
     SUBCASE("Conversions2") {
         {
-            STATIC_CHECK(float2(1) == float2(1,1));
-            STATIC_CHECK(float2(1,2.0) == float2(1,2));
-            STATIC_CHECK(float2(int2(1,2)) == float2(1,2));
-            STATIC_CHECK(float2(int3(1,2,3)) == float2(1,2));
-            STATIC_CHECK(float2(int4(1,2,3,4)) == float2(1,2));
+            STATIC_CHECK(double2(1) == double2(1,1));
+            STATIC_CHECK(double2(1,2.f) == double2(1,2));
+            STATIC_CHECK(double2(int2(1,2)) == double2(1,2));
+            STATIC_CHECK(double2(int3(1,2,3)) == double2(1,2));
+            STATIC_CHECK(double2(int4(1,2,3,4)) == double2(1,2));
         }
         {
-            STATIC_CHECK(float3(1) == float3(1,1,1));
-            STATIC_CHECK(float3(1,2.0,3u) == float3(1,2,3));
-            STATIC_CHECK(float3(int3(1,2,3)) == float3(1,2,3));
-            STATIC_CHECK(float3(int4(1,2,3,4)) == float3(1,2,3));
+            STATIC_CHECK(double3(1) == double3(1,1,1));
+            STATIC_CHECK(double3(1,2.f,3u) == double3(1,2,3));
+            STATIC_CHECK(double3(int3(1,2,3)) == double3(1,2,3));
+            STATIC_CHECK(double3(int4(1,2,3,4)) == double3(1,2,3));
 
-            STATIC_CHECK(float3(int2(1,2),3.0) == float3(1,2,3));
-            STATIC_CHECK(float3(1.0,int2(2,3)) == float3(1,2,3));
+            STATIC_CHECK(double3(int2(1,2),3.f) == double3(1,2,3));
+            STATIC_CHECK(double3(1.f,int2(2,3)) == double3(1,2,3));
         }
         {
-            STATIC_CHECK(float4(1) == float4(1,1,1,1));
-            STATIC_CHECK(float4(1,2.0,3u,4) == float4(1,2,3,4));
-            STATIC_CHECK(float4(int4(1,2,3,4)) == float4(1,2,3,4));
+            STATIC_CHECK(double4(1) == double4(1,1,1,1));
+            STATIC_CHECK(double4(1,2.f,3u,4) == double4(1,2,3,4));
+            STATIC_CHECK(double4(int4(1,2,3,4)) == double4(1,2,3,4));
 
-            STATIC_CHECK(float4(int2{1,2},3u,4.0) == float4(1,2,3,4));
-            STATIC_CHECK(float4(1,int2{2,3},4.0) == float4(1,2,3,4));
-            STATIC_CHECK(float4(1,2.f,int2{3,4}) == float4(1,2,3,4));
-            STATIC_CHECK(float4(int2{1,2},float2{3,4}) == float4(1,2,3,4));
+            STATIC_CHECK(double4(int2{1,2},3u,4.f) == double4(1,2,3,4));
+            STATIC_CHECK(double4(1,int2{2,3},4.f) == double4(1,2,3,4));
+            STATIC_CHECK(double4(1,2.f,int2{3,4}) == double4(1,2,3,4));
+            STATIC_CHECK(double4(int2{1,2},double2{3,4}) == double4(1,2,3,4));
 
-            STATIC_CHECK(float4(int3{1,2,3},4.0) == float4(1,2,3,4));
-            STATIC_CHECK(float4(1.0,int3{2,3,4}) == float4(1,2,3,4));
+            STATIC_CHECK(double4(int3{1,2,3},4.f) == double4(1,2,3,4));
+            STATIC_CHECK(double4(1.f,int3{2,3,4}) == double4(1,2,3,4));
         }
     }
 
@@ -295,16 +295,16 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK(distance2(float2(-5.f,0.f), float2(-10.f,0.f)) == uapprox(25.f));
 
         STATIC_CHECK(dot(int2(1,2),int2(3,4)) == 11);
-        STATIC_CHECK(dot(int2(1,2),float2(3,4)) == uapprox(11.f));
-        STATIC_CHECK(dot(float2(3,4),int2(1,2)) == uapprox(11.f));
+        STATIC_CHECK(dot(int2(1,2),double2(3,4)) == uapprox(11.0));
+        STATIC_CHECK(dot(double2(3,4),int2(1,2)) == uapprox(11.0));
 
         STATIC_CHECK(cross(int2(1,0),int2(0,1)) == 1);
-        STATIC_CHECK(cross(int2(1,0),float2(0,1)) == uapprox(1.f));
-        STATIC_CHECK(cross(float2(0,1),int2(1,0)) == uapprox(-1.f));
+        STATIC_CHECK(cross(int2(1,0),double2(0,1)) == uapprox(1.0));
+        STATIC_CHECK(cross(double2(0,1),int2(1,0)) == uapprox(-1.0));
 
         STATIC_CHECK(cross(int3(1,0,0),int3(0,1,0)) == int3(0,0,1));
-        STATIC_CHECK(cross(int3(1,0,0),float3(0,1,0)) == uapprox3(0.f,0.f,1.f));
-        STATIC_CHECK(cross(float3(0,1,0),int3(1,0,0)) == uapprox3(0.f,0.f,-1.f));
+        STATIC_CHECK(cross(int3(1,0,0),double3(0,1,0)) == uapprox3(0.0,0.0,1.0));
+        STATIC_CHECK(cross(double3(0,1,0),int3(1,0,0)) == uapprox3(0.0,0.0,-1.0));
 
         CHECK(normalize(float2(0.5f,0.f)).x == uapprox(1.f));
 
