@@ -286,6 +286,16 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4(const qua<T>& q) {
+        return mat<T, 4>(rotate(q));
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4(const mat<T, 4>& m, const qua<T>& q) {
+        return m * rotate4(q);
+    }
+
+    template < typename T >
     [[nodiscard]] constexpr mat<T, 3> rotate(T angle, const vec<T, 3>& axis) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
@@ -323,6 +333,18 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4(T angle, const vec<T, 3>& axis) {
+        return mat<T, 4>(rotate(angle, axis));
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
+        return m * rotate4(angle, axis);
+    }
+
+    // rotate_x
+
+    template < typename T >
     [[nodiscard]] constexpr mat<T, 3> rotate_x(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
@@ -339,6 +361,18 @@ namespace vmath_hpp
     [[nodiscard]] constexpr mat<T, 3> rotate_x(const mat<T, 3>& m, T angle) {
         return m * rotate_x(angle);
     }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4_x(T angle) {
+        return mat<T, 4>(rotate_x(angle));
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4_x(const mat<T, 4>& m, T angle) {
+        return m * rotate4_x(angle);
+    }
+
+    // rotate_y
 
     template < typename T >
     [[nodiscard]] constexpr mat<T, 3> rotate_y(T angle) {
@@ -359,6 +393,18 @@ namespace vmath_hpp
     }
 
     template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4_y(T angle) {
+        return mat<T, 4>(rotate_y(angle));
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4_y(const mat<T, 4>& m, T angle) {
+        return m * rotate4_y(angle);
+    }
+
+    // rotate_z
+
+    template < typename T >
     [[nodiscard]] constexpr mat<T, 3> rotate_z(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
@@ -374,6 +420,16 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] constexpr mat<T, 3> rotate_z(const mat<T, 3>& m, T angle) {
         return m * rotate_z(angle);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4_z(T angle) {
+        return mat<T, 4>(rotate_z(angle));
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> rotate4_z(const mat<T, 4>& m, T angle) {
+        return m * rotate4_z(angle);
     }
 
     // scale
@@ -398,14 +454,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr mat<T, 4> scale4(const vec<T, 3>& v) {
-        /// REFERENCE:
-        /// https://en.wikipedia.org/wiki/Scaling_(geometry)
-
-        return {
-            { v.x,  T{0}, T{0}, T{0} },
-            { T{0}, v.y,  T{0}, T{0} },
-            { T{0}, T{0}, v.z,  T{0} },
-            { T{0}, T{0}, T{0}, T{1} }};
+        return mat<T, 4>(scale(v));
     }
 
     template < typename T >
@@ -570,8 +619,6 @@ namespace vmath_hpp
         return m * scale(v);
     }
 
-    // scale3
-
     template < typename T >
     [[nodiscard]] constexpr mat<T, 3> scale3(const vec<T, 2>& v) {
         return mat<T, 3>(scale(v));
@@ -607,60 +654,6 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] constexpr mat<T, 3> shear3(const mat<T, 3>& m, const vec<T, 2>& v) {
         return m * shear3(v);
-    }
-
-    // shear_x
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> shear_x(T x) {
-        /// REFERENCE:
-        /// https://en.wikipedia.org/wiki/Shear_matrix
-
-        return {
-            { T{1}, T{0} },
-            {   x,  T{1} }};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> shear_x(const mat<T, 2>& m, T x) {
-        return m * shear_x(x);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear3_x(T x) {
-        return mat<T, 3>(shear_x(x));
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear3_x(const mat<T, 3>& m, T x) {
-        return m * shear3_x(x);
-    }
-
-    // shear_y
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> shear_y(T y) {
-        /// REFERENCE:
-        /// https://en.wikipedia.org/wiki/Shear_matrix
-
-        return {
-            { T{1},   y  },
-            { T{0}, T{1} }};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> shear_y(const mat<T, 2>& m, T y) {
-        return m * shear_y(y);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear3_y(T y) {
-        return mat<T, 3>(shear_y(y));
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear3_y(const mat<T, 3>& m, T y) {
-        return m * shear3_y(y);
     }
 }
 

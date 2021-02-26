@@ -230,10 +230,16 @@ TEST_CASE("vmath/ext/matrix_transform") {
         CHECK(fvec3(0.f,1.f,0.f) * rotate_x(pi_2) == uapprox3(0.f,0.f,1.f));
         CHECK(fvec3(0.f,0.f,1.f) * rotate_y(pi_2) == uapprox3(1.f,0.f,0.f));
         CHECK(fvec3(1.f,0.f,0.f) * rotate_z(pi_2) == uapprox3(0.f,1.f,0.f));
+        CHECK(fvec4(0.f,1.f,0.f,1.f) * rotate4_x(pi_2) == uapprox4(0.f,0.f,1.f,1.f));
+        CHECK(fvec4(0.f,0.f,1.f,1.f) * rotate4_y(pi_2) == uapprox4(1.f,0.f,0.f,1.f));
+        CHECK(fvec4(1.f,0.f,0.f,1.f) * rotate4_z(pi_2) == uapprox4(0.f,1.f,0.f,1.f));
 
         CHECK(fvec3(0.f,1.f,0.f) * rotate_x(rotate_x(pi_4),pi_4) == uapprox3(0.f,0.f,1.f));
         CHECK(fvec3(0.f,0.f,1.f) * rotate_y(rotate_y(pi_4),pi_4) == uapprox3(1.f,0.f,0.f));
         CHECK(fvec3(1.f,0.f,0.f) * rotate_z(rotate_z(pi_4),pi_4) == uapprox3(0.f,1.f,0.f));
+        CHECK(fvec4(0.f,1.f,0.f,1.f) * rotate4_x(rotate4_x(pi_4),pi_4) == uapprox4(0.f,0.f,1.f,1.f));
+        CHECK(fvec4(0.f,0.f,1.f,1.f) * rotate4_y(rotate4_y(pi_4),pi_4) == uapprox4(1.f,0.f,0.f,1.f));
+        CHECK(fvec4(1.f,0.f,0.f,1.f) * rotate4_z(rotate4_z(pi_4),pi_4) == uapprox4(0.f,1.f,0.f,1.f));
 
         CHECK(fvec2(2.f,3.f) * rotate(pi) == uapprox2(-2.f,-3.f));
         CHECK(fvec2(2.f,3.f) * rotate(rotate(pi_2),pi_2) == uapprox2(-2.f,-3.f));
@@ -243,10 +249,16 @@ TEST_CASE("vmath/ext/matrix_transform") {
         CHECK(fvec3(2.f,3.f,4.f) * rotate(pi,{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
         CHECK(fvec3(2.f,3.f,4.f) * rotate(pi,fvec3{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
         CHECK(fvec3(2.f,3.f,4.f) * rotate(qrotate(pi,fvec3{0.f,0.f,1.f})) == uapprox3(-2.f,-3.f,4.f));
+        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate4(pi,{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
+        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate4(pi,fvec3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
+        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate4(qrotate(pi,fvec3{0.f,0.f,1.f})) == uapprox4(-2.f,-3.f,4.f,1.f));
 
         CHECK(fvec3(2.f,3.f,4.f) * rotate(rotate(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
         CHECK(fvec3(2.f,3.f,4.f) * rotate(rotate(pi_2,fvec3{0.f,0.f,1.f}),pi_2,fvec3{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
         CHECK(fvec3(2.f,3.f,4.f) * rotate(rotate(qrotate(pi_2,fvec3{0.f,0.f,1.f})),qrotate(pi_2,fvec3{0.f,0.f,1.f})) == uapprox3(-2.f,-3.f,4.f));
+        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate4(rotate4(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
+        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate4(rotate4(pi_2,fvec3{0.f,0.f,1.f}),pi_2,fvec3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
+        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate4(rotate4(qrotate(pi_2,fvec3{0.f,0.f,1.f})),qrotate(pi_2,fvec3{0.f,0.f,1.f})) == uapprox4(-2.f,-3.f,4.f,1.f));
     }
 
     SUBCASE("scale2d") {
@@ -266,24 +278,6 @@ TEST_CASE("vmath/ext/matrix_transform") {
     }
 
     SUBCASE("shear") {
-        STATIC_CHECK(fvec2(2.f,3.f) * shear_x(0.f) == uapprox2(2.f,3.f));
-        STATIC_CHECK(fvec2(2.f,3.f) * shear_x(1.f) == uapprox2(5.f,3.f));
-        STATIC_CHECK(fvec2(2.f,3.f) * shear_x(2.f) == uapprox2(8.f,3.f));
-        STATIC_CHECK(fvec2(2.f,3.f) * shear_x(shear_x(1.f),1.f) == uapprox2(8.f,3.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear3_x(0.f) == uapprox3(2.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear3_x(1.f) == uapprox3(5.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear3_x(2.f) == uapprox3(8.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear3_x(shear3_x(1.f),1.f) == uapprox3(8.f,3.f,1.f));
-
-        STATIC_CHECK(fvec2(2.f,3.f) * shear_y(0.f) == uapprox2(2.f,3.f));
-        STATIC_CHECK(fvec2(2.f,3.f) * shear_y(1.f) == uapprox2(2.f,5.f));
-        STATIC_CHECK(fvec2(2.f,3.f) * shear_y(2.f) == uapprox2(2.f,7.f));
-        STATIC_CHECK(fvec2(2.f,3.f) * shear_y(shear_y(1.f),1.f) == uapprox2(2.f,7.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear3_y(0.f) == uapprox3(2.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear3_y(1.f) == uapprox3(2.f,5.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear3_y(2.f) == uapprox3(2.f,7.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear3_y(shear3_y(1.f),1.f) == uapprox3(2.f,7.f,1.f));
-
         STATIC_CHECK(fvec2(2.f,3.f) * shear(fvec2(0.f,0.f)) == uapprox2(2.f,3.f));
         STATIC_CHECK(fvec2(2.f,3.f) * shear(fvec2(2.f,0.f)) == uapprox2(8.f,3.f));
         STATIC_CHECK(fvec2(2.f,3.f) * shear(fvec2(0.f,2.f)) == uapprox2(2.f,7.f));
