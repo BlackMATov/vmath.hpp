@@ -76,6 +76,16 @@ TEST_CASE("vmath/qua_fun") {
         STATIC_CHECK(1.0 / qfloat{1,1,1,1} == qdouble{1,1,1,1});
     }
 
+    SUBCASE("Conversions2") {
+        STATIC_CHECK(qfloat(1,2.f,3.0,4u) == qfloat(1,2,3,4));
+        STATIC_CHECK(qfloat(int3(1,2,3),4u) == qfloat(1,2,3,4));
+        STATIC_CHECK(qfloat(int4(1,2,3,4)) == qfloat(1,2,3,4));
+        STATIC_CHECK(qfloat(qdouble(1,2,3,4)) == qfloat(1,2,3,4));
+
+        STATIC_CHECK(float4(qfloat(1,2,3,4)) == float4(1,2,3,4));
+        STATIC_CHECK(float4(qdouble(1,2,3,4)) == float4(1,2,3,4));
+    }
+
     SUBCASE("Common Functions") {
         {
             CHECK(all(approx(

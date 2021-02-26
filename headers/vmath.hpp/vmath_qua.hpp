@@ -26,18 +26,15 @@ namespace vmath_hpp::detail
         constexpr qua_base(zero_init_t) : qua_base{zero_init, T{0}} {}
         constexpr qua_base(identity_init_t) : qua_base{zero_init, T{1}} {}
 
-        constexpr qua_base(T vx, T vy, T vz, T s)
-        : v{vx, vy, vz}, s{s} {}
+        constexpr qua_base(T vx, T vy, T vz, T s): v{vx, vy, vz}, s{s} {}
+        constexpr qua_base(const vec<T, 3>& v, T s): v{v}, s{s} {}
+        constexpr explicit qua_base(const vec<T, 4>& vs): v{vs[0], vs[1], vs[2]}, s{vs[3]} {}
 
-        constexpr qua_base(const vec<T, 3>& v, T s)
-        : v{v}, s{s} {}
+        template < typename A, std::enable_if_t<std::is_convertible_v<A, T>, int> = 0 >
+        constexpr qua_base(const qua_base<A>& other): qua_base(other.v, other.s) {}
 
-        constexpr explicit qua_base(const vec<T, 4>& vs)
-        : v{vs[0], vs[1], vs[2]}, s{vs[3]} {}
-
-        constexpr explicit operator vec<T, 4>() const {
-            return {v, s};
-        }
+        template < typename A, std::enable_if_t<std::is_convertible_v<T, A>, int> = 0 >
+        constexpr explicit operator vec<A, 4>() const { return vec<A, 4>(v, s); }
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {

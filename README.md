@@ -425,9 +425,10 @@ public:
 
     qua_base(T vx, T vy, T vz, T s);
     qua_base(const vec<T, 3>& v, T s);
-
     explicit qua_base(const vec<T, 4>& vs);
-    explicit operator vec<T, 4>() const;
+
+    template < typename A > qua_base(const qua_base<A, 4>& other);
+    template < typename A > explicit operator vec<A, 4>() const;
 };
 
 template < typename T >
