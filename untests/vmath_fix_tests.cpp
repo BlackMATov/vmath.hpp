@@ -383,8 +383,6 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template fix4x4f translate(fix<float> x, fix<float> y, fix<float> z);
-    template fix4x4f translate(const fix4x4f&, fix<float>, fix<float>, fix<float>);
     template fix4x4f translate(const fix3f&);
     template fix4x4f translate(const fix4x4f&, const fix3f&);
 
@@ -420,8 +418,6 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
-    template fix3x3f translate(fix<float>, fix<float>);
-    template fix3x3f translate(const fix3x3f&, fix<float>, fix<float>);
     template fix3x3f translate(const fix2f&);
     template fix3x3f translate(const fix3x3f&, const fix2f&);
 

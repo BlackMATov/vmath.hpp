@@ -1800,12 +1800,6 @@ qua<T> imag(qua<T> q, const vec<T, 3>& imag);
 
 ```cpp
 template < typename T >
-mat<T, 4> translate(T x, T y, T z);
-
-template < typename T >
-mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z);
-
-template < typename T >
 mat<T, 4> translate(const vec<T, 3>& v);
 
 template < typename T >
@@ -1869,12 +1863,6 @@ mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>&
 ### Matrix Transform 2D
 
 ```cpp
-template < typename T >
-mat<T, 3> translate(T x, T y);
-
-template < typename T >
-mat<T, 3> translate(const mat<T, 3>& m, T x, T y);
-
 template < typename T >
 mat<T, 3> translate(const vec<T, 2>& v);
 

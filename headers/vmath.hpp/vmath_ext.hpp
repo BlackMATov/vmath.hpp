@@ -233,7 +233,7 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> translate(T x, T y, T z) {
+    [[nodiscard]] constexpr mat<T, 4> translate(const vec<T, 3>& v) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Translation_(geometry)
 
@@ -241,17 +241,7 @@ namespace vmath_hpp
             { T{1}, T{0}, T{0}, T{0} },
             { T{0}, T{1}, T{0}, T{0} },
             { T{0}, T{0}, T{1}, T{0} },
-            {   x,    y,    z,  T{1} }};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z) {
-        return m * translate(x, y, z);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> translate(const vec<T, 3>& v) {
-        return translate(v.x, v.y, v.z);
+            { v.x,  v.y,  v.z,  T{1} }};
     }
 
     template < typename T >
@@ -519,24 +509,14 @@ namespace vmath_hpp
     // translate
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> translate(T x, T y) {
+    [[nodiscard]] constexpr mat<T, 3> translate(const vec<T, 2>& v) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Translation_(geometry)
 
         return {
             { T{1}, T{0}, T{0} },
             { T{0}, T{1}, T{0} },
-            {   x,    y,  T{1} }};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> translate(const mat<T, 3>& m, T x, T y) {
-        return m * translate(x, y);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> translate(const vec<T, 2>& v) {
-        return translate(v.x, v.y);
+            { v.x,  v.y,  T{1} }};
     }
 
     template < typename T >
