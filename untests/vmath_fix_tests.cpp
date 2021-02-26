@@ -942,42 +942,42 @@ TEST_CASE("vmath/fix_units") {
         STATIC_CHECK(unit4_w<fix<float>> == fix4f{fix(0.f),fix(0.f),fix(0.f),fix(1.f)});
     }
     {
-        STATIC_CHECK(zero2x2<fix<float>> == fix2x2f{
+        STATIC_CHECK(mzero2<fix<float>> == fix2x2f{
             fix(0.f),fix(0.f),
             fix(0.f),fix(0.f)});
-        STATIC_CHECK(zero3x3<fix<float>> == fix3x3f{
+        STATIC_CHECK(mzero3<fix<float>> == fix3x3f{
             fix(0.f),fix(0.f),fix(0.f),
             fix(0.f),fix(0.f),fix(0.f),
             fix(0.f),fix(0.f),fix(0.f)});
-        STATIC_CHECK(zero4x4<fix<float>> == fix4x4f{
+        STATIC_CHECK(mzero4<fix<float>> == fix4x4f{
             fix(0.f),fix(0.f),fix(0.f),fix(0.f),
             fix(0.f),fix(0.f),fix(0.f),fix(0.f),
             fix(0.f),fix(0.f),fix(0.f),fix(0.f),
             fix(0.f),fix(0.f),fix(0.f),fix(0.f)});
     }
     {
-        STATIC_CHECK(unit2x2<fix<float>> == fix2x2f{
+        STATIC_CHECK(munit2<fix<float>> == fix2x2f{
             fix(1.f),fix(1.f),
             fix(1.f),fix(1.f)});
-        STATIC_CHECK(unit3x3<fix<float>> == fix3x3f{
+        STATIC_CHECK(munit3<fix<float>> == fix3x3f{
             fix(1.f),fix(1.f),fix(1.f),
             fix(1.f),fix(1.f),fix(1.f),
             fix(1.f),fix(1.f),fix(1.f)});
-        STATIC_CHECK(unit4x4<fix<float>> == fix4x4f{
+        STATIC_CHECK(munit4<fix<float>> == fix4x4f{
             fix(1.f),fix(1.f),fix(1.f),fix(1.f),
             fix(1.f),fix(1.f),fix(1.f),fix(1.f),
             fix(1.f),fix(1.f),fix(1.f),fix(1.f),
             fix(1.f),fix(1.f),fix(1.f),fix(1.f)});
     }
     {
-        STATIC_CHECK(identity2x2<fix<float>> == fix2x2f{
+        STATIC_CHECK(midentity2<fix<float>> == fix2x2f{
             fix(1.f),fix(0.f),
             fix(0.f),fix(1.f)});
-        STATIC_CHECK(identity3x3<fix<float>> == fix3x3f{
+        STATIC_CHECK(midentity3<fix<float>> == fix3x3f{
             fix(1.f),fix(0.f),fix(0.f),
             fix(0.f),fix(1.f),fix(0.f),
             fix(0.f),fix(0.f),fix(1.f)});
-        STATIC_CHECK(identity4x4<fix<float>> == fix4x4f{
+        STATIC_CHECK(midentity4<fix<float>> == fix4x4f{
             fix(1.f),fix(0.f),fix(0.f),fix(0.f),
             fix(0.f),fix(1.f),fix(0.f),fix(0.f),
             fix(0.f),fix(0.f),fix(1.f),fix(0.f),

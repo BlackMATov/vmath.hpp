@@ -1730,17 +1730,17 @@ template < typename T > inline vec<T, 4> unit4_y;
 template < typename T > inline vec<T, 4> unit4_z;
 template < typename T > inline vec<T, 4> unit4_w;
 
-template < typename T > inline mat<T, 2> zero2x2;
-template < typename T > inline mat<T, 3> zero3x3;
-template < typename T > inline mat<T, 4> zero4x4;
+template < typename T > inline mat<T, 2> mzero2;
+template < typename T > inline mat<T, 3> mzero3;
+template < typename T > inline mat<T, 4> mzero4;
 
-template < typename T > inline mat<T, 2> unit2x2;
-template < typename T > inline mat<T, 3> unit3x3;
-template < typename T > inline mat<T, 4> unit4x4;
+template < typename T > inline mat<T, 2> munit2;
+template < typename T > inline mat<T, 3> munit3;
+template < typename T > inline mat<T, 4> munit4;
 
-template < typename T > inline mat<T, 2> identity2x2;
-template < typename T > inline mat<T, 3> identity3x3;
-template < typename T > inline mat<T, 4> identity4x4;
+template < typename T > inline mat<T, 2> midentity2;
+template < typename T > inline mat<T, 3> midentity3;
+template < typename T > inline mat<T, 4> midentity4;
 
 template < typename T > inline qua<T> qzero;
 template < typename T > inline qua<T> qidentity;

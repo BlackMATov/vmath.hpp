@@ -39,17 +39,17 @@ namespace vmath_hpp
     template < typename T > inline constexpr vec<T, 4> unit4_z{T{0}, T{0}, T{1}, T{0}};
     template < typename T > inline constexpr vec<T, 4> unit4_w{T{0}, T{0}, T{0}, T{1}};
 
-    template < typename T > inline constexpr mat<T, 2> zero2x2{zero_init};
-    template < typename T > inline constexpr mat<T, 3> zero3x3{zero_init};
-    template < typename T > inline constexpr mat<T, 4> zero4x4{zero_init};
+    template < typename T > inline constexpr mat<T, 2> mzero2{zero_init};
+    template < typename T > inline constexpr mat<T, 3> mzero3{zero_init};
+    template < typename T > inline constexpr mat<T, 4> mzero4{zero_init};
 
-    template < typename T > inline constexpr mat<T, 2> unit2x2{unit_init};
-    template < typename T > inline constexpr mat<T, 3> unit3x3{unit_init};
-    template < typename T > inline constexpr mat<T, 4> unit4x4{unit_init};
+    template < typename T > inline constexpr mat<T, 2> munit2{unit_init};
+    template < typename T > inline constexpr mat<T, 3> munit3{unit_init};
+    template < typename T > inline constexpr mat<T, 4> munit4{unit_init};
 
-    template < typename T > inline constexpr mat<T, 2> identity2x2{identity_init};
-    template < typename T > inline constexpr mat<T, 3> identity3x3{identity_init};
-    template < typename T > inline constexpr mat<T, 4> identity4x4{identity_init};
+    template < typename T > inline constexpr mat<T, 2> midentity2{identity_init};
+    template < typename T > inline constexpr mat<T, 3> midentity3{identity_init};
+    template < typename T > inline constexpr mat<T, 4> midentity4{identity_init};
 
     template < typename T > inline constexpr qua<T> qzero{zero_init};
     template < typename T > inline constexpr qua<T> qidentity{identity_init};

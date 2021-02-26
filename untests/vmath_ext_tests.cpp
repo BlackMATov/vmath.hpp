@@ -41,17 +41,17 @@ TEST_CASE("vmath/ext/units") {
     STATIC_CHECK(unit4_z<int> == ivec4(0,0,1,0));
     STATIC_CHECK(unit4_w<int> == ivec4(0,0,0,1));
 
-    STATIC_CHECK(zero2x2<int> == imat2(0,0,0,0));
-    STATIC_CHECK(zero3x3<int> == imat3(0,0,0,0,0,0,0,0,0));
-    STATIC_CHECK(zero4x4<int> == imat4(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
+    STATIC_CHECK(mzero2<int> == imat2(0,0,0,0));
+    STATIC_CHECK(mzero3<int> == imat3(0,0,0,0,0,0,0,0,0));
+    STATIC_CHECK(mzero4<int> == imat4(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0));
 
-    STATIC_CHECK(unit2x2<int> == imat2(1,1,1,1));
-    STATIC_CHECK(unit3x3<int> == imat3(1,1,1,1,1,1,1,1,1));
-    STATIC_CHECK(unit4x4<int> == imat4(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));
+    STATIC_CHECK(munit2<int> == imat2(1,1,1,1));
+    STATIC_CHECK(munit3<int> == imat3(1,1,1,1,1,1,1,1,1));
+    STATIC_CHECK(munit4<int> == imat4(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));
 
-    STATIC_CHECK(identity2x2<int> == imat2());
-    STATIC_CHECK(identity3x3<int> == imat3());
-    STATIC_CHECK(identity4x4<int> == imat4());
+    STATIC_CHECK(midentity2<int> == imat2());
+    STATIC_CHECK(midentity3<int> == imat3());
+    STATIC_CHECK(midentity4<int> == imat4());
 
     STATIC_CHECK(qzero<float> == fqua(zero_init));
     STATIC_CHECK(qidentity<float> == fqua(identity_init));
