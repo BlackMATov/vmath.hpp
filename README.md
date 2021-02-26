@@ -1876,6 +1876,12 @@ template < typename T >
 mat<T, 2> rotate(const mat<T, 2>& m, T angle);
 
 template < typename T >
+mat<T, 3> rotate3(T angle);
+
+template < typename T >
+mat<T, 3> rotate3(const mat<T, 3>& m, T angle);
+
+template < typename T >
 mat<T, 2> scale(const vec<T, 2>& v);
 
 template < typename T >
@@ -1888,16 +1894,16 @@ template < typename T >
 mat<T, 3> scale3(const mat<T, 3>& m, const vec<T, 2>& v);
 
 template < typename T >
-mat<T, 2> shear(T x, T y);
-
-template < typename T >
-mat<T, 2> shear(const mat<T, 2>& m, T x, T y);
-
-template < typename T >
 mat<T, 2> shear(const vec<T, 2>& v);
 
 template < typename T >
 mat<T, 2> shear(const mat<T, 2>& m, const vec<T, 2>& v);
+
+template < typename T >
+mat<T, 3> shear3(const vec<T, 2>& v);
+
+template < typename T >
+mat<T, 3> shear3(const mat<T, 3>& m, const vec<T, 2>& v);
 
 template < typename T >
 mat<T, 2> shear_x(T y);
@@ -1906,10 +1912,22 @@ template < typename T >
 mat<T, 2> shear_x(const mat<T, 2>& m, T y);
 
 template < typename T >
+mat<T, 3> shear3_x(T y);
+
+template < typename T >
+mat<T, 3> shear3_x(const mat<T, 3>& m, T y);
+
+template < typename T >
 mat<T, 2> shear_y(T x);
 
 template < typename T >
 mat<T, 2> shear_y(const mat<T, 2>& m, T x);
+
+template < typename T >
+mat<T, 3> shear3_y(T x);
+
+template < typename T >
+mat<T, 3> shear3_y(const mat<T, 3>& m, T x);
 ```
 
 ### Matrix Projections

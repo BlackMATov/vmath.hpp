@@ -423,22 +423,28 @@ namespace vmath_hpp
 
     template fix2x2f rotate(fix<float>);
     template fix2x2f rotate(const fix2x2f&, fix<float>);
+    template fix3x3f rotate3(fix<float>);
+    template fix3x3f rotate3(const fix3x3f&, fix<float>);
 
     template fix2x2f scale(const fix2f&);
     template fix2x2f scale(const fix2x2f&, const fix2f&);
     template fix3x3f scale3(const fix2f&);
     template fix3x3f scale3(const fix3x3f&, const fix2f&);
 
-    template fix2x2f shear(fix<float>, fix<float>);
-    template fix2x2f shear(const fix2x2f&, fix<float>, fix<float>);
     template fix2x2f shear(const fix2f&);
     template fix2x2f shear(const fix2x2f&, const fix2f&);
+    template fix3x3f shear3(const fix2f&);
+    template fix3x3f shear3(const fix3x3f&, const fix2f&);
 
     template fix2x2f shear_x(fix<float>);
     template fix2x2f shear_x(const fix2x2f&, fix<float>);
+    template fix3x3f shear3_x(fix<float>);
+    template fix3x3f shear3_x(const fix3x3f&, fix<float>);
 
     template fix2x2f shear_y(fix<float>);
     template fix2x2f shear_y(const fix2x2f&, fix<float>);
+    template fix3x3f shear3_y(fix<float>);
+    template fix3x3f shear3_y(const fix3x3f&, fix<float>);
 }
 
 //
