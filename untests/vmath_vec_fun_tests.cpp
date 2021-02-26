@@ -51,6 +51,20 @@ TEST_CASE("vmath/vec_fun") {
 
         {
             int2 v{1,2};
+            CHECK(&v == &(++v));
+            CHECK(v == int2{2,3});
+            CHECK(&v == &(--v));
+            CHECK(v == int2{1,2});
+        }
+        {
+            int2 v{1,2};
+            CHECK(v++ == int2{1,2});
+            CHECK(v == int2{2,3});
+            CHECK(v-- == int2{2,3});
+            CHECK(v == int2{1,2});
+        }
+        {
+            int2 v{1,2};
             CHECK(&v == &(v += 3));
             CHECK(v == int2{4,5});
             CHECK(&v == &(v += int2{1,2}));

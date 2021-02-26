@@ -508,6 +508,26 @@ auto operator~(const vec<T, Size>& xs);
 template < typename T, size_t Size >
 auto operator!(const vec<T, Size>& xs);
 
+// ++operator
+
+template < typename T, size_t Size >
+vec<T, Size>& operator++(vec<T, Size>& xs);
+
+// --operator
+
+template < typename T, size_t Size >
+vec<T, Size>& operator--(vec<T, Size>& xs);
+
+// operator++
+
+template < typename T, size_t Size >
+vec<T, Size> operator++(vec<T, Size>& xs, int);
+
+// operator--
+
+template < typename T, size_t Size >
+vec<T, Size> operator--(vec<T, Size>& xs, int);
+
 // operator+
 
 template < typename T, typename U, size_t Size >
@@ -701,6 +721,26 @@ auto operator~(const mat<T, Size>& xs);
 
 template < typename T, size_t Size >
 auto operator!(const mat<T, Size>& xs);
+
+// ++operator
+
+template < typename T, size_t Size >
+mat<T, Size>& operator++(mat<T, Size>& xs);
+
+// --operator
+
+template < typename T, size_t Size >
+mat<T, Size>& operator--(mat<T, Size>& xs);
+
+// operator++
+
+template < typename T, size_t Size >
+mat<T, Size> operator++(mat<T, Size>& xs, int);
+
+// operator--
+
+template < typename T, size_t Size >
+mat<T, Size> operator--(mat<T, Size>& xs, int);
 
 // operator+
 

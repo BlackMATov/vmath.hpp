@@ -74,6 +74,20 @@ TEST_CASE("vmath/mat_fun") {
 
         {
             int2x2 v{1,2,3,4};
+            CHECK(&v == &(++v));
+            CHECK(v == int2x2{2,3,4,5});
+            CHECK(&v == &(--v));
+            CHECK(v == int2x2{1,2,3,4});
+        }
+        {
+            int2x2 v{1,2,3,4};
+            CHECK(v++ == int2x2{1,2,3,4});
+            CHECK(v == int2x2{2,3,4,5});
+            CHECK(v-- == int2x2{2,3,4,5});
+            CHECK(v == int2x2{1,2,3,4});
+        }
+        {
+            int2x2 v{1,2,3,4};
             CHECK(&v == &(v += 3));
             CHECK(v == int2x2{4,5,6,7});
             CHECK(&v == &(v += int2x2{1,2,3,4}));

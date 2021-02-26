@@ -238,6 +238,38 @@ namespace vmath_hpp
         return map_join([](T x){ return !x; }, xs);
     }
 
+    // ++operator
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator++(vec<T, Size>& xs) {
+        return (xs = xs + T{1});
+    }
+
+    // --operator
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator--(vec<T, Size>& xs) {
+        return (xs = xs - T{1});
+    }
+
+    // operator++
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size> operator++(vec<T, Size>& xs, int) {
+        vec<T, Size> ys = xs;
+        ++xs;
+        return ys;
+    }
+
+    // operator--
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size> operator--(vec<T, Size>& xs, int) {
+        vec<T, Size> ys = xs;
+        --xs;
+        return ys;
+    }
+
     // operator+
 
     template < typename T, typename U, std::size_t Size >
