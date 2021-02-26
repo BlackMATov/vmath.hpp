@@ -1842,16 +1842,16 @@ template < typename T >
 mat<T, 3> rotate_z(const mat<T, 3>& m, T angle);
 
 template < typename T >
-mat<T, 3> scale(T x, T y, T z);
-
-template < typename T >
-mat<T, 3> scale(const mat<T, 3>& m, T x, T y, T z);
-
-template < typename T >
 mat<T, 3> scale(const vec<T, 3>& v);
 
 template < typename T >
 mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 3>& v);
+
+template < typename T >
+mat<T, 4> scale4(const vec<T, 3>& v);
+
+template < typename T >
+mat<T, 4> scale4(const mat<T, 4>& m, const vec<T, 3>& v);
 
 template < typename T >
 mat<T, 3> look_at_lh(const vec<T, 3>& dir, const vec<T, 3>& up);
@@ -1888,16 +1888,16 @@ template < typename T >
 mat<T, 2> rotate(const mat<T, 2>& m, T angle);
 
 template < typename T >
-mat<T, 2> scale(T x, T y);
-
-template < typename T >
-mat<T, 2> scale(const mat<T, 2>& m, T x, T y);
-
-template < typename T >
 mat<T, 2> scale(const vec<T, 2>& v);
 
 template < typename T >
 mat<T, 2> scale(const mat<T, 2>& m, const vec<T, 2>& v);
+
+template < typename T >
+mat<T, 3> scale3(const vec<T, 2>& v);
+
+template < typename T >
+mat<T, 3> scale3(const mat<T, 3>& m, const vec<T, 2>& v);
 
 template < typename T >
 mat<T, 2> shear(T x, T y);

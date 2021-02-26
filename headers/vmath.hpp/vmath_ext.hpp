@@ -389,29 +389,38 @@ namespace vmath_hpp
     // scale
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(T x, T y, T z) {
+    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 3>& v) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Scaling_(geometry)
 
         return {
-            {   x,  T{0}, T{0} },
-            { T{0},   y,  T{0} },
-            { T{0}, T{0},   z  }};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y, T z) {
-        return m * scale(x, y, z);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 3>& v) {
-        return scale(v.x, v.y, v.z);
+            { v.x,  T{0}, T{0} },
+            { T{0}, v.y,  T{0} },
+            { T{0}, T{0}, v.z  }};
     }
 
     template < typename T >
     [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 3>& v) {
         return m * scale(v);
+    }
+
+    // scale4
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> scale4(const vec<T, 3>& v) {
+        /// REFERENCE:
+        /// https://en.wikipedia.org/wiki/Scaling_(geometry)
+
+        return {
+            { v.x,  T{0}, T{0}, T{0} },
+            { T{0}, v.y,  T{0}, T{0} },
+            { T{0}, T{0}, v.z,  T{0} },
+            { T{0}, T{0}, T{0}, T{1} }};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> scale4(const mat<T, 4>& m, const vec<T, 3>& v) {
+        return m * scale4(v);
     }
 
     // look_at
@@ -557,28 +566,36 @@ namespace vmath_hpp
     // scale
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> scale(T x, T y) {
+    [[nodiscard]] constexpr mat<T, 2> scale(const vec<T, 2>& v) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Scaling_(geometry)
 
         return {
-            {   x,  T{0} },
-            { T{0},   y  }};
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> scale(const mat<T, 2>& m, T x, T y) {
-        return m * scale(x, y);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> scale(const vec<T, 2>& v) {
-        return scale(v.x, v.y);
+            { v.x,  T{0} },
+            { T{0}, v.y  }};
     }
 
     template < typename T >
     [[nodiscard]] constexpr mat<T, 2> scale(const mat<T, 2>& m, const vec<T, 2>& v) {
         return m * scale(v);
+    }
+
+    // scale3
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> scale3(const vec<T, 2>& v) {
+        /// REFERENCE:
+        /// https://en.wikipedia.org/wiki/Scaling_(geometry)
+
+        return {
+            { v.x,  T{0}, T{0} },
+            { T{0}, v.y,  T{0} },
+            { T{0}, T{0}, T{1} }};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> scale3(const mat<T, 3>& m, const vec<T, 2>& v) {
+        return m * scale3(v);
     }
 
     // shear

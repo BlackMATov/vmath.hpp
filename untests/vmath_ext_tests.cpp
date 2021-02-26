@@ -227,51 +227,57 @@ TEST_CASE("vmath/ext/matrix_transform") {
     }
 
     SUBCASE("rotate") {
-        CHECK(fvec4(0.f,1.f,0.f,1.f) * rotate_x(pi_2) == uapprox4(0.f,0.f,1.f,1.f));
-        CHECK(fvec4(0.f,0.f,1.f,1.f) * rotate_y(pi_2) == uapprox4(1.f,0.f,0.f,1.f));
-        CHECK(fvec4(1.f,0.f,0.f,1.f) * rotate_z(pi_2) == uapprox4(0.f,1.f,0.f,1.f));
+        CHECK(fvec3(0.f,1.f,0.f) * rotate_x(pi_2) == uapprox3(0.f,0.f,1.f));
+        CHECK(fvec3(0.f,0.f,1.f) * rotate_y(pi_2) == uapprox3(1.f,0.f,0.f));
+        CHECK(fvec3(1.f,0.f,0.f) * rotate_z(pi_2) == uapprox3(0.f,1.f,0.f));
 
-        CHECK(fvec4(0.f,1.f,0.f,1.f) * rotate_x(rotate_x(pi_4),pi_4) == uapprox4(0.f,0.f,1.f,1.f));
-        CHECK(fvec4(0.f,0.f,1.f,1.f) * rotate_y(rotate_y(pi_4),pi_4) == uapprox4(1.f,0.f,0.f,1.f));
-        CHECK(fvec4(1.f,0.f,0.f,1.f) * rotate_z(rotate_z(pi_4),pi_4) == uapprox4(0.f,1.f,0.f,1.f));
+        CHECK(fvec3(0.f,1.f,0.f) * rotate_x(rotate_x(pi_4),pi_4) == uapprox3(0.f,0.f,1.f));
+        CHECK(fvec3(0.f,0.f,1.f) * rotate_y(rotate_y(pi_4),pi_4) == uapprox3(1.f,0.f,0.f));
+        CHECK(fvec3(1.f,0.f,0.f) * rotate_z(rotate_z(pi_4),pi_4) == uapprox3(0.f,1.f,0.f));
 
-        CHECK(fvec3(2.f,3.f,1.f) * rotate(pi) == uapprox3(-2.f,-3.f,1.f));
-        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate(pi,{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
-        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate(pi,fvec3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
-        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate(qrotate(pi,fvec3{0.f,0.f,1.f})) == uapprox4(-2.f,-3.f,4.f,1.f));
+        CHECK(fvec2(2.f,3.f) * rotate(pi) == uapprox2(-2.f,-3.f));
+        CHECK(fvec3(2.f,3.f,4.f) * rotate(pi,{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
+        CHECK(fvec3(2.f,3.f,4.f) * rotate(pi,fvec3{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
+        CHECK(fvec3(2.f,3.f,4.f) * rotate(qrotate(pi,fvec3{0.f,0.f,1.f})) == uapprox3(-2.f,-3.f,4.f));
 
-        CHECK(fvec3(2.f,3.f,1.f) * rotate(rotate(pi_2),pi_2) == uapprox3(-2.f,-3.f,1.f));
-        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
-        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate(rotate(pi_2,fvec3{0.f,0.f,1.f}),pi_2,fvec3{0.f,0.f,1.f}) == uapprox4(-2.f,-3.f,4.f,1.f));
-        CHECK(fvec4(2.f,3.f,4.f,1.f) * rotate(rotate(qrotate(pi_2,fvec3{0.f,0.f,1.f})),qrotate(pi_2,fvec3{0.f,0.f,1.f})) == uapprox4(-2.f,-3.f,4.f,1.f));
+        CHECK(fvec2(2.f,3.f) * rotate(rotate(pi_2),pi_2) == uapprox2(-2.f,-3.f));
+        CHECK(fvec3(2.f,3.f,4.f) * rotate(rotate(pi_2,{0.f,0.f,1.f}),pi_2,{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
+        CHECK(fvec3(2.f,3.f,4.f) * rotate(rotate(pi_2,fvec3{0.f,0.f,1.f}),pi_2,fvec3{0.f,0.f,1.f}) == uapprox3(-2.f,-3.f,4.f));
+        CHECK(fvec3(2.f,3.f,4.f) * rotate(rotate(qrotate(pi_2,fvec3{0.f,0.f,1.f})),qrotate(pi_2,fvec3{0.f,0.f,1.f})) == uapprox3(-2.f,-3.f,4.f));
     }
 
-    SUBCASE("scale") {
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * scale(fvec2{2.f,3.f}) == uapprox3(4.f,9.f,1.f));
-        STATIC_CHECK(fvec4(2.f,3.f,4.f,1.f) * scale(fvec3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
-        STATIC_CHECK(fvec4(2.f,3.f,4.f,1.f) * scale(fvec3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
+    SUBCASE("scale2d") {
+        STATIC_CHECK(fvec2(2.f,3.f) * scale(fvec2{2.f,3.f}) == uapprox2(4.f,9.f));
+        STATIC_CHECK(fvec3(2.f,3.f,1.f) * scale3(fvec2{2.f,3.f}) == uapprox3(4.f,9.f,1.f));
 
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * scale(scale(fvec2{2.f,2.f}), {2.f,3.f}) == uapprox3(8.f,18.f,1.f));
-        STATIC_CHECK(fvec4(2.f,3.f,4.f,1.f) * scale(scale(fvec3{2.f,2.f,2.f}), {2.f,3.f,4.f}) == uapprox4(8.f,18.f,32.f,1.f));
-        STATIC_CHECK(fvec4(2.f,3.f,4.f,1.f) * scale(scale(fvec3{2.f,2.f,2.f}), fvec3{2.f,3.f,4.f}) == uapprox4(8.f,18.f,32.f,1.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * scale(scale(fvec2{2.f,2.f}), fvec2{2.f,3.f}) == uapprox2(8.f,18.f));
+        STATIC_CHECK(fvec3(2.f,3.f,1.f) * scale3(scale3(fvec2{2.f,2.f}), fvec2{2.f,3.f}) == uapprox3(8.f,18.f,1.f));
+    }
+
+    SUBCASE("scale3d") {
+        STATIC_CHECK(fvec3(2.f,3.f,4.f) * scale(fvec3{2.f,3.f,4.f}) == uapprox3(4.f,9.f,16.f));
+        STATIC_CHECK(fvec4(2.f,3.f,4.f,1.f) * scale4(fvec3{2.f,3.f,4.f}) == uapprox4(4.f,9.f,16.f,1.f));
+
+        STATIC_CHECK(fvec3(2.f,3.f,4.f) * scale(scale(fvec3{2.f,2.f,2.f}), fvec3{2.f,3.f,4.f}) == uapprox3(8.f,18.f,32.f));
+        STATIC_CHECK(fvec4(2.f,3.f,4.f,1.f) * scale4(scale4(fvec3{2.f,2.f,2.f}), fvec3{2.f,3.f,4.f}) == uapprox4(8.f,18.f,32.f,1.f));
     }
 
     SUBCASE("shear") {
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear_x(0.f) == uapprox3(2.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear_x(1.f) == uapprox3(5.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear_x(2.f) == uapprox3(8.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear_x(shear_x(1.f),1.f) == uapprox3(8.f,3.f,1.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear_x(0.f) == uapprox2(2.f,3.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear_x(1.f) == uapprox2(5.f,3.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear_x(2.f) == uapprox2(8.f,3.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear_x(shear_x(1.f),1.f) == uapprox2(8.f,3.f));
 
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear_y(0.f) == uapprox3(2.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear_y(1.f) == uapprox3(2.f,5.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear_y(2.f) == uapprox3(2.f,7.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear_y(shear_y(1.f),1.f) == uapprox3(2.f,7.f,1.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear_y(0.f) == uapprox2(2.f,3.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear_y(1.f) == uapprox2(2.f,5.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear_y(2.f) == uapprox2(2.f,7.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear_y(shear_y(1.f),1.f) == uapprox2(2.f,7.f));
 
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear(fvec2(0.f,0.f)) == uapprox3(2.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear(fvec2(2.f,0.f)) == uapprox3(8.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear(fvec2(0.f,2.f)) == uapprox3(2.f,7.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear(shear(fvec2(1.f,0.f)),fvec2(1.f,0.f)) == uapprox3(8.f,3.f,1.f));
-        STATIC_CHECK(fvec3(2.f,3.f,1.f) * shear(shear(fvec2(0.f,1.f)),fvec2(0.f,1.f)) == uapprox3(2.f,7.f,1.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear(fvec2(0.f,0.f)) == uapprox2(2.f,3.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear(fvec2(2.f,0.f)) == uapprox2(8.f,3.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear(fvec2(0.f,2.f)) == uapprox2(2.f,7.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear(shear(fvec2(1.f,0.f)),fvec2(1.f,0.f)) == uapprox2(8.f,3.f));
+        STATIC_CHECK(fvec2(2.f,3.f) * shear(shear(fvec2(0.f,1.f)),fvec2(0.f,1.f)) == uapprox2(2.f,7.f));
     }
 
     SUBCASE("matrix look_at") {
@@ -284,26 +290,26 @@ TEST_CASE("vmath/ext/matrix_projections") {
     SUBCASE("orthographic") {
         CHECK(all(approx(
             orthographic_lh(800.f, 600.f, 5.f, 10.f),
-            scale(1.f,1.f,-1.f) * orthographic_rh(800.f, 600.f, 5.f, 10.f))));
+            scale4(vec{1.f,1.f,-1.f}) * orthographic_rh(800.f, 600.f, 5.f, 10.f))));
 
         CHECK(all(approx(
             orthographic_lh(100.f, 800.f, 50.f, 640.f, 5.f, 10.f),
-            scale(1.f,1.f,-1.f) * orthographic_rh(100.f, 800.f, 50.f, 640.f, 5.f, 10.f))));
+            scale4(vec{1.f,1.f,-1.f}) * orthographic_rh(100.f, 800.f, 50.f, 640.f, 5.f, 10.f))));
     }
 
 
     SUBCASE("perspective") {
         CHECK(all(approx(
             perspective_lh(800.f, 600.f, 5.f, 10.f),
-            scale(1.f,1.f,-1.f) * perspective_rh(800.f, 600.f, 5.f, 10.f))));
+            scale4(vec{1.f,1.f,-1.f}) * perspective_rh(800.f, 600.f, 5.f, 10.f))));
 
         CHECK(all(approx(
             perspective_fov_lh(1.5f, 1.3f, 0.f, 10.f),
-            scale(1.f,1.f,-1.f) * perspective_fov_rh(1.5f, 1.3f, 0.f, 10.f))));
+            scale4(vec{1.f,1.f,-1.f}) * perspective_fov_rh(1.5f, 1.3f, 0.f, 10.f))));
 
         CHECK(all(approx(
             perspective_lh(100.f, 800.f, 50.f, 600.f, 5.f, 10.f),
-            scale(1.f,1.f,-1.f) * perspective_rh(100.f, 800.f, 50.f, 600.f, 5.f, 10.f))));
+            scale4(vec{1.f,1.f,-1.f}) * perspective_rh(100.f, 800.f, 50.f, 600.f, 5.f, 10.f))));
     }
 }
 
@@ -343,24 +349,24 @@ TEST_CASE("vmath/ext/vector_transform") {
 TEST_CASE("vmath/ext/quaternion_transform") {
     SUBCASE("qrotate(m)") {
         CHECK(all(approx(
-            vec{4.f,3.f,2.f,1.f} * rotate(qrotate(fmat3(rotate(0.f, vec{1.f,2.f,3.f})))),
-            vec{4.f,3.f,2.f,1.f} * rotate(0.f, vec{1.f,2.f,3.f}), 0.001f)));
+            vec{4.f,3.f,2.f} * rotate(qrotate(rotate(0.f, vec{1.f,2.f,3.f}))),
+            vec{4.f,3.f,2.f} * rotate(0.f, vec{1.f,2.f,3.f}), 0.001f)));
         CHECK(all(approx(
-            vec{4.f,3.f,2.f,1.f} * rotate(qrotate(fmat3(rotate(radians(12.5f), vec{1.f,2.f,3.f})))),
-            vec{4.f,3.f,2.f,1.f} * rotate(radians(12.5f), vec{1.f,2.f,3.f}), 0.001f)));
+            vec{4.f,3.f,2.f} * rotate(qrotate(rotate(radians(12.5f), vec{1.f,2.f,3.f}))),
+            vec{4.f,3.f,2.f} * rotate(radians(12.5f), vec{1.f,2.f,3.f}), 0.001f)));
         CHECK(all(approx(
-            vec{4.f,3.f,2.f,1.f} * rotate(qrotate(fmat3(rotate(radians(-190.5f), vec{1.f,2.f,3.f})))),
-            vec{4.f,3.f,2.f,1.f} * rotate(radians(-190.5f), vec{1.f,2.f,3.f}), 0.001f)));
+            vec{4.f,3.f,2.f} * rotate(qrotate(rotate(radians(-190.5f), vec{1.f,2.f,3.f}))),
+            vec{4.f,3.f,2.f} * rotate(radians(-190.5f), vec{1.f,2.f,3.f}), 0.001f)));
     }
 
     SUBCASE("qrotate(q, m)") {
         CHECK(all(approx(
             vec{4.f,3.f,2.f} * qrotate(
-                qrotate(fmat3(rotate(0.f, vec{1.f,2.f,3.f}))),
-                fmat3(rotate(0.f, vec{3.f,2.f,1.f}))),
+                qrotate(rotate(0.f, vec{1.f,2.f,3.f})),
+                rotate(0.f, vec{3.f,2.f,1.f})),
             vec{4.f,3.f,2.f} *
-                fmat3(rotate(0.f, vec{1.f,2.f,3.f})) *
-                fmat3(rotate(0.f, vec{3.f,2.f,1.f})))));
+                rotate(0.f, vec{1.f,2.f,3.f}) *
+                rotate(0.f, vec{3.f,2.f,1.f}))));
     }
 
     SUBCASE("qrotate(from, to)") {
