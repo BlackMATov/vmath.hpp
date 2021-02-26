@@ -238,10 +238,10 @@ namespace vmath_hpp
         /// https://en.wikipedia.org/wiki/Translation_(geometry)
 
         return {
-            {T{1}, T{0}, T{0}, T{0}},
-            {T{0}, T{1}, T{0}, T{0}},
-            {T{0}, T{0}, T{1}, T{0}},
-            {  x,    y,    z,  T{1}}};
+            { T{1}, T{0}, T{0}, T{0} },
+            { T{0}, T{1}, T{0}, T{0} },
+            { T{0}, T{0}, T{1}, T{0} },
+            {   x,    y,    z,  T{1} }};
     }
 
     template < typename T >
@@ -262,7 +262,7 @@ namespace vmath_hpp
     // rotate
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate(const qua<T>& q) {
+    [[nodiscard]] constexpr mat<T, 3> rotate(const qua<T>& q) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/
 
@@ -285,19 +285,18 @@ namespace vmath_hpp
         const T zz2 = qv.z * z2;
 
         return {
-            T{1} - (yy2 + zz2), (xy2 + sz2),        (xz2 - sy2),        T{0},
-            (xy2 - sz2),        T{1} - (xx2 + zz2), (yz2 + sx2),        T{0},
-            (xz2 + sy2),        (yz2 - sx2),        T{1} - (xx2 + yy2), T{0},
-            T{0},               T{0},               T{0},               T{1}};
+            { T{1} - (yy2 + zz2), (xy2 + sz2),        (xz2 - sy2)        },
+            { (xy2 - sz2),        T{1} - (xx2 + zz2), (yz2 + sx2)        },
+            { (xz2 + sy2),        (yz2 - sx2),        T{1} - (xx2 + yy2) }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate(const mat<T, 4>& m, const qua<T>& q) {
+    [[nodiscard]] constexpr mat<T, 3> rotate(const mat<T, 3>& m, const qua<T>& q) {
         return m * rotate(q);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate(T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] constexpr mat<T, 3> rotate(T angle, const vec<T, 3>& axis) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
 
@@ -323,107 +322,124 @@ namespace vmath_hpp
         const T yzm = y * z * ic;
 
         return {
-            xxm + c,  xym + zs, xzm - ys, T{0},
-            xym - zs, yym + c,  yzm + xs, T{0},
-            xzm + ys, yzm - xs, zzm + c,  T{0},
-            T{0},     T{0},     T{0},     T{1}};
+            { xxm + c,  xym + zs, xzm - ys },
+            { xym - zs, yym + c,  yzm + xs },
+            { xzm + ys, yzm - xs, zzm + c  }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis) {
+    [[nodiscard]] constexpr mat<T, 3> rotate(const mat<T, 3>& m, T angle, const vec<T, 3>& axis) {
         return m * rotate(angle, axis);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate_x(T angle) {
+    [[nodiscard]] constexpr mat<T, 3> rotate_x(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
 
         const auto [s, c] = sincos(angle);
 
         return {
-            T{1},  T{0}, T{0}, T{0},
-            T{0},    c,    s,  T{0},
-            T{0},   -s,    c,  T{0},
-            T{0},  T{0}, T{0}, T{1}};
+            { T{1}, T{0}, T{0} },
+            { T{0},   c,    s  },
+            { T{0},  -s,    c  }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate_x(const mat<T, 4>& m, T angle) {
+    [[nodiscard]] constexpr mat<T, 3> rotate_x(const mat<T, 3>& m, T angle) {
         return m * rotate_x(angle);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate_y(T angle) {
+    [[nodiscard]] constexpr mat<T, 3> rotate_y(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
 
         const auto [s, c] = sincos(angle);
 
         return {
-              c,  T{0},   -s,  T{0},
-            T{0}, T{1},  T{0}, T{0},
-              s,  T{0},    c,  T{0},
-            T{0}, T{0},  T{0}, T{1}};
+            {   c,  T{0},  -s  },
+            { T{0}, T{1}, T{0} },
+            {   s,  T{0},   c  }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate_y(const mat<T, 4>& m, T angle) {
+    [[nodiscard]] constexpr mat<T, 3> rotate_y(const mat<T, 3>& m, T angle) {
         return m * rotate_y(angle);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate_z(T angle) {
+    [[nodiscard]] constexpr mat<T, 3> rotate_z(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
 
         const auto [s, c] = sincos(angle);
 
         return {
-              c,    s,  T{0}, T{0},
-             -s,    c,  T{0}, T{0},
-            T{0}, T{0}, T{1}, T{0},
-            T{0}, T{0}, T{0}, T{1}};
+            {   c,    s,  T{0} },
+            {  -s,    c,  T{0} },
+            { T{0}, T{0}, T{1} }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> rotate_z(const mat<T, 4>& m, T angle) {
+    [[nodiscard]] constexpr mat<T, 3> rotate_z(const mat<T, 3>& m, T angle) {
         return m * rotate_z(angle);
     }
 
     // scale
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> scale(T x, T y, T z) {
+    [[nodiscard]] constexpr mat<T, 3> scale(T x, T y, T z) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Scaling_(geometry)
 
         return {
-            {  x,  T{0}, T{0}, T{0}},
-            {T{0},   y,  T{0}, T{0}},
-            {T{0}, T{0},   z,  T{0}},
-            {T{0}, T{0}, T{0}, T{1}}};
+            {   x,  T{0}, T{0} },
+            { T{0},   y,  T{0} },
+            { T{0}, T{0},   z  }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z) {
+    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y, T z) {
         return m * scale(x, y, z);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> scale(const vec<T, 3>& v) {
+    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 3>& v) {
         return scale(v.x, v.y, v.z);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v) {
+    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 3>& v) {
         return m * scale(v);
     }
 
     // look_at
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+    [[nodiscard]] constexpr mat<T, 3> look_at_lh(
+        const vec<T, 3>& dir,
+        const vec<T, 3>& up)
+    {
+        /// REFERENCE:
+        /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
+
+        const vec az = normalize(dir);
+        const vec ax = normalize(cross(up, az));
+        const vec ay = cross(az, ax);
+
+        return {
+            { ax.x, ay.x, az.x },
+            { ax.y, ay.y, az.y },
+            { ax.z, ay.z, az.z }};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> look_at_lh(
+        const vec<T, 3>& eye,
+        const vec<T, 3>& at,
+        const vec<T, 3>& up)
+    {
         /// REFERENCE:
         /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
 
@@ -436,14 +452,36 @@ namespace vmath_hpp
         const T dz = dot(az, eye);
 
         return {
-            ax.x, ay.x, az.x, T{0},
-            ax.y, ay.y, az.y, T{0},
-            ax.z, ay.z, az.z, T{0},
-            -dx,  -dy,  -dz,  T{1}};
+            { ax.x, ay.x, az.x, T{0} },
+            { ax.y, ay.y, az.y, T{0} },
+            { ax.z, ay.z, az.z, T{0} },
+            { -dx,  -dy,  -dz,  T{1} }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up) {
+    [[nodiscard]] constexpr mat<T, 3> look_at_rh(
+        const vec<T, 3>& dir,
+        const vec<T, 3>& up)
+    {
+        /// REFERENCE:
+        /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
+
+        const vec az = normalize(-dir);
+        const vec ax = normalize(cross(up, az));
+        const vec ay = cross(az, ax);
+
+        return {
+            { ax.x, ay.x, az.x },
+            { ax.y, ay.y, az.y },
+            { ax.z, ay.z, az.z }};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> look_at_rh(
+        const vec<T, 3>& eye,
+        const vec<T, 3>& at,
+        const vec<T, 3>& up)
+    {
         /// REFERENCE:
         /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
 
@@ -456,10 +494,10 @@ namespace vmath_hpp
         const T dz = dot(az, eye);
 
         return {
-            ax.x, ay.x, az.x, T{0},
-            ax.y, ay.y, az.y, T{0},
-            ax.z, ay.z, az.z, T{0},
-            -dx,  -dy,  -dz,  T{1}};
+            { ax.x, ay.x, az.x, T{0} },
+            { ax.y, ay.y, az.y, T{0} },
+            { ax.z, ay.z, az.z, T{0} },
+            { -dx,  -dy,  -dz,  T{1} }};
     }
 }
 
@@ -477,9 +515,9 @@ namespace vmath_hpp
         /// https://en.wikipedia.org/wiki/Translation_(geometry)
 
         return {
-            {T{1}, T{0}, T{0}},
-            {T{0}, T{1}, T{0}},
-            {  x,    y,  T{1}}};
+            { T{1}, T{0}, T{0} },
+            { T{0}, T{1}, T{0} },
+            {   x,    y,  T{1} }};
     }
 
     template < typename T >
@@ -500,108 +538,103 @@ namespace vmath_hpp
     // rotate
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> rotate(T angle) {
+    [[nodiscard]] constexpr mat<T, 2> rotate(T angle) {
         /// REFERENCE:
         /// http://www.euclideanspace.com/maths/algebra/matrix/orthogonal/rotation/
 
         const auto [s, c] = sincos(angle);
 
         return {
-              c,    s,  T{0},
-             -s,    c,  T{0},
-            T{0}, T{0}, T{1}};
+            {  c, s },
+            { -s, c }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> rotate(const mat<T, 3>& m, T angle) {
+    [[nodiscard]] constexpr mat<T, 2> rotate(const mat<T, 2>& m, T angle) {
         return m * rotate(angle);
     }
 
     // scale
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(T x, T y) {
+    [[nodiscard]] constexpr mat<T, 2> scale(T x, T y) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Scaling_(geometry)
 
         return {
-            {  x,  T{0}, T{0}},
-            {T{0},   y,  T{0}},
-            {T{0}, T{0}, T{1}}};
+            {   x,  T{0} },
+            { T{0},   y  }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, T x, T y) {
+    [[nodiscard]] constexpr mat<T, 2> scale(const mat<T, 2>& m, T x, T y) {
         return m * scale(x, y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 2> scale(const vec<T, 2>& v) {
         return scale(v.x, v.y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 2> scale(const mat<T, 2>& m, const vec<T, 2>& v) {
         return m * scale(v);
     }
 
     // shear
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear(T x, T y) {
+    [[nodiscard]] constexpr mat<T, 2> shear(T x, T y) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Shear_matrix
 
         return {
-            {T{1},   y,  T{0}},
-            {  x,  T{1}, T{0}},
-            {T{0}, T{0}, T{1}}};
+            { T{1},   y  },
+            {   x,  T{1} }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear(const mat<T, 3>& m, T x, T y) {
+    [[nodiscard]] constexpr mat<T, 2> shear(const mat<T, 2>& m, T x, T y) {
         return m * shear(x, y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear(const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 2> shear(const vec<T, 2>& v) {
         return shear(v.x, v.y);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v) {
+    [[nodiscard]] constexpr mat<T, 2> shear(const mat<T, 2>& m, const vec<T, 2>& v) {
         return m * shear(v);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear_x(T x) {
+    [[nodiscard]] constexpr mat<T, 2> shear_x(T x) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Shear_matrix
 
         return {
-            {T{1}, T{0}, T{0}},
-            {  x,  T{1}, T{0}},
-            {T{0}, T{0}, T{1}}};
+            { T{1}, T{0} },
+            {   x,  T{1} }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear_x(const mat<T, 3>& m, T x) {
+    [[nodiscard]] constexpr mat<T, 2> shear_x(const mat<T, 2>& m, T x) {
         return m * shear_x(x);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear_y(T y) {
+    [[nodiscard]] constexpr mat<T, 2> shear_y(T y) {
         /// REFERENCE:
         /// https://en.wikipedia.org/wiki/Shear_matrix
 
         return {
-            {T{1},   y,  T{0}},
-            {T{0}, T{1}, T{0}},
-            {T{0}, T{0}, T{1}}};
+            { T{1},   y  },
+            { T{0}, T{1} }};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> shear_y(const mat<T, 3>& m, T y) {
+    [[nodiscard]] constexpr mat<T, 2> shear_y(const mat<T, 2>& m, T y) {
         return m * shear_y(y);
     }
 }
@@ -629,10 +662,10 @@ namespace vmath_hpp
         const T tz = -frange * znear;
 
         return {
-             sx,   T{0},  T{0},  T{0},
-            T{0},   sy,   T{0},  T{0},
-            T{0},  T{0},   sz,   T{0},
-            T{0},  T{0},   tz,   T{1}};
+            {  sx,   T{0},  T{0},  T{0} },
+            { T{0},   sy,   T{0},  T{0} },
+            { T{0},  T{0},   sz,   T{0} },
+            { T{0},  T{0},   tz,   T{1} }};
     }
 
     template < typename T >
@@ -650,10 +683,10 @@ namespace vmath_hpp
         const T tz = frange * znear;
 
         return {
-             sx,  T{0}, T{0}, T{0},
-            T{0},  sy,  T{0}, T{0},
-            T{0}, T{0},  sz,  T{0},
-            T{0}, T{0},  tz,  T{1}};
+            {  sx,  T{0}, T{0}, T{0} },
+            { T{0},  sy,  T{0}, T{0} },
+            { T{0}, T{0},  sz,  T{0} },
+            { T{0}, T{0},  tz,  T{1} }};
     }
 
     template < typename T >
@@ -666,10 +699,10 @@ namespace vmath_hpp
         const T frange = rcp(zfar - znear);
 
         return {
-            T{2} * rwidth,            T{0},                      T{0},            T{0},
-            T{0},                     T{2} * rheight,            T{0},            T{0},
-            T{0},                     T{0},                      frange,          T{0},
-            -(left + right) * rwidth, -(top + bottom) * rheight, -frange * znear, T{1}};
+            { T{2} * rwidth,            T{0},                      T{0},            T{0} },
+            { T{0},                     T{2} * rheight,            T{0},            T{0} },
+            { T{0},                     T{0},                      frange,          T{0} },
+            { -(left + right) * rwidth, -(top + bottom) * rheight, -frange * znear, T{1} }};
     }
 
     template < typename T >
@@ -682,10 +715,10 @@ namespace vmath_hpp
         const T frange = rcp(znear - zfar);
 
         return {
-            T{2} * rwidth,            T{0},                      T{0},           T{0},
-            T{0},                     T{2} * rheight,            T{0},           T{0},
-            T{0},                     T{0},                      frange,         T{0},
-            -(left + right) * rwidth, -(top + bottom) * rheight, frange * znear, T{1}};
+            { T{2} * rwidth,            T{0},                      T{0},           T{0} },
+            { T{0},                     T{2} * rheight,            T{0},           T{0} },
+            { T{0},                     T{0},                      frange,         T{0} },
+            { -(left + right) * rwidth, -(top + bottom) * rheight, frange * znear, T{1} }};
     }
 
     // perspective
@@ -701,10 +734,10 @@ namespace vmath_hpp
         const T tz = (znear * zfar) * rcp(znear - zfar);
 
         return {
-            T{sx}, T{0},  T{0},  T{0},
-            T{0},  T{sy}, T{0},  T{0},
-            T{0},  T{0},  T{sz}, T{1},
-            T{0},  T{0},  T{tz}, T{0}};
+            { T{sx}, T{0},  T{0},  T{0} },
+            { T{0},  T{sy}, T{0},  T{0} },
+            { T{0},  T{0},  T{sz}, T{1} },
+            { T{0},  T{0},  T{tz}, T{0} }};
     }
 
     template < typename T >
@@ -718,10 +751,10 @@ namespace vmath_hpp
         const T tz = (znear * zfar) * rcp(znear - zfar);
 
         return {
-             sx,  T{0}, T{0},  T{0},
-            T{0},  sy,  T{0},  T{0},
-            T{0}, T{0},  sz,  -T{1},
-            T{0}, T{0},  tz,   T{0}};
+            {  sx,  T{0}, T{0},  T{0} },
+            { T{0},  sy,  T{0},  T{0} },
+            { T{0}, T{0},  sz,  -T{1} },
+            { T{0}, T{0},  tz,   T{0} }};
     }
 
     template < typename T >
@@ -735,10 +768,10 @@ namespace vmath_hpp
         const T frange = zfar * rcp(zfar - znear);
 
         return {
-            znear2 * rwidth,          T{0},                      T{0},            T{0},
-            T{0},                     znear2 * rheight,          T{0},            T{0},
-            -(left + right) * rwidth, -(top + bottom) * rheight, frange,          T{1},
-            T{0},                     T{0},                      -frange * znear, T{0}};
+            { znear2 * rwidth,          T{0},                      T{0},            T{0} },
+            { T{0},                     znear2 * rheight,          T{0},            T{0} },
+            { -(left + right) * rwidth, -(top + bottom) * rheight, frange,          T{1} },
+            { T{0},                     T{0},                      -frange * znear, T{0} }};
     }
 
     template < typename T >
@@ -752,10 +785,10 @@ namespace vmath_hpp
         const T frange = zfar * rcp(znear - zfar);
 
         return {
-            znear2 * rwidth,         T{0},                     T{0},            T{0},
-            T{0},                    znear2 * rheight,         T{0},            T{0},
-            (left + right) * rwidth, (top + bottom) * rheight, frange,         -T{1},
-            T{0},                    T{0},                     frange * znear,  T{0}};
+            { znear2 * rwidth,         T{0},                     T{0},            T{0} },
+            { T{0},                    znear2 * rheight,         T{0},            T{0} },
+            { (left + right) * rwidth, (top + bottom) * rheight, frange,         -T{1} },
+            { T{0},                    T{0},                     frange * znear,  T{0} }};
     }
 
     template < typename T >
@@ -769,10 +802,10 @@ namespace vmath_hpp
         const T tz = (znear * zfar) * rcp(znear - zfar);
 
         return {
-             sx,  T{0}, T{0}, T{0},
-            T{0},  sy,  T{0}, T{0},
-            T{0}, T{0},  sz,  T{1},
-            T{0}, T{0},  tz,  T{0}};
+            {  sx,  T{0}, T{0}, T{0} },
+            { T{0},  sy,  T{0}, T{0} },
+            { T{0}, T{0},  sz,  T{1} },
+            { T{0}, T{0},  tz,  T{0} }};
     }
 
     template < typename T >
@@ -785,10 +818,10 @@ namespace vmath_hpp
         const T sz = zfar * rcp(znear - zfar);
         const T tz = (znear * zfar) * rcp(znear - zfar);
         return  {
-             sx,  T{0}, T{0},  T{0},
-            T{0},  sy,  T{0},  T{0},
-            T{0}, T{0},  sz,  -T{1},
-            T{0}, T{0},  tz,   T{0}};
+            {  sx,  T{0}, T{0},  T{0} },
+            { T{0},  sy,  T{0},  T{0} },
+            { T{0}, T{0},  sz,  -T{1} },
+            { T{0}, T{0},  tz,   T{0} }};
     }
 }
 
@@ -810,10 +843,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr vec<T, 2> rotate(const vec<T, 2>& v, T angle) {
-        const auto [s, c] = sincos(angle);
-        return {
-            v.x * c - v.y * s,
-            v.x * s + v.y * c};
+        return v * rotate(angle);
     }
 
     template < typename T >
@@ -974,31 +1004,11 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] constexpr qua<T> qlook_at_lh(const vec<T, 3>& dir, const vec<T, 3>& up) {
-        /// REFERENCE:
-        /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
-
-        const vec az = normalize(dir);
-        const vec ax = normalize(cross(up, az));
-        const vec ay = cross(az, ax);
-
-        return qrotate(mat{
-            ax.x, ay.x, az.x,
-            ax.y, ay.y, az.y,
-            ax.z, ay.z, az.z});
+        return qrotate(look_at_lh(dir, up));
     }
 
     template < typename T >
     [[nodiscard]] constexpr qua<T> qlook_at_rh(const vec<T, 3>& dir, const vec<T, 3>& up) {
-        /// REFERENCE:
-        /// https://www.euclideanspace.com/maths/algebra/vectors/lookat/
-
-        const vec az = normalize(-dir);
-        const vec ax = normalize(cross(up, az));
-        const vec ay = cross(az, ax);
-
-        return qrotate(mat{
-            ax.x, ay.x, az.x,
-            ax.y, ay.y, az.y,
-            ax.z, ay.z, az.z});
+        return qrotate(look_at_rh(dir, up));
     }
 }

@@ -309,7 +309,7 @@ TEST_CASE("vmath/mat_fun") {
 
         {
             const fvec3 axis2 = normalize(fvec3(1.f, 2.f, 3.f));
-            const fmat4 m2 = rotate(0.5f,axis2);
+            const fmat4 m2 = fmat4(rotate(0.5f,axis2));
             const fmat4 rm2 = inverse(m2);
             CHECK(all(approx(
                 unit4_z<float> * m2 * rm2,
