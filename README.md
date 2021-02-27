@@ -1769,19 +1769,25 @@ template < typename T, size_t Size >
 T component(const vec<T, Size>& v, size_t index);
 
 template < typename T, size_t Size >
-vec<T, Size> component(vec<T, Size> v, size_t index, T x);
+vec<T, Size> component(const vec<T, Size>& v, size_t index, T x);
 
 template < typename T, size_t Size >
 vec<T, Size> row(const mat<T, Size>& m, size_t index);
 
 template < typename T, size_t Size >
-mat<T, Size> row(mat<T, Size> m, size_t index, const vec<T, Size>& v);
+mat<T, Size> row(const mat<T, Size>& m, size_t index, const vec<T, Size>& v);
 
 template < typename T, size_t Size >
 vec<T, Size> column(const mat<T, Size>& m, size_t index);
 
 template < typename T, size_t Size >
 mat<T, Size> column(const mat<T, Size>& m, size_t index, const vec<T, Size>& v);
+
+template < typename T, size_t Size >
+vec<T, Size> diagonal(const mat<T, Size>& m);
+
+template < typename T, size_t Size >
+mat<T, Size> diagonal(const mat<T, Size>& m, const vec<T, Size>& diagonal);
 
 template < typename T >
 T real(const qua<T>& q);
