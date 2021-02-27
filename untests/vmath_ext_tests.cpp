@@ -218,6 +218,29 @@ TEST_CASE("vmath/ext/access") {
 }
 
 TEST_CASE("vmath/ext/matrix_transform") {
+    SUBCASE("trs") {
+        CHECK(all(approx(
+            trs(fvec3(1,2,3), rotate(pi, fvec3{1,2,3})),
+            rotate4(pi, fvec3{1,2,3}) * translate(fvec3(1,2,3)))));
+        CHECK(all(approx(
+            trs(fvec3(1,2,3), rotate(pi, fvec3{1,2,3}), fvec3(2,3,4)),
+            scale4(fvec3(2,3,4)) * rotate4(pi, fvec3(1,2,3)) * translate(fvec3(1,2,3)))));
+
+        CHECK(all(approx(
+            trs(fvec3(1,2,3), qrotate(pi, fvec3{1,2,3})),
+            rotate4(qrotate(pi, fvec3{1,2,3})) * translate(fvec3(1,2,3)))));
+        CHECK(all(approx(
+            trs(fvec3(1,2,3), qrotate(pi, fvec3{1,2,3}), fvec3(2,3,4)),
+            scale4(fvec3(2,3,4)) * rotate4(qrotate(pi, fvec3{1,2,3})) * translate(fvec3(1,2,3)))));
+
+        CHECK(all(approx(
+            trs(fvec2(1,2), rotate(pi)),
+            rotate3(pi) * translate(fvec2(1,2)))));
+        CHECK(all(approx(
+            trs(fvec2(1,2), rotate(pi), fvec2(2,3)),
+            scale3(fvec2(2,3)) * rotate3(pi) * translate(fvec2(1,2)))));
+    }
+
     SUBCASE("translate") {
         STATIC_CHECK(fvec3(2.f,3.f,1.f) * translate(fvec2{1.f,2.f}) == uapprox3(3.f,5.f,1.f));
         STATIC_CHECK(fvec3(2.f,3.f,1.f) * translate(translate(fvec2{1.f,2.f}), fvec2{1.f,2.f}) == uapprox3(4.f,7.f,1.f));

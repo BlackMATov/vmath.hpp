@@ -383,6 +383,11 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
+    template fix4x4f trs(const fix3f&, const fix3x3f&);
+    template fix4x4f trs(const fix3f&, const fix3x3f&, const fix3f&);
+    template fix4x4f trs(const fix3f&, const qfix&);
+    template fix4x4f trs(const fix3f&, const qfix&, const fix3f&);
+
     template fix4x4f translate(const fix3f&);
     template fix4x4f translate(const fix4x4f&, const fix3f&);
 
@@ -429,6 +434,9 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
+    template fix3x3f trs(const fix2f&, const fix2x2f&);
+    template fix3x3f trs(const fix2f&, const fix2x2f&, const fix2f&);
+
     template fix3x3f translate(const fix2f&);
     template fix3x3f translate(const fix3x3f&, const fix2f&);
 

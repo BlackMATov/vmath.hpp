@@ -230,6 +230,36 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
+    // trs
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> trs(const vec<T, 3>& t, const mat<T, 3>& r) {
+        return {
+            { r[0], T{0} },
+            { r[1], T{0} },
+            { r[2], T{0} },
+            { t,    T{1} }};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> trs(const vec<T, 3>& t, const mat<T, 3>& r, const vec<T, 3>& s) {
+        return {
+            { r[0] * s[0], T{0} },
+            { r[1] * s[1], T{0} },
+            { r[2] * s[2], T{0} },
+            { t,           T{1} }};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> trs(const vec<T, 3>& t, const qua<T>& r) {
+        return trs(t, rotate(r));
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> trs(const vec<T, 3>& t, const qua<T>& r, const vec<T, 3>& s) {
+        return trs(t, rotate(r), s);
+    }
+
     // translate
 
     template < typename T >
@@ -555,6 +585,24 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
+    // trs
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> trs(const vec<T, 2>& t, const mat<T, 2>& r) {
+        return {
+            { r[0], T{0} },
+            { r[1], T{0} },
+            { t,    T{1} }};
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> trs(const vec<T, 2>& t, const mat<T, 2>& r, const vec<T, 2>& s) {
+        return {
+            { r[0] * s[0], T{0} },
+            { r[1] * s[1], T{0} },
+            { t,           T{1} }};
+    }
+
     // translate
 
     template < typename T >
