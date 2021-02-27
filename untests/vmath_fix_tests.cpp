@@ -336,6 +336,10 @@ namespace vmath_hpp
     template fix3x3f transpose(const fix3x3f&);
     template fix4x4f transpose(const fix4x4f&);
 
+    template fix2x2f adjugate(const fix2x2f&);
+    template fix3x3f adjugate(const fix3x3f&);
+    template fix4x4f adjugate(const fix4x4f&);
+
     template fix<float> determinant(const fix2x2f&);
     template fix<float> determinant(const fix3x3f&);
     template fix<float> determinant(const fix4x4f&);

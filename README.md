@@ -1683,32 +1683,17 @@ vec<U, 4> not_equal_to(const qua<T>& xs, const qua<T>& ys);
 ### Matrix Functions
 
 ```cpp
-template < typename T >
-mat<T, 2> transpose(const mat<T, 2>& m);
+template < typename T, size_t Size >
+mat<T, Size> transpose(const mat<T, Size>& m);
 
-template < typename T >
-mat<T, 3> transpose(const mat<T, 3>& m);
+template < typename T, size_t Size >
+mat<T, Size> adjugate(const mat<T, Size>& m);
 
-template < typename T >
-mat<T, 4> transpose(const mat<T, 4>& m);
+template < typename T, size_t Size >
+T determinant(const mat<T, Size>& m);
 
-template < typename T >
-T determinant(const mat<T, 2>& m);
-
-template < typename T >
-T determinant(const mat<T, 3>& m);
-
-template < typename T >
-T determinant(const mat<T, 4>& m);
-
-template < typename T >
-mat<T, 2> inverse(const mat<T, 2>& m);
-
-template < typename T >
-mat<T, 3> inverse(const mat<T, 3>& m);
-
-template < typename T >
-mat<T, 4> inverse(const mat<T, 4>& m);
+template < typename T, size_t Size >
+mat<T, Size> inverse(const mat<T, Size>& m);
 ```
 
 ### Quaternion Functions
