@@ -26,6 +26,8 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK((ivec2(11,12) & 6) == ivec2(2,4));
         STATIC_CHECK((ivec2(11,12) | 6) == ivec2(15,14));
         STATIC_CHECK((ivec2(11,12) ^ 6) == ivec2(13,10));
+        STATIC_CHECK((ivec2(11,12) << 2) == ivec2(44,48));
+        STATIC_CHECK((ivec2(11,12) >> 2) == ivec2(2,3));
         STATIC_CHECK((ivec2(1,0) && 1) == bvec2(1,0));
         STATIC_CHECK((ivec2(1,0) || 1) == bvec2(1,1));
 
@@ -36,6 +38,8 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK((6 & ivec2(11,12)) == ivec2(2,4));
         STATIC_CHECK((6 | ivec2(11,12)) == ivec2(15,14));
         STATIC_CHECK((6 ^ ivec2(11,12)) == ivec2(13,10));
+        STATIC_CHECK((2 << ivec2(3,4)) == ivec2(16,32));
+        STATIC_CHECK((48 >> ivec2(3,4)) == ivec2(6,3));
         STATIC_CHECK((1 && ivec2(1,0)) == bvec2(1,0));
         STATIC_CHECK((1 || ivec2(1,0)) == bvec2(1,1));
 
@@ -46,6 +50,8 @@ TEST_CASE("vmath/vec_fun") {
         STATIC_CHECK((ivec2(6,7) & ivec2(11,12)) == ivec2(2,4));
         STATIC_CHECK((ivec2(6,7) | ivec2(11,12)) == ivec2(15,15));
         STATIC_CHECK((ivec2(6,7) ^ ivec2(11,12)) == ivec2(13,11));
+        STATIC_CHECK((ivec2(11,6) << ivec2(2,3)) == ivec2(44,48));
+        STATIC_CHECK((ivec2(44,48) >> ivec2(2,3)) == ivec2(11,6));
         STATIC_CHECK((ivec2(0,1) && ivec2(1,0)) == bvec2(0,0));
         STATIC_CHECK((ivec2(0,1) || ivec2(1,0)) == bvec2(1,1));
 
@@ -114,6 +120,20 @@ TEST_CASE("vmath/vec_fun") {
             ivec2 v2{6,7};
             CHECK(&v2 == &(v2 ^= ivec2(11,12)));
             CHECK(v2 == ivec2(13,11));
+        }
+        {
+            ivec2 v1{2,3};
+            CHECK(&v1 == &(v1 <<= 2));
+            CHECK(v1 == ivec2(8,12));
+            CHECK(&v1 == &(v1 <<= ivec2(2,3)));
+            CHECK(v1 == ivec2(32,96));
+        }
+        {
+            ivec2 v1{32,96};
+            CHECK(&v1 == &(v1 >>= 2));
+            CHECK(v1 == ivec2(8,24));
+            CHECK(&v1 == &(v1 >>= ivec2(2,3)));
+            CHECK(v1 == ivec2(2,3));
         }
     }
 

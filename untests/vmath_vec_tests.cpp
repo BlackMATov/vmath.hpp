@@ -115,6 +115,12 @@ TEST_CASE("vmath/vec") {
             STATIC_CHECK(ivec4(ivec3(1,2,3),4) == ivec4(1,2,3,4));
             STATIC_CHECK(ivec4(1,ivec3(2,3,4)) == ivec4(1,2,3,4));
         }
+        {
+            constexpr float is[] = {1,2,3,4};
+            STATIC_CHECK(dvec2(is) == dvec2(1,2));
+            STATIC_CHECK(dvec3(is) == dvec3(1,2,3));
+            STATIC_CHECK(dvec4(is) == dvec4(1,2,3,4));
+        }
     }
 
     SUBCASE("operator=") {

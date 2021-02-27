@@ -68,6 +68,10 @@ TEST_CASE("vmath/qua") {
             STATIC_CHECK(fqua(fvec3(1,2,3),4) == fqua(1,2,3,4));
             STATIC_CHECK(fqua(fvec4(1,2,3,4)) == fqua(1,2,3,4));
         }
+        {
+            constexpr float is[] = {1,2,3,4};
+            STATIC_CHECK(dqua(is) == dqua(1,2,3,4));
+        }
     }
 
     SUBCASE("operator=") {

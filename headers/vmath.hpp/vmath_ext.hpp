@@ -152,9 +152,10 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr vec<T, Size> component(vec<T, Size> v, std::size_t index, T component) {
-        v[index] = component;
-        return v;
+    [[nodiscard]] constexpr vec<T, Size> component(const vec<T, Size>& v, std::size_t index, T component) {
+        vec vv = v;
+        vv[index] = component;
+        return vv;
     }
 
     // row
@@ -165,9 +166,10 @@ namespace vmath_hpp
     }
 
     template < typename T, std::size_t Size >
-    [[nodiscard]] constexpr mat<T, Size> row(mat<T, Size> m, std::size_t index, const vec<T, Size>& row) {
-        m.rows[index] = row;
-        return m;
+    [[nodiscard]] constexpr mat<T, Size> row(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& row) {
+        mat mm = m;
+        mm[index] = row;
+        return mm;
     }
 
     // column
@@ -195,6 +197,31 @@ namespace vmath_hpp
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr mat<T, Size> column(const mat<T, Size>& m, std::size_t index, const vec<T, Size>& column) {
         return impl::column_impl(m, index, column, std::make_index_sequence<Size>{});
+    }
+
+    // diagonal
+
+    namespace impl
+    {
+        template < typename T, std::size_t Size, std::size_t... Is >
+        [[nodiscard]] constexpr vec<T, Size> diagonal_impl(const mat<T, Size>& m, std::index_sequence<Is...>) {
+            return { m[Is][Is]... };
+        }
+
+        template < typename T, std::size_t Size, std::size_t... Is >
+        [[nodiscard]] constexpr mat<T, Size> diagonal_impl(const mat<T, Size>& m, const vec<T, Size>& diagonal, std::index_sequence<Is...>) {
+            return { component(m[Is], Is, diagonal[Is])... };
+        }
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr vec<T, Size> diagonal(const mat<T, Size>& m) {
+        return impl::diagonal_impl(m, std::make_index_sequence<Size>{});
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> diagonal(const mat<T, Size>& m, const vec<T, Size>& diagonal) {
+        return impl::diagonal_impl(m, diagonal, std::make_index_sequence<Size>{});
     }
 
     // real

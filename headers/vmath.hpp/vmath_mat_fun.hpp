@@ -422,6 +422,64 @@ namespace vmath_hpp
         return (xs = (xs ^ ys));
     }
 
+    // operator<<
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator<<(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return x << y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator<<(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return x << y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator<<(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x << y; }, xs, ys);
+    }
+
+    // operator<<=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator<<=(mat<T, Size>& xs, T y) {
+        return (xs = (xs << y));
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator<<=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = (xs << ys));
+    }
+
+    // operator>>
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator>>(const mat<T, Size>& xs, T y) {
+        return map_join([y](const vec<T, Size>& x){ return x >> y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator>>(T x, const mat<T, Size>& ys) {
+        return map_join([x](const vec<T, Size>& y){ return x >> y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator>>(const mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return map_join([](const vec<T, Size>& x, const vec<T, Size>& y){ return x >> y; }, xs, ys);
+    }
+
+    // operator>>=
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator>>=(mat<T, Size>& xs, T y) {
+        return (xs = (xs >> y));
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr mat<T, Size>& operator>>=(mat<T, Size>& xs, const mat<T, Size>& ys) {
+        return (xs = (xs >> ys));
+    }
+
     // operator&&
 
     template < typename T, std::size_t Size >
@@ -576,6 +634,10 @@ namespace vmath_hpp
 
 namespace vmath_hpp
 {
+    //
+    // transpose
+    //
+
     namespace impl
     {
         template < typename T >
@@ -642,6 +704,98 @@ namespace vmath_hpp
             m[3][0], m[3][1], m[3][2], m[3][3]);
     }
 
+    //
+    // adjugate
+    //
+
+    namespace impl
+    {
+        template < typename T >
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 2> adjugate_2x2_impl(
+            T a, T b,
+            T c, T d)
+        {
+            return {
+                +d, -b,
+                -c, +a};
+        }
+
+        template < typename T >
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 3> adjugate_3x3_impl(
+            T a, T b, T c,
+            T d, T e, T f,
+            T g, T h, T i)
+        {
+            return {
+                e * i - f * h,
+                c * h - b * i,
+                b * f - c * e,
+                f * g - d * i,
+                a * i - c * g,
+                c * d - a * f,
+                d * h - e * g,
+                b * g - a * h,
+                a * e - b * d};
+        }
+
+        template < typename T >
+        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
+        mat<T, 4> adjugate_4x4_impl(
+            T a, T b, T c, T d,
+            T e, T f, T g, T h,
+            T i, T j, T k, T l,
+            T m, T n, T o, T p)
+        {
+            return {
+                f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n),
+                j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n),
+                n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f),
+                b * (h * k - g * l) + c * (f * l - h * j) + d * (g * j - f * k),
+                g * (i * p - l * m) + h * (k * m - i * o) + e * (l * o - k * p),
+                k * (a * p - d * m) + l * (c * m - a * o) + i * (d * o - c * p),
+                o * (a * h - d * e) + p * (c * e - a * g) + m * (d * g - c * h),
+                c * (h * i - e * l) + d * (e * k - g * i) + a * (g * l - h * k),
+                h * (i * n - j * m) + e * (j * p - l * n) + f * (l * m - i * p),
+                l * (a * n - b * m) + i * (b * p - d * n) + j * (d * m - a * p),
+                p * (a * f - b * e) + m * (b * h - d * f) + n * (d * e - a * h),
+                d * (f * i - e * j) + a * (h * j - f * l) + b * (e * l - h * i),
+                e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n),
+                i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n),
+                m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f),
+                a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i)};
+        }
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 2> adjugate(const mat<T, 2>& m) {
+        return impl::adjugate_2x2_impl(
+            m[0][0], m[0][1],
+            m[1][0], m[1][1]);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 3> adjugate(const mat<T, 3>& m) {
+        return impl::adjugate_3x3_impl(
+            m[0][0], m[0][1], m[0][2],
+            m[1][0], m[1][1], m[1][2],
+            m[2][0], m[2][1], m[2][2]);
+    }
+
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 4> adjugate(const mat<T, 4>& m) {
+        return impl::adjugate_4x4_impl(
+            m[0][0], m[0][1], m[0][2], m[0][3],
+            m[1][0], m[1][1], m[1][2], m[1][3],
+            m[2][0], m[2][1], m[2][2], m[2][3],
+            m[3][0], m[3][1], m[3][2], m[3][3]);
+    }
+
+    //
+    // determinant
+    //
+
     namespace impl
     {
         template < typename T >
@@ -650,12 +804,7 @@ namespace vmath_hpp
             T a, T b,
             T c, T d)
         {
-            /// REFERENCE:
-            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/twoD/
-
-            return
-                + a * d
-                - b * c;
+            return a * d - b * c;
         }
 
         template < typename T >
@@ -665,14 +814,10 @@ namespace vmath_hpp
             T d, T e, T f,
             T g, T h, T i)
         {
-            /// REFERENCE:
-            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
-
             return
-                + a * determinant_2x2_impl(e, f, h, i)
-                - b * determinant_2x2_impl(d, f, g, i)
-                + c * determinant_2x2_impl(d, e, g, h);
-
+                + a * (e * i - f * h)
+                - b * (d * i - f * g)
+                + c * (d * h - e * g);
         }
 
         template < typename T >
@@ -683,14 +828,11 @@ namespace vmath_hpp
             T i, T j, T k, T l,
             T m, T n, T o, T p)
         {
-            /// REFERENCE:
-            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/fourD/
-
             return
-                + a * determinant_3x3_impl(f, g, h, j, k, l, n, o, p)
-                - b * determinant_3x3_impl(e, g, h, i, k, l, m, o, p)
-                + c * determinant_3x3_impl(e, f, h, i, j, l, m, n, p)
-                - d * determinant_3x3_impl(e, f, g, i, j, k, m, n, o);
+                + a * (f * (k * p - l * o) - (j * (g * p - h * o)) + (n * (g * l - h * k)))
+                - b * (e * (k * p - l * o) - (i * (g * p - h * o)) + (m * (g * l - h * k)))
+                + c * (e * (j * p - l * n) - (i * (f * p - h * n)) + (m * (f * l - h * j)))
+                - d * (e * (j * o - k * n) - (i * (f * o - g * n)) + (m * (f * k - g * j)));
         }
     }
 
@@ -718,117 +860,12 @@ namespace vmath_hpp
             m[3][0], m[3][1], m[3][2], m[3][3]);
     }
 
-    namespace impl
-    {
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 2> inverse_2x2_impl(
-            T a, T b,
-            T c, T d)
-        {
-            /// REFERENCE:
-            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/twoD/
+    //
+    // inverse
+    //
 
-            const T inv_det = rcp(determinant_2x2_impl(
-                a, b,
-                c, d));
-
-            const mat inv_m{
-                d, -b,
-                -c, a};
-
-            return inv_m * inv_det;
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 3> inverse_3x3_impl(
-            T a, T b, T c,
-            T d, T e, T f,
-            T g, T h, T i)
-        {
-            /// REFERENCE:
-            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/
-
-            const T inv_det = rcp(determinant_3x3_impl(
-                a, b, c,
-                d, e, f,
-                g, h, i));
-
-            const mat inv_m{
-                e * i - f * h,
-                c * h - b * i,
-                b * f - c * e,
-                f * g - d * i,
-                a * i - c * g,
-                c * d - a * f,
-                d * h - e * g,
-                b * g - a * h,
-                a * e - b * d};
-
-            return inv_m * inv_det;
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 4> inverse_4x4_impl(
-            T a, T b, T c, T d,
-            T e, T f, T g, T h,
-            T i, T j, T k, T l,
-            T m, T n, T o, T p)
-        {
-            /// REFERENCE:
-            /// http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/
-
-            const T inv_det = rcp(determinant_4x4_impl(
-                a, b, c, d,
-                e, f, g, h,
-                i, j, k, l,
-                m, n, o, p));
-
-            const mat inv_m{
-                (f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n)),
-                (j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n)),
-                (n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f)),
-                (b * (h * k - g * l) + c * (f * l - h * j) + d * (g * j - f * k)),
-                (g * (i * p - l * m) + h * (k * m - i * o) + e * (l * o - k * p)),
-                (k * (a * p - d * m) + l * (c * m - a * o) + i * (d * o - c * p)),
-                (o * (a * h - d * e) + p * (c * e - a * g) + m * (d * g - c * h)),
-                (c * (h * i - e * l) + d * (e * k - g * i) + a * (g * l - h * k)),
-                (h * (i * n - j * m) + e * (j * p - l * n) + f * (l * m - i * p)),
-                (l * (a * n - b * m) + i * (b * p - d * n) + j * (d * m - a * p)),
-                (p * (a * f - b * e) + m * (b * h - d * f) + n * (d * e - a * h)),
-                (d * (f * i - e * j) + a * (h * j - f * l) + b * (e * l - h * i)),
-                (e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n)),
-                (i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n)),
-                (m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f)),
-                (a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i))};
-
-            return inv_m * inv_det;
-        }
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> inverse(const mat<T, 2>& m) {
-        return impl::inverse_2x2_impl(
-            m[0][0], m[0][1],
-            m[1][0], m[1][1]);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> inverse(const mat<T, 3>& m) {
-        return impl::inverse_3x3_impl(
-            m[0][0], m[0][1], m[0][2],
-            m[1][0], m[1][1], m[1][2],
-            m[2][0], m[2][1], m[2][2]);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> inverse(const mat<T, 4>& m) {
-        return impl::inverse_4x4_impl(
-            m[0][0], m[0][1], m[0][2], m[0][3],
-            m[1][0], m[1][1], m[1][2], m[1][3],
-            m[2][0], m[2][1], m[2][2], m[2][3],
-            m[3][0], m[3][1], m[3][2], m[3][3]);
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr mat<T, Size> inverse(const mat<T, Size>& m) {
+        return adjugate(m) * rcp(determinant(m));
     }
 }

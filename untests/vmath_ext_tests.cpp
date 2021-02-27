@@ -205,6 +205,14 @@ TEST_CASE("vmath/ext/access") {
         STATIC_CHECK(column(imat2(), 1, {3,4}) == imat2(1,3,0,4));
     }
 
+    SUBCASE("diagonal") {
+        STATIC_CHECK(diagonal(imat2(1,2,3,4)) == ivec2(1,4));
+        STATIC_CHECK(diagonal(imat2(1,2,3,4), ivec2(10,40)) == imat2(10,2,3,40));
+
+        STATIC_CHECK(diagonal(imat3(1,2,3,4,5,6,7,8,9)) == ivec3(1,5,9));
+        STATIC_CHECK(diagonal(imat3(1,2,3,4,5,6,7,8,9), ivec3(10,50,90)) == imat3(10,2,3,4,50,6,7,8,90));
+    }
+
     SUBCASE("real") {
         STATIC_CHECK(real(qua{1,2,3,4}) == 4);
         STATIC_CHECK(real(qua{1,2,3,4}, 5) == qua{1,2,3,5});

@@ -43,6 +43,8 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_CHECK((imat2(11,12,11,12) & 6) == imat2(2,4,2,4));
         STATIC_CHECK((imat2(11,12,11,12) | 6) == imat2(15,14,15,14));
         STATIC_CHECK((imat2(11,12,11,12) ^ 6) == imat2(13,10,13,10));
+        STATIC_CHECK((imat2(1,2,3,4) << 2) == imat2(4,8,12,16));
+        STATIC_CHECK((imat2(4,8,12,16) >> 2) == imat2(1,2,3,4));
         STATIC_CHECK((imat2(1,0,1,0) && 1) == bmat2(1,0,1,0));
         STATIC_CHECK((imat2(1,0,1,0) || 1) == bmat2(1,1,1,1));
 
@@ -53,6 +55,8 @@ TEST_CASE("vmath/mat_fun") {
         STATIC_CHECK((6 &imat2(11,12,11,12)) == imat2(2,4,2,4));
         STATIC_CHECK((6 |imat2(11,12,11,12)) == imat2(15,14,15,14));
         STATIC_CHECK((6 ^ imat2(11,12,11,12)) == imat2(13,10,13,10));
+        STATIC_CHECK((2 << imat2(1,2,3,4)) == imat2(4,8,16,32));
+        STATIC_CHECK((16 >> imat2(1,2,3,4)) == imat2(8,4,2,1));
         STATIC_CHECK((1 && imat2(1,0,1,0)) == bmat2(1,0,1,0));
         STATIC_CHECK((1 || imat2(1,0,1,0)) == bmat2(1,1,1,1));
 
@@ -148,6 +152,20 @@ TEST_CASE("vmath/mat_fun") {
             imat2 v2{6,7,6,7};
             CHECK(&v2 == &(v2 ^= imat2(11,12,11,12)));
             CHECK(v2 == imat2(13,11,13,11));
+        }
+        {
+            imat2 v1{2,3,4,5};
+            CHECK(&v1 == &(v1 <<= 2));
+            CHECK(v1 == imat2(8,12,16,20));
+            CHECK(&v1 == &(v1 <<= imat2(1,2,3,4)));
+            CHECK(v1 == imat2(16,48,128,320));
+        }
+        {
+            imat2 v1{16,48,128,320};
+            CHECK(&v1 == &(v1 >>= 2));
+            CHECK(v1 == imat2(4,12,32,80));
+            CHECK(&v1 == &(v1 >>= imat2(1,2,3,4)));
+            CHECK(v1 == imat2(2,3,4,5));
         }
     }
 
