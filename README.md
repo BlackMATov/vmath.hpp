@@ -1815,79 +1815,40 @@ template < typename T >
 mat<T, 4> translate(const vec<T, 3>& v);
 
 template < typename T >
-mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v);
-
-template < typename T >
 mat<T, 3> rotate(const qua<T>& q);
-
-template < typename T >
-mat<T, 3> rotate(const mat<T, 3>& m, const qua<T>& q);
 
 template < typename T >
 mat<T, 4> rotate4(const qua<T>& q);
 
 template < typename T >
-mat<T, 4> rotate4(const mat<T, 4>& m, const qua<T>& q);
-
-template < typename T >
 mat<T, 3> rotate(T angle, const vec<T, 3>& axis);
-
-template < typename T >
-mat<T, 3> rotate(const mat<T, 3>& m, T angle, const vec<T, 3>& axis);
 
 template < typename T >
 mat<T, 4> rotate4(T angle, const vec<T, 3>& axis);
 
 template < typename T >
-mat<T, 4> rotate4(const mat<T, 4>& m, T angle, const vec<T, 3>& axis);
-
-template < typename T >
 mat<T, 3> rotate_x(T angle);
-
-template < typename T >
-mat<T, 3> rotate_x(const mat<T, 3>& m, T angle);
 
 template < typename T >
 mat<T, 4> rotate4_x(T angle);
 
 template < typename T >
-mat<T, 4> rotate4_x(const mat<T, 4>& m, T angle);
-
-template < typename T >
 mat<T, 3> rotate_y(T angle);
-
-template < typename T >
-mat<T, 3> rotate_y(const mat<T, 3>& m, T angle);
 
 template < typename T >
 mat<T, 4> rotate4_y(T angle);
 
 template < typename T >
-mat<T, 4> rotate4_y(const mat<T, 4>& m, T angle);
-
-template < typename T >
 mat<T, 3> rotate_z(T angle);
-
-template < typename T >
-mat<T, 3> rotate_z(const mat<T, 3>& m, T angle);
 
 template < typename T >
 mat<T, 4> rotate4_z(T angle);
 
 template < typename T >
-mat<T, 4> rotate4_z(const mat<T, 4>& m, T angle);
-
-template < typename T >
 mat<T, 3> scale(const vec<T, 3>& v);
 
 template < typename T >
-mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 3>& v);
-
-template < typename T >
 mat<T, 4> scale4(const vec<T, 3>& v);
-
-template < typename T >
-mat<T, 4> scale4(const mat<T, 4>& m, const vec<T, 3>& v);
 
 template < typename T >
 mat<T, 3> look_at_lh(const vec<T, 3>& dir, const vec<T, 3>& up);
@@ -1915,43 +1876,22 @@ template < typename T >
 mat<T, 3> translate(const vec<T, 2>& v);
 
 template < typename T >
-mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v);
-
-template < typename T >
 mat<T, 2> rotate(T angle);
-
-template < typename T >
-mat<T, 2> rotate(const mat<T, 2>& m, T angle);
 
 template < typename T >
 mat<T, 3> rotate3(T angle);
 
 template < typename T >
-mat<T, 3> rotate3(const mat<T, 3>& m, T angle);
-
-template < typename T >
 mat<T, 2> scale(const vec<T, 2>& v);
-
-template < typename T >
-mat<T, 2> scale(const mat<T, 2>& m, const vec<T, 2>& v);
 
 template < typename T >
 mat<T, 3> scale3(const vec<T, 2>& v);
 
 template < typename T >
-mat<T, 3> scale3(const mat<T, 3>& m, const vec<T, 2>& v);
-
-template < typename T >
 mat<T, 2> shear(const vec<T, 2>& v);
 
 template < typename T >
-mat<T, 2> shear(const mat<T, 2>& m, const vec<T, 2>& v);
-
-template < typename T >
 mat<T, 3> shear3(const vec<T, 2>& v);
-
-template < typename T >
-mat<T, 3> shear3(const mat<T, 3>& m, const vec<T, 2>& v);
 ```
 
 ### Matrix Projections
@@ -2005,9 +1945,6 @@ vec<T, 3> rotate_y(const vec<T, 3>& v, T angle);
 
 template < typename T >
 vec<T, 3> rotate_z(const vec<T, 3>& v, T angle);
-
-template < typename T >
-vec<T, 3> rotate(const vec<T, 3>& v, const qua<T>& q);
 
 template < typename T >
 vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& axis);
