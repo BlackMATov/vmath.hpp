@@ -99,6 +99,8 @@ public:
     template < typename U > vec_base(const vec_base<U, 2>& other);
     template < typename U > explicit vec_base(const vec_base<U, 3>& other);
     template < typename U > explicit vec_base(const vec_base<U, 4>& other);
+
+    template < typename U > explicit vec_base(const U* p);
 };
 
 template < typename T >
@@ -120,6 +122,8 @@ public:
 
     template < typename U > vec_base(const vec_base<U, 3>& other);
     template < typename U > explicit vec_base(const vec_base<U, 4>& other);
+
+    template < typename U > explicit vec_base(const U* p);
 };
 
 template < typename T >
@@ -145,6 +149,8 @@ public:
     vec_base(T x, const vec_base<T, 3>& yzw);
 
     template < typename U > vec_base(const vec_base<U, 4>& other);
+
+    template < typename U > explicit vec_base(const U* p);
 };
 
 template < typename T, size_t Size >
@@ -248,6 +254,8 @@ public:
     template < typename U > mat_base(const mat_base<U, 2>& other);
     template < typename U > explicit mat_base(const mat_base<U, 3>& other);
     template < typename U > explicit mat_base(const mat_base<U, 4>& other);
+
+    template < typename U > explicit mat_base(const U* p);
 };
 
 template < typename T >
@@ -283,6 +291,8 @@ public:
     template < typename U > mat_base(const mat_base<U, 3>& other);
     template < typename U > explicit mat_base(const mat_base<U, 2>& other);
     template < typename U > explicit mat_base(const mat_base<U, 4>& other);
+
+    template < typename U > explicit mat_base(const U* p);
 };
 
 template < typename T >
@@ -320,6 +330,8 @@ public:
     template < typename U > mat_base(const mat_base<U, 4>& other);
     template < typename U > explicit mat_base(const mat_base<U, 2>& other);
     template < typename U > explicit mat_base(const mat_base<U, 3>& other);
+
+    template < typename U > explicit mat_base(const U* p);
 };
 
 template < typename T, size_t Size >
@@ -413,6 +425,8 @@ public:
 
     template < typename U > qua_base(const qua_base<U, 4>& other);
     template < typename U > explicit operator vec<U, 4>() const;
+
+    template < typename U > explicit qua_base(const U* p);
 };
 
 template < typename T >

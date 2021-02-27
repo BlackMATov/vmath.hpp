@@ -37,6 +37,9 @@ namespace vmath_hpp::detail
         template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
         constexpr explicit vec_base(const vec_base<U, 4>& other): vec_base(other[0], other[1]) {}
 
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit vec_base(const U* p): vec_base(p[0], p[1]) {}
+
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
             default:
@@ -77,6 +80,9 @@ namespace vmath_hpp::detail
 
         template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
         constexpr explicit vec_base(const vec_base<U, 4>& other): vec_base(other[0], other[1], other[2]) {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit vec_base(const U* p): vec_base(p[0], p[1], p[2]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {
@@ -122,6 +128,9 @@ namespace vmath_hpp::detail
 
         template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
         constexpr vec_base(const vec_base<U, 4>& other): vec_base(other[0], other[1], other[2], other[3]) {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit vec_base(const U* p): vec_base(p[0], p[1], p[2], p[3]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
             switch ( index ) {

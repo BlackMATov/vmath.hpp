@@ -66,6 +66,11 @@ namespace vmath_hpp::detail
         constexpr explicit mat_base(const mat_base<U, 4>& other): mat_base(
             row_type{other.rows[0]},
             row_type{other.rows[1]}) {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const U* p): mat_base(
+            row_type{p + 0u * row_type::size},
+            row_type{p + 1u * row_type::size}) {}
     };
 
     template < typename T >
@@ -134,6 +139,12 @@ namespace vmath_hpp::detail
             row_type{other.rows[0]},
             row_type{other.rows[1]},
             row_type{other.rows[2]}) {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const U* p): mat_base(
+            row_type{p + 0u * row_type::size},
+            row_type{p + 1u * row_type::size},
+            row_type{p + 2u * row_type::size}) {}
     };
 
     template < typename T >
@@ -211,6 +222,13 @@ namespace vmath_hpp::detail
             row_type{other.rows[1], T{0}},
             row_type{other.rows[2], T{0}},
             row_type{T{0}, T{0}, T{0}, T{1}}) {}
+
+        template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        constexpr explicit mat_base(const U* p): mat_base(
+            row_type{p + 0u * row_type::size},
+            row_type{p + 1u * row_type::size},
+            row_type{p + 2u * row_type::size},
+            row_type{p + 3u * row_type::size}) {}
     };
 }
 

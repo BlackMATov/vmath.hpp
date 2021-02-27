@@ -126,6 +126,12 @@ TEST_CASE("vmath/mat") {
             STATIC_CHECK(imat4(imat2({1,2},{3,4})) == imat4(1,2,0,0,3,4,0,0,0,0,1,0,0,0,0,1));
             STATIC_CHECK(imat4(imat3({1,2,3},{4,5,6},{7,8,9})) == imat4(1,2,3,0,4,5,6,0,7,8,9,0,0,0,0,1));
         }
+        {
+            constexpr float is[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+            STATIC_CHECK(dmat2(is) == dmat2(1,2,3,4));
+            STATIC_CHECK(dmat3(is) == dmat3(1,2,3,4,5,6,7,8,9));
+            STATIC_CHECK(dmat4(is) == dmat4({1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}));
+        }
     }
 
     SUBCASE("operator=") {
