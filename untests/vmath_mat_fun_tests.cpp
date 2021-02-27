@@ -31,241 +31,241 @@ namespace
 
 TEST_CASE("vmath/mat_fun") {
     SUBCASE("operators") {
-        STATIC_CHECK(+int2x2(1,-2,3,-4) == int2x2(1,-2,3,-4));
-        STATIC_CHECK(-int2x2(1,-2,3,-4) == int2x2(-1,2,-3,4));
-        STATIC_CHECK(~uint2x2(0xF0F0F0F0,0x0F0F0F0F,0xF0F0F0F0,0x0F0F0F0F) == uint2x2(0x0F0F0F0F,0xF0F0F0F0,0x0F0F0F0F,0xF0F0F0F0));
-        STATIC_CHECK((!int2x2(-1,0,1,2)) == bool2x2(false,true,false,false));
+        STATIC_CHECK(+imat2(1,-2,3,-4) == imat2(1,-2,3,-4));
+        STATIC_CHECK(-imat2(1,-2,3,-4) == imat2(-1,2,-3,4));
+        STATIC_CHECK(~umat2(0xF0F0F0F0,0x0F0F0F0F,0xF0F0F0F0,0x0F0F0F0F) == umat2(0x0F0F0F0F,0xF0F0F0F0,0x0F0F0F0F,0xF0F0F0F0));
+        STATIC_CHECK((!imat2(-1,0,1,2)) == bmat2(false,true,false,false));
 
-        STATIC_CHECK(int2x2(1,2,3,4) + 2 == int2x2(3,4,5,6));
-        STATIC_CHECK(int2x2(1,2,3,4) - 2 == int2x2(-1,0,1,2));
-        STATIC_CHECK(int2x2(1,2,3,4) * 2 == int2x2(2,4,6,8));
-        STATIC_CHECK(int2x2(1,2,3,4) / 2 == int2x2(0,1,1,2));
-        STATIC_CHECK((int2x2(11,12,11,12) & 6) == int2x2(2,4,2,4));
-        STATIC_CHECK((int2x2(11,12,11,12) | 6) == int2x2(15,14,15,14));
-        STATIC_CHECK((int2x2(11,12,11,12) ^ 6) == int2x2(13,10,13,10));
-        STATIC_CHECK((int2x2(1,0,1,0) && 1) == bool2x2(1,0,1,0));
-        STATIC_CHECK((int2x2(1,0,1,0) || 1) == bool2x2(1,1,1,1));
+        STATIC_CHECK(imat2(1,2,3,4) + 2 == imat2(3,4,5,6));
+        STATIC_CHECK(imat2(1,2,3,4) - 2 == imat2(-1,0,1,2));
+        STATIC_CHECK(imat2(1,2,3,4) * 2 == imat2(2,4,6,8));
+        STATIC_CHECK(imat2(1,2,3,4) / 2 == imat2(0,1,1,2));
+        STATIC_CHECK((imat2(11,12,11,12) & 6) == imat2(2,4,2,4));
+        STATIC_CHECK((imat2(11,12,11,12) | 6) == imat2(15,14,15,14));
+        STATIC_CHECK((imat2(11,12,11,12) ^ 6) == imat2(13,10,13,10));
+        STATIC_CHECK((imat2(1,0,1,0) && 1) == bmat2(1,0,1,0));
+        STATIC_CHECK((imat2(1,0,1,0) || 1) == bmat2(1,1,1,1));
 
-        STATIC_CHECK(4 + int2x2(1,2,3,4) == int2x2(5,6,7,8));
-        STATIC_CHECK(4 - int2x2(1,2,3,4) == int2x2(3,2,1,0));
-        STATIC_CHECK(4 * int2x2(1,2,3,4) == int2x2(4,8,12,16));
-        STATIC_CHECK(4 / int2x2(1,2,3,4) == int2x2(4,2,1,1));
-        STATIC_CHECK((6 &int2x2(11,12,11,12)) == int2x2(2,4,2,4));
-        STATIC_CHECK((6 |int2x2(11,12,11,12)) == int2x2(15,14,15,14));
-        STATIC_CHECK((6 ^ int2x2(11,12,11,12)) == int2x2(13,10,13,10));
-        STATIC_CHECK((1 && int2x2(1,0,1,0)) == bool2x2(1,0,1,0));
-        STATIC_CHECK((1 || int2x2(1,0,1,0)) == bool2x2(1,1,1,1));
+        STATIC_CHECK(4 + imat2(1,2,3,4) == imat2(5,6,7,8));
+        STATIC_CHECK(4 - imat2(1,2,3,4) == imat2(3,2,1,0));
+        STATIC_CHECK(4 * imat2(1,2,3,4) == imat2(4,8,12,16));
+        STATIC_CHECK(4 / imat2(1,2,3,4) == imat2(4,2,1,1));
+        STATIC_CHECK((6 &imat2(11,12,11,12)) == imat2(2,4,2,4));
+        STATIC_CHECK((6 |imat2(11,12,11,12)) == imat2(15,14,15,14));
+        STATIC_CHECK((6 ^ imat2(11,12,11,12)) == imat2(13,10,13,10));
+        STATIC_CHECK((1 && imat2(1,0,1,0)) == bmat2(1,0,1,0));
+        STATIC_CHECK((1 || imat2(1,0,1,0)) == bmat2(1,1,1,1));
 
-        STATIC_CHECK(int2x2(1,2,3,4) + int2x2(5,6,7,8) == int2x2(6,8,10,12));
-        STATIC_CHECK(int2x2(1,2,3,4) - int2x2(5,6,7,8) == int2x2(-4,-4,-4,-4));
+        STATIC_CHECK(imat2(1,2,3,4) + imat2(5,6,7,8) == imat2(6,8,10,12));
+        STATIC_CHECK(imat2(1,2,3,4) - imat2(5,6,7,8) == imat2(-4,-4,-4,-4));
 
-        STATIC_CHECK(int2x2() * int2x2() == int2x2());
-        STATIC_CHECK(int3x3() * int3x3() == int3x3());
+        STATIC_CHECK(imat2() * imat2() == imat2());
+        STATIC_CHECK(imat3() * imat3() == imat3());
 
-        STATIC_CHECK(int2(1,2) * int2x2() == int2(1,2));
-        STATIC_CHECK(int3(1,2,3) * int3x3() == int3(1,2,3));
-        STATIC_CHECK(int4(1,2,3,4) * int4x4() == int4(1,2,3,4));
+        STATIC_CHECK(ivec2(1,2) * imat2() == ivec2(1,2));
+        STATIC_CHECK(ivec3(1,2,3) * imat3() == ivec3(1,2,3));
+        STATIC_CHECK(ivec4(1,2,3,4) * imat4() == ivec4(1,2,3,4));
 
-        STATIC_CHECK((int2x2(6,7,6,7) & int2x2(11,12,11,12)) == int2x2(2,4,2,4));
-        STATIC_CHECK((int2x2(6,7,6,7) | int2x2(11,12,11,12)) == int2x2(15,15,15,15));
-        STATIC_CHECK((int2x2(6,7,6,7) ^ int2x2(11,12,11,12)) == int2x2(13,11,13,11));
-        STATIC_CHECK((int2x2(0,1,0,1) && int2x2(1,0,1,0)) == bool2x2(0,0,0,0));
-        STATIC_CHECK((int2x2(0,1,0,1) || int2x2(1,0,1,0)) == bool2x2(1,1,1,1));
+        STATIC_CHECK((imat2(6,7,6,7) & imat2(11,12,11,12)) == imat2(2,4,2,4));
+        STATIC_CHECK((imat2(6,7,6,7) | imat2(11,12,11,12)) == imat2(15,15,15,15));
+        STATIC_CHECK((imat2(6,7,6,7) ^ imat2(11,12,11,12)) == imat2(13,11,13,11));
+        STATIC_CHECK((imat2(0,1,0,1) && imat2(1,0,1,0)) == bmat2(0,0,0,0));
+        STATIC_CHECK((imat2(0,1,0,1) || imat2(1,0,1,0)) == bmat2(1,1,1,1));
 
         {
-            int2x2 v{1,2,3,4};
+            imat2 v{1,2,3,4};
             CHECK(&v == &(++v));
-            CHECK(v == int2x2{2,3,4,5});
+            CHECK(v == imat2{2,3,4,5});
             CHECK(&v == &(--v));
-            CHECK(v == int2x2{1,2,3,4});
+            CHECK(v == imat2{1,2,3,4});
         }
         {
-            int2x2 v{1,2,3,4};
-            CHECK(v++ == int2x2{1,2,3,4});
-            CHECK(v == int2x2{2,3,4,5});
-            CHECK(v-- == int2x2{2,3,4,5});
-            CHECK(v == int2x2{1,2,3,4});
+            imat2 v{1,2,3,4};
+            CHECK(v++ == imat2{1,2,3,4});
+            CHECK(v == imat2{2,3,4,5});
+            CHECK(v-- == imat2{2,3,4,5});
+            CHECK(v == imat2{1,2,3,4});
         }
         {
-            int2x2 v{1,2,3,4};
+            imat2 v{1,2,3,4};
             CHECK(&v == &(v += 3));
-            CHECK(v == int2x2{4,5,6,7});
-            CHECK(&v == &(v += int2x2{1,2,3,4}));
-            CHECK(v == int2x2{5,7,9,11});
+            CHECK(v == imat2{4,5,6,7});
+            CHECK(&v == &(v += imat2{1,2,3,4}));
+            CHECK(v == imat2{5,7,9,11});
         }
         {
-            int2x2 v{4,5,6,7};
+            imat2 v{4,5,6,7};
             CHECK(&v == &(v -= 3));
-            CHECK(v == int2x2{1,2,3,4});
-            CHECK(&v == &(v -= int2x2{2,4,6,8}));
-            CHECK(v == int2x2{-1,-2,-3,-4});
+            CHECK(v == imat2{1,2,3,4});
+            CHECK(&v == &(v -= imat2{2,4,6,8}));
+            CHECK(v == imat2{-1,-2,-3,-4});
         }
         {
-            int2x2 v{1,2,3,4};
+            imat2 v{1,2,3,4};
             CHECK(&v == &(v *= 3));
-            CHECK(v == int2x2{3,6,9,12});
+            CHECK(v == imat2{3,6,9,12});
         }
         {
-            int4 v{0, 0, 0, 1};
-            CHECK(&v == &(v *= translate(int3{1,2,3})));
+            ivec4 v{0, 0, 0, 1};
+            CHECK(&v == &(v *= translate(ivec3{1,2,3})));
             CHECK(v == uapprox4(1,2,3,1));
         }
         {
-            int3 v{1, 2, 3};
-            CHECK(&v == &(v *= int3x3(scale(int3{2,3,4}))));
-            CHECK(v == int3(2,6,12));
+            ivec3 v{1, 2, 3};
+            CHECK(&v == &(v *= imat3(scale(ivec3{2,3,4}))));
+            CHECK(v == ivec3(2,6,12));
         }
         {
-            int4x4 v = translate(int3{1, 2, 3});
-            CHECK(&v == &(v *= translate(int3{1,2,3})));
-            CHECK(v == translate(int3{2,4,6}));
+            imat4 v = translate(ivec3{1, 2, 3});
+            CHECK(&v == &(v *= translate(ivec3{1,2,3})));
+            CHECK(v == translate(ivec3{2,4,6}));
         }
         {
-            int3x3 v = int3x3(scale(int3{1, 2, 3}));
-            CHECK(&v == &(v *= int3x3(scale(int3{2,3,4}))));
-            CHECK(v == int3x3(scale(int3{2,6,12})));
+            imat3 v = imat3(scale(ivec3{1, 2, 3}));
+            CHECK(&v == &(v *= imat3(scale(ivec3{2,3,4}))));
+            CHECK(v == imat3(scale(ivec3{2,6,12})));
         }
         {
-            int2x2 v1{11,12,11,12};
+            imat2 v1{11,12,11,12};
             CHECK(&v1 == &(v1 &= 6));
-            CHECK(v1 == int2x2(2,4,2,4));
-            int2x2 v2{6,7,6,7};
-            CHECK(&v2 == &(v2 &= int2x2(11,12,11,12)));
-            CHECK(v2 == int2x2(2,4,2,4));
+            CHECK(v1 == imat2(2,4,2,4));
+            imat2 v2{6,7,6,7};
+            CHECK(&v2 == &(v2 &= imat2(11,12,11,12)));
+            CHECK(v2 == imat2(2,4,2,4));
         }
         {
-            int2x2 v1{11,12,11,12};
+            imat2 v1{11,12,11,12};
             CHECK(&v1 == &(v1 |= 6));
-            CHECK(v1 == int2x2(15,14,15,14));
-            int2x2 v2{6,7,6,7};
-            CHECK(&v2 == &(v2 |= int2x2(11,12,11,12)));
-            CHECK(v2 == int2x2(15,15,15,15));
+            CHECK(v1 == imat2(15,14,15,14));
+            imat2 v2{6,7,6,7};
+            CHECK(&v2 == &(v2 |= imat2(11,12,11,12)));
+            CHECK(v2 == imat2(15,15,15,15));
         }
         {
-            int2x2 v1{11,12,11,12};
+            imat2 v1{11,12,11,12};
             CHECK(&v1 == &(v1 ^= 6));
-            CHECK(v1 == int2x2(13,10,13,10));
-            int2x2 v2{6,7,6,7};
-            CHECK(&v2 == &(v2 ^= int2x2(11,12,11,12)));
-            CHECK(v2 == int2x2(13,11,13,11));
+            CHECK(v1 == imat2(13,10,13,10));
+            imat2 v2{6,7,6,7};
+            CHECK(&v2 == &(v2 ^= imat2(11,12,11,12)));
+            CHECK(v2 == imat2(13,11,13,11));
         }
     }
 
     SUBCASE("Operators2") {
-        STATIC_CHECK(int2x2{} + 0.0 == double2x2{});
-        STATIC_CHECK(0.0 + int2x2{} == double2x2{});
-        STATIC_CHECK(int2x2{} + double2x2{} == double2x2{2.0});
-        STATIC_CHECK(double2x2{} + int2x2{} == double2x2{2.0});
+        STATIC_CHECK(imat2{} + 0.0 == dmat2{});
+        STATIC_CHECK(0.0 + imat2{} == dmat2{});
+        STATIC_CHECK(imat2{} + dmat2{} == dmat2{2.0});
+        STATIC_CHECK(dmat2{} + imat2{} == dmat2{2.0});
 
-        STATIC_CHECK(int2x2{} - 0.0 == double2x2{});
-        STATIC_CHECK(0.0 - int2x2{} == double2x2{-1.0});
-        STATIC_CHECK(int2x2{} - double2x2{} == double2x2{0.0});
-        STATIC_CHECK(double2x2{} - int2x2{} == double2x2{0.0});
+        STATIC_CHECK(imat2{} - 0.0 == dmat2{});
+        STATIC_CHECK(0.0 - imat2{} == dmat2{-1.0});
+        STATIC_CHECK(imat2{} - dmat2{} == dmat2{0.0});
+        STATIC_CHECK(dmat2{} - imat2{} == dmat2{0.0});
 
-        STATIC_CHECK(int2x2{} * 1.0 == double2x2{});
-        STATIC_CHECK(0.0 * int2x2{1} == double2x2{0.0});
-        STATIC_CHECK(int2{} * double2x2{} == double2{});
-        STATIC_CHECK(int2x2{} * double2x2{} == double2x2{});
-        STATIC_CHECK(double2x2{} * int2x2{1} == double2x2{});
+        STATIC_CHECK(imat2{} * 1.0 == dmat2{});
+        STATIC_CHECK(0.0 * imat2{1} == dmat2{0.0});
+        STATIC_CHECK(ivec2{} * dmat2{} == dvec2{});
+        STATIC_CHECK(imat2{} * dmat2{} == dmat2{});
+        STATIC_CHECK(dmat2{} * imat2{1} == dmat2{});
 
-        STATIC_CHECK(int2x2{} / 1.0 == double2x2{});
-        STATIC_CHECK(0.0 / int2x2{1,1,1,1} == double2x2{0.0});
+        STATIC_CHECK(imat2{} / 1.0 == dmat2{});
+        STATIC_CHECK(0.0 / imat2{1,1,1,1} == dmat2{0.0});
     }
 
     SUBCASE("Conversions2") {
         {
-            STATIC_CHECK(double2x2(1.0) == double2x2(1));
-            STATIC_CHECK(double2x2(int2(1,2)) == double2x2(double2(1,2)));
-            STATIC_CHECK(double2x2(int2(1,2),float2(3,4)) == double2x2(1,2,3,4));
+            STATIC_CHECK(dmat2(1.0) == dmat2(1));
+            STATIC_CHECK(dmat2(ivec2(1,2)) == dmat2(dvec2(1,2)));
+            STATIC_CHECK(dmat2(ivec2(1,2),fvec2(3,4)) == dmat2(1,2,3,4));
 
-            STATIC_CHECK(double2x2(int2x2(1)) == double2x2(1));
-            STATIC_CHECK(double2x2(int3x3(1)) == double2x2(1));
-            STATIC_CHECK(double2x2(int4x4(1)) == double2x2(1));
+            STATIC_CHECK(dmat2(imat2(1)) == dmat2(1));
+            STATIC_CHECK(dmat2(imat3(1)) == dmat2(1));
+            STATIC_CHECK(dmat2(imat4(1)) == dmat2(1));
         }
         {
-            STATIC_CHECK(double3x3(1.0) == double3x3(1));
-            STATIC_CHECK(double3x3(int3(1,2,3)) == double3x3(double3(1,2,3)));
-            STATIC_CHECK(double3x3(int3(1,2,3),float3(2,3,4),uint3(3,4,5)) == double3x3(1,2,3,2,3,4,3,4,5));
+            STATIC_CHECK(dmat3(1.0) == dmat3(1));
+            STATIC_CHECK(dmat3(ivec3(1,2,3)) == dmat3(dvec3(1,2,3)));
+            STATIC_CHECK(dmat3(ivec3(1,2,3),fvec3(2,3,4),uvec3(3,4,5)) == dmat3(1,2,3,2,3,4,3,4,5));
 
-            STATIC_CHECK(double3x3(int2x2(1),uint2(2)) == double3x3(double2x2(1),double2(2)));
+            STATIC_CHECK(dmat3(imat2(1),uvec2(2)) == dmat3(dmat2(1),dvec2(2)));
 
-            STATIC_CHECK(double3x3(int2x2(1)) == double3x3(1));
-            STATIC_CHECK(double3x3(int3x3(1)) == double3x3(1));
-            STATIC_CHECK(double3x3(int4x4(1)) == double3x3(1));
+            STATIC_CHECK(dmat3(imat2(1)) == dmat3(1));
+            STATIC_CHECK(dmat3(imat3(1)) == dmat3(1));
+            STATIC_CHECK(dmat3(imat4(1)) == dmat3(1));
         }
         {
-            STATIC_CHECK(double4x4(1.0) == double4x4(1));
-            STATIC_CHECK(double4x4(int4(1,2,3,4)) == double4x4(double4(1,2,3,4)));
-            STATIC_CHECK(double4x4(int4(1,2,3,4),float4(2,3,4,5),uint4(3,4,5,6),int4(4,5,6,7)) == double4x4(1,2,3,4,2,3,4,5,3,4,5,6,4,5,6,7));
+            STATIC_CHECK(dmat4(1.0) == dmat4(1));
+            STATIC_CHECK(dmat4(ivec4(1,2,3,4)) == dmat4(dvec4(1,2,3,4)));
+            STATIC_CHECK(dmat4(ivec4(1,2,3,4),fvec4(2,3,4,5),uvec4(3,4,5,6),ivec4(4,5,6,7)) == dmat4(1,2,3,4,2,3,4,5,3,4,5,6,4,5,6,7));
 
-            STATIC_CHECK(double4x4(int3x3(1),uint3(2)) == double4x4(double3x3(1),double3(2)));
+            STATIC_CHECK(dmat4(imat3(1),uvec3(2)) == dmat4(dmat3(1),dvec3(2)));
 
-            STATIC_CHECK(double4x4(int2x2(1)) == double4x4(1));
-            STATIC_CHECK(double4x4(int3x3(1)) == double4x4(1));
-            STATIC_CHECK(double4x4(int4x4(1)) == double4x4(1));
+            STATIC_CHECK(dmat4(imat2(1)) == dmat4(1));
+            STATIC_CHECK(dmat4(imat3(1)) == dmat4(1));
+            STATIC_CHECK(dmat4(imat4(1)) == dmat4(1));
         }
     }
 
     SUBCASE("relational functions") {
-        STATIC_CHECK_FALSE(any(bool2x2(false, false, false, false)));
-        STATIC_CHECK(any(bool2x2(true, false, true, false)));
-        STATIC_CHECK(any(bool2x2(false, true, false, true)));
-        STATIC_CHECK(any(bool2x2(true, true, true, true)));
+        STATIC_CHECK_FALSE(any(bmat2(false, false, false, false)));
+        STATIC_CHECK(any(bmat2(true, false, true, false)));
+        STATIC_CHECK(any(bmat2(false, true, false, true)));
+        STATIC_CHECK(any(bmat2(true, true, true, true)));
 
-        STATIC_CHECK_FALSE(any(int2x2(0, 0, 0, 0)));
-        STATIC_CHECK(any(int2x2(1, 0, 1, 0)));
-        STATIC_CHECK(any(int2x2(0, 1, 0, 1)));
-        STATIC_CHECK(any(int2x2(1, 1, 1, 1)));
+        STATIC_CHECK_FALSE(any(imat2(0, 0, 0, 0)));
+        STATIC_CHECK(any(imat2(1, 0, 1, 0)));
+        STATIC_CHECK(any(imat2(0, 1, 0, 1)));
+        STATIC_CHECK(any(imat2(1, 1, 1, 1)));
 
-        STATIC_CHECK_FALSE(all(bool2x2(false, false, false, false)));
-        STATIC_CHECK_FALSE(all(bool2x2(true, false, true, false)));
-        STATIC_CHECK_FALSE(all(bool2x2(false, true, false, true)));
-        STATIC_CHECK(all(bool2x2(true, true, true, true)));
+        STATIC_CHECK_FALSE(all(bmat2(false, false, false, false)));
+        STATIC_CHECK_FALSE(all(bmat2(true, false, true, false)));
+        STATIC_CHECK_FALSE(all(bmat2(false, true, false, true)));
+        STATIC_CHECK(all(bmat2(true, true, true, true)));
 
-        STATIC_CHECK_FALSE(all(int2x2(0, 0, 0, 0)));
-        STATIC_CHECK_FALSE(all(int2x2(1, 0, 1, 0)));
-        STATIC_CHECK_FALSE(all(int2x2(0, 1, 0, 1)));
-        STATIC_CHECK(all(int2x2(1, 1, 1, 1)));
+        STATIC_CHECK_FALSE(all(imat2(0, 0, 0, 0)));
+        STATIC_CHECK_FALSE(all(imat2(1, 0, 1, 0)));
+        STATIC_CHECK_FALSE(all(imat2(0, 1, 0, 1)));
+        STATIC_CHECK(all(imat2(1, 1, 1, 1)));
 
-        STATIC_CHECK(approx(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(false, true, false, false));
-        STATIC_CHECK(approx(int2x2(1,1,1,1), int2x2(0,1,2,3), 0) == bool2x2(false, true, false, false));
-        STATIC_CHECK(approx(int2x2(1,1,1,1), int2x2(0,1,2,3), 1) == bool2x2(true, true, true, false));
-        STATIC_CHECK(approx(int2x2(1,1,1,1), int2x2(0,1,2,3), 2) == bool2x2(true, true, true, true));
+        STATIC_CHECK(approx(imat2(1,1,1,1), imat2(0,1,2,3)) == bmat2(false, true, false, false));
+        STATIC_CHECK(approx(imat2(1,1,1,1), imat2(0,1,2,3), 0) == bmat2(false, true, false, false));
+        STATIC_CHECK(approx(imat2(1,1,1,1), imat2(0,1,2,3), 1) == bmat2(true, true, true, false));
+        STATIC_CHECK(approx(imat2(1,1,1,1), imat2(0,1,2,3), 2) == bmat2(true, true, true, true));
 
-        STATIC_CHECK(less(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(false, false, true, true));
-        STATIC_CHECK(less_equal(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(false, true, true, true));
-        STATIC_CHECK(greater(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(true, false, false, false));
-        STATIC_CHECK(greater_equal(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(true, true, false, false));
+        STATIC_CHECK(less(imat2(1,1,1,1), imat2(0,1,2,3)) == bmat2(false, false, true, true));
+        STATIC_CHECK(less_equal(imat2(1,1,1,1), imat2(0,1,2,3)) == bmat2(false, true, true, true));
+        STATIC_CHECK(greater(imat2(1,1,1,1), imat2(0,1,2,3)) == bmat2(true, false, false, false));
+        STATIC_CHECK(greater_equal(imat2(1,1,1,1), imat2(0,1,2,3)) == bmat2(true, true, false, false));
 
-        STATIC_CHECK(equal_to(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(false, true, false, false));
-        STATIC_CHECK(not_equal_to(int2x2(1,1,1,1), int2x2(0,1,2,3)) == bool2x2(true, false, true, true));
+        STATIC_CHECK(equal_to(imat2(1,1,1,1), imat2(0,1,2,3)) == bmat2(false, true, false, false));
+        STATIC_CHECK(not_equal_to(imat2(1,1,1,1), imat2(0,1,2,3)) == bmat2(true, false, true, true));
     }
 
     SUBCASE("transpose") {
-        STATIC_CHECK(transpose(int2x2(
+        STATIC_CHECK(transpose(imat2(
             1, 2,
             3, 4
-        )) == int2x2(
+        )) == imat2(
             1, 3,
             2, 4
         ));
 
-        STATIC_CHECK(transpose(int3x3(
+        STATIC_CHECK(transpose(imat3(
             1, 2, 3,
             4, 5, 6,
             7, 8, 9
-        )) == int3x3(
+        )) == imat3(
             1, 4, 7,
             2, 5, 8,
             3, 6, 9
         ));
 
-        STATIC_CHECK(transpose(int4x4(
+        STATIC_CHECK(transpose(imat4(
             1,  2,  3,  4,
             5,  6,  7,  8,
             9,  10, 11, 12,
             13, 14, 15, 16
-        )) == int4x4(
+        )) == imat4(
             1, 5, 9,  13,
             2, 6, 10, 14,
             3, 7, 11, 15,
@@ -274,9 +274,9 @@ TEST_CASE("vmath/mat_fun") {
     }
 
     SUBCASE("determinant") {
-        constexpr int2x2 m2{1,2,3,4};
-        constexpr int3x3 m3{1,2,3,4,5,6,7,8,9};
-        constexpr int4x4 m4{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+        constexpr imat2 m2{1,2,3,4};
+        constexpr imat3 m3{1,2,3,4,5,6,7,8,9};
+        constexpr imat4 m4{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
         STATIC_CHECK(determinant(m2) == determinant(transpose(m2)));
         STATIC_CHECK(determinant(m3) == determinant(transpose(m3)));
         STATIC_CHECK(determinant(m4) == determinant(transpose(m4)));
@@ -291,44 +291,44 @@ TEST_CASE("vmath/mat_fun") {
     }
 
     SUBCASE("inverse") {
-        STATIC_CHECK(inverse(float2x2()) == float2x2());
-        STATIC_CHECK(inverse(float3x3()) == float3x3());
-        STATIC_CHECK(inverse(float4x4()) == float4x4());
+        STATIC_CHECK(inverse(fmat2()) == fmat2());
+        STATIC_CHECK(inverse(fmat3()) == fmat3());
+        STATIC_CHECK(inverse(fmat4()) == fmat4());
 
-        STATIC_CHECK(inverse(float2x2(0.5)) == float2x2(2.f));
-        STATIC_CHECK(inverse(float3x3(0.5)) == float3x3(2.f));
-        STATIC_CHECK(inverse(float4x4(0.5)) == float4x4(2.f));
+        STATIC_CHECK(inverse(fmat2(0.5)) == fmat2(2.f));
+        STATIC_CHECK(inverse(fmat3(0.5)) == fmat3(2.f));
+        STATIC_CHECK(inverse(fmat4(0.5)) == fmat4(2.f));
 
         {
-            constexpr float4x4 m1 = translate(float3(1.f, 2.f, 3.f));
-            constexpr float4x4 rm1 = inverse(m1);
+            constexpr fmat4 m1 = translate(fvec3(1.f, 2.f, 3.f));
+            constexpr fmat4 rm1 = inverse(m1);
             STATIC_CHECK(all(approx(
                 unit4_z<float> * m1 * rm1,
                 unit4_z<float>)));
         }
 
         {
-            const float3 axis2 = normalize(float3(1.f, 2.f, 3.f));
-            const float4x4 m2 = rotate(0.5f,axis2);
-            const float4x4 rm2 = inverse(m2);
+            const fvec3 axis2 = normalize(fvec3(1.f, 2.f, 3.f));
+            const fmat4 m2 = fmat4(rotate(0.5f,axis2));
+            const fmat4 rm2 = inverse(m2);
             CHECK(all(approx(
                 unit4_z<float> * m2 * rm2,
                 unit4_z<float>)));
         }
 
         {
-            const float3 axis3 = normalize(float3(1.f, 2.f, 3.f));
-            const float3x3 m3 = float3x3(rotate(0.5f,axis3));
-            const float3x3 rm3 = inverse(m3);
+            const fvec3 axis3 = normalize(fvec3(1.f, 2.f, 3.f));
+            const fmat3 m3 = fmat3(rotate(0.5f,axis3));
+            const fmat3 rm3 = inverse(m3);
             CHECK(all(approx(
                 unit3_z<float> * m3 * rm3,
                 unit3_z<float>)));
         }
 
         {
-            const float3 axis4 = normalize(float3(0.f, 0.f, 3.f));
-            const float2x2 m4 = float2x2(rotate(0.5f,axis4));
-            const float2x2 rm4 = inverse(m4);
+            const fvec3 axis4 = normalize(fvec3(0.f, 0.f, 3.f));
+            const fmat2 m4 = fmat2(rotate(0.5f,axis4));
+            const fmat2 rm4 = inverse(m4);
             CHECK(all(approx(
                 unit2_y<float> * m4 * rm4,
                 unit2_y<float>)));
