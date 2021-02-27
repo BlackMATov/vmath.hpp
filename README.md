@@ -659,6 +659,44 @@ vec<T, Size>& operator^=(vec<T, Size>& xs, T y);
 template < typename T, size_t Size >
 vec<T, Size>& operator^=(vec<T, Size>& xs, const vec<T, Size>& ys);
 
+// operator<<
+
+template < typename T, size_t Size >
+auto operator<<(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+auto operator<<(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+auto operator<<(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator<<=
+
+template < typename T, size_t Size >
+vec<T, Size>& operator<<=(vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+vec<T, Size>& operator<<=(vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator>>
+
+template < typename T, size_t Size >
+auto operator>>(const vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+auto operator>>(T x, const vec<T, Size>& ys);
+
+template < typename T, size_t Size >
+auto operator>>(const vec<T, Size>& xs, const vec<T, Size>& ys);
+
+// operator>>=
+
+template < typename T, size_t Size >
+vec<T, Size>& operator>>=(vec<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+vec<T, Size>& operator>>=(vec<T, Size>& xs, const vec<T, Size>& ys);
+
 // operator&&
 
 template < typename T, size_t Size >
@@ -872,6 +910,44 @@ mat<T, Size>& operator^=(mat<T, Size>& xs, T y);
 
 template < typename T, size_t Size >
 mat<T, Size>& operator^=(mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator<<
+
+template < typename T, size_t Size >
+auto operator<<(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+auto operator<<(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+auto operator<<(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator<<=
+
+template < typename T, size_t Size >
+mat<T, Size>& operator<<=(mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+mat<T, Size>& operator<<=(mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator>>
+
+template < typename T, size_t Size >
+auto operator>>(const mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+auto operator>>(T x, const mat<T, Size>& ys);
+
+template < typename T, size_t Size >
+auto operator>>(const mat<T, Size>& xs, const mat<T, Size>& ys);
+
+// operator>>=
+
+template < typename T, size_t Size >
+mat<T, Size>& operator>>=(mat<T, Size>& xs, T y);
+
+template < typename T, size_t Size >
+mat<T, Size>& operator>>=(mat<T, Size>& xs, const mat<T, Size>& ys);
 
 // operator&&
 

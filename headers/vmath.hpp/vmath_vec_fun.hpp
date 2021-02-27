@@ -473,6 +473,64 @@ namespace vmath_hpp
         return (xs = (xs ^ ys));
     }
 
+    // operator<<
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator<<(const vec<T, Size>& xs, T y) {
+        return map_join([y](T x){ return x << y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator<<(T x, const vec<T, Size>& ys) {
+        return map_join([x](T y){ return x << y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator<<(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return map_join([](T x, T y){ return x << y; }, xs, ys);
+    }
+
+    // operator<<=
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator<<=(vec<T, Size>& xs, T y) {
+        return (xs = (xs << y));
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator<<=(vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return (xs = (xs << ys));
+    }
+
+    // operator>>
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator>>(const vec<T, Size>& xs, T y) {
+        return map_join([y](T x){ return x >> y; }, xs);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator>>(T x, const vec<T, Size>& ys) {
+        return map_join([x](T y){ return x >> y; }, ys);
+    }
+
+    template < typename T, std::size_t Size >
+    [[nodiscard]] constexpr auto operator>>(const vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return map_join([](T x, T y){ return x >> y; }, xs, ys);
+    }
+
+    // operator>>=
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator>>=(vec<T, Size>& xs, T y) {
+        return (xs = (xs >> y));
+    }
+
+    template < typename T, std::size_t Size >
+    constexpr vec<T, Size>& operator>>=(vec<T, Size>& xs, const vec<T, Size>& ys) {
+        return (xs = (xs >> ys));
+    }
+
     // operator&&
 
     template < typename T, std::size_t Size >
