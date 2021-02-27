@@ -53,37 +53,37 @@ TEST_CASE("vmath/qua_fun") {
         }
 
         {
-            float3 v{1,0,0};
-            CHECK(&v == &(v *= qfloat{0,0,0.7071067812f,0.7071067812f}));
+            fvec3 v{1,0,0};
+            CHECK(&v == &(v *= fqua{0,0,0.7071067812f,0.7071067812f}));
             CHECK(v == uapprox3(0.f,1.f,0.f));
         }
 
-        STATIC_CHECK(qfloat{} * qfloat{} == qfloat{});
-        STATIC_CHECK(float3{1,2,3} * qfloat{} == uapprox3(1.f,2.f,3.f));
-        STATIC_CHECK(float3{1,0,0} * qfloat{0,0,0.7071067812f,0.7071067812f} == uapprox3(0.f,1.f,0.f));
+        STATIC_CHECK(fqua{} * fqua{} == fqua{});
+        STATIC_CHECK(fvec3{1,2,3} * fqua{} == uapprox3(1.f,2.f,3.f));
+        STATIC_CHECK(fvec3{1,0,0} * fqua{0,0,0.7071067812f,0.7071067812f} == uapprox3(0.f,1.f,0.f));
     }
 
     SUBCASE("Operators2") {
-        STATIC_CHECK(qfloat{} + qdouble{} == qdouble{0,0,0,2});
-        STATIC_CHECK(qfloat{} - qdouble{} == qdouble{0,0,0,0});
+        STATIC_CHECK(fqua{} + dqua{} == dqua{0,0,0,2});
+        STATIC_CHECK(fqua{} - dqua{} == dqua{0,0,0,0});
 
-        STATIC_CHECK(qfloat{} * 1.0 == qdouble{});
-        STATIC_CHECK(1.0 * qfloat{} == qdouble{});
-        STATIC_CHECK(float3{} * qdouble{} == double3{});
-        STATIC_CHECK(qfloat{} * qdouble{} == qdouble{});
+        STATIC_CHECK(fqua{} * 1.0 == dqua{});
+        STATIC_CHECK(1.0 * fqua{} == dqua{});
+        STATIC_CHECK(fvec3{} * dqua{} == dvec3{});
+        STATIC_CHECK(fqua{} * dqua{} == dqua{});
 
-        STATIC_CHECK(qfloat{} / 1.0 == qdouble{});
-        STATIC_CHECK(1.0 / qfloat{1,1,1,1} == qdouble{1,1,1,1});
+        STATIC_CHECK(fqua{} / 1.0 == dqua{});
+        STATIC_CHECK(1.0 / fqua{1,1,1,1} == dqua{1,1,1,1});
     }
 
     SUBCASE("Conversions2") {
-        STATIC_CHECK(qdouble(1,2.f,3.0,4u) == qdouble(1,2,3,4));
-        STATIC_CHECK(qdouble(int3(1,2,3),4u) == qdouble(1,2,3,4));
-        STATIC_CHECK(qdouble(int4(1,2,3,4)) == qdouble(1,2,3,4));
-        STATIC_CHECK(qdouble(qfloat(1,2,3,4)) == qdouble(1,2,3,4));
+        STATIC_CHECK(dqua(1,2.f,3.0,4u) == dqua(1,2,3,4));
+        STATIC_CHECK(dqua(ivec3(1,2,3),4u) == dqua(1,2,3,4));
+        STATIC_CHECK(dqua(ivec4(1,2,3,4)) == dqua(1,2,3,4));
+        STATIC_CHECK(dqua(fqua(1,2,3,4)) == dqua(1,2,3,4));
 
-        STATIC_CHECK(float4(qfloat(1,2,3,4)) == float4(1,2,3,4));
-        STATIC_CHECK(double4(qfloat(1,2,3,4)) == double4(1,2,3,4));
+        STATIC_CHECK(fvec4(fqua(1,2,3,4)) == fvec4(1,2,3,4));
+        STATIC_CHECK(dvec4(fqua(1,2,3,4)) == dvec4(1,2,3,4));
     }
 
     SUBCASE("Common Functions") {
@@ -155,19 +155,19 @@ TEST_CASE("vmath/qua_fun") {
 
     SUBCASE("Geometric Functions") {
         STATIC_CHECK(dot(qua(1,2,3,4),qua(3,4,5,6)) == 50);
-        STATIC_CHECK(dot(qfloat(1,2,3,4),qdouble(3,4,5,6)) == uapprox(50.0));
+        STATIC_CHECK(dot(fqua(1,2,3,4),dqua(3,4,5,6)) == uapprox(50.0));
 
-        CHECK(length(qfloat(10.f,0.f,0.f,0.f)) == uapprox(10.f));
-        CHECK(length(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(10.f));
+        CHECK(length(fqua(10.f,0.f,0.f,0.f)) == uapprox(10.f));
+        CHECK(length(fqua(-10.f,0.f,0.f,0.f)) == uapprox(10.f));
 
-        CHECK(rlength(qfloat(10.f,0.f,0.f,0.f)) == uapprox(0.1f));
-        CHECK(rlength(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(0.1f));
+        CHECK(rlength(fqua(10.f,0.f,0.f,0.f)) == uapprox(0.1f));
+        CHECK(rlength(fqua(-10.f,0.f,0.f,0.f)) == uapprox(0.1f));
 
-        STATIC_CHECK(length2(qfloat(10.f,0.f,0.f,0.f)) == uapprox(100.f));
-        STATIC_CHECK(length2(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(100.f));
+        STATIC_CHECK(length2(fqua(10.f,0.f,0.f,0.f)) == uapprox(100.f));
+        STATIC_CHECK(length2(fqua(-10.f,0.f,0.f,0.f)) == uapprox(100.f));
 
-        STATIC_CHECK(rlength2(qfloat(10.f,0.f,0.f,0.f)) == uapprox(0.01f));
-        STATIC_CHECK(rlength2(qfloat(-10.f,0.f,0.f,0.f)) == uapprox(0.01f));
+        STATIC_CHECK(rlength2(fqua(10.f,0.f,0.f,0.f)) == uapprox(0.01f));
+        STATIC_CHECK(rlength2(fqua(-10.f,0.f,0.f,0.f)) == uapprox(0.01f));
 
         CHECK(distance(qrotate_z(radians(0.f)) * 2.f, qrotate_z(radians(0.f)) * 1.5f) == uapprox(radians(0.f)));
         CHECK(distance(qrotate_z(radians(0.f)) * 3.f, qrotate_z(radians(360.f)) * 2.5f) == uapprox(radians(0.f)));
@@ -176,7 +176,7 @@ TEST_CASE("vmath/qua_fun") {
         CHECK(distance(qrotate_z(radians(15.f)) * 6.f, qrotate_z(radians(350.f)) * 5.5f) == uapprox(radians(25.f)));
         CHECK(distance(qrotate_z(radians(350.f)) * 7.f, qrotate_z(radians(15.f)) * 6.5f) == uapprox(radians(25.f)));
 
-        CHECK(normalize(qfloat(0.5f,0.f,0.f,0.f)).v == uapprox3(1.f,0.f,0.f));
+        CHECK(normalize(fqua(0.5f,0.f,0.f,0.f)).v == uapprox3(1.f,0.f,0.f));
     }
 
     SUBCASE("Relational Functions") {
@@ -193,18 +193,18 @@ TEST_CASE("vmath/qua_fun") {
         STATIC_CHECK(all(qua(1,1,1,1)));
         STATIC_CHECK_FALSE(all(qua(0,0,0,0)));
 
-        STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
-        STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 0) == bool4(false, true, false, false));
-        STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 1) == bool4(true, true, true, false));
-        STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 2) == bool4(true, true, true, true));
+        STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3)) == bvec4(false, true, false, false));
+        STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 0) == bvec4(false, true, false, false));
+        STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 1) == bvec4(true, true, true, false));
+        STATIC_CHECK(approx(qua(1,1,1,1), qua(0,1,2,3), 2) == bvec4(true, true, true, true));
 
-        STATIC_CHECK(less(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, false, true, true));
-        STATIC_CHECK(less_equal(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, true, true));
-        STATIC_CHECK(greater(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, false, false, false));
-        STATIC_CHECK(greater_equal(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, true, false, false));
+        STATIC_CHECK(less(qua(1,1,1,1), qua(0,1,2,3)) == bvec4(false, false, true, true));
+        STATIC_CHECK(less_equal(qua(1,1,1,1), qua(0,1,2,3)) == bvec4(false, true, true, true));
+        STATIC_CHECK(greater(qua(1,1,1,1), qua(0,1,2,3)) == bvec4(true, false, false, false));
+        STATIC_CHECK(greater_equal(qua(1,1,1,1), qua(0,1,2,3)) == bvec4(true, true, false, false));
 
-        STATIC_CHECK(equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(false, true, false, false));
-        STATIC_CHECK(not_equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bool4(true, false, true, true));
+        STATIC_CHECK(equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bvec4(false, true, false, false));
+        STATIC_CHECK(not_equal_to(qua(1,1,1,1), qua(0,1,2,3)) == bvec4(true, false, true, true));
     }
 
     SUBCASE("Quaternion Functions") {

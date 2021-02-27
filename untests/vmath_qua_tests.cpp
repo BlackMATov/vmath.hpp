@@ -14,11 +14,11 @@ namespace
 
 TEST_CASE("vmath/qua") {
     SUBCASE("size/sizeof") {
-        STATIC_CHECK(qfloat{}.size == 4);
-        STATIC_CHECK(qdouble{}.size == 4);
+        STATIC_CHECK(fqua{}.size == 4);
+        STATIC_CHECK(dqua{}.size == 4);
 
-        STATIC_CHECK(sizeof(qfloat{}) == sizeof(float) * 4);
-        STATIC_CHECK(sizeof(qdouble{}) == sizeof(double) * 4);
+        STATIC_CHECK(sizeof(fqua{}) == sizeof(float) * 4);
+        STATIC_CHECK(sizeof(dqua{}) == sizeof(double) * 4);
     }
 
     SUBCASE("guides") {
@@ -32,7 +32,7 @@ TEST_CASE("vmath/qua") {
     SUBCASE("ctors") {
         {
             qua<int> q;
-            CHECK(q.v == int3(0,0,0));
+            CHECK(q.v == ivec3(0,0,0));
             CHECK(q.s == 1);
 
             STATIC_CHECK(qua<int>() == qua<int>({0,0,0},1));
@@ -41,64 +41,64 @@ TEST_CASE("vmath/qua") {
             STATIC_CHECK(qua<int>(identity_init) == qua<int>({0,0,0},1));
         }
         {
-            STATIC_CHECK(qfloat{}.v == uapprox3(0.f));
-            STATIC_CHECK(qfloat{}.s == uapprox(1.f));
+            STATIC_CHECK(fqua{}.v == uapprox3(0.f));
+            STATIC_CHECK(fqua{}.s == uapprox(1.f));
 
-            STATIC_CHECK(qfloat{1,2,3,4}.v == uapprox3(1.f,2.f,3.f));
-            STATIC_CHECK(qfloat{1,2,3,4}.s == uapprox(4.f));
+            STATIC_CHECK(fqua{1,2,3,4}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_CHECK(fqua{1,2,3,4}.s == uapprox(4.f));
 
-            STATIC_CHECK(qfloat{{1,2,3},4}.v == uapprox3(1.f,2.f,3.f));
-            STATIC_CHECK(qfloat{{1,2,3},4}.s == uapprox(4.f));
+            STATIC_CHECK(fqua{{1,2,3},4}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_CHECK(fqua{{1,2,3},4}.s == uapprox(4.f));
 
-            STATIC_CHECK(qfloat{{1,2,3,4}}.v == uapprox3(1.f,2.f,3.f));
-            STATIC_CHECK(qfloat{{1,2,3,4}}.s == uapprox(4.f));
+            STATIC_CHECK(fqua{{1,2,3,4}}.v == uapprox3(1.f,2.f,3.f));
+            STATIC_CHECK(fqua{{1,2,3,4}}.s == uapprox(4.f));
         }
         {
-            constexpr qfloat q(1,2,3,4);
-            constexpr qfloat q2 = q;
-            STATIC_CHECK(q2 == qfloat(1,2,3,4));
+            constexpr fqua q(1,2,3,4);
+            constexpr fqua q2 = q;
+            STATIC_CHECK(q2 == fqua(1,2,3,4));
         }
         {
-            constexpr qfloat q(1,2,3,4);
-            constexpr qfloat q2 = std::move(q);
-            STATIC_CHECK(q2 == qfloat(1,2,3,4));
+            constexpr fqua q(1,2,3,4);
+            constexpr fqua q2 = std::move(q);
+            STATIC_CHECK(q2 == fqua(1,2,3,4));
         }
         {
-            STATIC_CHECK(qfloat(1,2,3,4) == qfloat(1,2,3,4));
-            STATIC_CHECK(qfloat(float3(1,2,3),4) == qfloat(1,2,3,4));
-            STATIC_CHECK(qfloat(float4(1,2,3,4)) == qfloat(1,2,3,4));
+            STATIC_CHECK(fqua(1,2,3,4) == fqua(1,2,3,4));
+            STATIC_CHECK(fqua(fvec3(1,2,3),4) == fqua(1,2,3,4));
+            STATIC_CHECK(fqua(fvec4(1,2,3,4)) == fqua(1,2,3,4));
         }
     }
 
     SUBCASE("operator=") {
         {
-            qfloat v(1,2,3,4);
-            qfloat v2;
+            fqua v(1,2,3,4);
+            fqua v2;
             v2 = v;
-            CHECK(v2 == qfloat(1,2,3,4));
+            CHECK(v2 == fqua(1,2,3,4));
         }
         {
-            qfloat v(1,2,3,4);
-            qfloat v2;
+            fqua v(1,2,3,4);
+            fqua v2;
             v2 = std::move(v);
-            CHECK(v2 == qfloat(1,2,3,4));
+            CHECK(v2 == fqua(1,2,3,4));
         }
     }
 
     SUBCASE("swap") {
         {
-            qfloat v1(1,2,3,4);
-            qfloat v2(4,5,6,7);
+            fqua v1(1,2,3,4);
+            fqua v2(4,5,6,7);
             v1.swap(v2);
-            CHECK(v1 == qfloat(4,5,6,7));
-            CHECK(v2 == qfloat(1,2,3,4));
+            CHECK(v1 == fqua(4,5,6,7));
+            CHECK(v2 == fqua(1,2,3,4));
         }
         {
-            qfloat v1(1,2,3,4);
-            qfloat v2(4,5,6,7);
+            fqua v1(1,2,3,4);
+            fqua v2(4,5,6,7);
             swap(v1, v2);
-            CHECK(v1 == qfloat(4,5,6,7));
-            CHECK(v2 == qfloat(1,2,3,4));
+            CHECK(v1 == fqua(4,5,6,7));
+            CHECK(v2 == fqua(1,2,3,4));
         }
     }
 
@@ -174,11 +174,11 @@ TEST_CASE("vmath/qua") {
 
     SUBCASE("data") {
         {
-            qfloat i2;
+            fqua i2;
             CHECK(i2.data() == &i2[0]);
         }
         {
-            const qfloat i2;
+            const fqua i2;
             CHECK(i2.data() == &i2[0]);
         }
     }
@@ -240,29 +240,29 @@ TEST_CASE("vmath/qua") {
     }
 
     SUBCASE("operator==/operator!=") {
-        STATIC_CHECK(qfloat(1,2,3,4) == qfloat(1,2,3,4));
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) == qfloat(2,2,3,4));
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) == qfloat(1,3,3,4));
+        STATIC_CHECK(fqua(1,2,3,4) == fqua(1,2,3,4));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) == fqua(2,2,3,4));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) == fqua(1,3,3,4));
 
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) != qfloat(1,2,3,4));
-        STATIC_CHECK(qfloat(1,2,3,4) != qfloat(2,2,3,4));
-        STATIC_CHECK(qfloat(1,2,3,4) != qfloat(1,3,3,4));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) != fqua(1,2,3,4));
+        STATIC_CHECK(fqua(1,2,3,4) != fqua(2,2,3,4));
+        STATIC_CHECK(fqua(1,2,3,4) != fqua(1,3,3,4));
     }
 
     SUBCASE("operator<") {
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(1,2,3,4));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) < fqua(1,2,3,4));
 
-        STATIC_CHECK(qfloat(0,2,3,4) < qfloat(1,2,3,4));
-        STATIC_CHECK(qfloat(1,1,3,4) < qfloat(1,2,3,4));
-        STATIC_CHECK(qfloat(1,2,2,4) < qfloat(1,2,3,4));
-        STATIC_CHECK(qfloat(1,2,3,3) < qfloat(1,2,3,4));
+        STATIC_CHECK(fqua(0,2,3,4) < fqua(1,2,3,4));
+        STATIC_CHECK(fqua(1,1,3,4) < fqua(1,2,3,4));
+        STATIC_CHECK(fqua(1,2,2,4) < fqua(1,2,3,4));
+        STATIC_CHECK(fqua(1,2,3,3) < fqua(1,2,3,4));
 
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(0,2,3,4));
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(1,1,3,4));
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(1,2,2,4));
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(1,2,3,3));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) < fqua(0,2,3,4));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) < fqua(1,1,3,4));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) < fqua(1,2,2,4));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) < fqua(1,2,3,3));
 
-        STATIC_CHECK(qfloat(0,3,3,4) < qfloat(1,2,3,4));
-        STATIC_CHECK_FALSE(qfloat(1,2,3,4) < qfloat(0,3,3,4));
+        STATIC_CHECK(fqua(0,3,3,4) < fqua(1,2,3,4));
+        STATIC_CHECK_FALSE(fqua(1,2,3,4) < fqua(0,3,3,4));
     }
 }

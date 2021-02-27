@@ -14,13 +14,13 @@ namespace
 
 TEST_CASE("vmath/vec") {
     SUBCASE("size/sizeof") {
-        STATIC_CHECK(int2{}.size == 2);
-        STATIC_CHECK(int3{}.size == 3);
-        STATIC_CHECK(int4{}.size == 4);
+        STATIC_CHECK(ivec2{}.size == 2);
+        STATIC_CHECK(ivec3{}.size == 3);
+        STATIC_CHECK(ivec4{}.size == 4);
 
-        STATIC_CHECK(sizeof(int2{}) == sizeof(int) * 2);
-        STATIC_CHECK(sizeof(int3{}) == sizeof(int) * 3);
-        STATIC_CHECK(sizeof(int4{}) == sizeof(int) * 4);
+        STATIC_CHECK(sizeof(ivec2{}) == sizeof(int) * 2);
+        STATIC_CHECK(sizeof(ivec3{}) == sizeof(int) * 3);
+        STATIC_CHECK(sizeof(ivec4{}) == sizeof(int) * 4);
     }
 
     SUBCASE("guides") {
@@ -56,102 +56,102 @@ TEST_CASE("vmath/vec") {
             CHECK(i4.z == 0);
             CHECK(i4.w == 0);
 
-            STATIC_CHECK(int2() == int2(0,0));
-            STATIC_CHECK(int3() == int3(0,0,0));
-            STATIC_CHECK(int4() == int4(0,0,0,0));
+            STATIC_CHECK(ivec2() == ivec2(0,0));
+            STATIC_CHECK(ivec3() == ivec3(0,0,0));
+            STATIC_CHECK(ivec4() == ivec4(0,0,0,0));
 
-            (void)int2(uninit);
-            (void)int3(uninit);
-            (void)int4(uninit);
+            (void)ivec2(uninit);
+            (void)ivec3(uninit);
+            (void)ivec4(uninit);
 
-            STATIC_CHECK(int2(zero_init) == int2(0,0));
-            STATIC_CHECK(int3(zero_init) == int3(0,0,0));
-            STATIC_CHECK(int4(zero_init) == int4(0,0,0,0));
+            STATIC_CHECK(ivec2(zero_init) == ivec2(0,0));
+            STATIC_CHECK(ivec3(zero_init) == ivec3(0,0,0));
+            STATIC_CHECK(ivec4(zero_init) == ivec4(0,0,0,0));
 
-            STATIC_CHECK(int2(unit_init) == int2(1,1));
-            STATIC_CHECK(int3(unit_init) == int3(1,1,1));
-            STATIC_CHECK(int4(unit_init) == int4(1,1,1,1));
+            STATIC_CHECK(ivec2(unit_init) == ivec2(1,1));
+            STATIC_CHECK(ivec3(unit_init) == ivec3(1,1,1));
+            STATIC_CHECK(ivec4(unit_init) == ivec4(1,1,1,1));
         }
         {
-            STATIC_CHECK(int2().x == 0);
-            STATIC_CHECK(int2().y == 0);
+            STATIC_CHECK(ivec2().x == 0);
+            STATIC_CHECK(ivec2().y == 0);
 
-            STATIC_CHECK(int2(1).x == 1);
-            STATIC_CHECK(int2(1).y == 1);
+            STATIC_CHECK(ivec2(1).x == 1);
+            STATIC_CHECK(ivec2(1).y == 1);
 
-            STATIC_CHECK(int2(1,2).x == 1);
-            STATIC_CHECK(int2(1,2).y == 2);
+            STATIC_CHECK(ivec2(1,2).x == 1);
+            STATIC_CHECK(ivec2(1,2).y == 2);
         }
         {
-            constexpr int2 v(1,2);
-            constexpr int2 v2 = v;
-            STATIC_CHECK(v2 == int2(1,2));
+            constexpr ivec2 v(1,2);
+            constexpr ivec2 v2 = v;
+            STATIC_CHECK(v2 == ivec2(1,2));
         }
         {
-            constexpr int2 v(1,2);
-            constexpr int2 v2 = std::move(v);
-            STATIC_CHECK(v2 == int2(1,2));
+            constexpr ivec2 v(1,2);
+            constexpr ivec2 v2 = std::move(v);
+            STATIC_CHECK(v2 == ivec2(1,2));
         }
         {
-            STATIC_CHECK(int2(1) == int2(1,1));
-            STATIC_CHECK(int2(1,2) == int2(1,2));
-            STATIC_CHECK(int2(int2(1,2)) == int2(1,2));
-            STATIC_CHECK(int2(int3(1,2,3)) == int2(1,2));
-            STATIC_CHECK(int2(int4(1,2,3,4)) == int2(1,2));
+            STATIC_CHECK(ivec2(1) == ivec2(1,1));
+            STATIC_CHECK(ivec2(1,2) == ivec2(1,2));
+            STATIC_CHECK(ivec2(ivec2(1,2)) == ivec2(1,2));
+            STATIC_CHECK(ivec2(ivec3(1,2,3)) == ivec2(1,2));
+            STATIC_CHECK(ivec2(ivec4(1,2,3,4)) == ivec2(1,2));
 
-            STATIC_CHECK(int3(1) == int3(1,1,1));
-            STATIC_CHECK(int3(1,2,3) == int3(1,2,3));
-            STATIC_CHECK(int3(int2(1,2),3) == int3(1,2,3));
-            STATIC_CHECK(int3(1,int2(2,3)) == int3(1,2,3));
-            STATIC_CHECK(int3(int3(1,2,3)) == int3(1,2,3));
-            STATIC_CHECK(int3(int4(1,2,3,4)) == int3(1,2,3));
+            STATIC_CHECK(ivec3(1) == ivec3(1,1,1));
+            STATIC_CHECK(ivec3(1,2,3) == ivec3(1,2,3));
+            STATIC_CHECK(ivec3(ivec2(1,2),3) == ivec3(1,2,3));
+            STATIC_CHECK(ivec3(1,ivec2(2,3)) == ivec3(1,2,3));
+            STATIC_CHECK(ivec3(ivec3(1,2,3)) == ivec3(1,2,3));
+            STATIC_CHECK(ivec3(ivec4(1,2,3,4)) == ivec3(1,2,3));
 
-            STATIC_CHECK(int4(1) == int4(1,1,1,1));
-            STATIC_CHECK(int4(1,2,3,4) == int4(1,2,3,4));
-            STATIC_CHECK(int4(int2(1,2),3,4) == int4(1,2,3,4));
-            STATIC_CHECK(int4(1,int2(2,3),4) == int4(1,2,3,4));
-            STATIC_CHECK(int4(1,2,int2(3,4)) == int4(1,2,3,4));
-            STATIC_CHECK(int4(int2(1,2),int2(3,4)) == int4(1,2,3,4));
-            STATIC_CHECK(int4(int3(1,2,3),4) == int4(1,2,3,4));
-            STATIC_CHECK(int4(1,int3(2,3,4)) == int4(1,2,3,4));
+            STATIC_CHECK(ivec4(1) == ivec4(1,1,1,1));
+            STATIC_CHECK(ivec4(1,2,3,4) == ivec4(1,2,3,4));
+            STATIC_CHECK(ivec4(ivec2(1,2),3,4) == ivec4(1,2,3,4));
+            STATIC_CHECK(ivec4(1,ivec2(2,3),4) == ivec4(1,2,3,4));
+            STATIC_CHECK(ivec4(1,2,ivec2(3,4)) == ivec4(1,2,3,4));
+            STATIC_CHECK(ivec4(ivec2(1,2),ivec2(3,4)) == ivec4(1,2,3,4));
+            STATIC_CHECK(ivec4(ivec3(1,2,3),4) == ivec4(1,2,3,4));
+            STATIC_CHECK(ivec4(1,ivec3(2,3,4)) == ivec4(1,2,3,4));
         }
     }
 
     SUBCASE("operator=") {
         {
-            int2 v(1,2);
-            int2 v2;
+            ivec2 v(1,2);
+            ivec2 v2;
             v2 = v;
-            CHECK(v2 == int2(1,2));
+            CHECK(v2 == ivec2(1,2));
         }
         {
-            int2 v(1,2);
-            int2 v2;
+            ivec2 v(1,2);
+            ivec2 v2;
             v2 = std::move(v);
-            CHECK(v2 == int2(1,2));
+            CHECK(v2 == ivec2(1,2));
         }
     }
 
     SUBCASE("swap") {
         {
-            int2 v1(1,2);
-            int2 v2(4,5);
+            ivec2 v1(1,2);
+            ivec2 v2(4,5);
             v1.swap(v2);
-            CHECK(v1 == int2(4,5));
-            CHECK(v2 == int2(1,2));
+            CHECK(v1 == ivec2(4,5));
+            CHECK(v2 == ivec2(1,2));
         }
         {
-            int2 v1(1,2);
-            int2 v2(4,5);
+            ivec2 v1(1,2);
+            ivec2 v2(4,5);
             swap(v1, v2);
-            CHECK(v1 == int2(4,5));
-            CHECK(v2 == int2(1,2));
+            CHECK(v1 == ivec2(4,5));
+            CHECK(v2 == ivec2(1,2));
         }
     }
 
     SUBCASE("iter") {
         {
-            int2 v{1,2};
+            ivec2 v{1,2};
 
             CHECK(*v.begin() == 1);
             CHECK(*(v.begin() + 1) == 2);
@@ -182,12 +182,12 @@ TEST_CASE("vmath/vec") {
             CHECK(v.crend() - 2 == v.crbegin());
 
             *v.begin() = 3;
-            CHECK(v == int2{3,2});
+            CHECK(v == ivec2{3,2});
             *v.rbegin() = 4;
-            CHECK(v == int2{3,4});
+            CHECK(v == ivec2{3,4});
         }
         {
-            const int2 v{1,2};
+            const ivec2 v{1,2};
 
             CHECK(*v.begin() == 1);
             CHECK(*(v.begin() + 1) == 2);
@@ -221,70 +221,70 @@ TEST_CASE("vmath/vec") {
 
     SUBCASE("data") {
         {
-            int2 i2;
+            ivec2 i2;
             CHECK(i2.data() == &i2[0]);
 
-            int3 i3;
+            ivec3 i3;
             CHECK(i3.data() == &i3[0]);
 
-            int4 i4;
+            ivec4 i4;
             CHECK(i4.data() == &i4[0]);
         }
         {
-            const int2 i2;
+            const ivec2 i2;
             CHECK(i2.data() == &i2[0]);
 
-            const int3 i3;
+            const ivec3 i3;
             CHECK(i3.data() == &i3[0]);
 
-            const int4 i4;
+            const ivec4 i4;
             CHECK(i4.data() == &i4[0]);
         }
     }
 
     SUBCASE("operator[]") {
         {
-            STATIC_CHECK(int2(1,2).x == 1);
-            STATIC_CHECK(int2(1,2).y == 2);
+            STATIC_CHECK(ivec2(1,2).x == 1);
+            STATIC_CHECK(ivec2(1,2).y == 2);
 
-            STATIC_CHECK(int3(1,2,3).x == 1);
-            STATIC_CHECK(int3(1,2,3).y == 2);
-            STATIC_CHECK(int3(1,2,3).z == 3);
+            STATIC_CHECK(ivec3(1,2,3).x == 1);
+            STATIC_CHECK(ivec3(1,2,3).y == 2);
+            STATIC_CHECK(ivec3(1,2,3).z == 3);
 
-            STATIC_CHECK(int4(1,2,3,4).x == 1);
-            STATIC_CHECK(int4(1,2,3,4).y == 2);
-            STATIC_CHECK(int4(1,2,3,4).z == 3);
-            STATIC_CHECK(int4(1,2,3,4).w == 4);
+            STATIC_CHECK(ivec4(1,2,3,4).x == 1);
+            STATIC_CHECK(ivec4(1,2,3,4).y == 2);
+            STATIC_CHECK(ivec4(1,2,3,4).z == 3);
+            STATIC_CHECK(ivec4(1,2,3,4).w == 4);
         }
         {
-            STATIC_CHECK(int2(1,2)[0] == 1);
-            STATIC_CHECK(int2(1,2)[1] == 2);
+            STATIC_CHECK(ivec2(1,2)[0] == 1);
+            STATIC_CHECK(ivec2(1,2)[1] == 2);
         }
         {
-            int2 v;
+            ivec2 v;
             v.x = 1;
             v.y = 2;
-            CHECK(v == int2(1,2));
+            CHECK(v == ivec2(1,2));
             CHECK(std::as_const(v).at(0) == 1);
             CHECK(std::as_const(v).at(1) == 2);
         }
         {
-            int3 v;
+            ivec3 v;
             v.x = 1;
             v.y = 2;
             v.z = 3;
-            CHECK(v == int3(1,2,3));
+            CHECK(v == ivec3(1,2,3));
             CHECK(std::as_const(v).at(0) == 1);
             CHECK(std::as_const(v).at(1) == 2);
             CHECK(std::as_const(v).at(2) == 3);
         }
         {
-            int4 v;
+            ivec4 v;
             v.x = 1;
             v.y = 2;
             v.z = 3;
             v.w = 4;
-            CHECK(v == int4(1,2,3,4));
+            CHECK(v == ivec4(1,2,3,4));
             CHECK(std::as_const(v).at(0) == 1);
             CHECK(std::as_const(v).at(1) == 2);
             CHECK(std::as_const(v).at(2) == 3);
@@ -293,30 +293,30 @@ TEST_CASE("vmath/vec") {
     }
 
     SUBCASE("at") {
-        STATIC_CHECK(int2(1,2).at(0) == 1);
-        STATIC_CHECK(int2(1,2).at(1) == 2);
+        STATIC_CHECK(ivec2(1,2).at(0) == 1);
+        STATIC_CHECK(ivec2(1,2).at(1) == 2);
     #ifndef VMATH_HPP_NO_EXCEPTIONS
-        CHECK_THROWS_AS((void)int2(1,2).at(2), std::out_of_range);
+        CHECK_THROWS_AS((void)ivec2(1,2).at(2), std::out_of_range);
     #endif
     }
 
     SUBCASE("operator==/operator!=") {
-        STATIC_CHECK(int2(1,2) == int2(1,2));
-        STATIC_CHECK_FALSE(int2(1,2) == int2(2,2));
-        STATIC_CHECK_FALSE(int2(1,2) == int2(1,3));
+        STATIC_CHECK(ivec2(1,2) == ivec2(1,2));
+        STATIC_CHECK_FALSE(ivec2(1,2) == ivec2(2,2));
+        STATIC_CHECK_FALSE(ivec2(1,2) == ivec2(1,3));
 
-        STATIC_CHECK_FALSE(int2(1,2) != int2(1,2));
-        STATIC_CHECK(int2(1,2) != int2(2,2));
-        STATIC_CHECK(int2(1,2) != int2(1,3));
+        STATIC_CHECK_FALSE(ivec2(1,2) != ivec2(1,2));
+        STATIC_CHECK(ivec2(1,2) != ivec2(2,2));
+        STATIC_CHECK(ivec2(1,2) != ivec2(1,3));
     }
 
     SUBCASE("operator<") {
-        STATIC_CHECK_FALSE(int2(1,2) < int2(1,2));
+        STATIC_CHECK_FALSE(ivec2(1,2) < ivec2(1,2));
 
-        STATIC_CHECK(int2(1,1) < int2(1,2));
-        STATIC_CHECK_FALSE(int2(1,2) < int2(1,1));
+        STATIC_CHECK(ivec2(1,1) < ivec2(1,2));
+        STATIC_CHECK_FALSE(ivec2(1,2) < ivec2(1,1));
 
-        STATIC_CHECK(int2(0,3) < int2(1,2));
-        STATIC_CHECK_FALSE(int2(1,2) < int2(0,3));
+        STATIC_CHECK(ivec2(0,3) < ivec2(1,2));
+        STATIC_CHECK_FALSE(ivec2(1,2) < ivec2(0,3));
     }
 }

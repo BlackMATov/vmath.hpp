@@ -194,33 +194,25 @@ public:
     const_reference operator[](size_t index) const;
 };
 
-using bool2 = vec<bool, 2>;
-using bool3 = vec<bool, 3>;
-using bool4 = vec<bool, 4>;
+using bvec2 = vec<bool, 2>;
+using bvec3 = vec<bool, 3>;
+using bvec4 = vec<bool, 4>;
 
-using int2 = vec<int, 2>;
-using int3 = vec<int, 3>;
-using int4 = vec<int, 4>;
+using ivec2 = vec<int, 2>;
+using ivec3 = vec<int, 3>;
+using ivec4 = vec<int, 4>;
 
-using uint2 = vec<unsigned, 2>;
-using uint3 = vec<unsigned, 3>;
-using uint4 = vec<unsigned, 4>;
+using uvec2 = vec<unsigned, 2>;
+using uvec3 = vec<unsigned, 3>;
+using uvec4 = vec<unsigned, 4>;
 
-using float2 = vec<float, 2>;
-using float3 = vec<float, 3>;
-using float4 = vec<float, 4>;
+using fvec2 = vec<float, 2>;
+using fvec3 = vec<float, 3>;
+using fvec4 = vec<float, 4>;
 
-using double2 = vec<double, 2>;
-using double3 = vec<double, 3>;
-using double4 = vec<double, 4>;
-
-using size2_t = vec<size_t, 2>;
-using size3_t = vec<size_t, 3>;
-using size4_t = vec<size_t, 4>;
-
-using ptrdiff2_t = vec<ptrdiff_t, 2>;
-using ptrdiff3_t = vec<ptrdiff_t, 3>;
-using ptrdiff4_t = vec<ptrdiff_t, 4>;
+using dvec2 = vec<double, 2>;
+using dvec3 = vec<double, 3>;
+using dvec4 = vec<double, 4>;
 ```
 
 ### Matrix Types
@@ -379,33 +371,25 @@ public:
     const_reference operator[](size_t index) const;
 };
 
-using bool2x2 = mat<bool, 2>;
-using bool3x3 = mat<bool, 3>;
-using bool4x4 = mat<bool, 4>;
+using bmat2 = mat<bool, 2>;
+using bmat3 = mat<bool, 3>;
+using bmat4 = mat<bool, 4>;
 
-using int2x2 = mat<int, 2>;
-using int3x3 = mat<int, 3>;
-using int4x4 = mat<int, 4>;
+using imat2 = mat<int, 2>;
+using imat3 = mat<int, 3>;
+using imat4 = mat<int, 4>;
 
-using uint2x2 = mat<unsigned, 2>;
-using uint3x3 = mat<unsigned, 3>;
-using uint4x4 = mat<unsigned, 4>;
+using umat2 = mat<unsigned, 2>;
+using umat3 = mat<unsigned, 3>;
+using umat4 = mat<unsigned, 4>;
 
-using float2x2 = mat<float, 2>;
-using float3x3 = mat<float, 3>;
-using float4x4 = mat<float, 4>;
+using fmat2 = mat<float, 2>;
+using fmat3 = mat<float, 3>;
+using fmat4 = mat<float, 4>;
 
-using double2x2 = mat<double, 2>;
-using double3x3 = mat<double, 3>;
-using double4x4 = mat<double, 4>;
-
-using size2x2_t = mat<size_t, 2>;
-using size3x3_t = mat<size_t, 3>;
-using size4x4_t = mat<size_t, 4>;
-
-using ptrdiff2x2_t = mat<ptrdiff_t, 2>;
-using ptrdiff3x3_t = mat<ptrdiff_t, 3>;
-using ptrdiff4x4_t = mat<ptrdiff_t, 4>;
+using dmat2 = mat<double, 2>;
+using dmat3 = mat<double, 3>;
+using dmat4 = mat<double, 4>;
 ```
 
 ### Quaternion Types
@@ -481,8 +465,8 @@ public:
     const_reference operator[](size_t index) const;
 };
 
-using qfloat = qua<float>;
-using qdouble = qua<double>;
+using fqua = qua<float>;
+using dqua = qua<double>;
 ```
 
 ### Vector Operators
@@ -1746,17 +1730,17 @@ template < typename T > inline vec<T, 4> unit4_y;
 template < typename T > inline vec<T, 4> unit4_z;
 template < typename T > inline vec<T, 4> unit4_w;
 
-template < typename T > inline mat<T, 2> zero2x2;
-template < typename T > inline mat<T, 3> zero3x3;
-template < typename T > inline mat<T, 4> zero4x4;
+template < typename T > inline mat<T, 2> mzero2;
+template < typename T > inline mat<T, 3> mzero3;
+template < typename T > inline mat<T, 4> mzero4;
 
-template < typename T > inline mat<T, 2> unit2x2;
-template < typename T > inline mat<T, 3> unit3x3;
-template < typename T > inline mat<T, 4> unit4x4;
+template < typename T > inline mat<T, 2> munit2;
+template < typename T > inline mat<T, 3> munit3;
+template < typename T > inline mat<T, 4> munit4;
 
-template < typename T > inline mat<T, 2> identity2x2;
-template < typename T > inline mat<T, 3> identity3x3;
-template < typename T > inline mat<T, 4> identity4x4;
+template < typename T > inline mat<T, 2> midentity2;
+template < typename T > inline mat<T, 3> midentity3;
+template < typename T > inline mat<T, 4> midentity4;
 
 template < typename T > inline qua<T> qzero;
 template < typename T > inline qua<T> qidentity;
@@ -1816,61 +1800,64 @@ qua<T> imag(qua<T> q, const vec<T, 3>& imag);
 
 ```cpp
 template < typename T >
-mat<T, 4> translate(T x, T y, T z);
+mat<T, 4> trs(const vec<T, 3>& t, const mat<T, 3>& r);
 
 template < typename T >
-mat<T, 4> translate(const mat<T, 4>& m, T x, T y, T z);
+mat<T, 4> trs(const vec<T, 3>& t, const mat<T, 3>& r, const vec<T, 3>& s);
+
+template < typename T >
+mat<T, 4> trs(const vec<T, 3>& t, const qua<T>& r);
+
+template < typename T >
+mat<T, 4> trs(const vec<T, 3>& t, const qua<T>& r, const vec<T, 3>& s);
 
 template < typename T >
 mat<T, 4> translate(const vec<T, 3>& v);
 
 template < typename T >
-mat<T, 4> translate(const mat<T, 4>& m, const vec<T, 3>& v);
+mat<T, 3> rotate(const qua<T>& q);
 
 template < typename T >
-mat<T, 4> rotate(const qua<T>& q);
+mat<T, 4> rotate4(const qua<T>& q);
 
 template < typename T >
-mat<T, 4> rotate(const mat<T, 4>& m, const qua<T>& q);
+mat<T, 3> rotate(T angle, const vec<T, 3>& axis);
 
 template < typename T >
-mat<T, 4> rotate(T angle, const vec<T, 3>& axis);
+mat<T, 4> rotate4(T angle, const vec<T, 3>& axis);
 
 template < typename T >
-mat<T, 4> rotate(const mat<T, 4>& m, T angle, const vec<T, 3>& axis);
+mat<T, 3> rotate_x(T angle);
 
 template < typename T >
-mat<T, 4> rotate_x(T angle);
+mat<T, 4> rotate4_x(T angle);
 
 template < typename T >
-mat<T, 4> rotate_x(const mat<T, 4>& m, T angle);
+mat<T, 3> rotate_y(T angle);
 
 template < typename T >
-mat<T, 4> rotate_y(T angle);
+mat<T, 4> rotate4_y(T angle);
 
 template < typename T >
-mat<T, 4> rotate_y(const mat<T, 4>& m, T angle);
+mat<T, 3> rotate_z(T angle);
 
 template < typename T >
-mat<T, 4> rotate_z(T angle);
+mat<T, 4> rotate4_z(T angle);
 
 template < typename T >
-mat<T, 4> rotate_z(const mat<T, 4>& m, T angle);
+mat<T, 3> scale(const vec<T, 3>& v);
 
 template < typename T >
-mat<T, 4> scale(T x, T y, T z);
+mat<T, 4> scale4(const vec<T, 3>& v);
 
 template < typename T >
-mat<T, 4> scale(const mat<T, 4>& m, T x, T y, T z);
-
-template < typename T >
-mat<T, 4> scale(const vec<T, 3>& v);
-
-template < typename T >
-mat<T, 4> scale(const mat<T, 4>& m, const vec<T, 3>& v);
+mat<T, 3> look_at_lh(const vec<T, 3>& dir, const vec<T, 3>& up);
 
 template < typename T >
 mat<T, 4> look_at_lh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up);
+
+template < typename T >
+mat<T, 3> look_at_rh(const vec<T, 3>& dir, const vec<T, 3>& up);
 
 template < typename T >
 mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>& up);
@@ -1880,58 +1867,31 @@ mat<T, 4> look_at_rh(const vec<T, 3>& eye, const vec<T, 3>& at, const vec<T, 3>&
 
 ```cpp
 template < typename T >
-mat<T, 3> translate(T x, T y);
+mat<T, 3> trs(const vec<T, 2>& t, const mat<T, 2>& r);
 
 template < typename T >
-mat<T, 3> translate(const mat<T, 3>& m, T x, T y);
+mat<T, 3> trs(const vec<T, 2>& t, const mat<T, 2>& r, const vec<T, 2>& s);
 
 template < typename T >
 mat<T, 3> translate(const vec<T, 2>& v);
 
 template < typename T >
-mat<T, 3> translate(const mat<T, 3>& m, const vec<T, 2>& v);
+mat<T, 2> rotate(T angle);
 
 template < typename T >
-mat<T, 3> rotate(T angle);
+mat<T, 3> rotate3(T angle);
 
 template < typename T >
-mat<T, 3> rotate(const mat<T, 3>& m, T angle);
+mat<T, 2> scale(const vec<T, 2>& v);
 
 template < typename T >
-mat<T, 3> scale(T x, T y);
+mat<T, 3> scale3(const vec<T, 2>& v);
 
 template < typename T >
-mat<T, 3> scale(const mat<T, 3>& m, T x, T y);
+mat<T, 2> shear(const vec<T, 2>& v);
 
 template < typename T >
-mat<T, 3> scale(const vec<T, 2>& v);
-
-template < typename T >
-mat<T, 3> scale(const mat<T, 3>& m, const vec<T, 2>& v);
-
-template < typename T >
-mat<T, 3> shear(T x, T y);
-
-template < typename T >
-mat<T, 3> shear(const mat<T, 3>& m, T x, T y);
-
-template < typename T >
-mat<T, 3> shear(const vec<T, 2>& v);
-
-template < typename T >
-mat<T, 3> shear(const mat<T, 3>& m, const vec<T, 2>& v);
-
-template < typename T >
-mat<T, 3> shear_x(T y);
-
-template < typename T >
-mat<T, 3> shear_x(const mat<T, 3>& m, T y);
-
-template < typename T >
-mat<T, 3> shear_y(T x);
-
-template < typename T >
-mat<T, 3> shear_y(const mat<T, 3>& m, T x);
+mat<T, 3> shear3(const vec<T, 2>& v);
 ```
 
 ### Matrix Projections
@@ -1985,9 +1945,6 @@ vec<T, 3> rotate_y(const vec<T, 3>& v, T angle);
 
 template < typename T >
 vec<T, 3> rotate_z(const vec<T, 3>& v, T angle);
-
-template < typename T >
-vec<T, 3> rotate(const vec<T, 3>& v, const qua<T>& q);
 
 template < typename T >
 vec<T, 3> rotate(const vec<T, 3>& v, T angle, const vec<T, 3>& axis);
