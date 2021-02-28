@@ -120,9 +120,17 @@ TEST_CASE("vmath/fun") {
         STATIC_CHECK(rlength2(10.f) == uapprox(0.01f));
         STATIC_CHECK(rlength2(-10.f) == uapprox(0.01f));
 
+        STATIC_CHECK(distance(5, 10) == 5);
+        STATIC_CHECK(distance(10, 5) == 5);
+        STATIC_CHECK(distance(5u, 10u) == 5);
+        STATIC_CHECK(distance(10u, 5u) == 5);
         STATIC_CHECK(distance(5.f, 10.f) == uapprox(5.f));
         STATIC_CHECK(distance(-5.f, -10.f) == uapprox(5.f));
 
+        STATIC_CHECK(distance2(5, 10) == 25);
+        STATIC_CHECK(distance2(10, 5) == 25);
+        STATIC_CHECK(distance2(5u, 10u) == 25);
+        STATIC_CHECK(distance2(10u, 5u) == 25);
         STATIC_CHECK(distance2(5.f, 10.f) == uapprox(25.f));
         STATIC_CHECK(distance2(-5.f, -10.f) == uapprox(25.f));
 
