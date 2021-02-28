@@ -151,6 +151,15 @@ TEST_CASE("vmath/fun") {
         STATIC_CHECK_FALSE(approx(0, 1));
         STATIC_CHECK_FALSE(approx(0, 1, 0));
         STATIC_CHECK(approx(0, 1, 1));
+        STATIC_CHECK_FALSE(approx(1, 3, 1));
+        STATIC_CHECK(approx(1, 3, 2));
+
+        STATIC_CHECK(approx(1.f, 1.f));
+        STATIC_CHECK_FALSE(approx(0.f, 1.f));
+        STATIC_CHECK_FALSE(approx(0.f, 1.f, 0.f));
+        STATIC_CHECK(approx(0.f, 1.f, 1.f));
+        STATIC_CHECK_FALSE(approx(1.f, 3.f, 1.f));
+        STATIC_CHECK(approx(1.f, 3.f, 2.f));
 
         STATIC_CHECK(approx(1.f, 1.f + std::numeric_limits<float>::epsilon() * 0.5f));
         STATIC_CHECK_FALSE(approx(1.f, 1.f + std::numeric_limits<float>::epsilon() * 1.5f));
