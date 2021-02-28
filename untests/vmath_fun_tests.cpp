@@ -120,9 +120,17 @@ TEST_CASE("vmath/fun") {
         STATIC_CHECK(rlength2(10.f) == uapprox(0.01f));
         STATIC_CHECK(rlength2(-10.f) == uapprox(0.01f));
 
+        STATIC_CHECK(distance(5, 10) == 5);
+        STATIC_CHECK(distance(10, 5) == 5);
+        STATIC_CHECK(distance(5u, 10u) == 5);
+        STATIC_CHECK(distance(10u, 5u) == 5);
         STATIC_CHECK(distance(5.f, 10.f) == uapprox(5.f));
         STATIC_CHECK(distance(-5.f, -10.f) == uapprox(5.f));
 
+        STATIC_CHECK(distance2(5, 10) == 25);
+        STATIC_CHECK(distance2(10, 5) == 25);
+        STATIC_CHECK(distance2(5u, 10u) == 25);
+        STATIC_CHECK(distance2(10u, 5u) == 25);
         STATIC_CHECK(distance2(5.f, 10.f) == uapprox(25.f));
         STATIC_CHECK(distance2(-5.f, -10.f) == uapprox(25.f));
 
@@ -151,6 +159,22 @@ TEST_CASE("vmath/fun") {
         STATIC_CHECK_FALSE(approx(0, 1));
         STATIC_CHECK_FALSE(approx(0, 1, 0));
         STATIC_CHECK(approx(0, 1, 1));
+        STATIC_CHECK_FALSE(approx(1, 3, 1));
+        STATIC_CHECK(approx(1, 3, 2));
+
+        STATIC_CHECK(approx(1u, 1u));
+        STATIC_CHECK_FALSE(approx(0u, 1u));
+        STATIC_CHECK_FALSE(approx(0u, 1u, 0u));
+        STATIC_CHECK(approx(0u, 1u, 1u));
+        STATIC_CHECK_FALSE(approx(1u, 3u, 1u));
+        STATIC_CHECK(approx(1u, 3u, 2u));
+
+        STATIC_CHECK(approx(1.f, 1.f));
+        STATIC_CHECK_FALSE(approx(0.f, 1.f));
+        STATIC_CHECK_FALSE(approx(0.f, 1.f, 0.f));
+        STATIC_CHECK(approx(0.f, 1.f, 1.f));
+        STATIC_CHECK_FALSE(approx(1.f, 3.f, 1.f));
+        STATIC_CHECK(approx(1.f, 3.f, 2.f));
 
         STATIC_CHECK(approx(1.f, 1.f + std::numeric_limits<float>::epsilon() * 0.5f));
         STATIC_CHECK_FALSE(approx(1.f, 1.f + std::numeric_limits<float>::epsilon() * 1.5f));

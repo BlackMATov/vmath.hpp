@@ -339,13 +339,22 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr distance(T x, T y) noexcept {
-        return length(y - x);
+        if constexpr ( std::is_unsigned_v<T> ) {
+            return x < y ? (y - x) : (x - y);
+        } else {
+            return length(x - y);
+        }
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, T>
     constexpr distance2(T x, T y) noexcept {
-        return length2(y - x);
+        if constexpr ( std::is_unsigned_v<T> ) {
+            const T d = x < y ? (y - x) : (x - y);
+            return d * d;
+        } else {
+            return length2(x - y);
+        }
     }
 
     template < typename T >
@@ -395,26 +404,20 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
+    constexpr approx(T x, T y, T epsilon) noexcept {
+        return distance(x, y) <= epsilon;
+    }
+
+    template < typename T >
+    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
     constexpr approx(T x, T y) noexcept {
         if constexpr ( std::is_floating_point_v<T> ) {
             /// REFERENCE:
             /// http://www.realtimecollisiondetection.net/pubs/Tolerances
             const T epsilon = std::numeric_limits<T>::epsilon();
-            return abs(x - y) <= epsilon * max(max(T{1}, abs(x)), abs(y));
+            return approx(x, y, epsilon * max(T{1}, max(abs(x), abs(y))));
         } else {
             return x == y;
-        }
-    }
-
-    template < typename T >
-    [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
-    constexpr approx(T x, T y, T epsilon) noexcept {
-        if constexpr ( std::is_floating_point_v<T> ) {
-            /// REFERENCE:
-            /// http://www.realtimecollisiondetection.net/pubs/Tolerances
-            return abs(x - y) <= epsilon * max(max(T{1}, abs(x)), abs(y));
-        } else {
-            return abs(x - y) <= epsilon;
         }
     }
 

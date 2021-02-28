@@ -954,12 +954,12 @@ namespace vmath_hpp
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr T distance(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return length(ys - xs);
+        return length(xs - ys);
     }
 
     template < typename T, std::size_t Size >
     [[nodiscard]] constexpr T distance2(const vec<T, Size>& xs, const vec<T, Size>& ys) {
-        return length2(ys - xs);
+        return length2(xs - ys);
     }
 
     template < typename T, typename U
