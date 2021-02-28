@@ -154,6 +154,13 @@ TEST_CASE("vmath/fun") {
         STATIC_CHECK_FALSE(approx(1, 3, 1));
         STATIC_CHECK(approx(1, 3, 2));
 
+        STATIC_CHECK(approx(1u, 1u));
+        STATIC_CHECK_FALSE(approx(0u, 1u));
+        STATIC_CHECK_FALSE(approx(0u, 1u, 0u));
+        STATIC_CHECK(approx(0u, 1u, 1u));
+        STATIC_CHECK_FALSE(approx(1u, 3u, 1u));
+        STATIC_CHECK(approx(1u, 3u, 2u));
+
         STATIC_CHECK(approx(1.f, 1.f));
         STATIC_CHECK_FALSE(approx(0.f, 1.f));
         STATIC_CHECK_FALSE(approx(0.f, 1.f, 0.f));

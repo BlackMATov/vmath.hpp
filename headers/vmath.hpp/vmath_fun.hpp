@@ -396,7 +396,11 @@ namespace vmath_hpp
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_arithmetic_v<T>, bool>
     constexpr approx(T x, T y, T epsilon) noexcept {
-        return abs(x - y) <= epsilon;
+        if constexpr ( std::is_unsigned_v<T> ) {
+            return (x < y ? (y - x) : (x - y)) <= epsilon;
+        } else {
+            return abs(x - y) <= epsilon;
+        }
     }
 
     template < typename T >
