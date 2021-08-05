@@ -23,15 +23,12 @@ target_link_libraries(${PROJECT_NAME} vmath.hpp.singles)
 target_compile_options(${PROJECT_NAME}
     PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:
-        /W4>
+        /WX /W4>
     PRIVATE
     $<$<CXX_COMPILER_ID:GNU>:
-        -Wall -Wextra -Wpedantic>
+        -Werror -Wall -Wextra -Wpedantic>
     PRIVATE
     $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:
-        -Weverything -Wno-unknown-warning-option
-        -Wconversion -Wimplicit-int-float-conversion
-        -Wno-c++98-compat-pedantic -Wno-ctad-maybe-unsupported
-        -Wno-float-equal -Wno-double-promotion -Wno-shadow-field-in-constructor>)
+        -Werror -Weverything -Wconversion>)
 
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
