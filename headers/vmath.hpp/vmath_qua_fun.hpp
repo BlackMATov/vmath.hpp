@@ -204,12 +204,12 @@ namespace vmath_hpp
             const T xs_scale = sin((T{1} - a) * theta) * rsin_theta;
             const T ys_scale = sin(a * theta) * raw_cos_theta_sign * rsin_theta;
             return lerp(unit_xs, unit_ys, xs_scale, ys_scale);
-        } else {
-            // use linear interpolation for small angles
-            const T xs_scale = T{1} - a;
-            const T ys_scale = a * raw_cos_theta_sign;
-            return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
         }
+
+        // use linear interpolation for small angles
+        const T xs_scale = T{1} - a;
+        const T ys_scale = a * raw_cos_theta_sign;
+        return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
     }
 }
 
