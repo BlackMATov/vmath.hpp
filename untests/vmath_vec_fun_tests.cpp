@@ -217,9 +217,9 @@ TEST_CASE("vmath/vec_fun") {
             sincos(fvec2(10.f,15.f), &out_ss, &out_cs);
             CHECK(out_ss == uapprox2(sin(10.f), sin(15.f)));
             CHECK(out_cs == uapprox2(cos(10.f), cos(15.f)));
-            const auto [out_ss2, out_cs2] = sincos(fvec2(10.f,15.f));
-            CHECK(out_ss2 == uapprox2(sin(10.f), sin(15.f)));
-            CHECK(out_cs2 == uapprox2(cos(10.f), cos(15.f)));
+            std::tie(out_ss, out_cs) = sincos(fvec2(10.f,15.f));
+            CHECK(out_ss == uapprox2(sin(10.f), sin(15.f)));
+            CHECK(out_cs == uapprox2(cos(10.f), cos(15.f)));
         }
     }
 

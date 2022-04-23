@@ -32,9 +32,9 @@ TEST_CASE("vmath/fun") {
             sincos(15.f, &out_s, &out_c);
             CHECK(out_s == uapprox(sin(15.f)));
             CHECK(out_c == uapprox(cos(15.f)));
-            const auto [out_s2, out_c2] = sincos(15.f);
-            CHECK(out_s2 == uapprox(sin(15.f)));
-            CHECK(out_c2 == uapprox(cos(15.f)));
+            std::tie(out_s, out_c) = sincos(15.f);
+            CHECK(out_s == uapprox(sin(15.f)));
+            CHECK(out_c == uapprox(cos(15.f)));
         }
     }
 

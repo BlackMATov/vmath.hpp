@@ -5,7 +5,15 @@
  ******************************************************************************/
 
 #include <vmath.hpp/vmath.hpp>
-#include "doctest/doctest.hpp"
+#include <doctest/doctest.h>
+
+#define STATIC_CHECK(...)\
+    static_assert(__VA_ARGS__, #__VA_ARGS__);\
+    CHECK(__VA_ARGS__)
+
+#define STATIC_CHECK_FALSE(...)\
+    static_assert(!(__VA_ARGS__), "!(" #__VA_ARGS__ ")");\
+    CHECK(!(__VA_ARGS__))
 
 namespace vmath_tests
 {
