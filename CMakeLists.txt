@@ -13,15 +13,9 @@ add_library(${PROJECT_NAME} INTERFACE)
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 target_include_directories(${PROJECT_NAME} INTERFACE headers)
 
-target_compile_options(${PROJECT_NAME}
-    INTERFACE
-    $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:
-        -Wno-c++98-compat-pedantic
-        -Wno-ctad-maybe-unsupported
-        -Wno-double-promotion
-        -Wno-float-equal
-        -Wno-shadow
-        -Wno-unknown-warning-option>)
+add_library(${PROJECT_NAME}.singles INTERFACE)
+target_compile_features(${PROJECT_NAME}.singles INTERFACE cxx_std_17)
+target_include_directories(${PROJECT_NAME}.singles INTERFACE singles)
 
 #
 # BUILD_AS_STANDALONE
@@ -43,5 +37,6 @@ include(EnableASan)
 include(EnableGCov)
 include(EnableUBSan)
 
+add_subdirectory(singles)
 add_subdirectory(vendors)
 add_subdirectory(untests)
