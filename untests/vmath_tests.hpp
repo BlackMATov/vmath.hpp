@@ -4,7 +4,7 @@
  * Copyright (C) 2020-2022, by Matvey Cherevko (blackmatov@gmail.com)
  ******************************************************************************/
 
-#include <vmath.hpp/vmath.hpp>
+#include <vmath.hpp/vmath_all.hpp>
 #include <doctest/doctest.h>
 
 #define STATIC_CHECK(...)\

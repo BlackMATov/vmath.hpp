@@ -36,7 +36,7 @@
 [vmath.hpp][vmath] is a header-only library. All you need to do is copy the headers files from `headers` directory into your project and include them:
 
 ```cpp
-#include "vmath.hpp/vmath.hpp"
+#include "vmath.hpp/vmath_all.hpp"
 ```
 
 Also, you can add the root repository directory to your [cmake](https://cmake.org) project:

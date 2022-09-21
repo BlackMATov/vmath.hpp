@@ -7,8 +7,8 @@ project(vmath.hpp.singles)
 find_package(PythonInterp REQUIRED)
 
 set(VMATH_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/..")
-set(VMATH_SINGLES_INPUT "${VMATH_ROOT_DIR}/headers/vmath.hpp/vmath.hpp")
-set(VMATH_SINGLES_OUTPUT "${VMATH_ROOT_DIR}/singles/headers/vmath.hpp/vmath.hpp")
+set(VMATH_SINGLES_INPUT "${VMATH_ROOT_DIR}/headers/vmath.hpp/vmath_all.hpp")
+set(VMATH_SINGLES_OUTPUT "${VMATH_ROOT_DIR}/singles/headers/vmath.hpp/vmath_all.hpp")
 file(GLOB_RECURSE VMATH_SINGLES_DEPENDS "${VMATH_ROOT_DIR}/headers/*.hpp")
 
 add_custom_command(OUTPUT "${VMATH_SINGLES_OUTPUT}"
