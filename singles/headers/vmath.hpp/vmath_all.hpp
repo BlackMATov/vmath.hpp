@@ -1,15 +1,12 @@
 /*******************************************************************************
  * This file is part of the "https://github.com/blackmatov/vmath.hpp"
  * For conditions of distribution and use, see copyright notice in LICENSE.md
- * Copyright (C) 2020-2021, by Matvey Cherevko (blackmatov@gmail.com)
+ * Copyright (C) 2020-2022, by Matvey Cherevko (blackmatov@gmail.com)
  ******************************************************************************/
-
-#pragma once
 
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
-
 #include <functional>
 #include <initializer_list>
 #include <iterator>
@@ -3442,12 +3439,12 @@ namespace vmath_hpp
             const T xs_scale = sin((T{1} - a) * theta) * rsin_theta;
             const T ys_scale = sin(a * theta) * raw_cos_theta_sign * rsin_theta;
             return lerp(unit_xs, unit_ys, xs_scale, ys_scale);
-        } else {
-            // use linear interpolation for small angles
-            const T xs_scale = T{1} - a;
-            const T ys_scale = a * raw_cos_theta_sign;
-            return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
         }
+
+        // use linear interpolation for small angles
+        const T xs_scale = T{1} - a;
+        const T ys_scale = a * raw_cos_theta_sign;
+        return normalize(lerp(unit_xs, unit_ys, xs_scale, ys_scale));
     }
 }
 
