@@ -7,7 +7,6 @@ add_executable(${PROJECT_NAME} ${UNTESTS_SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE vmath.hpp)
 
 add_executable(${PROJECT_NAME}.singles ${UNTESTS_SOURCES})
-add_dependencies(${PROJECT_NAME}.singles vmath.hpp.singles.generate)
 target_link_libraries(${PROJECT_NAME}.singles PRIVATE vmath.hpp.singles)
 
 #

@@ -23,10 +23,8 @@ PRAGMA_ONCE_MATCHER = re.compile(r'#\s*pragma\s+once')
 def CollectLicenseComment(headerPath):
     with open(headerPath, "r") as headerStream:
         headerContent = headerStream.read().strip()
-        if result := re.match(C_COMMENT_MATCHER, headerContent):
-            return result.group()
-        else:
-            return ""
+        commentMatch = re.match(C_COMMENT_MATCHER, headerContent)
+        return commentMatch.group() if commentMatch else ""
 
 def CollectSystemIncludes(headerPath, parsedHeaders = set()):
     with open(headerPath, "r") as headerStream:
@@ -41,11 +39,13 @@ def CollectSystemIncludes(headerPath, parsedHeaders = set()):
         headerLines = headerContent.split('\n')
 
         for headerLine in headerLines:
-            if result := USER_INCLUDE_MATCHER.findall(headerLine):
-                internalHeaderPath = os.path.abspath(os.path.join(os.path.dirname(headerPath), result[0]))
+            includeMatch = USER_INCLUDE_MATCHER.findall(headerLine)
+            if includeMatch:
+                internalHeaderPath = os.path.abspath(os.path.join(os.path.dirname(headerPath), includeMatch[0]))
                 headerIncludes = headerIncludes.union(CollectSystemIncludes(internalHeaderPath, parsedHeaders))
-            if result := SYSTEM_INCLUDE_MATCHER.findall(headerLine):
-                headerIncludes.add(result[0])
+            includeMatch = SYSTEM_INCLUDE_MATCHER.findall(headerLine)
+            if includeMatch:
+                headerIncludes.add(includeMatch[0])
 
         return headerIncludes
 
@@ -71,15 +71,17 @@ def ParseHeader(headerPath, parsedHeaders = set()):
                 shouldSkipNextEmptyLines = True
                 continue
         
-            if result := USER_INCLUDE_MATCHER.findall(headerLine):
-                internalHeaderPath = os.path.abspath(os.path.join(os.path.dirname(headerPath), result[0]))
+            includeMatch = USER_INCLUDE_MATCHER.findall(headerLine)
+            if includeMatch:
+                internalHeaderPath = os.path.abspath(os.path.join(os.path.dirname(headerPath), includeMatch[0]))
                 internalHeaderContent = ParseHeader(internalHeaderPath, parsedHeaders)
 
                 outputContent += internalHeaderContent
                 shouldSkipNextEmptyLines = True
                 continue
             
-            if result := SYSTEM_INCLUDE_MATCHER.findall(headerLine):
+            includeMatch = SYSTEM_INCLUDE_MATCHER.findall(headerLine)
+            if includeMatch:
                 shouldSkipNextEmptyLines = True
                 continue
 

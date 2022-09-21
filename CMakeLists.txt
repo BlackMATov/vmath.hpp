@@ -13,10 +13,6 @@ add_library(${PROJECT_NAME} INTERFACE)
 target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 target_include_directories(${PROJECT_NAME} INTERFACE headers)
 
-add_library(${PROJECT_NAME}.singles INTERFACE)
-target_compile_features(${PROJECT_NAME}.singles INTERFACE cxx_std_17)
-target_include_directories(${PROJECT_NAME}.singles INTERFACE singles)
-
 #
 # BUILD_AS_STANDALONE
 #
