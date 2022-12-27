@@ -1,5 +1,4 @@
-# 3.8 version is required for `cxx_std_17`
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 if(NOT DEFINED PROJECT_NAME)
     set(BUILD_AS_STANDALONE ON)
