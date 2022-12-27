@@ -10,6 +10,19 @@ add_executable(${PROJECT_NAME}.singles ${UNTESTS_SOURCES})
 target_link_libraries(${PROJECT_NAME}.singles PRIVATE vmath.hpp.singles)
 
 #
+# setup defines
+#
+
+function(setup_defines_for_target TARGET)
+    target_compile_definitions(${TARGET} PRIVATE
+        DOCTEST_CONFIG_INCLUDE_TYPE_TRAITS
+        DOCTEST_CONFIG_USE_STD_HEADERS)
+endfunction()
+
+setup_defines_for_target(${PROJECT_NAME})
+setup_defines_for_target(${PROJECT_NAME}.singles)
+
+#
 # setup libraries
 #
 
