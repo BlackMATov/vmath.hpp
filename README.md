@@ -41,7 +41,7 @@ Also, you can add the root repository directory to your [cmake](https://cmake.or
 
 ```cmake
 add_subdirectory(external/vmath.hpp)
-target_link_libraries(your_project_target PUBLIC vmath.hpp)
+target_link_libraries(your_project_target PUBLIC vmath.hpp::vmath.hpp)
 ```
 
 ## Disclaimer
