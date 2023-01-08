@@ -60,9 +60,9 @@ TEST_CASE("vmath/vec") {
             STATIC_CHECK(ivec3() == ivec3(0,0,0));
             STATIC_CHECK(ivec4() == ivec4(0,0,0,0));
 
-            (void)ivec2(uninit);
-            (void)ivec3(uninit);
-            (void)ivec4(uninit);
+            (void)ivec2(no_init);
+            (void)ivec3(no_init);
+            (void)ivec4(no_init);
 
             STATIC_CHECK(ivec2(zero_init) == ivec2(0,0));
             STATIC_CHECK(ivec3(zero_init) == ivec3(0,0,0));

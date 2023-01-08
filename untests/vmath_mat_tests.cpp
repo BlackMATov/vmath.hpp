@@ -60,9 +60,9 @@ TEST_CASE("vmath/mat") {
             STATIC_CHECK(imat3() == imat3({1,0,0},{0,1,0},{0,0,1}));
             STATIC_CHECK(imat4() == imat4({1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}));
 
-            (void)imat2(uninit);
-            (void)imat3(uninit);
-            (void)imat4(uninit);
+            (void)imat2(no_init);
+            (void)imat3(no_init);
+            (void)imat4(no_init);
 
             STATIC_CHECK(imat2(zero_init) == imat2({0,0},{0,0}));
             STATIC_CHECK(imat3(zero_init) == imat3({0,0,0},{0,0,0},{0,0,0}));

@@ -38,8 +38,8 @@
 
 namespace vmath_hpp
 {
-    struct uninit_t { explicit uninit_t() = default; };
-    inline constexpr uninit_t uninit{};
+    struct no_init_t { explicit no_init_t() = default; };
+    inline constexpr no_init_t no_init{};
 
     struct zero_init_t { explicit zero_init_t() = default; };
     inline constexpr zero_init_t zero_init{};
@@ -575,7 +575,7 @@ namespace vmath_hpp::detail
         constexpr vec_base()
         : vec_base{zero_init} {}
 
-        constexpr vec_base(uninit_t) {}
+        constexpr vec_base(no_init_t) {}
         constexpr vec_base(zero_init_t): vec_base{T{0}} {}
         constexpr vec_base(unit_init_t): vec_base{T{1}} {}
 
@@ -619,7 +619,7 @@ namespace vmath_hpp::detail
         constexpr vec_base()
         : vec_base{zero_init} {}
 
-        constexpr vec_base(uninit_t) {}
+        constexpr vec_base(no_init_t) {}
         constexpr vec_base(zero_init_t): vec_base{T{0}} {}
         constexpr vec_base(unit_init_t): vec_base{T{1}} {}
 
@@ -665,7 +665,7 @@ namespace vmath_hpp::detail
         constexpr vec_base()
         : vec_base{zero_init} {}
 
-        constexpr vec_base(uninit_t) {}
+        constexpr vec_base(no_init_t) {}
         constexpr vec_base(zero_init_t) : vec_base{T{0}} {}
         constexpr vec_base(unit_init_t) : vec_base{T{1}} {}
 
@@ -1911,7 +1911,7 @@ namespace vmath_hpp::detail
         constexpr mat_base()
         : mat_base(identity_init) {}
 
-        constexpr mat_base(uninit_t) {}
+        constexpr mat_base(no_init_t) {}
         constexpr mat_base(zero_init_t): mat_base{zero_init, zero_init} {}
         constexpr mat_base(unit_init_t): mat_base{unit_init, unit_init} {}
         constexpr mat_base(identity_init_t): mat_base{T{1}} {}
@@ -1968,7 +1968,7 @@ namespace vmath_hpp::detail
         constexpr mat_base()
         : mat_base(identity_init) {}
 
-        constexpr mat_base(uninit_t) {}
+        constexpr mat_base(no_init_t) {}
         constexpr mat_base(zero_init_t): mat_base{zero_init, zero_init, zero_init} {}
         constexpr mat_base(unit_init_t): mat_base{unit_init, unit_init, unit_init} {}
         constexpr mat_base(identity_init_t): mat_base{T{1}} {}
@@ -2042,7 +2042,7 @@ namespace vmath_hpp::detail
         constexpr mat_base()
         : mat_base(identity_init) {}
 
-        constexpr mat_base(uninit_t) {}
+        constexpr mat_base(no_init_t) {}
         constexpr mat_base(zero_init_t): mat_base{zero_init, zero_init, zero_init, zero_init} {}
         constexpr mat_base(unit_init_t): mat_base{unit_init, unit_init, unit_init, unit_init} {}
         constexpr mat_base(identity_init_t): mat_base{T{1}} {}
@@ -3111,7 +3111,7 @@ namespace vmath_hpp::detail
         constexpr qua_base()
         : qua_base(identity_init) {}
 
-        constexpr qua_base(uninit_t) {}
+        constexpr qua_base(no_init_t) {}
         constexpr qua_base(zero_init_t) : qua_base{zero_init, T{0}} {}
         constexpr qua_base(identity_init_t) : qua_base{zero_init, T{1}} {}
 

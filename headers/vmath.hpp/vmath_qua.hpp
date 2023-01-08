@@ -22,7 +22,7 @@ namespace vmath_hpp::detail
         constexpr qua_base()
         : qua_base(identity_init) {}
 
-        constexpr qua_base(uninit_t) {}
+        constexpr qua_base(no_init_t) {}
         constexpr qua_base(zero_init_t) : qua_base{zero_init, T{0}} {}
         constexpr qua_base(identity_init_t) : qua_base{zero_init, T{1}} {}
 

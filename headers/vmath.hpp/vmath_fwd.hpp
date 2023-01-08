@@ -41,8 +41,8 @@
 
 namespace vmath_hpp
 {
-    struct uninit_t { explicit uninit_t() = default; };
-    inline constexpr uninit_t uninit{};
+    struct no_init_t { explicit no_init_t() = default; };
+    inline constexpr no_init_t no_init{};
 
     struct zero_init_t { explicit zero_init_t() = default; };
     inline constexpr zero_init_t zero_init{};

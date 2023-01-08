@@ -36,7 +36,7 @@ TEST_CASE("vmath/qua") {
             CHECK(q.s == 1);
 
             STATIC_CHECK(qua<int>() == qua<int>({0,0,0},1));
-            (void)qua<int>(uninit);
+            (void)qua<int>(no_init);
             STATIC_CHECK(qua<int>(zero_init) == qua<int>({0,0,0},0));
             STATIC_CHECK(qua<int>(identity_init) == qua<int>({0,0,0},1));
         }
