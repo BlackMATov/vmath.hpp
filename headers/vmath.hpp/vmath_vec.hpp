@@ -21,7 +21,7 @@ namespace vmath_hpp::detail
         constexpr vec_base()
         : vec_base{zero_init} {}
 
-        constexpr vec_base(uninit_t) {}
+        constexpr vec_base(no_init_t) {}
         constexpr vec_base(zero_init_t): vec_base{T{0}} {}
         constexpr vec_base(unit_init_t): vec_base{T{1}} {}
 
@@ -65,7 +65,7 @@ namespace vmath_hpp::detail
         constexpr vec_base()
         : vec_base{zero_init} {}
 
-        constexpr vec_base(uninit_t) {}
+        constexpr vec_base(no_init_t) {}
         constexpr vec_base(zero_init_t): vec_base{T{0}} {}
         constexpr vec_base(unit_init_t): vec_base{T{1}} {}
 
@@ -111,7 +111,7 @@ namespace vmath_hpp::detail
         constexpr vec_base()
         : vec_base{zero_init} {}
 
-        constexpr vec_base(uninit_t) {}
+        constexpr vec_base(no_init_t) {}
         constexpr vec_base(zero_init_t) : vec_base{T{0}} {}
         constexpr vec_base(unit_init_t) : vec_base{T{1}} {}
 

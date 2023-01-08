@@ -87,7 +87,7 @@ public:
 
     vec_base();
 
-    vec_base(uninit_t);
+    vec_base(no_init_t);
     vec_base(zero_init_t);
     vec_base(unit_init_t);
 
@@ -108,7 +108,7 @@ public:
 
     vec_base();
 
-    vec_base(uninit_t);
+    vec_base(no_init_t);
     vec_base(zero_init_t);
     vec_base(unit_init_t);
 
@@ -131,7 +131,7 @@ public:
 
     vec_base();
 
-    vec_base(uninit_t);
+    vec_base(no_init_t);
     vec_base(zero_init_t);
     vec_base(unit_init_t);
 
@@ -233,7 +233,7 @@ public:
 
     mat_base();
 
-    mat_base(uninit_t);
+    mat_base(no_init_t);
     mat_base(zero_init_t);
     mat_base(unit_init_t);
     mat_base(identity_init_t);
@@ -264,7 +264,7 @@ public:
 
     mat_base();
 
-    mat_base(uninit_t);
+    mat_base(no_init_t);
     mat_base(zero_init_t);
     mat_base(unit_init_t);
     mat_base(identity_init_t);
@@ -301,7 +301,7 @@ public:
 
     mat_base();
 
-    mat_base(uninit_t);
+    mat_base(no_init_t);
     mat_base(zero_init_t);
     mat_base(unit_init_t);
     mat_base(identity_init_t);
@@ -413,7 +413,7 @@ public:
 
     qua_base();
 
-    qua_base(uninit_t);
+    qua_base(no_init_t);
     qua_base(zero_init_t);
     qua_base(identity_init_t);
 
