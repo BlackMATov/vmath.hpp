@@ -27,7 +27,7 @@
 - [clang](https://clang.llvm.org/) **>= 7**
 - [gcc](https://www.gnu.org/software/gcc/) **>= 7**
 - [msvc](https://visualstudio.microsoft.com/) **>= 2019**
-- [xcode](https://developer.apple.com/xcode/) **>= 10.3**
+- [xcode](https://developer.apple.com/xcode/) **>= 11.7**
 
 ## Installation
 
@@ -43,6 +43,8 @@ Also, you can add the root repository directory to your [cmake](https://cmake.or
 add_subdirectory(external/vmath.hpp)
 target_link_libraries(your_project_target PUBLIC vmath.hpp::vmath.hpp)
 ```
+
+Or just use the single-header version of the library, which you can find [here](develop/singles/headers/vmath.hpp/vmath_all.hpp).
 
 ## Disclaimer
 

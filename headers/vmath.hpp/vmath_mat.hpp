@@ -20,6 +20,7 @@ namespace vmath_hpp::detail
     class mat_base<T, 2> {
     public:
         using row_type = vec<T, 2>;
+        // NOLINTNEXTLINE(*-avoid-c-arrays)
         row_type rows[2];
     public:
         constexpr mat_base()
@@ -77,6 +78,7 @@ namespace vmath_hpp::detail
     class mat_base<T, 3> {
     public:
         using row_type = vec<T, 3>;
+        // NOLINTNEXTLINE(*-avoid-c-arrays)
         row_type rows[3];
     public:
         constexpr mat_base()
@@ -151,6 +153,7 @@ namespace vmath_hpp::detail
     class mat_base<T, 4> {
     public:
         using row_type = vec<T, 4>;
+        // NOLINTNEXTLINE(*-avoid-c-arrays)
         row_type rows[4];
     public:
         constexpr mat_base()

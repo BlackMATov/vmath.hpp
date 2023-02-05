@@ -37,6 +37,7 @@ namespace vmath_hpp::detail
         constexpr explicit operator vec<U, 4>() const { return vec<U, 4>(v, s); }
 
         template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        // NOLINTNEXTLINE(*-pointer-arithmetic)
         constexpr explicit qua_base(const U* p): qua_base(p[0], p[1], p[2], p[3]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
