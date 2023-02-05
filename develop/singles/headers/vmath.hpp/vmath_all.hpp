@@ -592,6 +592,7 @@ namespace vmath_hpp::detail
         constexpr explicit vec_base(const vec_base<U, 4>& other): vec_base(other[0], other[1]) {}
 
         template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        // NOLINTNEXTLINE(*-pointer-arithmetic)
         constexpr explicit vec_base(const U* p): vec_base(p[0], p[1]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
@@ -636,6 +637,7 @@ namespace vmath_hpp::detail
         constexpr explicit vec_base(const vec_base<U, 4>& other): vec_base(other[0], other[1], other[2]) {}
 
         template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        // NOLINTNEXTLINE(*-pointer-arithmetic)
         constexpr explicit vec_base(const U* p): vec_base(p[0], p[1], p[2]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
@@ -684,6 +686,7 @@ namespace vmath_hpp::detail
         constexpr vec_base(const vec_base<U, 4>& other): vec_base(other[0], other[1], other[2], other[3]) {}
 
         template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        // NOLINTNEXTLINE(*-pointer-arithmetic)
         constexpr explicit vec_base(const U* p): vec_base(p[0], p[1], p[2], p[3]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
@@ -1906,6 +1909,7 @@ namespace vmath_hpp::detail
     class mat_base<T, 2> {
     public:
         using row_type = vec<T, 2>;
+        // NOLINTNEXTLINE(*-avoid-c-arrays)
         row_type rows[2];
     public:
         constexpr mat_base()
@@ -1963,6 +1967,7 @@ namespace vmath_hpp::detail
     class mat_base<T, 3> {
     public:
         using row_type = vec<T, 3>;
+        // NOLINTNEXTLINE(*-avoid-c-arrays)
         row_type rows[3];
     public:
         constexpr mat_base()
@@ -2037,6 +2042,7 @@ namespace vmath_hpp::detail
     class mat_base<T, 4> {
     public:
         using row_type = vec<T, 4>;
+        // NOLINTNEXTLINE(*-avoid-c-arrays)
         row_type rows[4];
     public:
         constexpr mat_base()
@@ -3126,6 +3132,7 @@ namespace vmath_hpp::detail
         constexpr explicit operator vec<U, 4>() const { return vec<U, 4>(v, s); }
 
         template < typename U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0 >
+        // NOLINTNEXTLINE(*-pointer-arithmetic)
         constexpr explicit qua_base(const U* p): qua_base(p[0], p[1], p[2], p[3]) {}
 
         [[nodiscard]] constexpr T& operator[](std::size_t index) noexcept {
