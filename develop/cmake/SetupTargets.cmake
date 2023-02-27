@@ -1,9 +1,6 @@
 add_library(${PROJECT_NAME}.setup_targets INTERFACE)
 add_library(${PROJECT_NAME}::setup_targets ALIAS ${PROJECT_NAME}.setup_targets)
 
-target_link_libraries(${PROJECT_NAME}.setup_targets INTERFACE
-    vmath.hpp.vendors::doctest)
-
 target_compile_options(${PROJECT_NAME}.setup_targets INTERFACE
     $<$<CXX_COMPILER_ID:MSVC>:
         /WX /W4>
@@ -20,26 +17,13 @@ target_compile_options(${PROJECT_NAME}.setup_targets INTERFACE
         -Wno-unknown-warning-option
         >)
 
-if(BUILD_WITH_COVERAGE)
-    target_link_libraries(${PROJECT_NAME}.setup_targets INTERFACE
-        vmath.hpp::enable_gcov)
-endif()
-
-if(BUILD_WITH_SANITIZERS)
-    target_link_libraries(${PROJECT_NAME}.setup_targets INTERFACE
+target_link_libraries(${PROJECT_NAME}.setup_targets INTERFACE
+    $<$<BOOL:${BUILD_WITH_COVERAGE}>:
+        vmath.hpp::enable_gcov>
+    $<$<BOOL:${BUILD_WITH_SANITIZERS}>:
         vmath.hpp::enable_asan
-        vmath.hpp::enable_ubsan)
-endif()
-
-if(BUILD_WITH_NO_EXCEPTIONS)
-    target_link_libraries(${PROJECT_NAME}.setup_targets INTERFACE
-        vmath.hpp::disable_exceptions)
-
-    target_compile_definitions(${PROJECT_NAME}.setup_targets INTERFACE
-        DOCTEST_CONFIG_NO_EXCEPTIONS_BUT_WITH_ALL_ASSERTS)
-endif()
-
-if(BUILD_WITH_NO_RTTI)
-    target_link_libraries(${PROJECT_NAME}.setup_targets INTERFACE
-        vmath.hpp::disable_rtti)
-endif()
+        vmath.hpp::enable_ubsan>
+    $<$<BOOL:${BUILD_WITH_NO_EXCEPTIONS}>:
+        vmath.hpp::disable_exceptions>
+    $<$<BOOL:${BUILD_WITH_NO_RTTI}>:
+        vmath.hpp::disable_rtti>)

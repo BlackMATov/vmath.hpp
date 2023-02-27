@@ -68,12 +68,12 @@ namespace vmath_hpp::detail
         }
     };
 
-    template < typename T, size_t Size >
+    template < typename T, std::size_t Size >
     [[nodiscard]] std::size_t hash(const vec<T, Size>& v) noexcept {
         return fold_join(hash_combiner{}, std::size_t{}, v);
     }
 
-    template < typename T, size_t Size >
+    template < typename T, std::size_t Size >
     [[nodiscard]] std::size_t hash(const mat<T, Size>& m) noexcept {
         return fold_join(hash_combiner{}, std::size_t{}, m);
     }
