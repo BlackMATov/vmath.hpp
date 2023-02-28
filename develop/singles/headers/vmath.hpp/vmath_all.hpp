@@ -2876,226 +2876,139 @@ namespace vmath_hpp
     // transpose
     //
 
-    namespace impl
-    {
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 2> transpose_2x2_impl(
-            T a, T c,
-            T b, T d)
-        {
-            return {
-                a, b,
-                c, d};
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 3> transpose_3x3_impl(
-            T a, T d, T g,
-            T b, T e, T h,
-            T c, T f, T i)
-        {
-            return {
-                a, b, c,
-                d, e, f,
-                g, h, i};
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 4> transpose_4x4_impl(
-            T a, T e, T i, T m,
-            T b, T f, T j, T n,
-            T c, T g, T k, T o,
-            T d, T h, T l, T p)
-        {
-            return {
-                a, b, c, d,
-                e, f, g, h,
-                i, j, k, l,
-                m, n, o, p};
-        }
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 2> transpose(const mat<T, 2>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1],
+                c = _m[1][0], d = _m[1][1];
+        return {
+            a, c,
+            b, d};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> transpose(const mat<T, 2>& m) {
-        return impl::transpose_2x2_impl(
-            m[0][0], m[0][1],
-            m[1][0], m[1][1]);
+    [[nodiscard]] constexpr mat<T, 3> transpose(const mat<T, 3>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2],
+                d = _m[1][0], e = _m[1][1], f = _m[1][2],
+                g = _m[2][0], h = _m[2][1], i = _m[2][2];
+        return {
+            a, d, g,
+            b, e, h,
+            c, f, i};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> transpose(const mat<T, 3>& m) {
-        return impl::transpose_3x3_impl(
-            m[0][0], m[0][1], m[0][2],
-            m[1][0], m[1][1], m[1][2],
-            m[2][0], m[2][1], m[2][2]);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> transpose(const mat<T, 4>& m) {
-        return impl::transpose_4x4_impl(
-            m[0][0], m[0][1], m[0][2], m[0][3],
-            m[1][0], m[1][1], m[1][2], m[1][3],
-            m[2][0], m[2][1], m[2][2], m[2][3],
-            m[3][0], m[3][1], m[3][2], m[3][3]);
+    [[nodiscard]] constexpr mat<T, 4> transpose(const mat<T, 4>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2], d = _m[0][3],
+                e = _m[1][0], f = _m[1][1], g = _m[1][2], h = _m[1][3],
+                i = _m[2][0], j = _m[2][1], k = _m[2][2], l = _m[2][3],
+                m = _m[3][0], n = _m[3][1], o = _m[3][2], p = _m[3][3];
+        return {
+            a, e, i, m,
+            b, f, j, n,
+            c, g, k, o,
+            d, h, l, p};
     }
 
     //
     // adjugate
     //
 
-    namespace impl
-    {
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 2> adjugate_2x2_impl(
-            T a, T b,
-            T c, T d)
-        {
-            return {
-                +d, -b,
-                -c, +a};
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 3> adjugate_3x3_impl(
-            T a, T b, T c,
-            T d, T e, T f,
-            T g, T h, T i)
-        {
-            return {
-                e * i - f * h,
-                c * h - b * i,
-                b * f - c * e,
-                f * g - d * i,
-                a * i - c * g,
-                c * d - a * f,
-                d * h - e * g,
-                b * g - a * h,
-                a * e - b * d};
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 4> adjugate_4x4_impl(
-            T a, T b, T c, T d,
-            T e, T f, T g, T h,
-            T i, T j, T k, T l,
-            T m, T n, T o, T p)
-        {
-            return {
-                f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n),
-                j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n),
-                n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f),
-                b * (h * k - g * l) + c * (f * l - h * j) + d * (g * j - f * k),
-                g * (i * p - l * m) + h * (k * m - i * o) + e * (l * o - k * p),
-                k * (a * p - d * m) + l * (c * m - a * o) + i * (d * o - c * p),
-                o * (a * h - d * e) + p * (c * e - a * g) + m * (d * g - c * h),
-                c * (h * i - e * l) + d * (e * k - g * i) + a * (g * l - h * k),
-                h * (i * n - j * m) + e * (j * p - l * n) + f * (l * m - i * p),
-                l * (a * n - b * m) + i * (b * p - d * n) + j * (d * m - a * p),
-                p * (a * f - b * e) + m * (b * h - d * f) + n * (d * e - a * h),
-                d * (f * i - e * j) + a * (h * j - f * l) + b * (e * l - h * i),
-                e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n),
-                i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n),
-                m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f),
-                a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i)};
-        }
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 2> adjugate(const mat<T, 2>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1],
+                c = _m[1][0], d = _m[1][1];
+        return {
+            +d,
+            -b,
+            -c,
+            +a};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> adjugate(const mat<T, 2>& m) {
-        return impl::adjugate_2x2_impl(
-            m[0][0], m[0][1],
-            m[1][0], m[1][1]);
+    [[nodiscard]] constexpr mat<T, 3> adjugate(const mat<T, 3>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2],
+                d = _m[1][0], e = _m[1][1], f = _m[1][2],
+                g = _m[2][0], h = _m[2][1], i = _m[2][2];
+        return {
+            e * i - f * h,
+            c * h - b * i,
+            b * f - c * e,
+            f * g - d * i,
+            a * i - c * g,
+            c * d - a * f,
+            d * h - e * g,
+            b * g - a * h,
+            a * e - b * d};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> adjugate(const mat<T, 3>& m) {
-        return impl::adjugate_3x3_impl(
-            m[0][0], m[0][1], m[0][2],
-            m[1][0], m[1][1], m[1][2],
-            m[2][0], m[2][1], m[2][2]);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> adjugate(const mat<T, 4>& m) {
-        return impl::adjugate_4x4_impl(
-            m[0][0], m[0][1], m[0][2], m[0][3],
-            m[1][0], m[1][1], m[1][2], m[1][3],
-            m[2][0], m[2][1], m[2][2], m[2][3],
-            m[3][0], m[3][1], m[3][2], m[3][3]);
+    [[nodiscard]] constexpr mat<T, 4> adjugate(const mat<T, 4>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2], d = _m[0][3],
+                e = _m[1][0], f = _m[1][1], g = _m[1][2], h = _m[1][3],
+                i = _m[2][0], j = _m[2][1], k = _m[2][2], l = _m[2][3],
+                m = _m[3][0], n = _m[3][1], o = _m[3][2], p = _m[3][3];
+        return {
+            f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n),
+            j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n),
+            n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f),
+            b * (h * k - g * l) + c * (f * l - h * j) + d * (g * j - f * k),
+            g * (i * p - l * m) + h * (k * m - i * o) + e * (l * o - k * p),
+            k * (a * p - d * m) + l * (c * m - a * o) + i * (d * o - c * p),
+            o * (a * h - d * e) + p * (c * e - a * g) + m * (d * g - c * h),
+            c * (h * i - e * l) + d * (e * k - g * i) + a * (g * l - h * k),
+            h * (i * n - j * m) + e * (j * p - l * n) + f * (l * m - i * p),
+            l * (a * n - b * m) + i * (b * p - d * n) + j * (d * m - a * p),
+            p * (a * f - b * e) + m * (b * h - d * f) + n * (d * e - a * h),
+            d * (f * i - e * j) + a * (h * j - f * l) + b * (e * l - h * i),
+            e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n),
+            i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n),
+            m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f),
+            a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i)};
     }
 
     //
     // determinant
     //
 
-    namespace impl
-    {
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        T determinant_2x2_impl(
-            T a, T b,
-            T c, T d)
-        {
-            return a * d - b * c;
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        T determinant_3x3_impl(
-            T a, T b, T c,
-            T d, T e, T f,
-            T g, T h, T i)
-        {
-            return
-                + a * (e * i - f * h)
-                - b * (d * i - f * g)
-                + c * (d * h - e * g);
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        T determinant_4x4_impl(
-            T a, T b, T c, T d,
-            T e, T f, T g, T h,
-            T i, T j, T k, T l,
-            T m, T n, T o, T p)
-        {
-            return
-                + a * (f * (k * p - l * o) - (j * (g * p - h * o)) + (n * (g * l - h * k)))
-                - b * (e * (k * p - l * o) - (i * (g * p - h * o)) + (m * (g * l - h * k)))
-                + c * (e * (j * p - l * n) - (i * (f * p - h * n)) + (m * (f * l - h * j)))
-                - d * (e * (j * o - k * n) - (i * (f * o - g * n)) + (m * (f * k - g * j)));
-        }
+    template < typename T >
+    [[nodiscard]] constexpr T determinant(const mat<T, 2>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1],
+                c = _m[1][0], d = _m[1][1];
+        return
+            a * d - b * c;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr T determinant(const mat<T, 2>& m) {
-        return impl::determinant_2x2_impl(
-            m[0][0], m[0][1],
-            m[1][0], m[1][1]);
+    [[nodiscard]] constexpr T determinant(const mat<T, 3>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2],
+                d = _m[1][0], e = _m[1][1], f = _m[1][2],
+                g = _m[2][0], h = _m[2][1], i = _m[2][2];
+        return
+            + a * (e * i - f * h)
+            - b * (d * i - f * g)
+            + c * (d * h - e * g);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr T determinant(const mat<T, 3>& m) {
-        return impl::determinant_3x3_impl(
-            m[0][0], m[0][1], m[0][2],
-            m[1][0], m[1][1], m[1][2],
-            m[2][0], m[2][1], m[2][2]);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr T determinant(const mat<T, 4>& m) {
-        return impl::determinant_4x4_impl(
-            m[0][0], m[0][1], m[0][2], m[0][3],
-            m[1][0], m[1][1], m[1][2], m[1][3],
-            m[2][0], m[2][1], m[2][2], m[2][3],
-            m[3][0], m[3][1], m[3][2], m[3][3]);
+    [[nodiscard]] constexpr T determinant(const mat<T, 4>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2], d = _m[0][3],
+                e = _m[1][0], f = _m[1][1], g = _m[1][2], h = _m[1][3],
+                i = _m[2][0], j = _m[2][1], k = _m[2][2], l = _m[2][3],
+                m = _m[3][0], n = _m[3][1], o = _m[3][2], p = _m[3][3];
+        return
+            + a * (f * (k * p - l * o) - (j * (g * p - h * o)) + (n * (g * l - h * k)))
+            - b * (e * (k * p - l * o) - (i * (g * p - h * o)) + (m * (g * l - h * k)))
+            + c * (e * (j * p - l * n) - (i * (f * p - h * n)) + (m * (f * l - h * j)))
+            - d * (e * (j * o - k * n) - (i * (f * o - g * n)) + (m * (f * k - g * j)));
     }
 
     //
