@@ -322,34 +322,38 @@ TEST_CASE("vmath/mat_fun") {
             constexpr fmat4 rm1 = inverse(m1);
             STATIC_CHECK(all(approx(
                 unit4_z<float> * m1 * rm1,
-                unit4_z<float>)));
+                unit4_z<float>,
+                0.00001f)));
         }
 
         {
             const fvec3 axis2 = normalize(fvec3(1.f, 2.f, 3.f));
-            const fmat4 m2 = fmat4(rotate(0.5f,axis2));
+            const fmat4 m2 = perspective_lh(800.f, 600.f, -1.f, 1.f) * translate(fvec3(1.f, 2.f, 3.f)) * scale4(fvec3(2.f, 3.f, 4.f)) * fmat4(rotate(0.5f,axis2));
             const fmat4 rm2 = inverse(m2);
             CHECK(all(approx(
                 unit4_z<float> * m2 * rm2,
-                unit4_z<float>)));
+                unit4_z<float>,
+                0.00001f)));
         }
 
         {
             const fvec3 axis3 = normalize(fvec3(1.f, 2.f, 3.f));
-            const fmat3 m3 = fmat3(rotate(0.5f,axis3));
+            const fmat3 m3 = translate(fvec2(1.f, 2.f)) * scale(fvec3(2.f, 3.f, 4.f)) * fmat3(rotate(0.5f,axis3));
             const fmat3 rm3 = inverse(m3);
             CHECK(all(approx(
                 unit3_z<float> * m3 * rm3,
-                unit3_z<float>)));
+                unit3_z<float>,
+                0.00001f)));
         }
 
         {
             const fvec3 axis4 = normalize(fvec3(0.f, 0.f, 3.f));
-            const fmat2 m4 = fmat2(rotate(0.5f,axis4));
+            const fmat2 m4 = scale(fvec2(2.f, 3.f)) * fmat2(rotate(0.5f,axis4));
             const fmat2 rm4 = inverse(m4);
             CHECK(all(approx(
                 unit2_y<float> * m4 * rm4,
-                unit2_y<float>)));
+                unit2_y<float>,
+                0.00001f)));
         }
     }
 }

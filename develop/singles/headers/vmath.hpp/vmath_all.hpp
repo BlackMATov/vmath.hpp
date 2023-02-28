@@ -4,6 +4,8 @@
  * Copyright (C) 2020-2023, by Matvey Cherevko (blackmatov@gmail.com)
  ******************************************************************************/
 
+#pragma once
+
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
@@ -148,49 +150,49 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    floor(T x) noexcept {
+    constexpr floor(T x) noexcept {
         return std::floor(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    trunc(T x) noexcept {
+    constexpr trunc(T x) noexcept {
         return std::trunc(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    round(T x) noexcept {
+    constexpr round(T x) noexcept {
         return std::round(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    ceil(T x) noexcept {
+    constexpr ceil(T x) noexcept {
         return std::ceil(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    fract(T x) noexcept {
+    constexpr fract(T x) noexcept {
         return x - floor(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    fmod(T x, T y) noexcept {
+    constexpr fmod(T x, T y) noexcept {
         return std::fmod(x, y);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    modf(T x, T* y) noexcept {
+    constexpr modf(T x, T* y) noexcept {
         return std::modf(x, y);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    copysign(T x, T s) noexcept {
+    constexpr copysign(T x, T s) noexcept {
         return std::copysign(x, s);
     }
 
@@ -264,91 +266,91 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    sin(T x) noexcept {
+    constexpr sin(T x) noexcept {
         return std::sin(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    cos(T x) noexcept {
+    constexpr cos(T x) noexcept {
         return std::cos(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    tan(T x) noexcept {
+    constexpr tan(T x) noexcept {
         return std::tan(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    asin(T x) noexcept {
+    constexpr asin(T x) noexcept {
         return std::asin(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    acos(T x) noexcept {
+    constexpr acos(T x) noexcept {
         return std::acos(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atan(T x) noexcept {
+    constexpr atan(T x) noexcept {
         return std::atan(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atan2(T y, T x) noexcept {
+    constexpr atan2(T y, T x) noexcept {
         return std::atan2(y, x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    sinh(T x) noexcept {
+    constexpr sinh(T x) noexcept {
         return std::sinh(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    cosh(T x) noexcept {
+    constexpr cosh(T x) noexcept {
         return std::cosh(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    tanh(T x) noexcept {
+    constexpr tanh(T x) noexcept {
         return std::tanh(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    asinh(T x) noexcept {
+    constexpr asinh(T x) noexcept {
         return std::asinh(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    acosh(T x) noexcept {
+    constexpr acosh(T x) noexcept {
         return std::acosh(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    atanh(T x) noexcept {
+    constexpr atanh(T x) noexcept {
         return std::atanh(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, std::pair<T, T>>
-    sincos(T x) noexcept {
+    constexpr sincos(T x) noexcept {
         return { sin(x), cos(x) };
     }
 
     template < typename T >
     std::enable_if_t<std::is_floating_point_v<T>, void>
-    sincos(T x, T* s, T* c) noexcept {
+    constexpr sincos(T x, T* s, T* c) noexcept {
         *s = sin(x);
         *c = cos(x);
     }
@@ -362,43 +364,43 @@ namespace vmath_hpp
 {
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    pow(T x, T y) noexcept {
+    constexpr pow(T x, T y) noexcept {
         return std::pow(x, y);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    exp(T x) noexcept {
+    constexpr exp(T x) noexcept {
         return std::exp(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    log(T x) noexcept {
+    constexpr log(T x) noexcept {
         return std::log(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    exp2(T x) noexcept {
+    constexpr exp2(T x) noexcept {
         return std::exp2(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    log2(T x) noexcept {
+    constexpr log2(T x) noexcept {
         return std::log2(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    sqrt(T x) noexcept {
+    constexpr sqrt(T x) noexcept {
         return std::sqrt(x);
     }
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    rsqrt(T x) noexcept {
+    constexpr rsqrt(T x) noexcept {
         return rcp(sqrt(x));
     }
 }
@@ -481,7 +483,7 @@ namespace vmath_hpp
 
     template < typename T >
     [[nodiscard]] std::enable_if_t<std::is_floating_point_v<T>, T>
-    refract(T i, T n, T eta) noexcept {
+    constexpr refract(T i, T n, T eta) noexcept {
         const T d = dot(n, i);
         const T k = T{1} - sqr(eta) * (T{1} - sqr(d));
         return k < T{0} ? T{0} : (eta * i - (eta * d + sqrt(k)) * n);
@@ -2874,226 +2876,139 @@ namespace vmath_hpp
     // transpose
     //
 
-    namespace impl
-    {
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 2> transpose_2x2_impl(
-            T a, T c,
-            T b, T d)
-        {
-            return {
-                a, b,
-                c, d};
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 3> transpose_3x3_impl(
-            T a, T d, T g,
-            T b, T e, T h,
-            T c, T f, T i)
-        {
-            return {
-                a, b, c,
-                d, e, f,
-                g, h, i};
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 4> transpose_4x4_impl(
-            T a, T e, T i, T m,
-            T b, T f, T j, T n,
-            T c, T g, T k, T o,
-            T d, T h, T l, T p)
-        {
-            return {
-                a, b, c, d,
-                e, f, g, h,
-                i, j, k, l,
-                m, n, o, p};
-        }
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 2> transpose(const mat<T, 2>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1],
+                c = _m[1][0], d = _m[1][1];
+        return {
+            a, c,
+            b, d};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> transpose(const mat<T, 2>& m) {
-        return impl::transpose_2x2_impl(
-            m[0][0], m[0][1],
-            m[1][0], m[1][1]);
+    [[nodiscard]] constexpr mat<T, 3> transpose(const mat<T, 3>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2],
+                d = _m[1][0], e = _m[1][1], f = _m[1][2],
+                g = _m[2][0], h = _m[2][1], i = _m[2][2];
+        return {
+            a, d, g,
+            b, e, h,
+            c, f, i};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> transpose(const mat<T, 3>& m) {
-        return impl::transpose_3x3_impl(
-            m[0][0], m[0][1], m[0][2],
-            m[1][0], m[1][1], m[1][2],
-            m[2][0], m[2][1], m[2][2]);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> transpose(const mat<T, 4>& m) {
-        return impl::transpose_4x4_impl(
-            m[0][0], m[0][1], m[0][2], m[0][3],
-            m[1][0], m[1][1], m[1][2], m[1][3],
-            m[2][0], m[2][1], m[2][2], m[2][3],
-            m[3][0], m[3][1], m[3][2], m[3][3]);
+    [[nodiscard]] constexpr mat<T, 4> transpose(const mat<T, 4>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2], d = _m[0][3],
+                e = _m[1][0], f = _m[1][1], g = _m[1][2], h = _m[1][3],
+                i = _m[2][0], j = _m[2][1], k = _m[2][2], l = _m[2][3],
+                m = _m[3][0], n = _m[3][1], o = _m[3][2], p = _m[3][3];
+        return {
+            a, e, i, m,
+            b, f, j, n,
+            c, g, k, o,
+            d, h, l, p};
     }
 
     //
     // adjugate
     //
 
-    namespace impl
-    {
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 2> adjugate_2x2_impl(
-            T a, T b,
-            T c, T d)
-        {
-            return {
-                +d, -b,
-                -c, +a};
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 3> adjugate_3x3_impl(
-            T a, T b, T c,
-            T d, T e, T f,
-            T g, T h, T i)
-        {
-            return {
-                e * i - f * h,
-                c * h - b * i,
-                b * f - c * e,
-                f * g - d * i,
-                a * i - c * g,
-                c * d - a * f,
-                d * h - e * g,
-                b * g - a * h,
-                a * e - b * d};
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        mat<T, 4> adjugate_4x4_impl(
-            T a, T b, T c, T d,
-            T e, T f, T g, T h,
-            T i, T j, T k, T l,
-            T m, T n, T o, T p)
-        {
-            return {
-                f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n),
-                j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n),
-                n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f),
-                b * (h * k - g * l) + c * (f * l - h * j) + d * (g * j - f * k),
-                g * (i * p - l * m) + h * (k * m - i * o) + e * (l * o - k * p),
-                k * (a * p - d * m) + l * (c * m - a * o) + i * (d * o - c * p),
-                o * (a * h - d * e) + p * (c * e - a * g) + m * (d * g - c * h),
-                c * (h * i - e * l) + d * (e * k - g * i) + a * (g * l - h * k),
-                h * (i * n - j * m) + e * (j * p - l * n) + f * (l * m - i * p),
-                l * (a * n - b * m) + i * (b * p - d * n) + j * (d * m - a * p),
-                p * (a * f - b * e) + m * (b * h - d * f) + n * (d * e - a * h),
-                d * (f * i - e * j) + a * (h * j - f * l) + b * (e * l - h * i),
-                e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n),
-                i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n),
-                m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f),
-                a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i)};
-        }
+    template < typename T >
+    [[nodiscard]] constexpr mat<T, 2> adjugate(const mat<T, 2>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1],
+                c = _m[1][0], d = _m[1][1];
+        return {
+            +d,
+            -b,
+            -c,
+            +a};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 2> adjugate(const mat<T, 2>& m) {
-        return impl::adjugate_2x2_impl(
-            m[0][0], m[0][1],
-            m[1][0], m[1][1]);
+    [[nodiscard]] constexpr mat<T, 3> adjugate(const mat<T, 3>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2],
+                d = _m[1][0], e = _m[1][1], f = _m[1][2],
+                g = _m[2][0], h = _m[2][1], i = _m[2][2];
+        return {
+            e * i - f * h,
+            c * h - b * i,
+            b * f - c * e,
+            f * g - d * i,
+            a * i - c * g,
+            c * d - a * f,
+            d * h - e * g,
+            b * g - a * h,
+            a * e - b * d};
     }
 
     template < typename T >
-    [[nodiscard]] constexpr mat<T, 3> adjugate(const mat<T, 3>& m) {
-        return impl::adjugate_3x3_impl(
-            m[0][0], m[0][1], m[0][2],
-            m[1][0], m[1][1], m[1][2],
-            m[2][0], m[2][1], m[2][2]);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr mat<T, 4> adjugate(const mat<T, 4>& m) {
-        return impl::adjugate_4x4_impl(
-            m[0][0], m[0][1], m[0][2], m[0][3],
-            m[1][0], m[1][1], m[1][2], m[1][3],
-            m[2][0], m[2][1], m[2][2], m[2][3],
-            m[3][0], m[3][1], m[3][2], m[3][3]);
+    [[nodiscard]] constexpr mat<T, 4> adjugate(const mat<T, 4>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2], d = _m[0][3],
+                e = _m[1][0], f = _m[1][1], g = _m[1][2], h = _m[1][3],
+                i = _m[2][0], j = _m[2][1], k = _m[2][2], l = _m[2][3],
+                m = _m[3][0], n = _m[3][1], o = _m[3][2], p = _m[3][3];
+        return {
+            f * (k * p - l * o) + g * (l * n - j * p) + h * (j * o - k * n),
+            j * (c * p - d * o) + k * (d * n - b * p) + l * (b * o - c * n),
+            n * (c * h - d * g) + o * (d * f - b * h) + p * (b * g - c * f),
+            b * (h * k - g * l) + c * (f * l - h * j) + d * (g * j - f * k),
+            g * (i * p - l * m) + h * (k * m - i * o) + e * (l * o - k * p),
+            k * (a * p - d * m) + l * (c * m - a * o) + i * (d * o - c * p),
+            o * (a * h - d * e) + p * (c * e - a * g) + m * (d * g - c * h),
+            c * (h * i - e * l) + d * (e * k - g * i) + a * (g * l - h * k),
+            h * (i * n - j * m) + e * (j * p - l * n) + f * (l * m - i * p),
+            l * (a * n - b * m) + i * (b * p - d * n) + j * (d * m - a * p),
+            p * (a * f - b * e) + m * (b * h - d * f) + n * (d * e - a * h),
+            d * (f * i - e * j) + a * (h * j - f * l) + b * (e * l - h * i),
+            e * (k * n - j * o) + f * (i * o - k * m) + g * (j * m - i * n),
+            i * (c * n - b * o) + j * (a * o - c * m) + k * (b * m - a * n),
+            m * (c * f - b * g) + n * (a * g - c * e) + o * (b * e - a * f),
+            a * (f * k - g * j) + b * (g * i - e * k) + c * (e * j - f * i)};
     }
 
     //
     // determinant
     //
 
-    namespace impl
-    {
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        T determinant_2x2_impl(
-            T a, T b,
-            T c, T d)
-        {
-            return a * d - b * c;
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        T determinant_3x3_impl(
-            T a, T b, T c,
-            T d, T e, T f,
-            T g, T h, T i)
-        {
-            return
-                + a * (e * i - f * h)
-                - b * (d * i - f * g)
-                + c * (d * h - e * g);
-        }
-
-        template < typename T >
-        [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
-        T determinant_4x4_impl(
-            T a, T b, T c, T d,
-            T e, T f, T g, T h,
-            T i, T j, T k, T l,
-            T m, T n, T o, T p)
-        {
-            return
-                + a * (f * (k * p - l * o) - (j * (g * p - h * o)) + (n * (g * l - h * k)))
-                - b * (e * (k * p - l * o) - (i * (g * p - h * o)) + (m * (g * l - h * k)))
-                + c * (e * (j * p - l * n) - (i * (f * p - h * n)) + (m * (f * l - h * j)))
-                - d * (e * (j * o - k * n) - (i * (f * o - g * n)) + (m * (f * k - g * j)));
-        }
+    template < typename T >
+    [[nodiscard]] constexpr T determinant(const mat<T, 2>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1],
+                c = _m[1][0], d = _m[1][1];
+        return
+            a * d - b * c;
     }
 
     template < typename T >
-    [[nodiscard]] constexpr T determinant(const mat<T, 2>& m) {
-        return impl::determinant_2x2_impl(
-            m[0][0], m[0][1],
-            m[1][0], m[1][1]);
+    [[nodiscard]] constexpr T determinant(const mat<T, 3>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2],
+                d = _m[1][0], e = _m[1][1], f = _m[1][2],
+                g = _m[2][0], h = _m[2][1], i = _m[2][2];
+        return
+            + a * (e * i - f * h)
+            - b * (d * i - f * g)
+            + c * (d * h - e * g);
     }
 
     template < typename T >
-    [[nodiscard]] constexpr T determinant(const mat<T, 3>& m) {
-        return impl::determinant_3x3_impl(
-            m[0][0], m[0][1], m[0][2],
-            m[1][0], m[1][1], m[1][2],
-            m[2][0], m[2][1], m[2][2]);
-    }
-
-    template < typename T >
-    [[nodiscard]] constexpr T determinant(const mat<T, 4>& m) {
-        return impl::determinant_4x4_impl(
-            m[0][0], m[0][1], m[0][2], m[0][3],
-            m[1][0], m[1][1], m[1][2], m[1][3],
-            m[2][0], m[2][1], m[2][2], m[2][3],
-            m[3][0], m[3][1], m[3][2], m[3][3]);
+    [[nodiscard]] constexpr T determinant(const mat<T, 4>& _m) {
+        // NOLINTNEXTLINE(*-isolate-declaration)
+        const T a = _m[0][0], b = _m[0][1], c = _m[0][2], d = _m[0][3],
+                e = _m[1][0], f = _m[1][1], g = _m[1][2], h = _m[1][3],
+                i = _m[2][0], j = _m[2][1], k = _m[2][2], l = _m[2][3],
+                m = _m[3][0], n = _m[3][1], o = _m[3][2], p = _m[3][3];
+        return
+            + a * (f * (k * p - l * o) - (j * (g * p - h * o)) + (n * (g * l - h * k)))
+            - b * (e * (k * p - l * o) - (i * (g * p - h * o)) + (m * (g * l - h * k)))
+            + c * (e * (j * p - l * n) - (i * (f * p - h * n)) + (m * (f * l - h * j)))
+            - d * (e * (j * o - k * n) - (i * (f * o - g * n)) + (m * (f * k - g * j)));
     }
 
     //
@@ -3661,12 +3576,12 @@ namespace vmath_hpp::detail
         }
     };
 
-    template < typename T, size_t Size >
+    template < typename T, std::size_t Size >
     [[nodiscard]] std::size_t hash(const vec<T, Size>& v) noexcept {
         return fold_join(hash_combiner{}, std::size_t{}, v);
     }
 
-    template < typename T, size_t Size >
+    template < typename T, std::size_t Size >
     [[nodiscard]] std::size_t hash(const mat<T, Size>& m) noexcept {
         return fold_join(hash_combiner{}, std::size_t{}, m);
     }

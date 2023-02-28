@@ -8,11 +8,13 @@ add_executable(${PROJECT_NAME}.singles ${UNTESTS_SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     vmath.hpp::vmath.hpp
-    vmath.hpp::setup_targets)
+    vmath.hpp::setup_targets
+    vmath.hpp.vendors::doctest)
 
 target_link_libraries(${PROJECT_NAME}.singles PRIVATE
     vmath.hpp::singles
-    vmath.hpp::setup_targets)
+    vmath.hpp::setup_targets
+    vmath.hpp.vendors::doctest)
 
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
 add_test(${PROJECT_NAME} ${PROJECT_NAME}.singles)
