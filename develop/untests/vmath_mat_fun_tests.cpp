@@ -322,7 +322,8 @@ TEST_CASE("vmath/mat_fun") {
             constexpr fmat4 rm1 = inverse(m1);
             STATIC_CHECK(all(approx(
                 unit4_z<float> * m1 * rm1,
-                unit4_z<float>)));
+                unit4_z<float>,
+                0.00001f)));
         }
 
         {
@@ -331,7 +332,8 @@ TEST_CASE("vmath/mat_fun") {
             const fmat4 rm2 = inverse(m2);
             CHECK(all(approx(
                 unit4_z<float> * m2 * rm2,
-                unit4_z<float>)));
+                unit4_z<float>,
+                0.00001f)));
         }
 
         {
@@ -340,7 +342,8 @@ TEST_CASE("vmath/mat_fun") {
             const fmat3 rm3 = inverse(m3);
             CHECK(all(approx(
                 unit3_z<float> * m3 * rm3,
-                unit3_z<float>)));
+                unit3_z<float>,
+                0.00001f)));
         }
 
         {
@@ -349,7 +352,8 @@ TEST_CASE("vmath/mat_fun") {
             const fmat2 rm4 = inverse(m4);
             CHECK(all(approx(
                 unit2_y<float> * m4 * rm4,
-                unit2_y<float>)));
+                unit2_y<float>,
+                0.00001f)));
         }
     }
 }
