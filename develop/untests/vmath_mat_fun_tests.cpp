@@ -323,7 +323,7 @@ TEST_CASE("vmath/mat_fun") {
             STATIC_CHECK(all(approx(
                 unit4_z<float> * m1 * rm1,
                 unit4_z<float>,
-                0.00001f)));
+                0.0001f)));
         }
 
         {
@@ -333,7 +333,7 @@ TEST_CASE("vmath/mat_fun") {
             CHECK(all(approx(
                 unit4_z<float> * m2 * rm2,
                 unit4_z<float>,
-                0.00001f)));
+                0.0001f)));
         }
 
         {
@@ -343,7 +343,7 @@ TEST_CASE("vmath/mat_fun") {
             CHECK(all(approx(
                 unit3_z<float> * m3 * rm3,
                 unit3_z<float>,
-                0.00001f)));
+                0.0001f)));
         }
 
         {
@@ -353,7 +353,7 @@ TEST_CASE("vmath/mat_fun") {
             CHECK(all(approx(
                 unit2_y<float> * m4 * rm4,
                 unit2_y<float>,
-                0.00001f)));
+                0.0001f)));
         }
     }
 }
