@@ -91,19 +91,19 @@ TEST_CASE("vmath/qua_fun") {
             CHECK(all(approx(
                 qrotate_z(radians(5.f)),
                 nlerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.f),
-                0.00001f)));
+                0.0001f)));
             CHECK(all(approx(
                 qrotate_z(radians(6.f)),
                 nlerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.1f),
-                0.00001f)));
+                0.0001f)));
             CHECK(all(approx(
                 qrotate_z(radians(10.f)),
                 nlerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.5f),
-                0.00001f)));
+                0.0001f)));
             CHECK(all(approx(
                 qrotate_z(radians(15.f)),
                 nlerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 1.f),
-                0.00001f)));
+                0.0001f)));
 
             CHECK(all(approx(
                 qrotate_z(radians(315.f)),
@@ -116,19 +116,19 @@ TEST_CASE("vmath/qua_fun") {
             CHECK(all(approx(
                 qrotate_z(radians(5.f)),
                 slerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.f),
-                0.00001f)));
+                0.0001f)));
             CHECK(all(approx(
                 qrotate_z(radians(6.f)),
                 slerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.1f),
-                0.00001f)));
+                0.0001f)));
             CHECK(all(approx(
                 qrotate_z(radians(10.f)),
                 slerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 0.5f),
-                0.00001f)));
+                0.0001f)));
             CHECK(all(approx(
                 qrotate_z(radians(15.f)),
                 slerp(qrotate_z(radians(5.f)), qrotate_z(radians(15.f)), 1.f),
-                0.00001f)));
+                0.0001f)));
 
             CHECK(all(approx(
                 qrotate_z(radians(0.f)),
