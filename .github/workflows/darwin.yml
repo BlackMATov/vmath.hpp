@@ -11,7 +11,7 @@ jobs:
         config:
           # https://github.com/actions/virtual-environments/tree/main/images/macos
           - { os: "macos-11", xcode: "11.7", arch: "x64" }
-          - { os: "macos-12", xcode: "14.2", arch: "x64" }
+          - { os: "macos-13", xcode: "14.3", arch: "x64" }
     name: "xcode-${{matrix.config.xcode}}"
     steps:
       - name: Setup
