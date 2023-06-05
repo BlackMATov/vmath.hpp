@@ -15,6 +15,7 @@ target_compile_options(${PROJECT_NAME}.setup_targets INTERFACE
         -Wno-float-equal
         -Wno-shadow-field-in-constructor
         -Wno-unknown-warning-option
+        -Wno-unsafe-buffer-usage
         >)
 
 target_link_libraries(${PROJECT_NAME}.setup_targets INTERFACE

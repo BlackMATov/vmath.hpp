@@ -21,7 +21,7 @@ namespace vmath_hpp::detail
     public:
         using row_type = vec<T, 2>;
         // NOLINTNEXTLINE(*-avoid-c-arrays)
-        row_type rows[2];
+        row_type rows[2]{no_init, no_init};
     public:
         constexpr mat_base()
         : mat_base(identity_init) {}
@@ -79,7 +79,7 @@ namespace vmath_hpp::detail
     public:
         using row_type = vec<T, 3>;
         // NOLINTNEXTLINE(*-avoid-c-arrays)
-        row_type rows[3];
+        row_type rows[3]{no_init, no_init, no_init};
     public:
         constexpr mat_base()
         : mat_base(identity_init) {}
@@ -154,7 +154,7 @@ namespace vmath_hpp::detail
     public:
         using row_type = vec<T, 4>;
         // NOLINTNEXTLINE(*-avoid-c-arrays)
-        row_type rows[4];
+        row_type rows[4]{no_init, no_init, no_init, no_init};
     public:
         constexpr mat_base()
         : mat_base(identity_init) {}

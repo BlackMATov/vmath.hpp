@@ -16,7 +16,7 @@ namespace vmath_hpp::detail
     template < typename T >
     class qua_base {
     public:
-        vec<T, 3> v;
+        vec<T, 3> v{no_init};
         T s;
     public:
         constexpr qua_base()
