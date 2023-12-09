@@ -90,6 +90,7 @@ namespace vmath_hpp
         using base_type::qua_base;
         using base_type::operator[];
 
+        // NOLINTNEXTLINE(*-noexcept-swap)
         void swap(qua& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < size; ++i ) {
                 using std::swap;
@@ -156,6 +157,7 @@ namespace vmath_hpp
     // swap
 
     template < typename T >
+    // NOLINTNEXTLINE(*-noexcept-swap)
     void swap(qua<T>& l, qua<T>& r) noexcept(noexcept(l.swap(r))) {
         l.swap(r);
     }

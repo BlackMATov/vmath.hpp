@@ -19,7 +19,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -29,7 +29,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -40,7 +40,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         A init,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -51,7 +51,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_and_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -61,7 +61,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_and_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -72,7 +72,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_or_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -82,7 +82,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_or_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -93,7 +93,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_plus_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)

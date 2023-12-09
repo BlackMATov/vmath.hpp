@@ -1,4 +1,6 @@
 Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: None
   ClangTidy:
     Add:
       - bugprone-*
@@ -24,6 +26,3 @@ Diagnostics:
       - readability-named-parameter
       - readability-redundant-access-specifiers
       - readability-uppercase-literal-suffix
-
-CompileFlags:
-  CompilationDatabase: ../develop/.cdb

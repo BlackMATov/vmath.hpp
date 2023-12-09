@@ -63,7 +63,7 @@ namespace vmath_hpp::detail
 {
     struct hash_combiner {
         template < typename T >
-        [[nodiscard]] std::size_t operator()(std::size_t seed, const T& x) noexcept {
+        [[nodiscard]] std::size_t operator()(std::size_t seed, const T& x) const noexcept {
             return (seed ^= std::hash<T>{}(x) + 0x9e3779b9 + (seed << 6) + ( seed >> 2));
         }
     };

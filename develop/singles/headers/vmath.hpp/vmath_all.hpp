@@ -738,6 +738,7 @@ namespace vmath_hpp
         using base_type::vec_base;
         using base_type::operator[];
 
+        // NOLINTNEXTLINE(*-noexcept-swap)
         void swap(vec& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < Size; ++i ) {
                 using std::swap;
@@ -824,6 +825,7 @@ namespace vmath_hpp
     // swap
 
     template < typename T, std::size_t Size >
+    // NOLINTNEXTLINE(*-noexcept-swap)
     void swap(vec<T, Size>& l, vec<T, Size>& r) noexcept(noexcept(l.swap(r))) {
         l.swap(r);
     }
@@ -834,7 +836,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -844,7 +846,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -855,7 +857,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         const vec<C, Size>& c,
@@ -867,7 +869,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, typename C, typename D, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         const vec<C, Size>& c,
@@ -880,7 +882,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         A init,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -891,7 +893,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         std::index_sequence<I, Is...>)
     {
@@ -902,7 +904,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_and_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -912,7 +914,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_and_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -923,7 +925,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_or_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -933,7 +935,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_or_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -944,7 +946,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_plus_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -2153,6 +2155,7 @@ namespace vmath_hpp
         using base_type::mat_base;
         using base_type::rows;
 
+        // NOLINTNEXTLINE(*-noexcept-swap)
         void swap(mat& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < Size; ++i ) {
                 using std::swap;
@@ -2247,6 +2250,7 @@ namespace vmath_hpp
     // swap
 
     template < typename T, std::size_t Size >
+    // NOLINTNEXTLINE(*-noexcept-swap)
     void swap(mat<T, Size>& l, mat<T, Size>& r) noexcept(noexcept(l.swap(r))) {
         l.swap(r);
     }
@@ -2257,7 +2261,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -2267,7 +2271,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -2278,7 +2282,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         A init,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -2289,7 +2293,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_and_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -2299,7 +2303,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_and_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -2310,7 +2314,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_or_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -2320,7 +2324,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_or_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const mat<A, Size>& a,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -2331,7 +2335,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_plus_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const mat<B, Size>& b,
         std::index_sequence<Is...>)
@@ -3100,6 +3104,7 @@ namespace vmath_hpp
         using base_type::qua_base;
         using base_type::operator[];
 
+        // NOLINTNEXTLINE(*-noexcept-swap)
         void swap(qua& other) noexcept(std::is_nothrow_swappable_v<T>) {
             for ( std::size_t i = 0; i < size; ++i ) {
                 using std::swap;
@@ -3166,6 +3171,7 @@ namespace vmath_hpp
     // swap
 
     template < typename T >
+    // NOLINTNEXTLINE(*-noexcept-swap)
     void swap(qua<T>& l, qua<T>& r) noexcept(noexcept(l.swap(r))) {
         l.swap(r);
     }
@@ -3571,7 +3577,7 @@ namespace vmath_hpp::detail
 {
     struct hash_combiner {
         template < typename T >
-        [[nodiscard]] std::size_t operator()(std::size_t seed, const T& x) noexcept {
+        [[nodiscard]] std::size_t operator()(std::size_t seed, const T& x) const noexcept {
             return (seed ^= std::hash<T>{}(x) + 0x9e3779b9 + (seed << 6) + ( seed >> 2));
         }
     };
