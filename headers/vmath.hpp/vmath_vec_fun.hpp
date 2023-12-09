@@ -16,7 +16,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -26,7 +26,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -37,7 +37,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, typename C, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         const vec<C, Size>& c,
@@ -49,7 +49,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, typename C, typename D, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto map_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         const vec<C, Size>& c,
@@ -62,7 +62,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         A init,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -73,7 +73,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t I, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         std::index_sequence<I, Is...>)
     {
@@ -84,7 +84,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_and_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -94,7 +94,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_and_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -105,7 +105,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_or_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         std::index_sequence<Is...>)
     {
@@ -115,7 +115,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_or_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
@@ -126,7 +126,7 @@ namespace vmath_hpp::detail::impl
     template < typename A, typename B, std::size_t Size, typename F, std::size_t... Is >
     [[nodiscard]] constexpr VMATH_HPP_FORCE_INLINE
     auto fold1_plus_join_impl(
-        F&& f,
+        F&& f, // NOLINT(*-missing-std-forward)
         const vec<A, Size>& a,
         const vec<B, Size>& b,
         std::index_sequence<Is...>)
